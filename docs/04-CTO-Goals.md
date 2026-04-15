@@ -79,4 +79,58 @@ Before marking a Phase complete:
 
 ---
 
-*Last updated: 2026-04-15*
+## Phase G-I Agent Task Queue (Post Web Deployment)
+
+Status: QUEUED. Begin only after CEO confirms Vercel deployment + smoke test passes.
+
+### Phase G: Capacitor iOS (Assign to Senior iOS Dev when activated)
+
+| # | Task | File | Agent Action |
+|---|------|------|-------------|
+| G1 | Create Capacitor config | `capacitor.config.ts` | Generate with appId world.tenu.app, server URL from env |
+| G2 | iOS Podfile | `ios/App/Podfile` | CocoaPods deps: Camera, Push plugins |
+| G3 | Native camera wrapper | `src/lib/native/camera.ts` | Wrap Capacitor Camera plugin, fall back to getUserMedia on web |
+| G4 | Filesystem offline staging | `src/lib/native/filesystem.ts` | Capacitor Filesystem for offline photo queue |
+| G5 | Push notification handler | `src/lib/native/push.ts` | Registration + notification handler |
+| G6 | Platform detection hook | `src/hooks/usePlatform.ts` | Detect web vs iOS vs Android, expose as React hook |
+| G7 | iOS permissions plist | `ios/App/App/Info.plist` | Camera, photo library, location permission strings |
+
+**CTO checkpoint:** `npx cap sync ios` succeeds, Xcode opens without errors.
+
+### Phase H: Capacitor Android (Assign to Senior Android Dev when activated)
+
+| # | Task | File | Agent Action |
+|---|------|------|-------------|
+| H1 | Android build.gradle | `android/app/build.gradle` | minSdk 24, camera perms, deps |
+| H2 | Android manifest | `android/app/src/main/AndroidManifest.xml` | Permissions: camera, storage, internet |
+| H3 | Android camera adapter | `src/lib/native/camera-android.ts` | Android-specific capture if needed |
+| H4 | String resources | `android/app/src/main/res/values/strings.xml` | App name, permission rationale |
+| H5 | Theme/styles | `android/app/src/main/res/values/styles.xml` | Theme, splash, status bar |
+| H6 | Android CI | `.github/workflows/android-build.yml` | APK build on PR |
+
+**CTO checkpoint:** `npx cap sync android` succeeds, Android Studio builds.
+
+### Phase I: Cross-Platform Polish (Assign to Web Dev)
+
+| # | Task | File | Agent Action |
+|---|------|------|-------------|
+| I1 | Platform layout | `src/components/ui/PlatformLayout.tsx` | Safe areas, nav bar, tab bar by platform |
+| I2 | Offline sync | `src/lib/native/offline-sync.ts` | Queue photos offline, sync on reconnect |
+| I3 | Deep links | `src/lib/native/deep-links.ts` | Handle tenu.world links on mobile |
+| I4 | Settings page | `src/app/settings/page.tsx` | Language picker, notification prefs |
+| I5 | RTL wrapper | `src/components/ui/RTLWrapper.tsx` | RTL layout for Arabic, Urdu |
+| I6 | Follow-up emails | `src/lib/brevo/follow-up.ts` | 14-day outcome email trigger |
+
+**CTO checkpoint:** Same flow works on web + iOS simulator + Android emulator with RTL.
+
+### Agent Delegation Rules
+
+1. Ollama agents produce PLANNING ONLY (task specs, issue comments, architecture notes)
+2. Cowork (this session) executes all code scaffolding
+3. Each agent task must include: exact filename, expected content summary, acceptance criteria
+4. Agent output goes into issue comments; CTO reviews before marking done
+5. If agent produces no output after 2 runs, CTO writes the spec manually and hands to Cowork
+
+---
+
+*Last updated: 2026-04-15 — Phases A-F complete, G-I queued*

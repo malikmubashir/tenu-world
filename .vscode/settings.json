@@ -1,0 +1,29 @@
+{
+  "workbench.startupEditor": "none",
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/.localized": true
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "CLAUDE.md": "CLAUDE-CONTEXT.md",
+    "README.md": "*.md"
+  },
+  "markdown.preview.openMarkdownLinks": "inEditor",
+  "editor.wordWrap": "on",
+  "editor.fontSize": 14,
+  "files.defaultLanguage": "markdown",
+  "workbench.editor.labelFormat": "short",
+  "explorer.sortOrder": "type",
+  "workbench.colorCustomizations": {},
+  "window.title": "Tenu — ${activeEditorShort}",
+  "editor.formatOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "extensions.recommendations": [
+    "anthropic.claude-code",
+    "yzhang.markdown-all-in-one",
+    "davidanson.vscode-markdownlint",
+    "hediet.vscode-drawio",
+    "streetsidesoftware.code-spell-checker"
+  ]
+}

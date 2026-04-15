@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "Tenu — tenu.world"
+    }
+  ],
+  "settings": {
+    "workbench.startupEditor": "none",
+    "window.title": "Tenu — ${activeEditorShort}",
+    "editor.wordWrap": "on",
+    "markdown.preview.openMarkdownLinks": "inEditor"
+  },
+  "extensions": {
+    "recommendations": [
+      "anthropic.claude-code",
+      "yzhang.markdown-all-in-one",
+      "davidanson.vscode-markdownlint",
+      "streetsidesoftware.code-spell-checker"
+    ]
+  }
+}
