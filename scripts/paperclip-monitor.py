@@ -41,6 +41,7 @@ PSQL_BIN = "/opt/homebrew/Cellar/libpq/18.3/bin/psql"
 STALL_MINUTES = 12          # run considered stalled after this
 BUDGET_WARN_PERCENT = 80    # alert when agent hits this % of monthly budget
 CHECK_INTERVAL_SEC = 300    # 5 minutes
+DIGEST_INTERVAL_CHECKS = 6  # send digest every N checks (6 x 5min = 30min)
 
 # --- Load environment ---
 def load_env():
@@ -293,6 +294,110 @@ def check_ollama_health(state, token, chat_id):
         mark_alerted(state, alert_key, msg)
 
 
+# --- Status Digest ---
+def send_status_digest(state, token, chat_id):
+    """Send a periodic status digest with all agent states and issue counts."""
+    check_count = state.get("check_count", 0) + 1
+    state["check_count"] = check_count
+
+    # Only send digest every N checks (default: every 30 min)
+    if check_count % DIGEST_INTERVAL_CHECKS != 0:
+        return
+
+    # Query agent statuses
+    agents = pg_query("""
+        SELECT name, status, adapter_type,
+               budget_monthly_cents, spent_monthly_cents
+        FROM agents
+        ORDER BY name;
+    """)
+
+    # Query recent runs (last 30 min)
+    recent_runs = pg_query("""
+        SELECT a.name, hr.status,
+               EXTRACT(EPOCH FROM (COALESCE(hr.finished_at, NOW()) - hr.started_at))::int as elapsed
+        FROM heartbeat_runs hr
+        JOIN agents a ON hr.agent_id = a.id
+        WHERE hr.started_at > NOW() - INTERVAL '30 minutes'
+        ORDER BY hr.started_at DESC;
+    """)
+
+    # Query issue counts
+    issues = pg_query("""
+        SELECT status, COUNT(*) FROM issues
+        GROUP BY status ORDER BY status;
+    """)
+
+    # Query active (in_progress) issues with assignees
+    active_issues = pg_query("""
+        SELECT COALESCE(a.name, 'unassigned'), i.title
+        FROM issues i
+        LEFT JOIN agents a ON i.assignee_agent_id = a.id
+        WHERE i.status = 'in_progress'
+        ORDER BY a.name, i.created_at
+        LIMIT 10;
+    """)
+
+    # Build message
+    now_str = datetime.now().strftime("%H:%M")
+    lines = [f"TENU AGENTS  {now_str}", ""]
+
+    # Agent status lines
+    for row in agents:
+        if len(row) < 5:
+            continue
+        name, agent_status, adapter, budget, spent = row
+        icon = "+" if agent_status == "idle" else ">" if agent_status == "running" else "!"
+        adapter_tag = "claude" if "claude" in adapter else "ollama"
+        budget_str = ""
+        if int(budget or 0) > 0:
+            pct = round(float(spent or 0) / float(budget) * 100)
+            budget_str = f"  ${float(spent or 0)/100:.2f}/${float(budget)/100:.0f} ({pct}%)"
+        lines.append(f"  [{icon}] {name} ({adapter_tag}){budget_str}")
+
+    # Recent run summary
+    run_counts = {"succeeded": 0, "failed": 0, "running": 0, "timed_out": 0}
+    for row in recent_runs:
+        if len(row) >= 2:
+            run_counts[row[1]] = run_counts.get(row[1], 0) + 1
+    total_runs = sum(run_counts.values())
+    if total_runs > 0:
+        lines.append("")
+        lines.append(f"Runs (30m): {total_runs} total  "
+                     f"ok:{run_counts.get('succeeded',0)}  "
+                     f"fail:{run_counts.get('failed',0)}  "
+                     f"running:{run_counts.get('running',0)}")
+
+    # Issue summary
+    issue_map = {}
+    for row in issues:
+        if len(row) >= 2:
+            issue_map[row[0]] = int(row[1])
+    total_issues = sum(issue_map.values())
+    if total_issues > 0:
+        lines.append("")
+        parts = [f"{total_issues} issues"]
+        for s in ["in_progress", "todo", "done", "blocked"]:
+            if s in issue_map:
+                parts.append(f"{issue_map[s]} {s}")
+        lines.append("Issues: " + ", ".join(parts))
+
+    # Active issues detail
+    if active_issues:
+        lines.append("")
+        lines.append("Active work:")
+        for row in active_issues:
+            if len(row) >= 2:
+                assignee, title = row
+                short_title = title[:50] + "..." if len(title) > 50 else title
+                lines.append(f"  {assignee}: {short_title}")
+
+    msg = "\n".join(lines)
+    if send_telegram(token, chat_id, msg):
+        state["last_digest"] = datetime.now(timezone.utc).isoformat()
+        print(f"  Digest sent.")
+
+
 # --- Main ---
 def run_checks():
     token, chat_id = load_env()
@@ -304,6 +409,7 @@ def run_checks():
     check_stalled_runs(state, token, chat_id)
     check_budget_breaches(state, token, chat_id)
     check_pending_approvals(state, token, chat_id)
+    send_status_digest(state, token, chat_id)
 
     state["last_check"] = datetime.now(timezone.utc).isoformat()
     save_state(state)
