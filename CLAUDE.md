@@ -48,8 +48,7 @@ AI-powered deposit risk scoring + dispute letters in 10 languages.
 | Database | Supabase (Postgres) | Replaces Airtable |
 | Payments | Stripe.js | Server-side only |
 | AI calls | Anthropic API | Server-side Next.js route handlers only — never expose key client-side |
-| Automation | Make.com | PDF + email pipeline |
-| PDF | Placid | Branded report generation |
+| PDF | @react-pdf/renderer | In-code branded report generation |
 | Email | Brevo | Transactional + follow-up |
 | Hosting | Vercel | Auto-deploy on push to main |
 | Domain | tenu.world → Vercel DNS | Update Namecheap nameservers |
@@ -130,10 +129,11 @@ RTL languages (AR, UR): Tailwind RTL plugin handles layout flip.
 
 ---
 
-## Make.com pipeline (unchanged from no-code plan)
-Scenario 1: Stripe webhook → fetch Supabase user → fetch R2 photos → Claude Haiku → Placid PDF → Brevo email
-Scenario 2: Filter dispute=true → Claude Sonnet → Placid append → Brevo send
-Scenario 3: Supabase 14-day trigger → Brevo outcome survey
+## In-code pipeline (replaces Make.com + Placid — decided 2026-04-15)
+Pipeline 1: Stripe webhook → fetch Supabase user → fetch R2 photos → Claude Haiku → @react-pdf/renderer PDF → R2 upload → Brevo email
+Pipeline 2: Dispute add-on → Claude Sonnet → PDF generation → R2 upload → Brevo email
+Pipeline 3: Supabase scheduled function → 14-day Brevo outcome survey
+All orchestration in Next.js API routes. No external automation dependencies.
 
 ---
 
@@ -167,7 +167,8 @@ Gross margin: 88–94% | Breakeven: 4 users | Fixed burn: €47/mo
 - AI: Haiku (risk) + Sonnet (letters), server-side only
 - Storage: Cloudflare R2 EU
 - Email: Brevo
-- PDF: Placid
+- PDF: @react-pdf/renderer (in-code, not Placid)
+- Pipeline: All in Next.js API routes (no Make.com, no Placid, no external automation)
 - Hosting: Vercel
 - Languages: 10 total, legal output FR/EN only
 - Pricing: €15 flat launch
