@@ -7,8 +7,8 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/bin/python3</string>
-        <string>/Users/mmh/Documents/Claude/Projects/Tenu.World/scripts/paperclip-monitor.py</string>
+        <string>/opt/homebrew/bin/python3</string>
+        <string>/Users/mmh/.paperclip/paperclip-monitor.py</string>
     </array>
 
     <key>StartInterval</key>

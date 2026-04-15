@@ -134,10 +134,10 @@ def pg_query(sql):
 def send_telegram(token, chat_id, message):
     """Send a message via Telegram Bot API."""
     url = f"https://api.telegram.org/bot{token}/sendMessage"
+    # Use plain text — Markdown parse_mode breaks on special chars in error messages
     data = json.dumps({
         "chat_id": chat_id,
         "text": message,
-        "parse_mode": "Markdown"
     }).encode("utf-8")
     req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
     try:
