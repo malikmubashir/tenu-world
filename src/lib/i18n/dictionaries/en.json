@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Tenu — Your Rights. Your Language. Your Deposit.",
+    "description": "AI-powered tenant rights companion for international renters in France and the UK."
+  },
+  "nav": {
+    "home": "Home",
+    "pricing": "Pricing",
+    "login": "Sign in",
+    "signup": "Get started",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "logout": "Sign out"
+  },
+  "hero": {
+    "title": "Your Rights. Your Language. Your Deposit.",
+    "subtitle": "Tenu walks you through your rental inspection in your own language, scores your deposit risk with AI, and generates dispute letters when your landlord tries to keep what's yours.",
+    "cta": "Start your inspection",
+    "ctaSecondary": "See how it works"
+  },
+  "features": {
+    "heading": "Six features. One goal: protect your deposit.",
+    "onboarding": {
+      "title": "Move-in onboarding",
+      "desc": "Your legal rights explained in your language from day one."
+    },
+    "evidence": {
+      "title": "Guided photo evidence",
+      "desc": "Room-by-room, timestamped photos that hold up in a dispute."
+    },
+    "rights": {
+      "title": "Rights explainer",
+      "desc": "10 key facts about tenant rights in France or the UK."
+    },
+    "scan": {
+      "title": "AI risk scan",
+      "desc": "AI analyses your photos and scores deduction risk per room."
+    },
+    "dispute": {
+      "title": "Dispute letter",
+      "desc": "Formal legal letter in French or English, explained in your language."
+    },
+    "followup": {
+      "title": "Outcome tracking",
+      "desc": "14-day follow-up to track whether you got your deposit back."
+    }
+  },
+  "pricing": {
+    "heading": "Simple, fair pricing",
+    "scan": {
+      "title": "Risk Scan",
+      "price": "€15",
+      "desc": "AI-powered inspection report with room-by-room risk scores.",
+      "cta": "Get your report"
+    },
+    "dispute": {
+      "title": "Dispute Letter",
+      "price": "€20",
+      "desc": "Formal legal dispute letter in French or English.",
+      "cta": "Add dispute letter",
+      "addon": "Add-on to Risk Scan"
+    }
+  },
+  "inspection": {
+    "new": "New inspection",
+    "property": "Property details",
+    "capture": "Capture photos",
+    "review": "Review",
+    "report": "Report",
+    "rooms": {
+      "kitchen": "Kitchen",
+      "bathroom": "Bathroom",
+      "bedroom": "Bedroom",
+      "living": "Living room",
+      "hallway": "Hallway",
+      "balcony": "Balcony",
+      "other": "Other"
+    },
+    "jurisdiction": {
+      "label": "Where is your property?",
+      "fr": "France",
+      "uk": "United Kingdom"
+    }
+  },
+  "auth": {
+    "login": "Sign in",
+    "signup": "Create account",
+    "email": "Email address",
+    "magicLink": "We'll send you a magic link",
+    "checkEmail": "Check your email for a sign-in link.",
+    "error": "Something went wrong. Please try again."
+  },
+  "common": {
+    "next": "Next",
+    "back": "Back",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try again"
+  }
+}

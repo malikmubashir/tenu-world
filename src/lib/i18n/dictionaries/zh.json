@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Tenu — 你的权利。你的语言。你的押金。",
+    "description": "为法国和英国国际租客提供的AI租户权益助手。"
+  },
+  "nav": {
+    "home": "首页",
+    "pricing": "价格",
+    "login": "登录",
+    "signup": "开始使用",
+    "dashboard": "控制面板",
+    "settings": "设置",
+    "logout": "退出"
+  },
+  "hero": {
+    "title": "你的权利。你的语言。你的押金。",
+    "subtitle": "Tenu用你的母语指导你完成租房检查，通过AI评估押金扣款风险，并在房东试图扣留你的押金时生成争议信函。",
+    "cta": "开始检查",
+    "ctaSecondary": "了解如何运作"
+  },
+  "features": {
+    "heading": "六大功能，一个目标：保护你的押金。",
+    "onboarding": {
+      "title": "入住引导",
+      "desc": "从第一天起就用你的语言解释你的法律权利。"
+    },
+    "evidence": {
+      "title": "引导式拍照取证",
+      "desc": "逐房间拍摄带时间戳的照片，在争议中具有法律效力。"
+    },
+    "rights": {
+      "title": "权利说明",
+      "desc": "关于法国或英国租户权利的十个关键事实。"
+    },
+    "scan": {
+      "title": "AI风险扫描",
+      "desc": "AI分析你的照片并按房间评估扣款风险。"
+    },
+    "dispute": {
+      "title": "争议信函",
+      "desc": "法语或英语的正式法律信函，附有你母语的解释。"
+    },
+    "followup": {
+      "title": "结果跟踪",
+      "desc": "十四天后跟进，确认押金是否已退还。"
+    }
+  },
+  "pricing": {
+    "heading": "简单公平的价格",
+    "scan": {
+      "title": "风险扫描",
+      "price": "€15",
+      "desc": "AI检查报告，含逐房间风险评分。",
+      "cta": "获取报告"
+    },
+    "dispute": {
+      "title": "争议信函",
+      "price": "€20",
+      "desc": "法语或英语的正式法律争议信函。",
+      "cta": "添加争议信函",
+      "addon": "风险扫描的附加服务"
+    }
+  },
+  "inspection": {
+    "new": "新检查",
+    "property": "房产详情",
+    "capture": "拍照",
+    "review": "审核",
+    "report": "报告",
+    "rooms": {
+      "kitchen": "厨房",
+      "bathroom": "浴室",
+      "bedroom": "卧室",
+      "living": "客厅",
+      "hallway": "走廊",
+      "balcony": "阳台",
+      "other": "其他"
+    },
+    "jurisdiction": {
+      "label": "你的房产在哪里？",
+      "fr": "法国",
+      "uk": "英国"
+    }
+  },
+  "auth": {
+    "login": "登录",
+    "signup": "创建账户",
+    "email": "电子邮箱",
+    "magicLink": "我们将发送登录链接",
+    "checkEmail": "请查收邮箱中的登录链接。",
+    "error": "出现错误，请重试。"
+  },
+  "common": {
+    "next": "下一步",
+    "back": "返回",
+    "submit": "提交",
+    "cancel": "取消",
+    "loading": "加载中...",
+    "error": "发生错误",
+    "retry": "重试"
+  }
+}

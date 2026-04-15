@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@theme {
+  --color-tenu-forest: #1B4D3E;
+  --color-tenu-forest-light: #2A6B55;
+  --color-tenu-cream: #F5F0EB;
+  --color-tenu-cream-dark: #E8DDD4;
+  --color-tenu-gold: #C4A35A;
+  --color-tenu-gold-light: #D4B86A;
+  --color-tenu-slate: #334155;
+  --color-tenu-danger: #DC2626;
+  --color-tenu-warning: #F59E0B;
+  --color-tenu-success: #16A34A;
+}
+
+/* RTL utilities */
+[dir="rtl"] .rtl\:space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+[dir="rtl"] .rtl\:text-right {
+  text-align: right;
+}
+
+[dir="rtl"] .rtl\:flex-row-reverse {
+  flex-direction: row-reverse;
+}

@@ -1,0 +1,43 @@
+{
+  "name": "tenu-world",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "@supabase/supabase-js": "^2.49.4",
+    "@supabase/ssr": "^0.6.1",
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@stripe/stripe-js": "^5.6.0",
+    "stripe": "^17.7.0",
+    "lucide-react": "^0.475.0",
+    "clsx": "^2.1.1",
+    "server-only": "^0.0.1",
+    "@aws-sdk/client-s3": "^3.750.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "@types/node": "^22.15.2",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "tailwindcss": "^4.1.4",
+    "@tailwindcss/postcss": "^4.1.4",
+    "postcss": "^8.5.3",
+    "eslint": "^9.24.0",
+    "eslint-config-next": "^15.3.1",
+    "@capacitor/core": "^7.2.0",
+    "@capacitor/cli": "^7.2.0",
+    "@capacitor/camera": "^7.0.1",
+    "@capacitor/filesystem": "^7.0.1",
+    "@capacitor/push-notifications": "^7.0.1"
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Tenu — Vos droits. Votre langue. Votre caution.",
+    "description": "Compagnon IA pour les droits des locataires internationaux en France et au Royaume-Uni."
+  },
+  "nav": {
+    "home": "Accueil",
+    "pricing": "Tarifs",
+    "login": "Connexion",
+    "signup": "Commencer",
+    "dashboard": "Tableau de bord",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
+  },
+  "hero": {
+    "title": "Vos droits. Votre langue. Votre caution.",
+    "subtitle": "Tenu vous guide lors de votre état des lieux dans votre langue, évalue le risque de retenue sur votre caution par IA, et génère des lettres de contestation quand votre propriétaire tente de garder ce qui vous appartient.",
+    "cta": "Commencer votre état des lieux",
+    "ctaSecondary": "Comment ça marche"
+  },
+  "features": {
+    "heading": "Six fonctionnalités. Un objectif : protéger votre caution.",
+    "onboarding": {
+      "title": "Accueil du locataire",
+      "desc": "Vos droits légaux expliqués dans votre langue dès le premier jour."
+    },
+    "evidence": {
+      "title": "Preuves photographiques guidées",
+      "desc": "Photos horodatées pièce par pièce, recevables en cas de litige."
+    },
+    "rights": {
+      "title": "Explication des droits",
+      "desc": "10 faits essentiels sur les droits des locataires en France ou au Royaume-Uni."
+    },
+    "scan": {
+      "title": "Analyse IA des risques",
+      "desc": "L'IA analyse vos photos et évalue le risque de retenue par pièce."
+    },
+    "dispute": {
+      "title": "Lettre de contestation",
+      "desc": "Lettre formelle en français ou anglais, expliquée dans votre langue."
+    },
+    "followup": {
+      "title": "Suivi des résultats",
+      "desc": "Suivi à 14 jours pour vérifier la restitution de votre caution."
+    }
+  },
+  "pricing": {
+    "heading": "Tarification simple et équitable",
+    "scan": {
+      "title": "Analyse des risques",
+      "price": "15 €",
+      "desc": "Rapport d'inspection par IA avec évaluation des risques pièce par pièce.",
+      "cta": "Obtenir votre rapport"
+    },
+    "dispute": {
+      "title": "Lettre de contestation",
+      "price": "20 €",
+      "desc": "Lettre formelle de contestation en français ou anglais.",
+      "cta": "Ajouter la lettre",
+      "addon": "Complément à l'analyse des risques"
+    }
+  },
+  "inspection": {
+    "new": "Nouvel état des lieux",
+    "property": "Détails du logement",
+    "capture": "Prise de photos",
+    "review": "Vérification",
+    "report": "Rapport",
+    "rooms": {
+      "kitchen": "Cuisine",
+      "bathroom": "Salle de bain",
+      "bedroom": "Chambre",
+      "living": "Séjour",
+      "hallway": "Couloir",
+      "balcony": "Balcon",
+      "other": "Autre"
+    },
+    "jurisdiction": {
+      "label": "Où se situe votre logement ?",
+      "fr": "France",
+      "uk": "Royaume-Uni"
+    }
+  },
+  "auth": {
+    "login": "Connexion",
+    "signup": "Créer un compte",
+    "email": "Adresse e-mail",
+    "magicLink": "Nous vous enverrons un lien de connexion",
+    "checkEmail": "Vérifiez votre boîte mail pour le lien de connexion.",
+    "error": "Une erreur est survenue. Veuillez réessayer."
+  },
+  "common": {
+    "next": "Suivant",
+    "back": "Retour",
+    "submit": "Envoyer",
+    "cancel": "Annuler",
+    "loading": "Chargement...",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer"
+  }
+}
