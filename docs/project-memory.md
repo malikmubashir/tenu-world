@@ -6,55 +6,60 @@ Dr. Mubashir (Malik Mubashir Hassan) is the founder of Global Apex NET (French S
 
 **Key context and constraints:**
 - Solo founder managing concurrent commitments (consulting + HEC + MHF); committed to ~35–40 hours/week on Tenu
-- Full context file at `/Users/mmh/Documents/Global Apex/Tenu/CLAUDE-CONTEXT.md`
+- Full context file at `/Users/mmh/Documents/Claude/Projects/Tenu.World/CLAUDE.md`
 - Dr. Mubashir explicitly wants critical, Harvard-serial-entrepreneur-style pushback — not validation or uncritical agreement
 
 ---
 
-**Current state**
+**Current state (updated 2026-04-16)**
 
-Tenu is in active Week 1 build. Infrastructure confirmed live:
+Tenu is in Week 2 build. Core inspection flow functional end-to-end (form → photos → ratings). Infrastructure live:
 - GitHub repo: `github.com/malikmubashir/tenu-world`
-- Deployed: `tenu-world.vercel.app`
-- DNS: `tenu.world` pointed to Vercel (A record + CNAME; conflicting Namecheap parking records removed)
-- Stack scaffolded: Next.js 16 + TypeScript + Tailwind + Capacitor; dev server running on `localhost:3000`
-- VS Code workspace configured and opening correctly via `code` command
-- `CLAUDE.md` created at project root for Claude Code auto-context
-- Documentation: 11 files across 7 folders at `/Users/mmh/Documents/Global Apex/Tenu/`
-- Asana project "Tenu — Launch" with 42 tasks active
+- Deployed: `tenu.world` on Vercel (auto-deploy on push to main)
+- Database: Supabase with both migrations (001 base schema + 002 owner/tenants/ratings) live
+- Auth: Supabase Auth with Google OAuth + magic link, French as default language
+- Payments: Stripe test mode, dynamic pricing (no fixed products), webhook configured
+- Storage: Cloudflare R2 (EU) for photos
+- Google Maps API configured
+
+**What's built:**
+- Inspection creation form (6 sections: type, property, owner, tenants, contract, rooms)
+- Zone tendue auto-detection from postal code (1,100+ codes from Décret 2013-392)
+- Camera capture with timestamped photos, R2 upload
+- Element rating system (TB/B/M/MV per element, 10 standard + kitchen/bathroom extras)
+- Dynamic Stripe checkout with per-room pricing
+- Language toggle (FR default, EN secondary, 8 others via dropdown)
 
 **Key pending pre-launch actions:**
+- Anthropic API key (blocks AI risk scan pipeline)
+- Brevo API key (blocks post-inspection email)
+- Pipeline 1: Stripe webhook → Haiku scan → PDF → email (core revenue path)
+- Privacy policy and terms pages (/privacy, /terms)
 - French avocat legal opinion and UK solicitor review
-- Make.com EU DPA
-- Native speaker review of ZH and AR outputs (agreed to complete before first user, not deferred to Month 2)
-- WTP validation via pre-payments (not just waitlist signups)
+- Native speaker review of ZH and AR outputs
+- End-to-end test of full inspection flow
 
 ---
 
 **On the horizon**
 
-- Room-based pricing model planned from ~Month 4
-- Dispute letter add-on: €20 at launch, rising to €30
-- Mobile app store submissions (iOS + Android via Capacitor) — sequenced after web validation
+- Room-based pricing from ~Month 4 (currently €15 flat + €5/extra room + €25 dispute)
+- Mobile app store submissions (iOS + Android via Capacitor) — after web validation
 - P2 and P3 language rollout following P1 validation
+- Post-inspection email with photos and Article 3-2 notice
+- 14-day outcome follow-up survey via Brevo
 
 ---
 
 **Key learnings & principles**
 
-- **Mobile-first is non-negotiable for inspection workflow:** A tenant standing at a door doing a real-time inspection needs native camera access; browser-based forms are inadequate. This drove the shift from a no-code stack to React + Capacitor from day one.
-- **Build once, run everywhere:** Going React + Capacitor from the start avoids the cost and complexity of building a web app and native apps separately — correctly identified as the right call despite initial challenge.
-- **WTP validation must be real:** Waitlist signups are insufficient signal; pre-payments are required to validate willingness to pay before scaling.
-- **Legal review cannot be deferred:** Native speaker QA for AR and ZH outputs must happen before the first user, not in a later sprint.
-- **Solo-founder bandwidth is a live risk:** Concurrent commitments are acknowledged; the ~35–40 hours/week commitment to Tenu is the stated mitigation.
-
----
-
-**Approach & patterns**
-
-- Dr. Mubashir wants a critical advisor relationship with Claude — explicit pushback on assumptions, strategies, and sequencing is expected and valued
-- Documentation-first discipline: strategy, market analysis, product spec, MVP architecture, prompt specs, GTM, financials, and legal all written before build began
-- Sequenced rollout: web validation before app store submission; P1 languages before P2/P3
+- **Mobile-first is non-negotiable for inspection workflow:** A tenant standing at a door needs native camera access; browser-based forms are inadequate. This drove the shift to React + Capacitor.
+- **Build once, run everywhere:** React + Capacitor avoids building web and native apps separately.
+- **No external automation dependencies:** Make.com and Placid were abandoned in favor of in-code pipelines (Next.js API routes + @react-pdf/renderer). All orchestration lives in the codebase.
+- **WTP validation must be real:** Pre-payments required, not just waitlist signups.
+- **Legal review cannot be deferred:** Native speaker QA for AR and ZH outputs must happen before the first user.
+- **Zone tendue matters legally:** Affects notice period (1 vs 3 months), rent control, deposit enforcement. Auto-detected from postal code.
+- **Element-level ratings match official forms:** 10 standard elements per room + extras for kitchen (8) and bathroom (3), matching Décret 2016-382.
 
 ---
 
@@ -62,17 +67,20 @@ Tenu is in active Week 1 build. Infrastructure confirmed live:
 
 | Layer | Tool |
 |---|---|
-| Frontend | Next.js 16, TypeScript, Tailwind CSS, Capacitor |
-| Auth & DB | Supabase |
+| Framework | Next.js 15 (App Router), TypeScript |
+| Styling | Tailwind CSS |
+| Mobile | Capacitor 6 |
+| Auth & DB | Supabase (Postgres) |
 | Photo storage | Cloudflare R2 (EU) |
-| AI (risk scoring) | Claude Haiku (~€0.30/user, server-side) |
+| AI (risk scoring) | Claude Haiku (~€0.30/user, server-side only) |
 | AI (dispute letters) | Claude Sonnet (~€0.60/user, add-on only) |
-| PDF generation | Placid |
+| PDF generation | @react-pdf/renderer (in-code, not Placid) |
 | Email | Brevo |
+| Payments | Stripe.js (dynamic pricing, server-side) |
 | Hosting | Vercel |
-| Automation pipeline | Make.com |
-| Domain registrar | Namecheap (3-year term, WhoisGuard on) |
-| Project management | Asana |
+| Pipeline | All in Next.js API routes (no Make.com) |
+| Domain | tenu.world via Namecheap (3-year, WhoisGuard) |
+| i18n | next-intl (10 languages, route-based) |
 | Version control | GitHub |
 
-**Financials:** €15/£15 flat launch price; €47/month fixed burn; breakeven at 4 users. Trademarks clear on EUIPO and CNIPA.
+**Financials:** €15/£15 flat launch + €5/extra room + €25 dispute letter. €47/month fixed burn. Breakeven at 4 users. Gross margin 88–94%. Trademarks clear on EUIPO and CNIPA.

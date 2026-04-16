@@ -8,6 +8,7 @@ import ProgressStepper from "@/components/ui/ProgressStepper";
 import CameraCapture from "@/components/camera/CameraCapture";
 import RoomSelector from "@/components/camera/RoomSelector";
 import PhotoGrid from "@/components/camera/PhotoGrid";
+import ElementRatingPanel from "@/components/inspection/ElementRatingPanel";
 import { uploadPhotoToR2 } from "@/lib/storage/r2-upload";
 import type { RoomType } from "@/components/camera/RoomSelector";
 
@@ -196,6 +197,16 @@ export default function CapturePage() {
 
         {error && (
           <p className="mt-4 text-center text-sm text-tenu-danger">{error}</p>
+        )}
+
+        {/* Element ratings for active room */}
+        {activeRoomId && (
+          <div className="mt-6">
+            <ElementRatingPanel
+              roomId={activeRoomId}
+              roomType={rooms.find((r) => r.id === activeRoomId)?.room_type ?? "other"}
+            />
+          </div>
         )}
 
         {/* Navigation */}
