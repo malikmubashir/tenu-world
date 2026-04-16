@@ -5,6 +5,89 @@ Last updated: 2026-04-16
 
 ---
 
+## Parties to the inspection
+
+### Owner (bailleur)
+
+| Field | Key (DB column) | Required | Notes |
+|-------|-----------------|----------|-------|
+| Type | owner_type | Yes | "individual" or "company" |
+| Name | owner_name | Yes | Person name or company name |
+| Company name | owner_company_name | No | If individual acting for a management agency |
+| Email | owner_email | No | For post-inspection email |
+| Phone | owner_phone | No | |
+| Postal address | owner_address | No | For formal dispute letters |
+
+### Tenants (locataire(s))
+
+Up to 3 tenants per inspection: single occupant, couple, or colocataires.
+
+| Field | Key (DB column) | Required | Notes |
+|-------|-----------------|----------|-------|
+| Full name | full_name | Yes | |
+| Email | email | No | For post-inspection email |
+| Phone | phone | No | |
+| Sort order | sort_order | Auto | 0, 1, 2 |
+
+Tenant limit enforced at app level (max 3 per inspection_id).
+
+---
+
+## Contract details
+
+| Field | Key (DB column) | Required | Notes |
+|-------|-----------------|----------|-------|
+| Furnished | furnished | Yes | boolean, affects inspection (inventory for meublé) |
+| Lease start date | lease_start_date | No | ISO date |
+| Lease end date | lease_end_date | No | null = open-ended (CDI) |
+| Notice period | notice_period_months | Auto | 1 or 3, auto-calculated from zone tendue + furnished |
+| Monthly rent (cents) | monthly_rent_cents | No | Stored in cents to avoid float issues |
+| Monthly charges (cents) | monthly_charges_cents | No | |
+| Contract PDF | contract_pdf_r2_key | No | R2 key, stored not parsed (V1) |
+
+---
+
+## Property characteristics
+
+| Field | Key (DB column) | Required | Notes |
+|-------|-----------------|----------|-------|
+| Property type | property_type | Yes | "appartement" or "maison" |
+| Surface (m²) | surface_m2 | No | numeric(6,1) |
+| Main rooms count | main_rooms | No | nombre de pièces principales |
+| Zone tendue | zone_tendue | Auto | Auto-detected from postal code |
+| INSEE code | commune_insee | Auto | Postal code stored; precise INSEE is V2 |
+| Inspection type | inspection_type | Yes | "move_in" or "move_out" |
+
+### Zone tendue auto-detection
+
+Zone tendue status is determined automatically from the property's postal code using the government list (Décret n° 2013-392). This affects:
+
+- Notice period: 1 month (zone tendue or furnished) vs 3 months (non-tendue, unfurnished)
+- Rent control eligibility (encadrement des loyers) in applicable communes
+- Deposit return enforcement strictness
+
+Implementation: `src/lib/geo/zone-tendue.ts` contains a complete Set of ~1,100 postal codes from the décret annex. The function `isZoneTendue(postalCode)` returns boolean. Postal code is extracted from the address via regex.
+
+Notice period logic (Article 15, Loi 89-462):
+- Furnished (meublé): always 1 month (Article 25-8)
+- Unfurnished + zone tendue: 1 month
+- Unfurnished + non-tendue: 3 months
+
+---
+
+## Post-inspection email
+
+After inspection completion and payment, an email is sent to both tenant(s) and owner containing:
+- Timestamped photos with room labels
+- Element ratings and remarks
+- Legal notice citing Article 3-2 (contradictory état des lieux)
+- Reminder of the 10-day contestation window (Article 3-2)
+- Date and time of inspection
+
+Tracking columns: `tenant_email_sent_at`, `owner_email_sent_at` on inspections table.
+
+---
+
 ## Legal basis
 
 - **Loi 89-462, Article 3-2**: État des lieux must be contradictory between parties
