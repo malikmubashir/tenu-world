@@ -4,6 +4,7 @@ import { Shield, Camera, BookOpen, Brain, FileText, Bell } from "lucide-react";
 import { getDictionary } from "@/lib/i18n/server";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n/config";
+import LanguageToggle from "@/components/ui/LanguageToggle";
 
 async function getLocale(): Promise<Locale> {
   const cookieStore = await cookies();
@@ -39,6 +40,7 @@ export default async function Home() {
           tenu
         </Link>
         <nav className="flex items-center gap-4">
+          <LanguageToggle currentLocale={locale} />
           <Link
             href="/pricing"
             className="text-sm font-medium text-tenu-slate hover:text-tenu-forest"

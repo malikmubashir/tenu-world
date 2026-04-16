@@ -66,15 +66,15 @@ export default function LoginPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-4">
         <div className="w-full max-w-sm rounded-xl bg-white p-8 shadow-sm">
-          <h1 className="mb-2 text-xl font-bold text-tenu-forest">Check your email</h1>
+          <h1 className="mb-2 text-xl font-bold text-tenu-forest">Vérifiez votre boîte mail</h1>
           <p className="text-sm text-tenu-slate/70">
-            We sent a sign-in link to <strong>{email}</strong>. Click the link to continue.
+            Nous avons envoyé un lien de connexion à <strong>{email}</strong>. Cliquez sur le lien pour continuer.
           </p>
           <button
             onClick={() => setSent(false)}
             className="mt-6 text-sm text-tenu-forest underline"
           >
-            Use a different email
+            Utiliser une autre adresse
           </button>
         </div>
       </div>
@@ -87,9 +87,9 @@ export default function LoginPage() {
         <Link href="/" className="mb-6 block text-2xl font-bold text-tenu-forest">
           tenu
         </Link>
-        <h1 className="mb-1 text-xl font-bold text-tenu-forest">Sign in</h1>
+        <h1 className="mb-1 text-xl font-bold text-tenu-forest">Connexion</h1>
         <p className="mb-6 text-sm text-tenu-slate/70">
-          Continue with Google or use your email.
+          Continuez avec Google ou utilisez votre e-mail.
         </p>
 
         {/* Google OAuth — primary login method */}
@@ -116,13 +116,13 @@ export default function LoginPage() {
               fill="#EA4335"
             />
           </svg>
-          {googleLoading ? "Redirecting..." : "Continue with Google"}
+          {googleLoading ? "Redirection..." : "Continuer avec Google"}
         </button>
 
         {/* Divider */}
         <div className="mb-4 flex items-center gap-3">
           <div className="h-px flex-1 bg-tenu-cream-dark" />
-          <span className="text-xs text-tenu-slate/50">or</span>
+          <span className="text-xs text-tenu-slate/50">ou</span>
           <div className="h-px flex-1 bg-tenu-cream-dark" />
         </div>
 
@@ -130,7 +130,7 @@ export default function LoginPage() {
         <form onSubmit={handleMagicLink} className="space-y-4">
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-tenu-slate">
-              Email address
+              Adresse e-mail
             </label>
             <input
               id="email"
@@ -152,7 +152,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
           >
-            {loading ? "Sending..." : "Send magic link"}
+            {loading ? "Envoi..." : "Envoyer le lien magique"}
           </button>
         </form>
       </div>
