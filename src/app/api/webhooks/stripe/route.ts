@@ -32,16 +32,31 @@ export async function POST(request: Request) {
 
     const supabase = await createClient();
 
-    if (metadata.product === "scan") {
-      // Unlock the scan: update payment ID
+    // Record payment in payments table
+    await supabase.from("payments").insert({
+      user_id: metadata.userId,
+      inspection_id: metadata.inspectionId,
+      stripe_session_id: session.id,
+      stripe_payment_intent: session.payment_intent as string,
+      product: metadata.product,
+      amount_cents: session.amount_total ?? 0,
+      currency: session.currency ?? "eur",
+      status: "completed",
+    });
+
+    if (metadata.product === "report" || metadata.product === "report_and_dispute") {
+      // Unlock the report: mark as paid, trigger AI pipeline
       await supabase
         .from("inspections")
         .update({
+          status: "paid",
           stripe_payment_id: session.id,
           updated_at: new Date().toISOString(),
         })
         .eq("id", metadata.inspectionId);
-    } else if (metadata.product === "dispute") {
+    }
+
+    if (metadata.product === "dispute" || metadata.product === "report_and_dispute") {
       // Unlock dispute letter generation
       await supabase
         .from("inspections")
