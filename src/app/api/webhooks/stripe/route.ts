@@ -57,15 +57,29 @@ export async function POST(request: Request) {
     }
 
     if (metadata.product === "dispute" || metadata.product === "report_and_dispute") {
-      // Unlock dispute letter generation
-      await supabase
-        .from("inspections")
-        .update({
-          dispute_purchased: true,
+      // Paid-gate contract for /api/ai/dispute v2: a dispute_letters row must
+      // exist with stripe_payment_id set BEFORE the generation route runs.
+      // We pre-insert the row here; the generation route UPDATEs it in place
+      // with letter_content once the Sonnet call returns.
+      //
+      // Idempotency: Stripe retries webhooks. Check first by stripe_payment_id
+      // so replays don't duplicate. (No unique constraint on the column yet;
+      // tracked for schema v1.1.)
+      const { data: alreadyInserted } = await supabase
+        .from("dispute_letters")
+        .select("id")
+        .eq("stripe_payment_id", session.id)
+        .maybeSingle();
+
+      if (!alreadyInserted) {
+        await supabase.from("dispute_letters").insert({
+          inspection_id: metadata.inspectionId,
+          user_id: metadata.userId,
           stripe_payment_id: session.id,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("id", metadata.inspectionId);
+          stripe_amount_cents: session.amount_total ?? 0,
+          status: "pending",
+        });
+      }
     }
   }
 
