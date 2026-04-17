@@ -80,16 +80,18 @@ export default function ReportPage() {
 
     if (roomData) setRooms(roomData as RoomWithRisk[]);
 
-    // load dispute letter if exists
-    const { data: disputes } = await supabase
-      .from("disputes")
-      .select("letter_body")
+    // Load dispute letter if one has been generated.
+    // Table name + column name align with schema.sql (was drifting against
+    // the retired `disputes` table + `letter_body` column before 2026-04-18).
+    const { data: disputeLetters } = await supabase
+      .from("dispute_letters")
+      .select("letter_content")
       .eq("inspection_id", inspectionId)
       .order("created_at", { ascending: false })
       .limit(1);
 
-    if (disputes && disputes.length > 0) {
-      setDisputeLetter(disputes[0].letter_body);
+    if (disputeLetters && disputeLetters.length > 0) {
+      setDisputeLetter(disputeLetters[0].letter_content);
     }
 
     // Fetch dispute eligibility. Ignore failures — UI falls back to
