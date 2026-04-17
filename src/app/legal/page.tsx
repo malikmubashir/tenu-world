@@ -99,17 +99,17 @@ export default function LegalIndex() {
         <section className="mt-12 rounded-lg border border-tenu-cream-dark bg-tenu-cream p-6 text-sm text-tenu-slate">
           <h2 className="text-base font-semibold text-tenu-forest">Outstanding placeholders</h2>
           <p className="mt-2">
-            Two placeholders remain visible and are expected to be resolved before commercial launch:
+            One placeholder remains visible and is expected to be resolved before commercial launch:
           </p>
           <ul className="mt-3 list-disc space-y-1 pl-5">
-            <li>
-              <code className="rounded bg-white px-1 py-0.5">[CAPITAL EUR]</code> &mdash; share capital of Global Apex.Net SAS, to be lifted from the statuts.
-            </li>
             <li>
               <code className="rounded bg-white px-1 py-0.5">[MEDIATEUR]</code> /{" "}
               <code className="rounded bg-white px-1 py-0.5">[À VÉRIFIER PAR AVOCAT]</code> &mdash; consumer mediator (pending HEC/MHF recommendations).
             </li>
           </ul>
+          <p className="mt-3 text-xs text-tenu-slate/70">
+            Resolved 2026-04-17: share capital set at <strong>EUR 100</strong> per the statuts of Global Apex.Net SAS.
+          </p>
           <p className="mt-3">
             For questions on any of these documents, write to{" "}
             <a className="underline hover:text-tenu-forest" href="mailto:support@tenu.world">

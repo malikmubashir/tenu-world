@@ -8,7 +8,7 @@
 
 ## 1. Who processes your data
 
-The data controller is **Global Apex.Net**, a French simplified joint-stock company (SAS) with share capital of EUR [CAPITAL], registered with the Versailles Commercial Register under number 941 666 067, with its registered office at 4 Boulevard du Château, 78280 Guyancourt, France. VAT number: FR89 941 666 067. NAF code 62.02A. Global Apex.Net publishes and operates the Tenu.World service accessible at `tenu.world`.
+The data controller is **Global Apex.Net**, a French simplified joint-stock company (SAS) with share capital of EUR 100, registered with the Versailles Commercial Register under number 941 666 067, with its registered office at 4 Boulevard du Château, 78280 Guyancourt, France. VAT number: FR89 941 666 067. NAF code 62.02A. Global Apex.Net publishes and operates the Tenu.World service accessible at `tenu.world`.
 
 For any question about your data, please contact our GDPR point of contact at `dpo@tenu.world`. We reply within one month at the latest.
 

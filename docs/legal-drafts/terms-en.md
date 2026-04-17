@@ -8,7 +8,7 @@
 
 ## 1. Purpose
 
-These terms govern access to and use of the Tenu.World service available at `tenu.world`, operated by Global Apex.Net, a French simplified joint-stock company (SAS) with share capital of EUR [CAPITAL], registered with the Versailles Commercial Register under number 941 666 067, whose registered office is at 4 Boulevard du Château, 78280 Guyancourt, France ("Tenu", "we").
+These terms govern access to and use of the Tenu.World service available at `tenu.world`, operated by Global Apex.Net, a French simplified joint-stock company (SAS) with share capital of EUR 100, registered with the Versailles Commercial Register under number 941 666 067, whose registered office is at 4 Boulevard du Château, 78280 Guyancourt, France ("Tenu", "we").
 
 You accept these terms by creating an account or using the service.
 

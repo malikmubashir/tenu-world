@@ -272,7 +272,7 @@ At my current execution rate that is roughly three focused sessions.
 
 ## 10. Open questions for Dr Mubashir
 
-1. Confirm share capital figure to replace `[CAPITAL EUR]` in CGU and Privacy files.
+1. ~~Confirm share capital figure to replace `[CAPITAL EUR]` in CGU and Privacy files.~~ **RESOLVED 2026-04-17:** Dr Mubashir confirmed capital = EUR 100 per the statuts. Applied in privacy-fr/en, terms-fr/en drafts and live `/legal/*` routes.
 2. **Médiateur de la consommation — PENDING (2026-04-17).** Dr Mubashir is sourcing recommendations from the HEC GEMM network and the MHF board before deciding. Do not sign MEDICYS, SMCE or AME Conso in the interim. Evaluate once shortlist arrives: annual fee, SaaS coverage, response-time SLA, consumer-facing visibility. Must be resolved before commercial launch, not before beta.
 3. Confirm that English legal documents can remain in EN only at launch, with in-app notice for users of other languages that legal content is FR/EN only. Alternative is machine-translating them, which is legally weaker.
 4. Confirm that an unauthenticated visitor should not be able to pre-consent. This simplifies the flow but means a curious reader has to create an account to sign.

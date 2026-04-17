@@ -8,7 +8,7 @@
 
 ## 1. Qui traite vos données
 
-Le responsable du traitement est **Global Apex.Net**, société par actions simplifiée au capital de [CAPITAL EUR] euros, immatriculée au Registre du commerce et des sociétés de Versailles sous le numéro 941 666 067, dont le siège social est situé 4 Boulevard du Château, 78280 Guyancourt, France. Numéro de TVA intracommunautaire : FR89 941 666 067. Code APE 62.02A. Global Apex.Net édite et exploite le service Tenu.World accessible depuis le domaine `tenu.world`.
+Le responsable du traitement est **Global Apex.Net**, société par actions simplifiée au capital de 100 euros, immatriculée au Registre du commerce et des sociétés de Versailles sous le numéro 941 666 067, dont le siège social est situé 4 Boulevard du Château, 78280 Guyancourt, France. Numéro de TVA intracommunautaire : FR89 941 666 067. Code APE 62.02A. Global Apex.Net édite et exploite le service Tenu.World accessible depuis le domaine `tenu.world`.
 
 Pour toute question relative à vos données, vous pouvez écrire à notre point de contact RGPD à l'adresse `dpo@tenu.world`. Nous répondons dans un délai maximum d'un mois.
 

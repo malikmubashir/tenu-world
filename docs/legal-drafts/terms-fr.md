@@ -8,7 +8,7 @@
 
 ## 1. Objet
 
-Les présentes conditions générales régissent l'accès et l'utilisation du service Tenu.World accessible à l'adresse `tenu.world`, édité par Global Apex.Net, société par actions simplifiée au capital de [CAPITAL EUR] euros, immatriculée au RCS de Versailles sous le numéro 941 666 067, dont le siège social est situé 4 Boulevard du Château, 78280 Guyancourt, France (ci-après « Tenu », « nous »).
+Les présentes conditions générales régissent l'accès et l'utilisation du service Tenu.World accessible à l'adresse `tenu.world`, édité par Global Apex.Net, société par actions simplifiée au capital de 100 euros, immatriculée au RCS de Versailles sous le numéro 941 666 067, dont le siège social est situé 4 Boulevard du Château, 78280 Guyancourt, France (ci-après « Tenu », « nous »).
 
 L'utilisateur final (ci-après « vous ») accepte ces conditions en créant un compte ou en utilisant le service.
 

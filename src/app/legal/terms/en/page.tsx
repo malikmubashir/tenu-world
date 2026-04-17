@@ -25,7 +25,7 @@ export default function TermsEN() {
     >
       <H2>1. Purpose</H2>
       <P>
-        These terms govern access to and use of the Tenu.World service available at <code>tenu.world</code>, operated by Global Apex.Net, a French simplified joint-stock company (SAS) with share capital of EUR <Placeholder>[CAPITAL]</Placeholder>, registered with the Versailles Commercial Register under number 941 666 067, whose registered office is at 4 Boulevard du Château, 78280 Guyancourt, France (&quot;Tenu&quot;, &quot;we&quot;).
+        These terms govern access to and use of the Tenu.World service available at <code>tenu.world</code>, operated by Global Apex.Net, a French simplified joint-stock company (SAS) with share capital of EUR 100, registered with the Versailles Commercial Register under number 941 666 067, whose registered office is at 4 Boulevard du Château, 78280 Guyancourt, France (&quot;Tenu&quot;, &quot;we&quot;).
       </P>
       <P>You accept these terms by creating an account or using the service.</P>
 
