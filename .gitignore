@@ -35,6 +35,10 @@ next-env.d.ts
 # misc
 .DS_Store
 *.pem
-Tenu-World/
-Tenu-World/
-Tenu-World/
+
+# local secrets (Telegram bot, etc. — scaffolding only, never commit real tokens)
+/.secrets/
+!/.secrets/*.example
+
+# push-queue used by tenu-daily-push scheduled task when Telegram creds missing
+/.push-queue/

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { scanAllRooms } from "@/lib/ai/risk-scan";
+import { scanAllRooms, ScanError, type ScanInput } from "@/lib/ai/risk-scan";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -11,14 +11,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { inspectionId } = (await request.json()) as {
+  const body = (await request.json()) as {
     inspectionId: string;
+    tenantNotes?: string;
   };
+  const { inspectionId, tenantNotes } = body;
 
-  // verify ownership
+  // verify ownership + pull full inspection context for the prompt
   const { data: inspection } = await supabase
     .from("inspections")
-    .select("id, user_id, status, jurisdiction, address")
+    .select(
+      "id, user_id, status, jurisdiction, address_formatted, move_in_date, move_out_date, deposit_amount_cents, deposit_currency",
+    )
     .eq("id", inspectionId)
     .single();
 
@@ -64,10 +68,46 @@ export async function POST(request: Request) {
     }),
   );
 
-  // run AI scan
-  const scanResult = await scanAllRooms(inspectionId, roomsWithPhotos);
+  const depositAmountEur =
+    inspection.deposit_amount_cents && inspection.deposit_currency === "EUR"
+      ? Math.round(inspection.deposit_amount_cents / 100)
+      : 0;
 
-  // store results in rooms table
+  const scanInput: ScanInput = {
+    inspectionId,
+    address: inspection.address_formatted ?? "non communiquee",
+    jurisdiction: (inspection.jurisdiction === "uk" ? "uk" : "fr"),
+    moveInDate: inspection.move_in_date,
+    moveOutDate: inspection.move_out_date,
+    depositAmountEur,
+    hasInventory: false, // TODO: wire when inventory-of-entry feature lands
+    rooms: roomsWithPhotos,
+    tenantNotes,
+  };
+
+  // run AI scan with typed error handling
+  let scanResult;
+  try {
+    scanResult = await scanAllRooms(scanInput);
+  } catch (err) {
+    if (err instanceof ScanError) {
+      const status =
+        err.code === "INSUFFICIENT_PHOTOS" || err.code === "INVALID_INPUT"
+          ? 400
+          : err.code === "BUDGET_EXCEEDED"
+            ? 402
+            : err.code === "MODEL_REFUSAL"
+              ? 422
+              : 502;
+      return NextResponse.json(
+        { error: err.message, code: err.code },
+        { status },
+      );
+    }
+    throw err;
+  }
+
+  // store collapsed legacy shape per room (keeps current UI working)
   for (const roomRisk of scanResult.rooms) {
     await supabase
       .from("rooms")
@@ -83,11 +123,23 @@ export async function POST(request: Request) {
       .eq("id", roomRisk.roomId);
   }
 
-  // update inspection status
+  // persist the full v2 payload + observability metadata on the inspection
+  // using the existing risk_score jsonb column (no schema migration needed).
   await supabase
     .from("inspections")
     .update({
       status: "scanned",
+      risk_score: {
+        v2: scanResult.v2 ?? null,
+        overallRisk: scanResult.overallRisk,
+        totalEstimatedDeductionEur: scanResult.totalEstimatedDeduction,
+        scanTimestamp: scanResult.scanTimestamp,
+        telemetry: {
+          costEur: scanResult.costEur,
+          modelUsed: scanResult.modelUsed,
+          attemptCount: scanResult.attemptCount,
+        },
+      },
       updated_at: new Date().toISOString(),
     })
     .eq("id", inspectionId);
