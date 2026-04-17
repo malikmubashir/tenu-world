@@ -65,13 +65,16 @@ Ordered by what blocks revenue. Do not reorder.
 ## 3. Revised timeline (honest version)
 
 ```
-Apr 17 (today)  Fri   Plan signed. Anthropic + Brevo keys added.
+Apr 17 (today)  Fri   Plan signed. Legal surface delivered. Anthropic + Brevo keys added.
 Apr 18-19       Weekend Smoke test funnel end to end. Fix what breaks.
-Apr 20-24       Mon-Fri  P0+P1 items close. Grille de vétusté in prompt. Sentry on. Rate limits. Legal pages.
+Apr 20-24       Mon-Fri  Security checklist P0 first pass. Grille de vétusté in prompt. Sentry on. Rate limits. Legal surface MDX routes + consents table.
 Apr 25-26       Weekend Dr Mubashir + spouse review legal text. Freeze product copy.
-Apr 27-May 1    Week 4  PWA polish. Translation QA for AR and ZH. 5 friendly beta users on staging.
-May 4-8         Week 5  Capacitor iOS + Android shells. App icons. Screenshots.
-May 11-15       Week 6  Internal TestFlight + Play Internal Testing. Bug bash.
+Apr 27-30       OOO   Dr Mubashir time off. NO deploys, NO PRs, NO stakeholder actions.
+May 1-3         Fri-Sun Resume. T-103 E2E dry run on staging. Any P0 still red: close.
+May 4-8         Mon-Fri Security checklist final sign-off. Translation QA AR and ZH. Friends & family staging trials (3-5 users).
+May 9-10        Weekend Final dress rehearsal. Full paid flow from 3 test accounts. Monitoring dashboards green.
+May 11 (Mon)    SOFT LAUNCH. First-paying-user friends & family launch. Target: 3-5 paid inspections in week 1.
+May 12-16       Week 6  Post-launch monitoring. Capacitor iOS + Android shells. App icons. Screenshots.
 May 18-22       Week 7  App Store submission (iOS) and Play production track. Start external beta (20 users).
 May 25-29       Week 8  Respond to Apple review feedback (likely one rejection cycle). Ship live on Play.
 Jun 1-15        First half Live on both stores worst case mid-June. First paid users from French student Facebook groups and Reddit r/france.

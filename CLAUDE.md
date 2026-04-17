@@ -144,14 +144,16 @@ Gross margin: 88–94% | Breakeven: 4 users | Fixed burn: €47/mo
 
 ---
 
-## Build timeline
+## Build timeline (revised 2026-04-17)
 | Phase | Period | Goal |
 |---|---|---|
 | Week 1 | 3–9 Apr | Repo, Next.js scaffold, Vercel deploy, tenu.world live |
-| Week 2–3 | 10–23 Apr | Inspection flow, camera, R2 upload, Make.com pipeline |
-| Week 4 | 24–30 Apr | PWA, testing, ZH+AR review, legal disclaimer |
-| May W1–2 | 1–15 May | Capacitor setup, iOS + Android builds |
-| May W3–4 | 16–31 May | App Store submissions |
+| Week 2–3 | 10–23 Apr | Inspection flow, camera, R2 upload, in-code pipeline |
+| Week 4 | 24–26 Apr | Legal surface implementation, DPA dashboard settings |
+| OOO | 27–30 Apr | Dr Mubashir time off — no deploys, no PRs, no stakeholder actions |
+| Week 5 | 1–10 May | Security checklist P0 completion, T-103 dry run, legal surface final |
+| **SOFT LAUNCH** | **Mon 11 May** | **First-paying-user friends & family launch** |
+| May W3–4 | 12–31 May | Capacitor iOS + Android builds, App Store submissions |
 | June | 1–30 Jun | Both stores live (pessimistic: end June) |
 | July | 1–31 Jul | 50 paying users, 10 outcome data points |
 
