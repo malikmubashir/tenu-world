@@ -243,7 +243,10 @@ async function callAnthropic(
 
   const costEur = computeCostEur(model, response.usage);
 
-  if (response.stop_reason === "refusal") {
+  // SDK 0.39.0 stop_reason union does not yet include "refusal"; cast so the
+  // check compiles while still catching future runtime refusals the API may
+  // emit. Remove the cast when we bump @anthropic-ai/sdk.
+  if ((response.stop_reason as string) === "refusal") {
     throw new ScanError("MODEL_REFUSAL", "Model returned a refusal instead of JSON");
   }
 
