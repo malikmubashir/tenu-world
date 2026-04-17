@@ -54,12 +54,15 @@ export async function uploadPhotoToR2(
   let exifTimestamp: string | null = null;
   try {
     const { default: exifr } = await import("exifr");
-    const exif = await exifr.parse(buffer, {
-      tiff: true,
-      ifd0: false,
-      exif: true,
-      gps: false,
-    });
+    // Filter form: pass an array of tag names. exifr parses only those
+    // tags, skips the rest of the TIFF/EXIF tree. Fastest API surface
+    // and avoids the segment-options shape (ifd0 is FormatOptions, not
+    // boolean in exifr v7 — the object form broke the Vercel build).
+    const exif = await exifr.parse(buffer, [
+      "DateTimeOriginal",
+      "CreateDate",
+      "ModifyDate",
+    ]);
     const dt =
       exif?.DateTimeOriginal ??
       exif?.CreateDate ??
