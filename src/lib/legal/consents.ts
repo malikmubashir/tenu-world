@@ -94,19 +94,19 @@ export const COOKIE_BANNER_COPY: Record<Locale, CookieBannerCopy> = {
   fr: {
     title: "Cookies",
     body:
-      "Nous utilisons des cookies strictement nécessaires au fonctionnement du service. Les cookies analytiques et marketing ne sont posés qu'avec votre accord explicite. Vous pouvez modifier votre choix à tout moment.",
-    rejectAll: "Uniquement l'essentiel",
+      "Nous utilisons des cookies strictement nécessaires au fonctionnement du service. Les cookies d'analyse et marketing ne sont posés qu'avec votre accord. Vous pouvez modifier votre choix à tout moment depuis la page cookies.",
+    rejectAll: "Tout refuser",
     acceptAll: "Tout accepter",
-    manage: "Gérer mes choix",
+    manage: "Personnaliser",
     ariaLabel: "Bannière de gestion des cookies",
   },
   en: {
     title: "Cookies",
     body:
-      "We use strictly necessary cookies to run the service. Analytics and marketing cookies are set only with your explicit consent. You can change your choice at any time.",
-    rejectAll: "Essential only",
+      "We use strictly necessary cookies to run the service. Analytics and marketing cookies are set only with your consent. You can change your choice at any time from the cookies page.",
+    rejectAll: "Refuse all",
     acceptAll: "Accept all",
-    manage: "Manage choices",
+    manage: "Customize",
     ariaLabel: "Cookie preferences banner",
   },
 };
