@@ -1,4 +1,7 @@
-"use server";
+/**
+ * Stripe payment utilities — server-side only.
+ * Imported by API routes, never by client components.
+ */
 
 import Stripe from "stripe";
 
