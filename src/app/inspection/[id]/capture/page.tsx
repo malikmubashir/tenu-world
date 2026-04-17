@@ -95,10 +95,13 @@ export default function CapturePage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           roomId: activeRoomId,
+          inspectionId,
           r2Key: uploadResult.key,
           r2Url: uploadResult.url,
           mimeType: "image/jpeg",
           sizeBytes: uploadResult.sizeBytes,
+          sha256Hash: uploadResult.sha256Hash,
+          exifTimestamp: uploadResult.exifTimestamp,
         }),
       });
 

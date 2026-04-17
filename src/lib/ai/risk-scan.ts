@@ -1,4 +1,9 @@
-"use server";
+// Server-only module. Uses the `server-only` marker (not "use server")
+// because this file exports non-function symbols — ScanError class,
+// const budgets, types — which Server Actions ("use server") forbid.
+// The `server-only` import guarantees any accidental client-bundle
+// reference fails the build instead of leaking ANTHROPIC_API_KEY.
+import "server-only";
 
 import Anthropic from "@anthropic-ai/sdk";
 import { ZodError } from "zod";

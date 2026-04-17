@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       inspectionId?: string;
       userId?: string;
       product?: string;
+      waiverConsentId?: string;
     } | null;
 
     if (!metadata?.inspectionId || !metadata?.product) {
@@ -32,20 +33,47 @@ export async function POST(request: Request) {
 
     const supabase = await createClient();
 
-    // Record payment in payments table
+    // Tax fields from Stripe Tax output. When Stripe Tax is disabled
+    // these come back as zero/null and we persist them as-is so
+    // payments stays a uniform shape.
+    const amountTotal = session.amount_total ?? 0;
+    const amountTax = session.total_details?.amount_tax ?? 0;
+    const amountSubtotal = session.amount_subtotal ?? amountTotal - amountTax;
+    const taxRateBps =
+      amountSubtotal > 0 ? Math.round((amountTax * 10000) / amountSubtotal) : null;
+    const taxCountry =
+      session.customer_details?.address?.country ?? null;
+
+    // Record payment in payments table. waiver_consent_id is the audit
+    // pointer into the consents table (L221-28 1° proof). Tax fields
+    // feed OSS / TVA declarations.
+    // Column names aligned with supabase/schema.sql `payments` table.
+    // Earlier drafts used stripe_session_id / stripe_payment_intent / product;
+    // the canonical schema exposes stripe_checkout_session_id /
+    // stripe_payment_intent_id / type. Renamed 2026-04-17.
     await supabase.from("payments").insert({
       user_id: metadata.userId,
       inspection_id: metadata.inspectionId,
-      stripe_session_id: session.id,
-      stripe_payment_intent: session.payment_intent as string,
-      product: metadata.product,
-      amount_cents: session.amount_total ?? 0,
+      stripe_checkout_session_id: session.id,
+      stripe_payment_intent_id: session.payment_intent as string,
+      type: metadata.product,
+      amount_cents: amountTotal,
       currency: session.currency ?? "eur",
       status: "completed",
+      waiver_consent_id: metadata.waiverConsentId ?? null,
+      tax_amount_cents: amountTax,
+      tax_rate_bps: taxRateBps,
+      tax_country: taxCountry,
     });
 
-    if (metadata.product === "report" || metadata.product === "report_and_dispute") {
-      // Unlock the report: mark as paid, trigger AI pipeline
+    if (
+      metadata.product === "report" ||
+      metadata.product === "report_and_dispute" ||
+      metadata.product === "exit_only"
+    ) {
+      // Unlock the report: mark as paid, trigger AI pipeline.
+      // exit_only follows the same "paid → scan" path; the scan handler
+      // branches on whether an entry-EDL record exists.
       await supabase
         .from("inspections")
         .update({
@@ -80,6 +108,17 @@ export async function POST(request: Request) {
           status: "pending",
         });
       }
+
+      // Flip the inspection flag so the report page swaps from "Purchase
+      // Dispute Letter" to "Generate Dispute Letter" on reload. Idempotent
+      // by design — stripe retries hitting the same row are harmless.
+      await supabase
+        .from("inspections")
+        .update({
+          dispute_purchased: true,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", metadata.inspectionId);
     }
   }
 

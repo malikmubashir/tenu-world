@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
   const { data: photos, error } = await supabase
     .from("photos")
-    .select("id, r2_url, captured_at, sort_order")
+    .select("id, r2_url, captured_at, sort_order, sha256_hash, exif_timestamp")
     .eq("room_id", roomId)
     .order("sort_order", { ascending: true });
 
@@ -23,7 +23,17 @@ export async function GET(request: NextRequest) {
   return NextResponse.json({ photos });
 }
 
-/** POST /api/photos — save photo metadata after R2 upload */
+/**
+ * POST /api/photos — persist photo metadata after the R2 upload
+ * Server Action has already placed the blob in R2.
+ *
+ * Evidence-chain fields (2026-04-17): sha256Hash is mandatory,
+ * exifTimestamp is best-effort. inspectionId is required so we
+ * can denormalize it onto photos (avoids the rooms→inspections
+ * join on every read) and verify the room actually belongs to
+ * the inspection the caller claims — defense in depth on top of
+ * Supabase RLS.
+ */
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
   const {
@@ -32,16 +42,46 @@ export async function POST(request: NextRequest) {
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await request.json();
-  const { roomId, r2Key, r2Url, mimeType, sizeBytes } = body as {
+  const {
+    roomId,
+    inspectionId,
+    r2Key,
+    r2Url,
+    mimeType,
+    sizeBytes,
+    sha256Hash,
+    exifTimestamp,
+  } = body as {
     roomId: string;
+    inspectionId: string;
     r2Key: string;
     r2Url: string;
     mimeType: string;
     sizeBytes: number;
+    sha256Hash: string;
+    exifTimestamp: string | null;
   };
 
-  if (!roomId || !r2Key || !r2Url) {
+  if (!roomId || !inspectionId || !r2Key || !r2Url || !sha256Hash) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  }
+
+  // Verify the room belongs to the inspection the caller claims, and
+  // both belong to this user. RLS would catch the user part, but we
+  // check explicitly so the response is a clean 403 instead of a silent
+  // insert failure.
+  const { data: roomCheck } = await supabase
+    .from("rooms")
+    .select("id, inspection_id, inspections!inner(user_id)")
+    .eq("id", roomId)
+    .eq("inspection_id", inspectionId)
+    .maybeSingle();
+
+  if (!roomCheck) {
+    return NextResponse.json(
+      { error: "Room does not belong to inspection" },
+      { status: 403 },
+    );
   }
 
   // get current max sort_order for this room
@@ -58,13 +98,17 @@ export async function POST(request: NextRequest) {
     .from("photos")
     .insert({
       room_id: roomId,
+      inspection_id: inspectionId,
       r2_key: r2Key,
       r2_url: r2Url,
       mime_type: mimeType ?? "image/jpeg",
       size_bytes: sizeBytes ?? 0,
       sort_order: nextOrder,
+      sha256_hash: sha256Hash,
+      exif_timestamp: exifTimestamp ?? null,
+      source: "camera",
     })
-    .select("id, r2_url, captured_at, sort_order")
+    .select("id, r2_url, captured_at, sort_order, sha256_hash, exif_timestamp")
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });

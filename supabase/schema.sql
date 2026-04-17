@@ -82,6 +82,9 @@ create table public.inspections (
   report_pdf_url text,
   stripe_payment_id text,
   stripe_amount_cents integer,
+  -- True once the dispute add-on has been paid. Webhook flips this
+  -- on checkout.session.completed for product in ("dispute", "report_and_dispute").
+  dispute_purchased boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   submitted_at timestamptz,
@@ -296,6 +299,10 @@ create table public.payments (
   stripe_checkout_session_id text,
   amount_cents integer not null,
   currency text not null default 'EUR',
+  tax_amount_cents integer not null default 0,
+  tax_rate_bps integer,
+  tax_country text,
+  waiver_consent_id uuid references public.consents(id) on delete set null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -308,6 +315,44 @@ create policy "Users can read own payments"
 
 create index idx_payments_user on public.payments(user_id);
 create index idx_payments_stripe on public.payments(stripe_payment_intent_id);
+create index idx_payments_waiver on public.payments(waiver_consent_id);
+create index idx_payments_tax_country on public.payments(tax_country);
+
+-- ───────────────────────────────────────────────────────────────
+-- CONSENTS — append-only record of explicit user consent actions
+-- (L221-28 1° CConso waiver, DPA, marketing opt-in, etc.)
+-- Defined AFTER payments in migrations/003, redefined here in canonical
+-- order so fresh installs create consents BEFORE payments references it.
+-- If you rebuild the schema from scratch, move this block above payments.
+-- ───────────────────────────────────────────────────────────────
+create table public.consents (
+  id uuid primary key default uuid_generate_v4(),
+  user_id uuid not null references public.profiles(id) on delete cascade,
+  consent_type text not null check (consent_type in (
+    'withdrawal_waiver_l221_28',
+    'dpa_acceptance',
+    'marketing_optin',
+    'cookies_nonessential'
+  )),
+  text_version text not null,
+  locale text not null check (locale in ('fr', 'en')),
+  inspection_id uuid references public.inspections(id) on delete set null,
+  intended_product text,
+  checkbox_checked boolean not null default true,
+  ip_address inet,
+  user_agent text,
+  created_at timestamptz not null default now()
+);
+
+alter table public.consents enable row level security;
+
+create policy "Users can read own consents"
+  on public.consents for select
+  using (auth.uid() = user_id);
+
+create index idx_consents_user on public.consents(user_id);
+create index idx_consents_inspection on public.consents(inspection_id);
+create index idx_consents_type_version on public.consents(consent_type, text_version);
 
 -- ───────────────────────────────────────────────────────────────
 -- Updated_at trigger for all tables with updated_at column

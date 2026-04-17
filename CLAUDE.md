@@ -137,10 +137,35 @@ All orchestration in Next.js API routes. No external automation dependencies.
 
 ---
 
-## Pricing
-Launch: €15/£15 flat + €20/£20 dispute
-Standard (month 4+): €15 + €5/room + €30 dispute
-Gross margin: 88–94% | Breakeven: 4 users | Fixed burn: €47/mo
+## Pricing (locked 2026-04-17, FR-only launch)
+
+Entry scan (pay at upload, TTC, TVA incluse via OSS/Stripe Tax):
+| SKU | Dwelling | Price TTC |
+|---|---|---|
+| entry_t1 | Studio / T1 | €15 |
+| entry_t2 | T2 | €20 |
+| entry_t3 | T3 | €25 |
+| entry_t4 | T4 | €30 |
+| entry_t5_maison | T5+ / maison | €35 |
+
+Other SKUs:
+| SKU | Purpose | Price TTC |
+|---|---|---|
+| exit_only | Cold exit scan (any size, no entry record) | €25 |
+| dispute_letter | AI dispute letter add-on (post-verdict gate) | €20 |
+| preavis_letter | Préavis letter with zone tendue lookup (post-launch) | €5 |
+
+Rules:
+- Colocation: per tenant at their flat's tier. A couple sharing one flat = ONE tenant (single studio = €15 for the couple).
+- No meublé surcharge. Scope is état des lieux only, never inventaire du mobilier.
+- 14-day droit de rétractation (art. L221-18 Code de la consommation) waived via explicit checkbox at checkout (art. L221-28 1°).
+- UK disabled at launch. Re-enable after first FR cohort outcome data.
+- TVA: 20% FR standard rate, collected via Stripe Tax, declared by Global Apex NET, remitted via OSS / guichet unique. No TVA charged to non-FR EU B2C until OSS kicks in post-threshold.
+- App Store / Play Store: Reader App model. Payment happens on web, apps link out. No IAP.
+
+Economics (Studio baseline, post-TVA, post-Stripe):
+Revenue net: €12.50 → Haiku ~€0.30 + Sonnet ~€0.60 (if dispute) + R2/PDF ~€0.10 → gross margin ~79% on scan-only, ~72% on scan+dispute.
+Breakeven: ~4 paying users/month against €47 fixed burn.
 
 ---
 

@@ -1,4 +1,9 @@
-"use server";
+// Server-only module. Uses the `server-only` marker (not "use server")
+// because this file exports non-function symbols — DisputeError class,
+// const budgets, types — which Server Actions ("use server") forbid.
+// The `server-only` import guarantees any accidental client-bundle
+// reference fails the build instead of leaking ANTHROPIC_API_KEY.
+import "server-only";
 
 // Dispute-letter v2 client. Mirrors the risk-scan v2 pattern:
 // - Sonnet -> Sonnet retry (no Haiku / no Opus per spec section 2)
