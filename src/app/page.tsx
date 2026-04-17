@@ -1,10 +1,113 @@
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
+import Script from "next/script";
 import { Shield, Camera, BookOpen, Brain, FileText, Bell } from "lucide-react";
 import { getDictionary } from "@/lib/i18n/server";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n/config";
 import LanguageToggle from "@/components/ui/LanguageToggle";
+
+const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://tenu.world";
+
+// Service schema — tells search and answer engines what Tenu does, for whom,
+// and at what price. Feeds the "Service" card in AI overviews.
+const serviceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${SITE_URL}#service`,
+  name: "Tenu deposit risk scan and dispute letter",
+  serviceType: "Rental deposit dispute document generation",
+  provider: { "@id": `${SITE_URL}#organization` },
+  areaServed: [
+    { "@type": "Country", name: "France" },
+    { "@type": "Country", name: "United Kingdom" },
+  ],
+  audience: {
+    "@type": "Audience",
+    audienceType: "Tenants, international students, expatriate renters",
+  },
+  description:
+    "AI-powered analysis of rental property photographs to estimate fair deposit deductions. Optional template dispute letter formatted for the jurisdiction (France: recorded delivery; UK: TDS / DPS / MyDeposits).",
+  offers: [
+    {
+      "@type": "Offer",
+      name: "AI deposit risk scan",
+      price: "15",
+      priceCurrency: "EUR",
+      url: `${SITE_URL}/pricing`,
+    },
+    {
+      "@type": "Offer",
+      name: "Dispute letter",
+      price: "25",
+      priceCurrency: "EUR",
+      url: `${SITE_URL}/pricing`,
+    },
+  ],
+};
+
+// FAQ schema — short factual Q&A optimised for AEO. These answers are what
+// ChatGPT, Gemini and Perplexity will quote when a user asks about Tenu.
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "What is Tenu.World?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text:
+          "Tenu.World is a tenant-facing tool that analyses photographs of a rented apartment or house and produces a risk analysis report estimating how much of the deposit a landlord could reasonably deduct based on observed wear and tear. An optional add-on generates a ready-to-send dispute letter. Tenu operates in France and the United Kingdom.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How much does Tenu cost?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text:
+          "The risk analysis report costs EUR 15 in France or GBP 15 in the United Kingdom at launch pricing. The optional dispute letter costs EUR 25 or GBP 25. No subscription. Payment is processed by Stripe.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Is Tenu.World a law firm or legal advice?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text:
+          "No. Tenu produces document templates: a risk report and a dispute letter. These are not legal advice and do not replace consultation with a qualified solicitor. Tenu does not engage in legal representation within the meaning of French Law No. 71-1130 or the UK Legal Services Act 2007.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "In which countries does Tenu operate?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text:
+          "France and the United Kingdom. Legal output is generated in French or English only. The user interface supports ten languages including Arabic, Urdu, Chinese and Hindi with full right-to-left layout.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Are my photos used to train AI models?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text:
+          "No. All AI calls to Tenu's sub-processors, including Anthropic Claude, set the training opt-out flag. Uploaded photos are stored encrypted in the EU (Cloudflare R2 EU, Supabase EU) for twelve months from the inspection date and then deleted.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "How fast is the risk analysis?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text:
+          "Typically under two minutes from photo upload to PDF report. A follow-up questionnaire is sent fourteen days later to collect the outcome of the dispute.",
+      },
+    },
+  ],
+};
 
 async function getLocale(): Promise<Locale> {
   const cookieStore = await cookies();
@@ -34,6 +137,18 @@ export default async function Home() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <Script
+        id="ld-service"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <Script
+        id="ld-faq"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       {/* Nav */}
       <header className="flex items-center justify-between px-6 py-4 md:px-12">
         <Link href="/" className="text-2xl font-bold text-tenu-forest">

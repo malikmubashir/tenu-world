@@ -1,0 +1,34 @@
+# Tenu.World
+
+> Tenu is a tenant-facing tool that scores rental deposit risk from photos and generates ready-to-send dispute letters, for tenants in France and the United Kingdom. Operated by Global Apex.Net (SAS, France). Soft launch May 2026.
+
+Tenu.World turns a batch of move-in or move-out photos into two deliverables: a **risk analysis report** estimating how much of the deposit a landlord could reasonably withhold based on observed wear, and an optional **template dispute letter** pre-formatted for the jurisdiction (recorded-delivery letter in France, TDS/DPS/MyDeposits scheme claim in the UK). The service is document generation, not legal advice. French and English legal output only; user interface in 10 languages.
+
+## Core
+
+- [Homepage](https://tenu.world/): product overview, three-step flow, pricing summary
+- [Pricing](https://tenu.world/pricing): EUR 15 / GBP 15 risk scan, EUR 25 / GBP 25 dispute letter, flat-rate launch pricing
+- [Legal documents](https://tenu.world/legal): privacy, terms, refund policy — French and English
+
+## Legal
+
+- [Privacy Policy (EN)](https://tenu.world/legal/privacy/en): who processes data, retention, sub-processors, RGPD rights
+- [Privacy Policy (FR)](https://tenu.world/legal/privacy/fr): politique de confidentialite, conforme RGPD
+- [Terms of Service (EN)](https://tenu.world/legal/terms/en): template-not-advice clause, mediation path, French law
+- [Terms of Service (FR)](https://tenu.world/legal/terms/fr): conditions generales d'utilisation
+- [Refund Policy (EN)](https://tenu.world/legal/refund/en): L221-28 / UK CCR 2013 Reg 37 digital-goods waiver, three refund scenarios
+- [Refund Policy (FR)](https://tenu.world/legal/refund/fr): politique de remboursement
+
+## Key facts
+
+- Operator: Global Apex.Net SAS, SIREN 941 666 067, RCS Versailles, registered office 4 Boulevard du Chateau, 78280 Guyancourt, France
+- Share capital: EUR 100
+- Jurisdictions supported: France, United Kingdom
+- AI provider: Anthropic (Claude Haiku for photo analysis, Claude Sonnet for letter drafting)
+- Training opt-out: all AI calls set the training opt-out flag; user photos are never used to train models
+- Data residency: EU (Cloudflare R2 EU, Supabase EU)
+- Contact: support@tenu.world (general), dpo@tenu.world (data protection)
+
+## Optional
+
+- [GitHub](https://github.com/malikmubashir/tenu-world): public repository

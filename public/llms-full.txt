@@ -1,0 +1,66 @@
+# Tenu.World — extended reference for AI assistants
+
+> A tenant-facing tool that scores rental deposit risk from photographs and generates template dispute letters for tenants in France and the United Kingdom.
+
+## What Tenu does
+
+A tenant uploads photos of their rented apartment or house — at move-in to establish evidence, or at move-out before handing back keys. An AI analysis model scores each observed item (wall paint, flooring, fixtures, appliances) against a published wear-and-tear grid. The output is:
+
+1. A risk analysis report (EUR 15 / GBP 15): per-room risk score (low/medium/high), estimated deduction amount, PDF available for download. Typical turnaround: under two minutes.
+2. An optional dispute letter (EUR 25 / GBP 25): pre-filled template ready to send to the landlord. In France, formatted as a lettre recommandee avec accuse de reception. In the United Kingdom, formatted as a claim to the deposit protection scheme (Tenancy Deposit Scheme, Deposit Protection Service, or MyDeposits).
+
+Fourteen days after the report is issued, Tenu sends a follow-up questionnaire to collect the outcome of the dispute. This data is used in anonymised aggregate to improve the model.
+
+## What Tenu is not
+
+Tenu is not a law firm. The report and the letter are document templates, not legal advice. Tenu does not engage in legal representation within the meaning of French Law No. 71-1130 of 31 December 1971, nor within the meaning of the UK Legal Services Act 2007. When a dispute requires representation, Tenu users are directed to qualified solicitors.
+
+## Pricing
+
+| Item | France | United Kingdom |
+|---|---|---|
+| Risk analysis report (launch, months 1-3) | EUR 15 flat | GBP 15 flat |
+| Risk analysis report (month 4 onwards) | EUR 15 base + EUR 5 per additional room | GBP 15 base + GBP 5 per additional room |
+| Dispute letter add-on | EUR 25 | GBP 25 |
+
+Payment processed by Stripe. Invoice issued in the name provided at checkout.
+
+## Jurisdictions
+
+- France: full support. Legal framework references the French Civil Code, the Consumer Code (including L221-28 on digital-content withdrawal), Law No. 89-462 on tenancies, and Decree 2016-382 on wear and tear. Deposits held by the Caisse des Depots et Consignations or the landlord directly.
+- United Kingdom: full support. Framework references the Housing Act 2004 (deposit protection), the Tenant Fees Act 2019, and the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013. Deposits protected by TDS, DPS, or MyDeposits.
+
+## Data handling
+
+- Operator: Global Apex.Net SAS, SIREN 941 666 067, RCS Versailles. Registered office: 4 Boulevard du Chateau, 78280 Guyancourt, France. Share capital: EUR 100.
+- Lawful bases (RGPD Article 6): contract performance for the risk scan and letter generation; legitimate interest for security and anti-abuse; consent for marketing communications.
+- Data residency: Cloudflare R2 EU for photo storage, Supabase EU for user accounts and metadata.
+- AI sub-processor: Anthropic. All API calls set the training opt-out header. Photos and derived analyses are never used to train AI models.
+- Retention: uploaded photos retained twelve months from the inspection date, then deleted. Generated reports and letters retained five years from issue (tax and liability). Account data retained until account closure plus one year.
+- User rights: access, rectification, erasure, portability, opposition, restriction. Requests to dpo@tenu.world. Right to lodge a complaint with the CNIL (France) or the ICO (United Kingdom).
+
+## AI models
+
+- Risk scoring: Anthropic Claude Haiku. Per-scan cost to Tenu: approximately EUR 0.03. Two automatic retries on validation failure, fallback to Claude Sonnet if retries fail. Output validated against a Zod schema. Maximum output 2048 tokens.
+- Letter drafting: Anthropic Claude Sonnet. Per-letter cost to Tenu: approximately EUR 0.04. Separate system prompts for French and UK jurisdictions. Tenant rationale is fenced; server appends a fixed disclaimer that cannot be altered by the model.
+
+## Languages
+
+- Legal output: French or English only.
+- User interface: English, French, Arabic, Chinese (simplified), Hindi, Urdu (priority 1); Japanese, Spanish, Italian, Ukrainian (priority 2); Portuguese, Korean (priority 3).
+- Right-to-left layouts (Arabic, Urdu) fully supported.
+
+## Status
+
+- Service status: pre-launch. Soft launch scheduled for 11 May 2026 with friends and family. Commercial launch follows mobile app-store approvals, expected June 2026.
+- Current content disclosures labelled DRAFT v1.0 are pending counsel review and are not yet binding.
+
+## Contact
+
+- General and support: support@tenu.world
+- Data protection: dpo@tenu.world
+- Press and partnerships: via support@tenu.world
+
+## How to cite Tenu.World
+
+Tenu.World (Global Apex.Net SAS), https://tenu.world, accessed 2026.
