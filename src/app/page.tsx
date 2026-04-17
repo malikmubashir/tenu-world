@@ -116,7 +116,16 @@ export default async function Home() {
 
       {/* Footer */}
       <footer className="border-t border-tenu-cream-dark px-6 py-8 text-center text-sm text-tenu-slate/60">
-        &copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world
+        <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
+        <nav className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-2">
+          <Link href="/legal" className="hover:text-tenu-forest">Legal</Link>
+          <Link href="/legal/privacy/fr" className="hover:text-tenu-forest">Confidentialité</Link>
+          <Link href="/legal/privacy/en" className="hover:text-tenu-forest">Privacy</Link>
+          <Link href="/legal/terms/fr" className="hover:text-tenu-forest">CGU</Link>
+          <Link href="/legal/terms/en" className="hover:text-tenu-forest">Terms</Link>
+          <Link href="/legal/refund/fr" className="hover:text-tenu-forest">Remboursement</Link>
+          <Link href="/legal/refund/en" className="hover:text-tenu-forest">Refund</Link>
+        </nav>
       </footer>
     </div>
   );
