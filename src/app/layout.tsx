@@ -3,6 +3,7 @@ import { cookies, headers } from "next/headers";
 import Script from "next/script";
 import { getDirection } from "@/lib/i18n/config";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
+import CookieBanner from "@/components/legal/CookieBanner";
 import "./globals.css";
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://tenu.world";
@@ -183,6 +184,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-screen bg-tenu-cream text-tenu-slate antialiased">
         {children}
+        <CookieBanner locale={locale === "fr" ? "fr" : "en"} />
       </body>
     </html>
   );

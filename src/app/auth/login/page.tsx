@@ -3,22 +3,67 @@
 import { useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import {
+  DPA_COPY,
+  DPA_TEXT_VERSION,
+  MARKETING_COPY,
+  MARKETING_TEXT_VERSION,
+  SIGNUP_CONSENT_COOKIE,
+  SIGNUP_CONSENT_MAX_AGE_SECONDS,
+  encodeSignupConsent,
+  type Locale,
+} from "@/lib/legal/consents";
 
 /**
  * Login page — Google OAuth (primary) + magic link (fallback).
- * Google gets us name, email, avatar in one click.
- * Magic link for users without Google accounts.
+ *
+ * Before either auth method fires, the user MUST tick the DPA
+ * checkbox. The marketing checkbox is optional and defaults to
+ * unchecked (GDPR Art. 7.2 — no pre-ticked boxes, no bundling).
+ *
+ * The intent is serialised into a short-lived cookie so that after
+ * the OAuth / magic-link round-trip, /auth/callback can convert it
+ * into consents table rows the moment the user_id becomes known.
  */
 export default function LoginPage() {
+  const locale: Locale = "fr"; // FR-only launch
+  const dpaCopy = DPA_COPY[locale];
+  const marketingCopy = MARKETING_COPY[locale];
+
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  const [dpaAccepted, setDpaAccepted] = useState(false);
+  const [marketingOptin, setMarketingOptin] = useState(false);
+
+  // DPA is the only hard gate. Marketing is optional.
+  const canProceed = dpaAccepted;
+
+  /**
+   * Persist consent intent to a short-lived cookie so the callback
+   * route can record consents rows once the user_id exists.
+   */
+  function stampConsentCookie() {
+    const payload = encodeSignupConsent({
+      dpa: dpaAccepted,
+      marketing: marketingOptin,
+      locale,
+      dpaTextVersion: DPA_TEXT_VERSION,
+      marketingTextVersion: MARKETING_TEXT_VERSION,
+      tickedAt: Date.now(),
+    });
+    const secure = window.location.protocol === "https:" ? "; Secure" : "";
+    document.cookie = `${SIGNUP_CONSENT_COOKIE}=${payload}; Path=/; Max-Age=${SIGNUP_CONSENT_MAX_AGE_SECONDS}; SameSite=Lax${secure}`;
+  }
+
   async function handleGoogleSignIn() {
+    if (!canProceed) return;
     setError("");
     setGoogleLoading(true);
+    stampConsentCookie();
 
     const supabase = createClient();
     const { error: authError } = await supabase.auth.signInWithOAuth({
@@ -41,8 +86,10 @@ export default function LoginPage() {
 
   async function handleMagicLink(e: React.FormEvent) {
     e.preventDefault();
+    if (!canProceed) return;
     setError("");
     setLoading(true);
+    stampConsentCookie();
 
     const supabase = createClient();
     const { error: authError } = await supabase.auth.signInWithOtp({
@@ -82,7 +129,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-4">
+    <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-4 py-10">
       <div className="w-full max-w-sm rounded-xl bg-white p-8 shadow-sm">
         <Link href="/" className="mb-6 block text-2xl font-bold text-tenu-forest">
           tenu
@@ -92,11 +139,75 @@ export default function LoginPage() {
           Continuez avec Google ou utilisez votre e-mail.
         </p>
 
+        {/* DPA acceptance — required. Blocks both buttons until ticked. */}
+        <div className="mb-4 rounded-lg border border-tenu-cream-dark bg-tenu-cream/40 p-3 text-sm text-tenu-slate">
+          <label className="flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              className="mt-0.5 h-4 w-4 accent-tenu-forest"
+              checked={dpaAccepted}
+              onChange={(e) => setDpaAccepted(e.target.checked)}
+              required
+              data-dpa-version={DPA_TEXT_VERSION}
+            />
+            <span className="leading-snug">
+              {dpaCopy.label.split(/(Conditions d'utilisation|Politique de confidentialité|Terms of Use|Privacy Policy)/).map((part, i) => {
+                if (part === "Conditions d'utilisation" || part === "Terms of Use") {
+                  return (
+                    <Link
+                      key={i}
+                      href={locale === "fr" ? "/legal/terms/fr" : "/legal/terms/en"}
+                      target="_blank"
+                      rel="noopener"
+                      className="text-tenu-forest underline hover:no-underline"
+                    >
+                      {part}
+                    </Link>
+                  );
+                }
+                if (part === "Politique de confidentialité" || part === "Privacy Policy") {
+                  return (
+                    <Link
+                      key={i}
+                      href={locale === "fr" ? "/legal/privacy/fr" : "/legal/privacy/en"}
+                      target="_blank"
+                      rel="noopener"
+                      className="text-tenu-forest underline hover:no-underline"
+                    >
+                      {part}
+                    </Link>
+                  );
+                }
+                return <span key={i}>{part}</span>;
+              })}
+              <span className="mt-0.5 block text-xs text-tenu-slate/60">
+                {dpaCopy.required}
+              </span>
+            </span>
+          </label>
+
+          <label className="mt-3 flex cursor-pointer items-start gap-3 border-t border-tenu-cream-dark pt-3">
+            <input
+              type="checkbox"
+              className="mt-0.5 h-4 w-4 accent-tenu-forest"
+              checked={marketingOptin}
+              onChange={(e) => setMarketingOptin(e.target.checked)}
+              data-marketing-version={MARKETING_TEXT_VERSION}
+            />
+            <span className="leading-snug">
+              {marketingCopy.label}
+              <span className="mt-0.5 block text-xs text-tenu-slate/60">
+                {marketingCopy.hint}
+              </span>
+            </span>
+          </label>
+        </div>
+
         {/* Google OAuth — primary login method */}
         <button
           onClick={handleGoogleSignIn}
-          disabled={googleLoading}
-          className="mb-4 flex w-full items-center justify-center gap-3 rounded-lg border border-tenu-cream-dark bg-white px-4 py-2.5 text-sm font-medium text-tenu-slate hover:bg-tenu-cream/50 disabled:opacity-50"
+          disabled={googleLoading || !canProceed}
+          className="mb-4 flex w-full items-center justify-center gap-3 rounded-lg border border-tenu-cream-dark bg-white px-4 py-2.5 text-sm font-medium text-tenu-slate hover:bg-tenu-cream/50 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24">
             <path
@@ -149,11 +260,17 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
+            disabled={loading || !canProceed}
+            className="w-full rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Envoi..." : "Envoyer le lien magique"}
           </button>
+
+          {!canProceed && (
+            <p className="text-xs text-tenu-slate/60">
+              Cochez la case d&apos;acceptation des CGU et de la Politique de confidentialité pour continuer.
+            </p>
+          )}
         </form>
       </div>
     </div>
