@@ -229,7 +229,7 @@ Verification script: `tests/security/rls-matrix.ts` hits each table as anon, as 
 
 ### Launch day must be `[x]` on every P0 item. Three-person walkthrough:
 - [ ] Dr Mubashir
-- [ ] One outside reviewer (candidate: HEC classmate in InfoSec, or MHF board member with IT background)
+- [ ] One independent outside reviewer with InfoSec or IT background, sourced outside Dr Mubashir's board commitments to avoid conflicts of interest
 - [ ] One automated scan: OWASP ZAP baseline scan against staging, clean report archived
 
 ### Post-launch rhythm:

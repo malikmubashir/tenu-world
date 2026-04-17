@@ -77,7 +77,7 @@ export default function RefundFR() {
         Si vous êtes consommateur, vous pouvez recourir à la médiation de la consommation conformément aux articles L611-1 et suivants du Code de la consommation. Le médiateur auquel adhère Tenu.World sera communiqué ici avant l&apos;ouverture commerciale.
       </P>
       <Callout>
-        <Placeholder>[MEDIATEUR PENDING]</Placeholder> adhésion non encore signée. Dr Mubashir sollicite des recommandations via HEC GEMM et le conseil MHF avant de choisir entre MEDICYS, SMCE ou AME Conso.
+        <Placeholder>[MEDIATEUR PENDING]</Placeholder> adhésion non encore signée. Les recommandations sont collectées auprès de notre réseau professionnel avant de choisir entre MEDICYS, SMCE ou AME Conso.
       </Callout>
       <P>
         Vous pouvez également utiliser la plateforme européenne de règlement en ligne des litiges de consommation à l&apos;adresse <code>https://ec.europa.eu/consumers/odr</code>.

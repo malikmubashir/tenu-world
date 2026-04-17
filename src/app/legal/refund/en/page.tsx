@@ -84,7 +84,7 @@ export default function RefundEN() {
         For French consumers, consumer mediation is available under Articles L611-1 and following of the Consumer Code. The appointed mediator will be disclosed here before commercial launch.
       </P>
       <Callout>
-        <Placeholder>[MEDIATOR PENDING]</Placeholder> membership not yet signed. Dr Mubashir is sourcing recommendations via the HEC GEMM alumni network and the MHF board before choosing between MEDICYS, SMCE or AME Conso.
+        <Placeholder>[MEDIATOR PENDING]</Placeholder> membership not yet signed. Recommendations are being gathered from our professional network before choosing between MEDICYS, SMCE or AME Conso.
       </Callout>
 
       <H2>Version log</H2>

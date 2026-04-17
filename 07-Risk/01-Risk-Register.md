@@ -111,7 +111,7 @@ EU AI Act, CNB (France), SRA (UK) could restrict AI-generated legal guidance.
 ### H5 — Founder single point of failure
 **Probability:** Medium | **Impact:** High | **Timeline:** Ongoing
 
-Concurrent commitments: Global Apex O365 mission, MHF treasurer, HEC GEMM.
+Concurrent commitments: Global Apex O365 mission, other external obligations.
 
 **Mitigations:** No-code architecture runs autonomously. Trusted backup for Make.com monitoring. Minimum 2 hours/week hard rule. Product stable before July–September peak window.
 

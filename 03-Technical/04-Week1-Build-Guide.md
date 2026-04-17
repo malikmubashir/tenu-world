@@ -136,7 +136,7 @@ Post in Chinese student community before building anything else.
 
 ### Task 9 — Find FR avocat
 - Search: Barreau de Paris → Find a Lawyer → Droit immobilier / Droit locatif
-- Or: ask in network (HEC GEMM colleagues, Global Apex clients)
+- Or: ask in Global Apex client network
 - Send enquiry email: "Je cherche un avocat spécialisé en droit locatif pour un avis juridique sur un outil numérique d'aide aux locataires. Budget €500–1,000 pour une revue de 2 heures."
 - Book appointment for Week 2
 

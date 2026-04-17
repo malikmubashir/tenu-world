@@ -9,7 +9,7 @@
 - Called: Dr Mubashir
 - Initials: MMH
 - Company: Global Apex NET (French SAS, SIRET registered, based in France)
-- Other commitments: HEC GEMM programme, MHF treasurer, Global Apex consulting (O365 migration mission active)
+- Other commitments: active Global Apex consulting engagements. External board and academic obligations are strictly ring-fenced from Tenu/Global Apex work (conflict-of-interest separation) and must never appear in Tenu commercial materials.
 - Location: France (Île-de-France)
 
 ---

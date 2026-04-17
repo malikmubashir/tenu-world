@@ -104,7 +104,7 @@ export default function LegalIndex() {
           <ul className="mt-3 list-disc space-y-1 pl-5">
             <li>
               <code className="rounded bg-white px-1 py-0.5">[MEDIATEUR]</code> /{" "}
-              <code className="rounded bg-white px-1 py-0.5">[À VÉRIFIER PAR AVOCAT]</code> &mdash; consumer mediator (pending HEC/MHF recommendations).
+              <code className="rounded bg-white px-1 py-0.5">[À VÉRIFIER PAR AVOCAT]</code> &mdash; consumer mediator (pending shortlist evaluation).
             </li>
           </ul>
           <p className="mt-3 text-xs text-tenu-slate/70">

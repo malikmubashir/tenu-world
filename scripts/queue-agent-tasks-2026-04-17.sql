@@ -39,7 +39,7 @@ INSERT INTO issues (company_id, title, description, status, priority, assignee_a
 VALUES (:COMPANY_ID, 'CEO-02 Cold outreach DM template FR (400 chars max)',
 'Produce one markdown file at /Users/mmh/Documents/Claude/Projects/Tenu.World/docs/legal-drafts/outreach-fr.md.
 
-Content: a French cold DM template for recruiting 10 beta testers on r/france, Facebook student groups (Etudiants Etrangers Paris, Erasmus Paris), HEC alumni WhatsApp.
+Content: a French cold DM template for recruiting 10 beta testers on r/france, Facebook student groups (Etudiants Etrangers Paris, Erasmus Paris), and Global Apex professional contacts.
 
 Rules:
 - French only, 400 characters maximum

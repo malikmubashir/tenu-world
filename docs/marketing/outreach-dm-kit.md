@@ -30,7 +30,7 @@ Response rate target: 12% reply, 4% convert to trial. Below 8% reply, rework the
 | S3. University international offices | Email to head of service | EN or FR | Subject: "Free tool for your international tenants" |
 | S4. Student WhatsApp/Discord communities | Via a trusted introduction only | FR or EN | Announcement pinned by admin |
 | S5. Immigrant associations (Pakistani, Indian, Chinese communities in Paris) | Personal network + WhatsApp | UR, HI, ZH, EN | Warm introduction |
-| S6. HEC / GEMM cohorts | LinkedIn DM | FR or EN | First-degree connection |
+| S6. Global Apex professional contacts | LinkedIn DM | FR or EN | First-degree connection |
 
 Segments 1-2 are cold. 3-4 are semi-warm via institutional intro. 5-6 are warm.
 
@@ -109,8 +109,7 @@ Subject: Free deposit-dispute tool for international students
 
 Dear [name of service head],
 
-I'm Dr Mubashir Hassan, PhD in Computer Science, 20 years in France,
-alumnus of HEC Paris GEMM 2024.
+I'm Dr Mubashir Hassan, PhD in Computer Science, 20 years in France.
 
 I'm launching tenu.world, a tool that helps international tenants
 navigate deposit disputes in France and the UK. Users upload photos
@@ -132,7 +131,7 @@ Global Apex.Net SAS (RCS Versailles 941 666 067)
 tenu.world
 ```
 
-### Template E — LinkedIn DM to HEC / GEMM network (segment S6)
+### Template E — LinkedIn DM to Global Apex professional network (segment S6)
 
 ```
 Bonjour [prenom],
@@ -320,7 +319,7 @@ Weaknesses that Dr Mubashir should decide about:
 1. **Templates A, B, C are EN only.** No FR variant yet. For a French market that is a gap. Fix before sending: produce French mirror of at least Template A by 2026-04-22.
 2. **No video intro.** A 45-second Loom from Dr Mubashir would raise reply rates on Template D materially — adds ~2 hours to produce but plausibly doubles conversion.
 3. **No testimonials.** We are pre-launch, there are none. Acceptable at this stage; revisit after 10 paying users.
-4. **University email is optimistic.** International offices receive many pitches. Reply rate under 5% is the realistic baseline. Strategy: go through 1-2 warm intros (HEC GEMM alumni who work in university admin) before generic send.
+4. **University email is optimistic.** International offices receive many pitches. Reply rate under 5% is the realistic baseline. Strategy: go through 1-2 warm intros from Dr Mubashir's professional Global Apex network before generic send.
 5. **No Urdu or Arabic template yet.** Warm community outreach (segment S5) would benefit. Defer until Dr Mubashir has first-contact confirmed with a community lead, then write the message with that person.
 
 ---

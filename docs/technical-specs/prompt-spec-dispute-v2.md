@@ -306,11 +306,11 @@ Eval harness: `tests/eval/dispute-letter/*.json`, 30 golden cases (15 FR, 15 UK,
 
 `[TO VERIFY]`
 
-1. UK expert reader not recruited. Without an English law trained reviewer the UK eval cases score on a weaker rubric. Candidate: reach out via HEC alumni network or HEC-Paris LLM program.
+1. UK expert reader not recruited. Without an English law trained reviewer the UK eval cases score on a weaker rubric. Candidate: reach out through Global Apex professional network or a paid engagement with a UK housing-law solicitor.
 2. `tenant_rationale` 500-char cap not yet tested for adversarial content. Plan: build 20 red-team cases (prompt injection, defamation attempts, invented statute citations) and run against v2 before first paid letter.
 3. Currency conversion for GBP inputs is hardcoded at 1.17 EUR/GBP. Should pull from the same daily ECB refresh as the scan spec's USD/EUR rate.
 4. Signature rendering: the model outputs only the typed name. No digital signature image. Open question whether TDS/DPS accepts unsigned letters from the claimant directly or requires wet signature — check scheme rules before UK launch.
-5. Mediation clause: for FR, the médiateur de la consommation must be named in the letter's footer if commercial launch has happened. Placeholder `[MEDIATEUR]` to resolve after mediator contract signed. PENDING 2026-04-17 — Dr Mubashir sourcing HEC/MHF recommendations, no default chosen.
+5. Mediation clause: for FR, the médiateur de la consommation must be named in the letter's footer if commercial launch has happened. Placeholder `[MEDIATEUR]` to resolve after mediator contract signed. PENDING 2026-04-17 — shortlist evaluation in progress (MEDICYS, SMCE, AME Conso), no default chosen.
 
 ## 14. Change log
 

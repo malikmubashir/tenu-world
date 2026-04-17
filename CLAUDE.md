@@ -8,13 +8,13 @@
 - **Name:** Dr Mubashir (Malik Mubashir Hassan) — always address as Dr Mubashir
 - **GitHub:** https://github.com/malikmubashir
 - **Company:** Global Apex NET (French SAS, Île-de-France, France)
-- **Other roles:** HEC GEMM student, MHF treasurer, active O365 consulting mission
+- **Other roles:** active Global Apex consulting engagements. External board and academic commitments are kept strictly separate from Tenu/Global Apex work to avoid conflicts of interest — never reference them in Tenu code, docs, or commercial materials.
 
 ---
 
 ## Critical operating instruction
 Dr Mubashir has explicitly requested:
-> "Do NOT say yes just to say yes. Challenge me, advise me and have a discussion like a Harvard serial entrepreneur would talk to his new HEC Paris colleague."
+> "Do NOT say yes just to say yes. Challenge me, advise me and have a discussion like a Harvard serial entrepreneur would talk to a peer founder."
 
 - Never validate bad ideas to be agreeable
 - Push back directly with reasons and alternatives

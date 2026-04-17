@@ -221,7 +221,7 @@ Each assignment has: owner, inputs, acceptance criteria, estimated effort. Hand 
 
 ### T-113 Pre launch beta
 - Owner: Dr Mubashir + CEO agent
-- Do: CEO drafts cold DM in FR for r/france, WhatsApp student groups, HEC alumni channels. Target 10 friendly beta users by May 25. Offer: free report in exchange for feedback form.
+- Do: CEO drafts cold DM in FR for r/france, WhatsApp student groups, and Dr Mubashir's Global Apex professional network. Target 10 friendly beta users by May 25. Offer: free report in exchange for feedback form.
 - Acceptance: 10 real inspections completed on staging by May 29. 5 out of 10 complete the outcome survey.
 - Effort: 1 week calendar, 2 hours per day effort.
 
@@ -267,7 +267,7 @@ Deliverables due within 48 hours:
 2. FR + EN draft of CGU (SAS governed, Paris jurisdiction, paid one shot €15/£15 service, dispute letter add on is a template not legal advice).
 3. FR + EN draft of Refund policy (14 day right of withdrawal waived per article L221-28 once AI report is delivered and accessed, explicit consent required).
 4. Legal disclaimer text for PDF footer (two languages, 25 words each).
-5. Cold outreach DM template for r/france, Facebook FR student groups, HEC alumni. FR only, 400 chars, no sales tone.
+5. Cold outreach DM template for r/france, Facebook FR student groups, and Global Apex professional contacts. FR only, 400 chars, no sales tone.
 
 Output format: Markdown, one file per deliverable, saved to /Users/mmh/Documents/Claude/Projects/Tenu.World/docs/legal-drafts/.
 Do not write code. Do not touch files outside /docs/legal-drafts/.

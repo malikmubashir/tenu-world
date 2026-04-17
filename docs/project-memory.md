@@ -1,11 +1,11 @@
 **Purpose & context**
 
-Dr. Mubashir (Malik Mubashir Hassan) is the founder of Global Apex NET (French SAS), based in Île-de-France. He is an HEC GEMM student and MHF treasurer, with an active O365 migration consulting mission running in parallel. He prefers to be addressed as Dr. Mubashir.
+Dr. Mubashir (Malik Mubashir Hassan) is the founder of Global Apex NET (French SAS), based in Île-de-France, with an active O365 migration consulting mission running in parallel. He prefers to be addressed as Dr. Mubashir. External board and academic commitments are kept strictly separate from Tenu/Global Apex work to avoid conflicts of interest.
 
 **Tenu (tenu.world)** is Dr. Mubashir's primary build focus: an AI-powered multilingual tenant rights companion targeting international students and expats renting in France and the UK. Core features are deposit inspection (real-time, mobile-first) and dispute letter generation, supporting 10 languages (AR, ZH, HI, UR as P1; JA, ES, IT, UK as P2; PT, KO as P3), with all legal output in French or English. Primary target users are Chinese, Arabic, Urdu, and Hindi speakers in the FR and UK rental markets. Pre-seed launch target: April 2026.
 
 **Key context and constraints:**
-- Solo founder managing concurrent commitments (consulting + HEC + MHF); committed to ~35–40 hours/week on Tenu
+- Solo founder managing parallel consulting engagements; committed to ~35–40 hours/week on Tenu
 - Full context file at `/Users/mmh/Documents/Claude/Projects/Tenu.World/CLAUDE.md`
 - Dr. Mubashir explicitly wants critical, Harvard-serial-entrepreneur-style pushback — not validation or uncritical agreement
 

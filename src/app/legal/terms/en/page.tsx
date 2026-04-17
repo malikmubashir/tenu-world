@@ -126,7 +126,7 @@ export default function TermsEN() {
         <strong>Consumer mediation (France).</strong> Under Articles L611-1 and following of the French Consumer Code, French consumers may use a consumer mediator free of charge. The mediator appointed by Tenu will be published here before commercial launch.
       </P>
       <Callout>
-        <Placeholder>[MEDIATOR PENDING]</Placeholder> mediator selection on hold. Dr Mubashir is sourcing recommendations from the HEC GEMM alumni network and the MHF board before signing with MEDICYS, SMCE or AME Conso.
+        <Placeholder>[MEDIATOR PENDING]</Placeholder> mediator selection on hold. Recommendations are being gathered from our professional network before signing with MEDICYS, SMCE or AME Conso.
       </Callout>
       <P>
         <strong>European platform.</strong> EU consumers may also use the European Online Dispute Resolution platform: <code>https://ec.europa.eu/consumers/odr</code>.
