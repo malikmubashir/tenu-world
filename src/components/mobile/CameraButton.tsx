@@ -7,7 +7,7 @@
  */
 import { useState } from "react";
 import { Camera } from "lucide-react";
-import { takePhoto, ensureCameraPermission } from "@/lib/mobile/camera";
+import { takePhoto, ensureCameraPermission, CameraPermissionError } from "@/lib/mobile/camera";
 import { hashPhoto } from "@/lib/photo/hash";
 import { savePhotoLocally } from "@/lib/mobile/storage/photos";
 import { hapticMedium, hapticError } from "@/lib/mobile/haptics";
@@ -38,6 +38,10 @@ export default function CameraButton({
         return;
       }
       const photo = await takePhoto();
+      if (!photo) {
+        // User cancelled — no-op, no haptic.
+        return;
+      }
       const bytes = await photo.blob.arrayBuffer();
       const sha256 = await hashPhoto(bytes);
       // EXIF parsing is server-side today (exifr is Node-first). We
@@ -46,10 +50,10 @@ export default function CameraButton({
       void hapticMedium();
       onCaptured?.();
     } catch (err) {
-      // Cancellation throws — treat as silent.
-      const msg = err instanceof Error ? err.message : "";
-      if (!/cancel/i.test(msg)) {
-        void hapticError();
+      void hapticError();
+      if (err instanceof CameraPermissionError) {
+        alert("Autorisation caméra refusée. Activez-la dans Réglages.");
+      } else {
         console.error("[camera] capture failed:", err);
       }
     } finally {

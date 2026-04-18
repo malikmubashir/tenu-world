@@ -2,6 +2,10 @@
  * Unified camera API — native Capacitor on device, <input type="file">
  * on the web. Returns a Blob regardless of source so downstream code
  * (hash, EXIF, upload) doesn't branch.
+ *
+ * Cancellation is not an error: takePhoto() and pickFromLibrary()
+ * resolve to null when the user cancels. Permission denial throws
+ * CameraPermissionError so the UI can route to Settings.
  */
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { isNative } from "./platform";
@@ -16,13 +20,28 @@ export interface CapturedPhoto {
   suggestedName: string;
 }
 
+export class CameraPermissionError extends Error {
+  constructor(message = "Camera permission denied") {
+    super(message);
+    this.name = "CameraPermissionError";
+  }
+}
+
+// Capacitor throws strings like "User cancelled photos app" when the user
+// dismisses the camera sheet. Classify those as cancellations.
+function isCancellation(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err ?? "");
+  return /cancel/i.test(msg);
+}
+
 /**
  * Take a photo. Opens the native camera on iOS/Android, falls back to a
- * hidden file-picker on web. Rejects on cancellation.
+ * hidden file-picker on web. Returns null if the user cancels. Throws
+ * CameraPermissionError on denial.
  */
-export async function takePhoto(): Promise<CapturedPhoto> {
+export async function takePhoto(): Promise<CapturedPhoto | null> {
   if (isNative()) {
-    return takeNativePhoto();
+    return takeNativePhoto(CameraSource.Camera);
   }
   return takeWebPhoto();
 }
@@ -31,48 +50,61 @@ export async function takePhoto(): Promise<CapturedPhoto> {
  * Pick from the library instead of capturing fresh. Useful for dry-run
  * testing with canned fixtures.
  */
-export async function pickFromLibrary(): Promise<CapturedPhoto> {
+export async function pickFromLibrary(): Promise<CapturedPhoto | null> {
   if (isNative()) {
-    const photo = await Camera.getPhoto({
-      quality: 85,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Photos,
-      correctOrientation: true,
-    });
-    const blob = base64ToBlob(photo.base64String ?? "", `image/${photo.format}`);
-    const previewUrl = URL.createObjectURL(blob);
-    return {
-      blob,
-      previewUrl,
-      mimeType: `image/${photo.format}`,
-      suggestedName: `photo-${Date.now()}.${photo.format}`,
-    };
+    return takeNativePhoto(CameraSource.Photos);
   }
   return takeWebPhoto(/* allowLibrary */ true);
 }
 
-async function takeNativePhoto(): Promise<CapturedPhoto> {
-  const photo = await Camera.getPhoto({
-    quality: 85,
-    allowEditing: false,
-    resultType: CameraResultType.Base64,
-    source: CameraSource.Camera,
-    correctOrientation: true,
-    saveToGallery: false,
-  });
-  const mimeType = `image/${photo.format}`;
-  const blob = base64ToBlob(photo.base64String ?? "", mimeType);
-  const previewUrl = URL.createObjectURL(blob);
+async function takeNativePhoto(
+  source: CameraSource,
+): Promise<CapturedPhoto | null> {
+  let photo;
+  try {
+    photo = await Camera.getPhoto({
+      source,
+      resultType: CameraResultType.Uri,
+      // 75 quality is the brief-spec ceiling that keeps Haiku input
+      // well under 512 KB per image after JPEG encode. 1600px max
+      // edge preserves text legibility for compteurs/serrures and
+      // stays under Capacitor's 5 MB in-memory photo limit on low-end
+      // Android devices.
+      quality: 75,
+      width: 1600,
+      correctOrientation: true,
+      saveToGallery: false,
+      allowEditing: false,
+    });
+  } catch (err) {
+    if (isCancellation(err)) return null;
+    // Capacitor wraps OS permission denials in errors whose messages
+    // include "denied" or "User denied access". Treat explicitly.
+    const msg = err instanceof Error ? err.message : String(err ?? "");
+    if (/denied|permission/i.test(msg)) {
+      throw new CameraPermissionError(msg);
+    }
+    throw err;
+  }
+
+  const uri = photo.webPath ?? photo.path;
+  if (!uri) {
+    throw new Error("Camera returned no URI");
+  }
+  // webPath is a blob:/file: URL the WebView can fetch directly.
+  const response = await fetch(uri);
+  const blob = await response.blob();
+  const mimeType = blob.type || `image/${photo.format ?? "jpeg"}`;
+  const format = photo.format ?? (mimeType.split("/")[1] || "jpeg");
   return {
     blob,
-    previewUrl,
+    previewUrl: URL.createObjectURL(blob),
     mimeType,
-    suggestedName: `photo-${Date.now()}.${photo.format}`,
+    suggestedName: `photo-${Date.now()}.${format}`,
   };
 }
 
-function takeWebPhoto(allowLibrary = false): Promise<CapturedPhoto> {
+function takeWebPhoto(allowLibrary = false): Promise<CapturedPhoto | null> {
   return new Promise((resolve, reject) => {
     const input = document.createElement("input");
     input.type = "file";
@@ -85,7 +117,7 @@ function takeWebPhoto(allowLibrary = false): Promise<CapturedPhoto> {
     input.onchange = () => {
       const file = input.files?.[0];
       if (!file) {
-        reject(new Error("No file selected"));
+        resolve(null);
         return;
       }
       resolve({
@@ -95,16 +127,13 @@ function takeWebPhoto(allowLibrary = false): Promise<CapturedPhoto> {
         suggestedName: file.name || `photo-${Date.now()}.jpg`,
       });
     };
-    input.oncancel = () => reject(new Error("Cancelled"));
+    // Chrome fires `cancel` on the input when the file dialog is
+    // dismissed (M113+). Older browsers simply don't fire change —
+    // caller sees a stuck Promise, but that's acceptable UX.
+    input.oncancel = () => resolve(null);
+    input.onerror = () => reject(new Error("File picker error"));
     input.click();
   });
-}
-
-function base64ToBlob(base64: string, mimeType: string): Blob {
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-  return new Blob([bytes], { type: mimeType });
 }
 
 /**
