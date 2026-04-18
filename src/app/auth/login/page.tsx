@@ -111,15 +111,15 @@ export default function LoginPage() {
 
   if (sent) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-4">
-        <div className="w-full max-w-sm rounded-xl bg-white p-8 shadow-sm">
-          <h1 className="mb-2 text-xl font-bold text-tenu-forest">Vérifiez votre boîte mail</h1>
+      <div className="hig-fade-in flex min-h-[calc(100vh-56px)] items-center justify-center px-4">
+        <div className="hig-card w-full max-w-sm p-8">
+          <h1 className="mb-2 text-xl font-semibold text-tenu-forest">Vérifiez votre boîte mail</h1>
           <p className="text-sm text-tenu-slate/70">
             Nous avons envoyé un lien de connexion à <strong>{email}</strong>. Cliquez sur le lien pour continuer.
           </p>
           <button
             onClick={() => setSent(false)}
-            className="mt-6 text-sm text-tenu-forest underline"
+            className="hig-press mt-6 rounded-lg text-sm text-tenu-forest underline"
           >
             Utiliser une autre adresse
           </button>
@@ -129,12 +129,9 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-4 py-10">
-      <div className="w-full max-w-sm rounded-xl bg-white p-8 shadow-sm">
-        <Link href="/" className="mb-6 block text-2xl font-bold text-tenu-forest">
-          tenu
-        </Link>
-        <h1 className="mb-1 text-xl font-bold text-tenu-forest">Connexion</h1>
+    <div className="hig-fade-in flex min-h-[calc(100vh-56px)] items-center justify-center px-4 py-10">
+      <div className="hig-card w-full max-w-sm p-8">
+        <h1 className="mb-1 text-xl font-semibold text-tenu-forest">Connexion</h1>
         <p className="mb-6 text-sm text-tenu-slate/70">
           Continuez avec Google ou utilisez votre e-mail.
         </p>
@@ -207,7 +204,7 @@ export default function LoginPage() {
         <button
           onClick={handleGoogleSignIn}
           disabled={googleLoading || !canProceed}
-          className="mb-4 flex w-full items-center justify-center gap-3 rounded-lg border border-tenu-cream-dark bg-white px-4 py-2.5 text-sm font-medium text-tenu-slate hover:bg-tenu-cream/50 disabled:cursor-not-allowed disabled:opacity-50"
+          className="hig-press mb-4 flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-tenu-cream-dark bg-white px-4 text-sm font-semibold text-tenu-slate hover:bg-tenu-cream/60 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24">
             <path
@@ -261,7 +258,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading || !canProceed}
-            className="w-full rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
+            className="hig-press flex h-11 w-full items-center justify-center rounded-xl bg-tenu-forest px-4 text-sm font-semibold text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Envoi..." : "Envoyer le lien magique"}
           </button>
