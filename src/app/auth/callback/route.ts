@@ -35,7 +35,10 @@ export async function GET(request: Request) {
   if (code) {
     const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
     if (exchangeError) {
-      return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
+      console.error("[auth/callback] exchangeCodeForSession failed:", exchangeError.message);
+      return NextResponse.redirect(
+        `${origin}/auth/login?error=auth_failed&reason=${encodeURIComponent(`code_exchange:${exchangeError.message}`)}`,
+      );
     }
   } else if (tokenHash && otpType) {
     const { error: verifyError } = await supabase.auth.verifyOtp({
@@ -43,10 +46,17 @@ export async function GET(request: Request) {
       token_hash: tokenHash,
     });
     if (verifyError) {
-      return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
+      console.error("[auth/callback] verifyOtp failed:", verifyError.message, { otpType });
+      return NextResponse.redirect(
+        `${origin}/auth/login?error=auth_failed&reason=${encodeURIComponent(`otp_verify:${verifyError.message}`)}`,
+      );
     }
   } else {
-    return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
+    const receivedParams = Array.from(searchParams.keys()).join(",") || "none";
+    console.error("[auth/callback] no auth params received:", receivedParams);
+    return NextResponse.redirect(
+      `${origin}/auth/login?error=auth_failed&reason=${encodeURIComponent(`no_auth_params:${receivedParams}`)}`,
+    );
   }
 
   const {
