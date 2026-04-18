@@ -36,32 +36,9 @@ const baseConfig: NextConfig = {
       bodySizeLimit: "10mb",
     },
   },
-  // Universal Links + App Links manifests must be served with a JSON
-  // content type. The files sit in /public/.well-known/; Next serves
-  // them verbatim, but Apple rejects the default content-type
-  // (application/octet-stream on extensionless files). These headers
-  // only apply to the web/Vercel build — MOBILE_BUILD=1 emits a static
-  // export with no headers, but the mobile app doesn't consume these
-  // files anyway (only Apple's CDN does).
-  async headers() {
-    if (isMobileBuild) return [];
-    return [
-      {
-        source: "/.well-known/apple-app-site-association",
-        headers: [
-          { key: "Content-Type", value: "application/json" },
-          { key: "Cache-Control", value: "public, max-age=3600" },
-        ],
-      },
-      {
-        source: "/.well-known/assetlinks.json",
-        headers: [
-          { key: "Content-Type", value: "application/json" },
-          { key: "Cache-Control", value: "public, max-age=3600" },
-        ],
-      },
-    ];
-  },
+  // Universal Links + App Links manifests are served from
+  // src/app/.well-known/*/route.ts — the route handlers set the
+  // Content-Type themselves, so no config-level headers are needed.
 };
 
 const mobileConfig: NextConfig = {

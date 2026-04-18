@@ -13,6 +13,7 @@ const publicPaths = [
   "/api/webhooks",
   "/api/webhook",
   "/api/consents",
+  "/.well-known",
 ];
 
 function isPublicPath(pathname: string): boolean {
