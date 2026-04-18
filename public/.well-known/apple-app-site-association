@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["REPLACE_WITH_TEAM_ID.world.tenu.app"],
+        "components": [
+          { "/": "/auth/callback*", "comment": "Magic-link email callback" },
+          { "/": "/app-home*",     "comment": "Deep-link into app home" },
+          { "/": "/inspection/*",  "comment": "Deep-link into a specific inspection" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["REPLACE_WITH_TEAM_ID.world.tenu.app"]
+  }
+}

@@ -1,0 +1,87 @@
+<!--
+  Tenu Android — additions to android/app/src/main/AndroidManifest.xml
+  after `npx cap add android`. Paste each element inside the right
+  parent tag as noted in the comments below.
+-->
+
+<!-- ========================================================== -->
+<!-- Inside the top-level <manifest> tag, before <application>   -->
+<!-- ========================================================== -->
+
+<!-- Required for @capacitor/camera + @capacitor/filesystem -->
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.INTERNET" />
+
+<!-- Legacy storage permission for Android < 13 -->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    android:maxSdkVersion="32" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    android:maxSdkVersion="28" />
+
+<!-- Feature flags. autofocus=false so devices without AF are still supported.
+     We declare camera as required because the app is useless without it. -->
+<uses-feature android:name="android.hardware.camera" android:required="true" />
+<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+
+<!-- ========================================================== -->
+<!-- Inside <application> — the MainActivity <activity> element   -->
+<!-- Add these <intent-filter> blocks INSIDE the existing one that -->
+<!-- already has the android.intent.action.MAIN filter.            -->
+<!-- ========================================================== -->
+
+<!-- Custom scheme tenu:// for fallback deep-links -->
+<intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="tenu" android:host="app.tenu.world" />
+</intent-filter>
+
+<!-- App Links — the Android equivalent of Universal Links.
+     Needs assetlinks.json served at https://tenu.world/.well-known/assetlinks.json
+     The autoVerify attribute asks Play Services to validate the file
+     during install; without it the user gets a "Open with" chooser. -->
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https" android:host="tenu.world" />
+    <data android:scheme="https" android:host="www.tenu.world" />
+    <data android:scheme="https" android:host="app.tenu.world" />
+    <data android:pathPrefix="/auth/callback" />
+    <data android:pathPrefix="/app-home" />
+</intent-filter>
+
+<!-- ========================================================== -->
+<!-- Inside the <application> tag itself (not inside activity)   -->
+<!-- ========================================================== -->
+
+<!-- networkSecurityConfig points to an XML file that restricts cleartext
+     traffic except for localhost development. Create the file at
+     android/app/src/main/res/xml/network_security_config.xml with:
+
+     <?xml version="1.0" encoding="utf-8"?>
+     <network-security-config>
+         <domain-config cleartextTrafficPermitted="false">
+             <domain includeSubdomains="true">tenu.world</domain>
+         </domain-config>
+         <domain-config cleartextTrafficPermitted="true">
+             <domain>localhost</domain>
+             <domain>10.0.2.2</domain>
+         </domain-config>
+     </network-security-config>
+
+     Then add android:networkSecurityConfig="@xml/network_security_config"
+     to the <application> tag attributes. -->
+
+<!-- queries — Android 11+ requires explicit queries for the browser -->
+<!-- Add this block at the top level of the <manifest>, not inside <application> -->
+<queries>
+    <intent>
+        <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.BROWSABLE" />
+        <data android:scheme="https" />
+    </intent>
+</queries>

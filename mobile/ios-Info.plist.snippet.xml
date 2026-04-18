@@ -1,0 +1,80 @@
+<!--
+  Tenu iOS — additions to ios/App/App/Info.plist after `npx cap add ios`.
+  Paste each <key>...</key><string>...</string> pair into the main <dict>
+  at the top level (same level as CFBundleName etc.). Order doesn't matter.
+
+  Language: French strings first — the app's default locale. Apple shows
+  these exact strings in the permission dialog. Keep them short and honest;
+  App Review rejects vague ones.
+-->
+
+<!-- Camera usage. Mandatory: Capacitor Camera plugin fails silently without it. -->
+<key>NSCameraUsageDescription</key>
+<string>Tenu utilise l'appareil photo pour que vous puissiez documenter votre logement pièce par pièce. Les photos sont stockées sur votre téléphone jusqu'à l'envoi.</string>
+
+<!-- Photo library — only needed if the user can pick from the library.
+     We disable gallery picker at plugin level, but iOS still checks this
+     string exists when the plugin is linked. -->
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>Tenu peut enregistrer une copie de vos photos de constat dans votre pellicule si vous le demandez.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>Tenu accède à votre pellicule uniquement si vous souhaitez ajouter des photos déjà prises à un constat.</string>
+
+<!-- Face ID / biometrics — reserved for post-launch. Keep the string
+     committed so we don't need to re-submit the build when we flip it on. -->
+<key>NSFaceIDUsageDescription</key>
+<string>Tenu peut utiliser Face ID pour protéger l'accès à vos constats.</string>
+
+<!-- App Transport Security. We disable arbitrary loads and only allow
+     tenu.world domains to be hit, which is stricter than App Review's
+     default bar. -->
+<key>NSAppTransportSecurity</key>
+<dict>
+  <key>NSAllowsArbitraryLoads</key>
+  <false/>
+  <key>NSExceptionDomains</key>
+  <dict>
+    <key>tenu.world</key>
+    <dict>
+      <key>NSIncludesSubdomains</key>
+      <true/>
+      <key>NSThirdPartyExceptionRequiresForwardSecrecy</key>
+      <true/>
+    </dict>
+  </dict>
+</dict>
+
+<!-- Universal Links — the app intercepts https://tenu.world/auth/callback
+     so the magic-link email opens the app directly. Requires the
+     apple-app-site-association file served at tenu.world/.well-known/ -->
+<key>CFBundleURLTypes</key>
+<array>
+  <dict>
+    <key>CFBundleURLName</key>
+    <string>world.tenu.app</string>
+    <key>CFBundleURLSchemes</key>
+    <array>
+      <string>tenu</string>
+    </array>
+  </dict>
+</array>
+
+<!-- Application-Boundary domains. Paired with Capacitor's
+     limitsNavigationsToAppBoundDomains=true, this hardens WKWebView
+     against navigation out of tenu.world. -->
+<key>WKAppBoundDomains</key>
+<array>
+  <string>tenu.world</string>
+  <string>www.tenu.world</string>
+  <string>app.tenu.world</string>
+</array>
+
+<!--
+  In Xcode: target → Signing & Capabilities → + Capability → Associated
+  Domains → add these three entries (exact strings with applinks: prefix):
+    applinks:tenu.world
+    applinks:www.tenu.world
+    applinks:app.tenu.world
+  That triggers an Apple CDN fetch of the .well-known/apple-app-site-association
+  file the first time the app launches.
+-->
