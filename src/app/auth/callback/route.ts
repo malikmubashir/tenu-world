@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import type { EmailOtpType } from "@supabase/supabase-js";
 import {
   DPA_TEXT_VERSION,
   MARKETING_TEXT_VERSION,
@@ -9,28 +10,42 @@ import {
 } from "@/lib/legal/consents";
 
 /**
- * Auth callback — exchanges the OAuth / magic-link code for a session,
- * then drains the signup-consent cookie stamped by /auth/login into
- * the consents table so we have a timestamped, IP-attributed audit
- * row linked to the user_id that just came into existence.
+ * Auth callback — handles BOTH flows Supabase may use:
+ *   1. PKCE / OAuth        → ?code=...                   → exchangeCodeForSession
+ *   2. OTP / magic-link    → ?token_hash=...&type=...    → verifyOtp
+ *
+ * After session is established, drains the signup-consent cookie
+ * stamped by /auth/login into the consents table so we have a
+ * timestamped, IP-attributed audit row linked to the user_id that
+ * just came into existence.
  *
  * If the cookie is missing (cross-device magic link, direct auth call,
  * etc.) the user is redirected to /auth/accept-terms where they must
- * tick the DPA box to finish signing in. That route is the defensive
- * fallback — the happy path writes consents here and moves on.
+ * tick the DPA box to finish signing in.
  */
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const redirect = searchParams.get("redirect") ?? "/inspection/new";
-
-  if (!code) {
-    return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
-  }
+  const tokenHash = searchParams.get("token_hash");
+  const otpType = searchParams.get("type") as EmailOtpType | null;
+  const redirect = searchParams.get("redirect") ?? searchParams.get("next") ?? "/inspection/new";
 
   const supabase = await createClient();
-  const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
-  if (exchangeError) {
+
+  if (code) {
+    const { error: exchangeError } = await supabase.auth.exchangeCodeForSession(code);
+    if (exchangeError) {
+      return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
+    }
+  } else if (tokenHash && otpType) {
+    const { error: verifyError } = await supabase.auth.verifyOtp({
+      type: otpType,
+      token_hash: tokenHash,
+    });
+    if (verifyError) {
+      return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
+    }
+  } else {
     return NextResponse.redirect(`${origin}/auth/login?error=auth_failed`);
   }
 
