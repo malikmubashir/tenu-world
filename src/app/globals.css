@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand palette */
-  --color-tenu-forest: #1B4D3E;
-  --color-tenu-forest-light: #2A6B55;
-  --color-tenu-cream: #F5F0EB;
-  --color-tenu-cream-dark: #E8DDD4;
+  /* Brand palette — Apple-crisp rework (2026-04-18).
+     Rule: canvas is white, headings near-black, emerald is accent only.
+     Semantic names kept to avoid a global rename; read values below. */
+  --color-tenu-forest: #059669;       /* vivid emerald — CTAs, links, icons */
+  --color-tenu-forest-light: #10B981; /* emerald-500 — hover state */
+  --color-tenu-cream: #FFFFFF;        /* base canvas — pure white */
+  --color-tenu-cream-dark: #EEEEF1;   /* cool light gray — section bands, borders */
   --color-tenu-gold: #C4A35A;
   --color-tenu-gold-light: #D4B86A;
-  --color-tenu-slate: #334155;
+  --color-tenu-slate: #1D1D1F;        /* Apple heading + body ink — near-black */
   --color-tenu-danger: #DC2626;
   --color-tenu-warning: #F59E0B;
   --color-tenu-success: #16A34A;
@@ -87,9 +89,10 @@ html, body {
     box-shadow: var(--shadow-hig-card);
   }
 
-  /* Translucent header — macOS Sonoma / iOS 17 toolbar feel. */
+  /* Translucent header — macOS Sonoma / iOS 17 toolbar feel.
+     80% white over the page so scroll content bleeds through faintly. */
   .hig-header-blur {
-    background: color-mix(in oklab, var(--color-tenu-cream) 85%, transparent);
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
   }

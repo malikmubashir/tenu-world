@@ -147,34 +147,35 @@ export default async function Home() {
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      {/* Hero */}
+      {/* Hero — white canvas, near-black heading, emerald CTA.
+          Tracking -0.02em matches SF Pro Display at display sizes. */}
       <main className="flex flex-1 flex-col">
-        <section className="hig-fade-in flex flex-col items-center px-6 py-20 text-center md:py-32">
-          <h1 className="max-w-3xl text-4xl font-bold tracking-tight text-tenu-forest md:text-6xl">
+        <section className="hig-fade-in flex flex-col items-center px-6 py-24 text-center md:py-36">
+          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight text-tenu-slate md:text-7xl" style={{ letterSpacing: "-0.03em" }}>
             {hero.title}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg text-tenu-slate/80 md:text-xl">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-tenu-slate/60 md:text-xl">
             {hero.subtitle}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
             <Link
               href="/inspection/new"
-              className="hig-press inline-flex h-12 items-center rounded-2xl bg-tenu-forest px-6 text-base font-semibold text-white shadow-sm hover:bg-tenu-forest-light"
+              className="hig-press inline-flex h-12 items-center rounded-full bg-tenu-forest px-7 text-base font-semibold text-white hover:bg-tenu-forest-light"
             >
               {hero.cta}
             </Link>
             <Link
               href="#features"
-              className="hig-press inline-flex h-12 items-center rounded-2xl border border-tenu-forest/20 bg-white/60 px-6 text-base font-semibold text-tenu-forest hover:bg-white"
+              className="hig-press inline-flex h-12 items-center rounded-full px-7 text-base font-semibold text-tenu-forest hover:text-tenu-forest-light"
             >
-              {hero.ctaSecondary}
+              {hero.ctaSecondary} →
             </Link>
           </div>
         </section>
 
-        {/* Features */}
-        <section id="features" className="bg-white px-6 py-20 md:px-12">
-          <h2 className="mb-12 text-center text-3xl font-bold tracking-tight text-tenu-forest">
+        {/* Features — cool light-gray band against white body, tiles pop as white cards. */}
+        <section id="features" className="bg-tenu-cream-dark px-6 py-24 md:px-12">
+          <h2 className="mb-16 text-center text-4xl font-semibold tracking-tight text-tenu-slate md:text-5xl" style={{ letterSpacing: "-0.02em" }}>
             {features.heading as string}
           </h2>
           <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -183,15 +184,15 @@ export default async function Home() {
               return (
                 <div
                   key={key}
-                  className="hig-card hig-press p-6"
+                  className="hig-card hig-press p-7"
                 >
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-tenu-forest/10">
-                    <Icon className="h-6 w-6 text-tenu-forest" />
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-tenu-forest/10">
+                    <Icon className="h-5 w-5 text-tenu-forest" strokeWidth={2.25} />
                   </div>
-                  <h3 className="mb-2 text-lg font-semibold text-tenu-forest">
+                  <h3 className="mb-1.5 text-base font-semibold tracking-tight text-tenu-slate">
                     {feat.title}
                   </h3>
-                  <p className="text-sm text-tenu-slate/70">{feat.desc}</p>
+                  <p className="text-sm leading-relaxed text-tenu-slate/60">{feat.desc}</p>
                 </div>
               );
             })}
@@ -199,10 +200,10 @@ export default async function Home() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-tenu-cream-dark px-6 py-8 text-center text-sm text-tenu-slate/60">
+      {/* Footer — thin ink-on-light separator, muted copy, emerald on hover. */}
+      <footer className="border-t border-tenu-cream-dark px-6 py-10 text-center text-sm text-tenu-slate/50">
         <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
-        <nav className="mt-3 flex flex-wrap justify-center gap-x-4 gap-y-2">
+        <nav className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2">
           <Link href="/legal" className="hover:text-tenu-forest">Legal</Link>
           <Link href="/legal/privacy/fr" className="hover:text-tenu-forest">Confidentialité</Link>
           <Link href="/legal/privacy/en" className="hover:text-tenu-forest">Privacy</Link>

@@ -75,7 +75,7 @@ export default async function GlobalHeader() {
 
           <Link
             href="/pricing"
-            className="hig-press hidden rounded-xl px-3 py-2 text-sm font-medium text-tenu-slate hover:bg-tenu-cream/60 hover:text-tenu-forest sm:inline-flex"
+            className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-tenu-slate/80 hover:bg-tenu-cream-dark/60 hover:text-tenu-slate sm:inline-flex"
           >
             {nav.pricing ?? (uiLocale === "fr" ? "Tarifs" : "Pricing")}
           </Link>
@@ -86,13 +86,13 @@ export default async function GlobalHeader() {
             <>
               <Link
                 href="/auth/login"
-                className="hig-press hidden rounded-xl px-3 py-2 text-sm font-medium text-tenu-slate hover:bg-tenu-cream/60 hover:text-tenu-forest sm:inline-flex"
+                className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-tenu-slate/80 hover:bg-tenu-cream-dark/60 hover:text-tenu-slate sm:inline-flex"
               >
                 {nav.login ?? (uiLocale === "fr" ? "Connexion" : "Log in")}
               </Link>
               <Link
                 href="/auth/login"
-                className="hig-press inline-flex h-10 items-center rounded-xl bg-tenu-forest px-4 text-sm font-semibold text-white shadow-sm hover:bg-tenu-forest-light"
+                className="hig-press inline-flex h-9 items-center rounded-full bg-tenu-forest px-4 text-sm font-semibold text-white hover:bg-tenu-forest-light"
               >
                 {nav.signup ?? (uiLocale === "fr" ? "S'inscrire" : "Sign up")}
               </Link>
