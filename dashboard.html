@@ -328,29 +328,29 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">23 days</div>
-    <div>Regenerated <span id="gen-ts">2026-04-18T21:30:13</span></div>
+    <div>Regenerated <span id="gen-ts">2026-04-18T23:58:16</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">47</div>
+    <div class="value" id="c-open">42</div>
     <div class="hint"><span id="c-ip">1</span> in progress</div>
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">12</div>
+    <div class="value" id="c-done">22</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">20</div>
+    <div class="value" id="c-due7">19</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">41</div>
+    <div class="value" id="c-p0">36</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -372,7 +372,7 @@
     <div class="n">
       <span id="r-mh">25</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
-      <span id="r-cc">22</span>
+      <span id="r-cc">17</span>
     </div>
     <div class="lbl">MH · CC open</div>
   </div>
@@ -424,23 +424,23 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-04-18T21:30:13",
+    "generated": "2026-04-18T23:58:16",
     "today": "2026-04-18",
     "launch": "2026-05-11",
     "days_to_launch": 23,
     "counts": {
-      "total": 59,
-      "open": 46,
+      "total": 64,
+      "open": 41,
       "in_progress": 1,
-      "done": 12,
+      "done": 22,
       "dropped": 0,
-      "p0_open": 41,
+      "p0_open": 36,
       "p1_open": 2,
       "p2_open": 4,
       "no_priority": 0,
       "mh_open": 25,
-      "cc_open": 22,
-      "due_next_7": 20,
+      "cc_open": 17,
+      "due_next_7": 19,
       "overdue": 0,
       "p0_no_due": 0
     }
@@ -747,12 +747,12 @@
       "id": "T-028",
       "line_no": 56,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Capacitor Camera plugin wired, replace HTML file input",
       "priority": "P0 Blocker",
       "due": "2026-04-24",
-      "note": ""
+      "note": "done 2026-04-18: MB-06 reworked src/lib/mobile/camera.ts to match brief spec (resultType=Uri, quality=75, width=1600, correctOrientation=true), added CameraPermissionError typed class, null-on-cancel semantics, CameraButton updated to handle null cleanly without error haptic. tsc exit 0. Commit e3714ea."
     },
     {
       "id": "T-029",
@@ -801,50 +801,105 @@
     {
       "id": "T-033",
       "line_no": 64,
-      "section": "OOO BRIDGE (27-30 Apr)",
-      "status": "Open",
+      "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
+      "status": "Done",
       "owner": "CC",
-      "title": "App icon set",
+      "title": "MB-01",
       "priority": "P0 Blocker",
-      "due": "2026-04-28",
-      "note": "1024, 512, 180, 120, 87, 60, 40, 29 iOS + Play adaptive"
+      "due": "2026-04-18",
+      "note": "verify npm run build:mobile produces clean out/ — done 2026-04-18: exit 0, out/ present, no @anthropic-ai/sdk or SUPABASE_SERVICE_ROLE_KEY in client chunks. Known structural issue documented in handover doc: app router pages drop from export because root layout uses async cookies()/headers() — only /404 ships. Two recovery paths offered to MH. Commit cddebcb."
     },
     {
       "id": "T-034",
       "line_no": 65,
-      "section": "OOO BRIDGE (27-30 Apr)",
-      "status": "Open",
+      "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
+      "status": "Done",
       "owner": "CC",
-      "title": "Splash screens per density, status bar theming, safe-area insets",
+      "title": "MB-03",
       "priority": "P0 Blocker",
-      "due": "2026-04-29",
-      "note": ""
+      "due": "2026-04-18",
+      "note": "Info.plist + AndroidManifest snippets with bilingual usage descriptions — done 2026-04-18: ITSAppUsesNonExemptEncryption=false + LSApplicationQueriesSchemes added to ios-Info.plist.snippet.xml; android-AndroidManifest.xml.snippet renamed to android-manifest.snippet.xml to match TASKS.md references; POST_NOTIFICATIONS permission added; standalone mobile/network_security_config.xml created for drop-in to res/xml/. Commit 5ef8c71."
     },
     {
       "id": "T-035",
       "line_no": 66,
-      "section": "OOO BRIDGE (27-30 Apr)",
-      "status": "Open",
+      "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
+      "status": "Done",
       "owner": "CC",
-      "title": "Deep-linking scheme tenu:// + Universal Links config pointing at tenu.world",
+      "title": "MB-05",
       "priority": "P0 Blocker",
-      "due": "2026-04-30",
-      "note": ""
+      "due": "2026-04-18",
+      "note": "iOS Privacy Manifest (Apple May 2024 mandate) — done 2026-04-18: mobile/PrivacyInfo.xcprivacy authored per Apple spec. Declared collected types (email, photos, userID, product interaction — all linked, none tracking), accessed APIs (UserDefaults CA92.1, FileTimestamp C617.1, DiskSpace E174.1, SystemBootTime 35F9.1), NSPrivacyTracking=false. Commit a4b21b4."
     },
     {
       "id": "T-036",
       "line_no": 67,
-      "section": "OOO BRIDGE (27-30 Apr)",
-      "status": "Open",
+      "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
+      "status": "Done",
       "owner": "CC",
-      "title": "Store listing copy drafted in FR + EN",
+      "title": "MB-08",
       "priority": "P0 Blocker",
-      "due": "2026-04-30",
-      "note": "description, keywords, support URL, privacy URL"
+      "due": "2026-04-18",
+      "note": "Mac-side mobile build handover doc — done 2026-04-18: docs/10-Mobile-Build-Handover-2026-04-19.md. Steps 0–10 with expected output + red-flag per step, covers repo sync, npm install, build:mobile verify, cap add ios + Info.plist merge, Privacy Manifest drop, cap add android + manifest + network security config, icon generation (capacitor-assets OR manual copy), cap sync, Xcode signing + capabilities, keystore + SHA-256 capture, TestFlight + Play internal upload. Explicit callout on root-layout dynamic-APIs blocker with two recovery paths. Commit c24f3d6."
     },
     {
       "id": "T-037",
       "line_no": 68,
+      "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
+      "status": "Done",
+      "owner": "CC",
+      "title": "MB-09",
+      "priority": "P0 Blocker",
+      "due": "2026-04-18",
+      "note": "session closeout + tracker mirror refresh — done 2026-04-18: this entry. Tracker xlsx + dashboard regenerated."
+    },
+    {
+      "id": "T-038",
+      "line_no": 72,
+      "section": "OOO BRIDGE (27-30 Apr)",
+      "status": "Done",
+      "owner": "CC",
+      "title": "App icon set",
+      "priority": "P0 Blocker",
+      "due": "2026-04-28",
+      "note": "1024, 512, 180, 120, 87, 60, 40, 29 iOS + Play adaptive — done 2026-04-18 (ahead of schedule): MB-02 shipped scripts/generate-icons.mjs (sharp-based ladder generator, npm run icons:generate) and committed the full PNG set at resources/icons-generated/{ios,android}/ — 13 iOS sizes (20@1x through 1024 marketing) + 5 Android mipmap densities (mdpi→xxxhdpi, launcher + launcher_round + adaptive foreground + adaptive background) + 512 Play Store. MH can choose capacitor-assets OR direct copy at cap-add time. Commit 93e6592."
+    },
+    {
+      "id": "T-039",
+      "line_no": 73,
+      "section": "OOO BRIDGE (27-30 Apr)",
+      "status": "Done",
+      "owner": "CC",
+      "title": "Splash screens per density, status bar theming, safe-area insets",
+      "priority": "P0 Blocker",
+      "due": "2026-04-29",
+      "note": "done 2026-04-18: already shipped via commit f21f5a8 (MobileGate + Shell + resources/{splash,splash-dark}.svg sources + capacitor.config.ts SplashScreen plugin config at #F4F1EA/#0B1F3A, StatusBar overlaysWebView=false). capacitor-assets generate on the Mac (documented in the handover doc) produces the density ladder from the SVG sources."
+    },
+    {
+      "id": "T-040",
+      "line_no": 74,
+      "section": "OOO BRIDGE (27-30 Apr)",
+      "status": "Done",
+      "owner": "CC",
+      "title": "Deep-linking scheme tenu:// + Universal Links config pointing at tenu.world",
+      "priority": "P0 Blocker",
+      "due": "2026-04-30",
+      "note": "done 2026-04-18: MB-04 shipped src/app/.well-known/apple-app-site-association/route.ts (applinks details for /auth/callback, /app-home, /inspection, /report, /dispute with force-static) and assetlinks.json/route.ts (android_app target world.tenu.app, SHA-256 placeholder with TODO for MH post-keystore), middleware allow-listed /.well-known. tenu:// scheme already present in capacitor.config.ts + Info.plist + AndroidManifest snippets. TEAMID still a TODO (unblocks once Apple Developer enrolment completes). Commit 88cc97e."
+    },
+    {
+      "id": "T-041",
+      "line_no": 75,
+      "section": "OOO BRIDGE (27-30 Apr)",
+      "status": "Done",
+      "owner": "CC",
+      "title": "Store listing copy drafted in FR + EN",
+      "priority": "P0 Blocker",
+      "due": "2026-04-30",
+      "note": "description, keywords, support URL, privacy URL — done 2026-04-18 (ahead of schedule): MB-07 shipped docs/store-listings/{ios-fr,ios-en,play-fr,play-en}.md. Professional services register throughout (no buzzwords, no guaranteed-outcome claims), character counts validated inline, Stripe reader-app classification explicitly argued in reviewer notes, data safety section filled for Play form. Awaits MH (nights) review + edit before submission. Commit 50db60f."
+    },
+    {
+      "id": "T-042",
+      "line_no": 76,
       "section": "OOO BRIDGE (27-30 Apr)",
       "status": "Open",
       "owner": "CC",
@@ -854,8 +909,8 @@
       "note": ""
     },
     {
-      "id": "T-038",
-      "line_no": 69,
+      "id": "T-043",
+      "line_no": 77,
       "section": "OOO BRIDGE (27-30 Apr)",
       "status": "Open",
       "owner": "MH",
@@ -865,8 +920,8 @@
       "note": ""
     },
     {
-      "id": "T-039",
-      "line_no": 70,
+      "id": "T-044",
+      "line_no": 78,
       "section": "OOO BRIDGE (27-30 Apr)",
       "status": "Open",
       "owner": "MH",
@@ -876,8 +931,8 @@
       "note": "physical service argument documented"
     },
     {
-      "id": "T-040",
-      "line_no": 74,
+      "id": "T-045",
+      "line_no": 82,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "CC",
@@ -887,8 +942,8 @@
       "note": ""
     },
     {
-      "id": "T-041",
-      "line_no": 75,
+      "id": "T-046",
+      "line_no": 83,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "CC",
@@ -898,8 +953,8 @@
       "note": "email link opens app, session persists"
     },
     {
-      "id": "T-042",
-      "line_no": 76,
+      "id": "T-047",
+      "line_no": 84,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "CC",
@@ -909,8 +964,8 @@
       "note": ""
     },
     {
-      "id": "T-043",
-      "line_no": 77,
+      "id": "T-048",
+      "line_no": 85,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "CC",
@@ -920,8 +975,8 @@
       "note": "unit + integration for critical path only, skip full 48-item P0 coverage"
     },
     {
-      "id": "T-044",
-      "line_no": 78,
+      "id": "T-049",
+      "line_no": 86,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "CC",
@@ -931,8 +986,8 @@
       "note": ""
     },
     {
-      "id": "T-045",
-      "line_no": 79,
+      "id": "T-050",
+      "line_no": 87,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "CC",
@@ -942,8 +997,8 @@
       "note": ""
     },
     {
-      "id": "T-046",
-      "line_no": 80,
+      "id": "T-051",
+      "line_no": 88,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -953,8 +1008,8 @@
       "note": "MEDICYS OR SMCE OR AME Conso"
     },
     {
-      "id": "T-047",
-      "line_no": 81,
+      "id": "T-052",
+      "line_no": 89,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -964,8 +1019,8 @@
       "note": ""
     },
     {
-      "id": "T-048",
-      "line_no": 82,
+      "id": "T-053",
+      "line_no": 90,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -975,8 +1030,8 @@
       "note": ""
     },
     {
-      "id": "T-049",
-      "line_no": 83,
+      "id": "T-054",
+      "line_no": 91,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -986,8 +1041,8 @@
       "note": ""
     },
     {
-      "id": "T-050",
-      "line_no": 84,
+      "id": "T-055",
+      "line_no": 92,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -997,8 +1052,8 @@
       "note": "8 names, email, jurisdiction, case type"
     },
     {
-      "id": "T-051",
-      "line_no": 85,
+      "id": "T-056",
+      "line_no": 93,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -1008,8 +1063,8 @@
       "note": ""
     },
     {
-      "id": "T-052",
-      "line_no": 89,
+      "id": "T-057",
+      "line_no": 97,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "CC",
@@ -1019,8 +1074,8 @@
       "note": "camera retries, upload resume, offline queue"
     },
     {
-      "id": "T-053",
-      "line_no": 90,
+      "id": "T-058",
+      "line_no": 98,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "CC",
@@ -1030,8 +1085,8 @@
       "note": ""
     },
     {
-      "id": "T-054",
-      "line_no": 91,
+      "id": "T-059",
+      "line_no": 99,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "MH",
@@ -1041,8 +1096,8 @@
       "note": ""
     },
     {
-      "id": "T-055",
-      "line_no": 92,
+      "id": "T-060",
+      "line_no": 100,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "MH",
@@ -1052,8 +1107,8 @@
       "note": ""
     },
     {
-      "id": "T-056",
-      "line_no": 96,
+      "id": "T-061",
+      "line_no": 104,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1063,8 +1118,8 @@
       "note": "24 unit + 10 E2E + 5 canaries + 20 evals + OWASP ZAP baseline"
     },
     {
-      "id": "T-057",
-      "line_no": 97,
+      "id": "T-062",
+      "line_no": 105,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1074,8 +1129,8 @@
       "note": "Brevo trigger + Supabase write-back"
     },
     {
-      "id": "T-058",
-      "line_no": 98,
+      "id": "T-063",
+      "line_no": 106,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1085,8 +1140,8 @@
       "note": "ar, zh, hi, ur, ja, es, it, uk, pt, ko staged rollout"
     },
     {
-      "id": "T-059",
-      "line_no": 99,
+      "id": "T-064",
+      "line_no": 107,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
