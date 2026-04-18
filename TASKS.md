@@ -24,28 +24,31 @@
 ## THIS WEEKEND (17-20 Apr)
 
 - [x] CC: Fix footer legal routes redirecting to /auth/login — expose /legal, /auth/accept-terms, /api/consents as public paths in middleware (p:0, due 2026-04-18) — done 2026-04-18: middleware allow-list extended, verified on tenu.world production in incognito, all six legal pages render without auth. Commit via PR fix/public-legal-routes merged to main. Pre-contractual disclosure (art. L221-5 Code de la conso) now reachable as required for Stripe/App Store review.
+- [x] CC: Fix /stories/* and /features/* redirecting to /auth/login (p:0, due 2026-04-18) — done 2026-04-18: added "/stories" and "/features" to publicPaths in src/middleware.ts. Same isPublicPath startsWith match pattern as the /legal fix; single entry per parent covers all nested routes. Stories and features now reachable without auth as marketing/content surface.
 - [x] CC: Use-case content system — manifest + /stories index + cross-link strip + homepage dual-card (p:1, due 2026-04-18) — done 2026-04-18: src/lib/stories.ts (single source of truth, Story type, 4 helpers), src/components/stories/OtherCases.tsx (bilingual cross-link strip), src/app/stories/page.tsx (index with cautionary populated, success placeholder awaiting 11 May cohort), homepage example section refactored from single Suzi hook to manifest-driven dual-card grid with "See all cases →" link, Suzi + Samir pages thread OtherCases before footer, example block in en/fr/zh/ar/ur dictionaries refactored to label/heading/intro/seeAll/disclaimer. Adding a new case is now one append to stories.ts + one new /stories/<slug>/page.tsx.
 - [ ] MH: Check D-U-N-S number for Global Apex NET SAS at dnb.com/duns-number-lookup (p:0, due 2026-04-18)
-- [ ] MH: Telegram one-time setup — create bot via @BotFather, send token + chat_id (p:0, due 2026-04-20)
+- [x] MH: Telegram one-time setup — create bot via @BotFather, send token + chat_id (p:0, due 2026-04-20) — done 2026-04-18: bot created, token + chat_id set in .env.local and Vercel env (per Dr Mubashir)
 - [ ] MH: Email UK housing-law solicitor for fixed-fee TDS/DPS template review, GBP 500-1500 budget (p:0, due 2026-04-18)
 - [ ] MH: Email French avocat droit immobilier for fixed-fee legal v1.0 review (p:0, due 2026-04-20)
 - [ ] MH: Apple Developer Program enrollment for Global Apex NET SAS, EUR 99/year (p:0, due 2026-04-20)
 - [ ] MH: Google Play Console developer account, USD 25 one-time (p:0, due 2026-04-20)
-- [ ] MH: Paste ANTHROPIC_API_KEY into .env.local + Vercel project env (p:0, due 2026-04-20)
-- [ ] MH: Paste BREVO_API_KEY into .env.local + Vercel project env (p:0, due 2026-04-20)
+- [x] MH: Paste ANTHROPIC_API_KEY into .env.local + Vercel project env (p:0, due 2026-04-20) — done 2026-04-18: key set in .env.local and Vercel project env (per Dr Mubashir)
+- [x] MH: Paste BREVO_API_KEY into .env.local + Vercel project env (p:0, due 2026-04-20) — done 2026-04-18: key set in .env.local and Vercel project env (per Dr Mubashir)
 - [ ] MH: Confirm SAS legal name + siège exactly match Apple + Play enrolment forms (p:0, due 2026-04-20)
 
 ## WEEK 1 (20-24 Apr) — pipeline + native scaffold
 
 - [x] CC: Implement /api/risk-scan Haiku handler per prompt-spec-scan-v2.md, JSON validation, cost cap (p:0, due 2026-04-21) — done 2026-04-17: French system prompt, grille injection, zod validation, Haiku→Haiku→Sonnet retry, €0.12 cost cap per scan, v2 payload persisted to inspections.risk_score jsonb, ScanError codes surfaced as 400/402/422/502 on the route
 - [>] CC: Implement /api/dispute-letter Sonnet handler per prompt-spec-dispute-v2.md, FR LRAR + UK TDS/DPS branches (p:0, due 2026-04-22) — code shipped 2026-04-17: zod schema + FR/EN system prompts + Sonnet → Sonnet retry (no Haiku/Opus fallback) + items-sum validation ±1 EUR + €0.50 cost cap + DisputeError 9 codes → HTTP 400/402/404/409/502/504, server-forced disclaimer injection via disclaimerFor(locale), route pulls scan v2 from inspections.risk_score.v2 and upserts dispute_letters row. BLOCKED: tsc verification — bash sandbox locked from prior session; needs Cowork session reset to run npx tsc --noEmit
-- [ ] CC: Implement /api/upload Cloudflare R2 EU + presigned URL flow (p:0, due 2026-04-22)
-- [ ] CC: End-to-end pipeline wiring Stripe webhook → Supabase → R2 → Haiku → @react-pdf/renderer → R2 → Brevo (p:0, due 2026-04-23)
+- [x] CC: Implement /api/upload Cloudflare R2 EU + presigned URL flow (p:0, due 2026-04-22) — done 2026-04-18: shipped as two-phase flow at /api/mobile/upload-intent (presigned PUT URL) + /api/mobile/upload-commit (object verification + DB row), backed by src/lib/storage/r2-upload.ts and src/app/api/photos/route.ts. Commits 0a0192b + 22d028f. Path differs from original /api/upload title — same goal, mobile-scoped route.
+- [>] CC: End-to-end pipeline wiring Stripe webhook → Supabase → R2 → Haiku → @react-pdf/renderer → R2 → Brevo (p:0, due 2026-04-23) — partially wired 2026-04-18: Stripe webhook → Supabase chain live (src/app/api/webhooks/stripe/route.ts, commit ce748ec, admin client bypasses RLS). Photos up through R2, scan via /api/ai/scan (Haiku) and dispute via /api/ai/dispute (Sonnet). MISSING: @react-pdf/renderer PDF generation step (only present in features/scan marketing page, not pipeline), Brevo transactional email leg (zero references in src/). Split into two new tasks below.
+- [ ] CC: PDF generation leg — @react-pdf/renderer report builder invoked by webhook/post-scan, output to R2 (p:0, due 2026-04-23)
+- [ ] CC: Brevo transactional email leg — send scan-complete + dispute-ready emails with R2 PDF link (p:0, due 2026-04-23)
 - [ ] CC: Capacitor 6 scaffold — iOS + Android native projects under app/ios and app/android (p:0, due 2026-04-24)
 - [ ] CC: Capacitor Camera plugin wired, replace HTML file input (p:0, due 2026-04-24)
 - [ ] CC: consents table + 4 consent UX touchpoints + timestamp + version pin (p:0, due 2026-04-23)
 - [ ] CC: ECB daily refresh cron for EUR/GBP feeding calculatePrice (p:0, due 2026-04-24)
-- [ ] MH: Stripe webhook endpoint created in live mode, paste signing secret (p:0, due 2026-04-22)
+- [x] MH: Stripe webhook endpoint created in live mode, paste signing secret (p:0, due 2026-04-22) — done 2026-04-18: webhook endpoint configured in Stripe live mode, signing secret pasted to .env.local + Vercel (per Dr Mubashir)
 - [ ] MH: Sign DPAs with Supabase, Cloudflare, Stripe, Vercel, Brevo, Anthropic (p:0, due 2026-04-24)
 
 ## OOO BRIDGE (27-30 Apr)

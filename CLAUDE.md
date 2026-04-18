@@ -45,23 +45,32 @@ Priority: `p:0` blocks soft launch 11 May, `p:1` important, `p:2` post-launch.
 2. Identify what is relevant to the user's request. Confirm with user before starting if ambiguous.
 3. Before touching code, mark the item `[>]` and add a dated note.
 
+### Delegation rule (every Claude surface, added 2026-04-18)
+Every action tied to work — whether Dr Mubashir delegates to Claude, Claude delegates back to Dr Mubashir, or either picks up a new item mid-conversation — **must** land as a line in `TASKS.md` before execution. No verbal-only tasks. No "I'll just quickly..." without a line.
+
+**When I (Claude) delegate something to Dr Mubashir:** append an `MH:` line to the right section with `p:N`, `due YYYY-MM-DD`, and a crisp title. Tell him I added it.
+**When Dr Mubashir hands me work:** append a `CC:` line, mark it `[>]` when I start, `[x]` with dated note when it ships.
+**When a new task emerges from another task:** add it immediately, don't wait for end of session.
+
 ### End-of-session rules (Cowork + Claude Code)
 1. Update task states in `TASKS.md`: `[x]` for done, `[>]` if in progress, `[-]` if dropped.
-2. Add a `— done YYYY-MM-DD: <what shipped>` note on any closed item.
-3. Run `python3 scripts/tracker-refresh.py` to regenerate the xlsx mirror.
-4. Commit both files together: `git add TASKS.md Tenu-Reste-a-Faire.xlsx && git commit -m "chore(tasks): ..."`.
-5. Push to the active branch.
+2. Add a `— done YYYY-MM-DD: <what shipped>` note on any closed item. The note must say what landed, not just "done".
+3. Confirm every in-conversation task delegation has a corresponding TASKS.md line. If not, add it.
+4. Run `python3 scripts/tracker-refresh.py` to regenerate the xlsx mirror AND dashboard.html.
+5. Commit all three together: `git add TASKS.md Tenu-Reste-a-Faire.xlsx dashboard.html && git commit -m "chore(tasks): ..."`.
+6. Push to the active branch.
 
 ### Rules for Claude Chat and Claude Design (no file access)
 - Ask the user to paste the current `TASKS.md` at start. Work against that text.
 - At end, return a diff block the user can paste into Cowork or Claude Code. Do not pretend to have written the file.
-- Never edit the xlsx. It is a read-only mirror.
+- Never edit the xlsx or dashboard.html. They are read-only mirrors.
 
 ### Never
-- Edit the xlsx directly. It will be overwritten on next refresh.
+- Edit the xlsx or dashboard.html directly. They will be overwritten on next refresh.
 - Add tasks to a separate file (Trello, Notion, another md). One file.
 - Mark an item `[x]` without the dated completion note.
-- Let TASKS.md and xlsx drift. If they disagree, TASKS.md wins and xlsx gets regenerated.
+- Delegate work verbally without adding a TASKS.md line before starting.
+- Let TASKS.md, xlsx, and dashboard.html drift. If they disagree, TASKS.md wins and both mirrors get regenerated.
 
 ---
 
