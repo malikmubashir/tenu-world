@@ -1,0 +1,39 @@
+<!-- Splash screen source — 2732×2732 (iPad Pro 12.9" landscape).
+     @capacitor/assets crops this to every iOS + Android splash size.
+     Centred Portal mark on paper, with the lowercase wordmark below.
+     Same background as the intro page → no flash on first paint. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2732 2732" width="2732" height="2732" role="img" aria-label="Tenu">
+  <rect width="2732" height="2732" fill="#F4F1EA"/>
+
+  <!-- Portal mark, ~720px tall, centred slightly above optical centre.
+       Geometry is the 48-canvas Portal path scaled by 15. -->
+  <g transform="translate(1006, 956) scale(15)">
+    <defs>
+      <mask id="splash-cut">
+        <rect x="0" y="0" width="48" height="48" fill="white"/>
+        <circle cx="24" cy="13" r="4.9" fill="black"/>
+        <rect x="11" y="22.4" width="26" height="2.2" rx="1.1" fill="black"/>
+        <rect x="22.9" y="23.5" width="2.2" height="18" rx="1.1" fill="black"/>
+      </mask>
+    </defs>
+    <!-- Portal container: M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z -->
+    <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill="#0B1F3A" mask="url(#splash-cut)"/>
+    <circle cx="24" cy="13" r="4" fill="#F4F1EA"/>
+  </g>
+
+  <!-- Wordmark "tenu", Inter Tight 500, lowercase, tracking -0.04em.
+       96px font ≈ wordmark width 240px. We use a generic sans-serif
+       fallback so the SVG renders even if Inter Tight isn't present
+       at asset-generation time. The platform splash never re-renders
+       this SVG; it's rasterised once per size. -->
+  <text
+    x="1366"
+    y="2080"
+    font-family="'Inter Tight', 'Inter', system-ui, sans-serif"
+    font-size="180"
+    font-weight="500"
+    text-anchor="middle"
+    letter-spacing="-7.2"
+    fill="#0B1F3A"
+  >tenu</text>
+</svg>

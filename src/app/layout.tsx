@@ -6,6 +6,7 @@ import { getDirection } from "@/lib/i18n/config";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import CookieBanner from "@/components/legal/CookieBanner";
 import GlobalHeader from "@/components/web/GlobalHeader";
+import MobileGate from "@/components/mobile/MobileGate";
 import "./globals.css";
 
 // Identity v1 brand font. Only carried on the chrome (header
@@ -200,6 +201,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-screen bg-tenu-cream text-tenu-slate antialiased">
+        <MobileGate />
         <GlobalHeader />
         {children}
         <CookieBanner locale={locale === "fr" ? "fr" : "en"} />

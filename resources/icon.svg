@@ -1,0 +1,26 @@
+<!-- Tenu app icon source — 1024×1024.
+     @capacitor/assets reads this and generates all platform icon sizes
+     (iOS @2x/@3x/iPad/marketing, Android mipmap, adaptive foreground +
+     background). Use the Disc mark per BRAND-GUIDELINES.md §5.1.
+
+     The figure geometry is the same 48-canvas geometry as TenuMark.tsx,
+     scaled 21.33× to fit 1024. Container is the disc fill #0B1F3A on a
+     paper #F4F1EA backdrop so the Apple-rounded mask carves cleanly. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Tenu">
+  <rect width="1024" height="1024" fill="#F4F1EA"/>
+  <defs>
+    <mask id="tenu-cut">
+      <rect width="1024" height="1024" fill="white"/>
+      <!-- Head -->
+      <circle cx="512" cy="277.3" r="104.5" fill="black"/>
+      <!-- Arms bar -->
+      <rect x="234.7" y="477.9" width="554.7" height="46.9" rx="23.5" fill="black"/>
+      <!-- Body bar -->
+      <rect x="488.5" y="501.3" width="46.9" height="384" rx="23.5" fill="black"/>
+    </mask>
+  </defs>
+  <!-- Disc container, ink fill -->
+  <circle cx="512" cy="512" r="469.3" fill="#0B1F3A" mask="url(#tenu-cut)"/>
+  <!-- Head overlay so the silhouette reads on the dark disc -->
+  <circle cx="512" cy="277.3" r="85.3" fill="#F4F1EA"/>
+</svg>

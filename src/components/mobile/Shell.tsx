@@ -30,7 +30,7 @@ export default function Shell({ children }: ShellProps) {
     }, 300);
 
     StatusBar.setStyle({ style: StatusBarStyle.Light }).catch(() => { /* ignore */ });
-    StatusBar.setBackgroundColor({ color: "#0F3B2E" }).catch(() => { /* ignore */ });
+    StatusBar.setBackgroundColor({ color: "#0B1F3A" }).catch(() => { /* ignore */ });
 
     initDeepLinks();
 
@@ -39,8 +39,13 @@ export default function Shell({ children }: ShellProps) {
 
   return (
     <div
-      className="flex min-h-screen flex-col bg-tenu-cream text-tenu-slate"
+      className="flex min-h-screen flex-col"
       style={{
+        // Identity v1 paper + ink. Inline so the splash → first paint
+        // colour match is bulletproof regardless of how the legacy
+        // `tenu-cream` Tailwind alias resolves.
+        backgroundColor: "#F4F1EA",
+        color: "#0B1F3A",
         paddingTop: "env(safe-area-inset-top)",
         paddingBottom: "env(safe-area-inset-bottom)",
         paddingLeft: "env(safe-area-inset-left)",

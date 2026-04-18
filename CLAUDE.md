@@ -91,7 +91,7 @@ AI-powered deposit risk scoring + dispute letters in 10 languages.
 |---|---|---|
 | Framework | Next.js 15 (App Router) | Web + PWA + SEO from one codebase |
 | Language | TypeScript | Mandatory — no plain JS |
-| Mobile wrapper | Capacitor 6 | iOS + Android from Next.js |
+| Mobile wrapper | Capacitor 7 | iOS + Android from Next.js |
 | Styling | Tailwind CSS | RTL support for Arabic built in |
 | i18n | next-intl | 10 languages, route-based locale |
 | Camera | Capacitor Camera plugin | Native camera on iOS + Android |
@@ -238,7 +238,7 @@ Breakeven: ~4 paying users/month against €47 fixed burn.
 ## Decisions already made — NEVER re-debate
 - Domain: tenu.world
 - Framework: Next.js 15 + TypeScript + Tailwind
-- Mobile: Capacitor (not React Native)
+- Mobile: Capacitor 7 (not React Native)
 - Auth: Supabase
 - Database: Supabase (not Airtable)
 - Camera: Capacitor Camera plugin

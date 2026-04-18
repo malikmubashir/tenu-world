@@ -1,0 +1,19 @@
+<!-- Android adaptive icon — foreground layer (1024×1024 with 25% safe-area
+     inset per Material Design spec). The figure must sit inside the inner
+     ~660px circle to survive any launcher mask shape (round, squircle,
+     teardrop). Background layer = solid #0B1F3A in icon-background.svg. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Tenu">
+  <rect width="1024" height="1024" fill="none"/>
+  <!-- Figure scaled to fit inside the safe 660 inner circle.
+       Original 48-canvas figure scaled by 13.75 = ~660px tall. -->
+  <g transform="translate(182, 182) scale(13.75)">
+    <!-- Head silhouette -->
+    <circle cx="24" cy="13" r="4.9" fill="#F4F1EA"/>
+    <!-- Arms -->
+    <rect x="11" y="22.4" width="26" height="2.2" rx="1.1" fill="#F4F1EA"/>
+    <!-- Body -->
+    <rect x="22.9" y="23.5" width="2.2" height="18" rx="1.1" fill="#F4F1EA"/>
+    <!-- Head overlay (slightly smaller, paper) for contrast against navy bg -->
+    <circle cx="24" cy="13" r="4" fill="#F4F1EA"/>
+  </g>
+</svg>
