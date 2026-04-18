@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Tenu iOS — Privacy Manifest (PrivacyInfo.xcprivacy).
+
+  Apple mandate: every iOS app + every third-party SDK that reaches App
+  Review after 1 May 2024 must ship this file. Submissions without one
+  are rejected. See:
+  https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
+
+  Where this file goes in Xcode (MH):
+    1. After `npx cap add ios`, the Capacitor-generated Xcode project has
+       ios/App/App/ as the main target group.
+    2. In Xcode, right-click the App group → "Add Files to App..." and
+       pick this file (PrivacyInfo.xcprivacy).
+    3. Confirm Target Membership = App (tick the box). File Inspector →
+       Identity and Type → Type = "App Privacy Configuration File".
+    4. When you add a Capacitor plugin that ships its own PrivacyInfo,
+       Apple merges them automatically — don't try to hand-merge.
+
+  What's declared here:
+    * Email (linked, not tracking, AppFunctionality) — users provide it
+      for magic-link auth and delivery of the scan report.
+    * Photos/Videos (linked, not tracking, AppFunctionality) — the user
+      uploads state-of-the-property photos to generate the risk scan.
+    * NO precise or coarse location. We never ask for or infer it.
+    * NO advertising data, health, financial, sensitive info.
+    * NSPrivacyTracking = false. We do no cross-app tracking, no ATT
+      prompt, no IDFA.
+    * Required-reason APIs declared for: UserDefaults (prefs), file
+      timestamps (photo EXIF displayed to user), disk space (saving
+      photos locally before upload).
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSPrivacyTracking</key>
+    <false/>
+    <key>NSPrivacyTrackingDomains</key>
+    <array/>
+
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array>
+        <!-- Email address — provided by user at sign-in (Supabase magic
+             link) and for scan-report delivery via Brevo. Linked to the
+             user identity. Not used for tracking. -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypeEmailAddress</string>
+            <key>NSPrivacyCollectedDataTypeLinked</key>
+            <true/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+            </array>
+        </dict>
+
+        <!-- Photos — state-of-the-property images captured by the user.
+             Linked to the user's inspection record in Supabase + R2.
+             Not used for tracking or analytics. -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypePhotosorVideos</string>
+            <key>NSPrivacyCollectedDataTypeLinked</key>
+            <true/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+            </array>
+        </dict>
+
+        <!-- User ID — Supabase auth.uid persists per install. Linked,
+             not tracking. Used to bind photos + scans + letters to the
+             authenticated account. -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypeUserID</string>
+            <key>NSPrivacyCollectedDataTypeLinked</key>
+            <true/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+                <string>NSPrivacyCollectedDataTypePurposeAuthentication</string>
+            </array>
+        </dict>
+
+        <!-- Product interaction — inspection events logged to our own
+             Supabase telemetry (scan_started, scan_completed etc.).
+             Linked. Not used for tracking. Purpose: analytics on our
+             own funnel, not a 3rd-party analytics SDK. -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypeProductInteraction</string>
+            <key>NSPrivacyCollectedDataTypeLinked</key>
+            <true/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAnalytics</string>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+            </array>
+        </dict>
+    </array>
+
+    <key>NSPrivacyAccessedAPITypes</key>
+    <array>
+        <!-- UserDefaults — @capacitor/preferences wraps NSUserDefaults
+             on iOS. Reason CA92.1: access info from same app. -->
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>CA92.1</string>
+            </array>
+        </dict>
+
+        <!-- File timestamp — we read EXIF dates from captured photos
+             and display the captured-at time back to the user on the
+             review screen. Reason C617.1: display to user. -->
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>C617.1</string>
+            </array>
+        </dict>
+
+        <!-- Disk space — @capacitor/filesystem writes photos to the
+             sandbox before upload, then deletes after successful
+             commit. Reason E174.1: write to the user's own device. -->
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>E174.1</string>
+            </array>
+        </dict>
+
+        <!-- System boot time — @capacitor/preferences + @capacitor/network
+             may touch this indirectly. Reason 35F9.1: generate identifiers
+             that a user cannot reset, scoped to our own app. We actually
+             don't do that — remove this block if Apple flags it. Kept
+             because common Capacitor deps historically required it. -->
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategorySystemBootTime</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>35F9.1</string>
+            </array>
+        </dict>
+    </array>
+</dict>
+</plist>
