@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Tenu — Vos droits. Votre langue. Votre caution.",
-    "description": "Compagnon IA pour les droits des locataires internationaux en France et au Royaume-Uni."
+    "title": "Tenu — Votre caution, vérifiée en deux minutes.",
+    "description": "Envoyez vos photos d'état des lieux. Notre IA vous dit ce que votre propriétaire peut légalement retenir, et ce qui doit vous être remboursé. À partir de 15 €."
   },
   "nav": {
     "home": "Accueil",
@@ -13,45 +13,77 @@
     "logout": "Déconnexion"
   },
   "hero": {
-    "title": "Vos droits. Votre langue. Votre caution.",
-    "subtitle": "Tenu vous guide lors de votre état des lieux dans votre langue, évalue le risque de retenue sur votre caution par IA, et génère des lettres de contestation quand votre propriétaire tente de garder ce qui vous appartient.",
-    "cta": "Commencer votre état des lieux",
-    "ctaSecondary": "Comment ça marche"
+    "eyebrow": "Caution locative — France",
+    "title": "Votre propriétaire garde une partie de votre caution ?",
+    "subtitle": "Envoyez vos photos d'état des lieux. Notre IA les lit en deux minutes. Elle vous dit ce qui peut vous être légalement retenu, et ce qui ne peut pas l'être.",
+    "pricePromise": "À partir de 15 €. Vous ne payez que si vous lancez l'analyse.",
+    "cta": "Analyser mes photos",
+    "ctaSecondary": "Voir un exemple"
   },
-  "features": {
-    "heading": "Six fonctionnalités. Un objectif : protéger votre caution.",
-    "onboarding": {
-      "title": "Accueil du locataire",
-      "desc": "Vos droits légaux expliqués dans votre langue dès le premier jour."
-    },
-    "evidence": {
-      "title": "Preuves photographiques guidées",
-      "desc": "Photos horodatées pièce par pièce, recevables en cas de litige."
-    },
-    "rights": {
-      "title": "Explication des droits",
-      "desc": "10 faits essentiels sur les droits des locataires en France ou au Royaume-Uni."
-    },
-    "scan": {
-      "title": "Analyse IA des risques",
-      "desc": "L'IA analyse vos photos et évalue le risque de retenue par pièce."
-    },
-    "dispute": {
-      "title": "Lettre de contestation",
-      "desc": "Lettre formelle en français ou anglais, expliquée dans votre langue."
-    },
-    "followup": {
-      "title": "Suivi des résultats",
-      "desc": "Suivi à 14 jours pour vérifier la restitution de votre caution."
+  "trust": {
+    "heading": "Pourquoi nous faire confiance",
+    "items": {
+      "data": {
+        "title": "Vos photos restent en Europe",
+        "desc": "Stockage chiffré chez Cloudflare EU. Supprimées après douze mois. Jamais utilisées pour entraîner des IA."
+      },
+      "law": {
+        "title": "Appuyé sur le droit français",
+        "desc": "Grille de vétusté basée sur l'arrêté du 19 mars 2020, relu par un avocat spécialisé en droit du logement."
+      },
+      "honesty": {
+        "title": "Nous ne sommes pas un cabinet d'avocats",
+        "desc": "Tenu produit un modèle de lettre. Vous le signez. Vous l'envoyez. Les locataires qui l'utilisent récupèrent une partie ou la totalité de leur caution."
+      }
     }
   },
+  "example": {
+    "label": "Scénario illustratif",
+    "heading": "À quoi cela ressemble",
+    "body": "Studio meublé à Lyon. La propriétaire retient 720 € sur une caution de 900 €. Tenu analyse les photos de sortie : 540 € relèvent de la vétusté normale selon la grille officielle. La lettre type part en recommandé. Caution remboursée en vingt-deux jours.",
+    "disclaimer": "Situation type construite sur la grille de vétusté en vigueur. Les résultats varient selon votre cas."
+  },
+  "features": {
+    "eyebrow": "Ce que vous obtenez",
+    "heading": "De la photo à la caution remboursée",
+    "onboarding": {
+      "title": "Connaître vos droits avant d'entrer",
+      "desc": "Dix faits juridiques clés sur votre bail en France, dans votre langue, dès le premier jour."
+    },
+    "evidence": {
+      "title": "Des preuves qui tiennent en médiation",
+      "desc": "Photos horodatées pièce par pièce, chaîne de garde vérifiable, recevables devant la Commission de conciliation."
+    },
+    "rights": {
+      "title": "Savoir ce qui est déductible",
+      "desc": "La liste exacte de ce que votre propriétaire peut et ne peut pas retenir sur votre caution en France."
+    },
+    "scan": {
+      "title": "Deux minutes pour savoir",
+      "desc": "L'IA lit vos photos et vous donne par pièce ce qui relève de la vétusté et ce qui n'en relève pas."
+    },
+    "dispute": {
+      "title": "Une lettre qui se défend",
+      "desc": "Lettre en français, format CDC, expliquée dans votre langue. Vous signez, vous envoyez en recommandé."
+    },
+    "followup": {
+      "title": "Jusqu'au remboursement",
+      "desc": "À quatorze jours, nous vous demandons si votre caution a été restituée. Vos réponses aident le locataire suivant."
+    }
+  },
+  "closing": {
+    "heading": "Deux minutes pour savoir où vous en êtes.",
+    "body": "Importez vos photos. Parcourez le rapport. Payez 15 € seulement si vous choisissez de lancer l'analyse complète.",
+    "cta": "Commencer",
+    "subnote": "Paiement sécurisé Stripe. Rétractation renoncée à l'achat (art. L221-28 1° Code de la consommation)."
+  },
   "pricing": {
-    "heading": "Tarification simple et équitable",
+    "heading": "Un prix simple, affiché à l'avance",
     "scan": {
       "title": "Analyse des risques",
       "price": "15 €",
-      "desc": "Rapport d'inspection par IA avec évaluation des risques pièce par pièce.",
-      "cta": "Obtenir votre rapport"
+      "desc": "Rapport d'inspection par IA avec évaluation pièce par pièce.",
+      "cta": "Obtenir mon rapport"
     },
     "dispute": {
       "title": "Lettre de contestation",
