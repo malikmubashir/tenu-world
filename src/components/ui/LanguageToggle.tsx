@@ -6,8 +6,15 @@ import { localeNames, locales } from "@/lib/i18n/config";
 
 /**
  * Language toggle for the header.
- * Shows FR/EN flags as primary toggle + globe icon for other languages.
- * Sets a cookie so server components pick up the locale on next request.
+ *
+ * Shows FR/EN flags as primary toggle + globe icon for other
+ * languages. Sets a cookie so server components pick up the locale
+ * on the next request.
+ *
+ * `chrome` prop lets the caller match the surrounding surface:
+ *   - "light" (default): text-tenu-slate, cream hover — for Apple-crisp
+ *     chrome and body surfaces.
+ *   - "dark": Paper text, Paper/10 hover — for Identity v1 navy chrome.
  */
 
 /** Flag emoji by locale — simple, no image assets needed */
@@ -34,10 +41,31 @@ function setLocaleCookie(locale: Locale) {
   document.cookie = `locale=${locale};path=/;max-age=${365 * 24 * 60 * 60};SameSite=Lax`;
 }
 
-export default function LanguageToggle({ currentLocale }: { currentLocale: Locale }) {
+interface LanguageToggleProps {
+  currentLocale: Locale;
+  chrome?: "light" | "dark";
+}
+
+export default function LanguageToggle({
+  currentLocale,
+  chrome = "light",
+}: LanguageToggleProps) {
   const [locale, setLocale] = useState<Locale>(currentLocale);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const dark = chrome === "dark";
+
+  // Surface classes picked per chrome. Tailwind's JIT sees these as
+  // static strings so they compile correctly.
+  const triggerCls = dark
+    ? "hover:bg-white/10"
+    : "hover:bg-tenu-cream/60";
+  const labelCls = dark
+    ? "text-brand-paper/80"
+    : "text-tenu-slate/70";
+  const globeCls = dark
+    ? "text-brand-paper/70"
+    : "text-tenu-slate/60";
 
   function switchTo(newLocale: Locale) {
     setLocale(newLocale);
@@ -64,11 +92,11 @@ export default function LanguageToggle({ currentLocale }: { currentLocale: Local
       {/* Inactive primary language — click to switch */}
       <button
         onClick={() => switchTo(inactiveLocale)}
-        className="flex items-center gap-1 rounded-md px-2 py-1 text-sm hover:bg-tenu-cream/60"
+        className={`flex items-center gap-1 rounded-md px-2 py-1 text-sm ${triggerCls}`}
         title={`Switch to ${localeNames[inactiveLocale]}`}
       >
         <span className="text-base leading-none">{FLAGS[inactiveLocale]}</span>
-        <span className="text-xs font-medium text-tenu-slate/70 uppercase">
+        <span className={`text-xs font-medium uppercase ${labelCls}`}>
           {inactiveLocale}
         </span>
       </button>
@@ -77,10 +105,10 @@ export default function LanguageToggle({ currentLocale }: { currentLocale: Local
       <div className="relative">
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className="flex items-center rounded-md px-1.5 py-1 text-sm hover:bg-tenu-cream/60"
+          className={`flex items-center rounded-md px-1.5 py-1 text-sm ${triggerCls}`}
           title="More languages"
         >
-          <svg className="h-4 w-4 text-tenu-slate/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <svg className={`h-4 w-4 ${globeCls}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
           </svg>
         </button>

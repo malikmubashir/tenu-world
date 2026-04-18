@@ -5,16 +5,17 @@ import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server"
 import { getDictionary } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n/config";
 import LanguageToggle from "@/components/ui/LanguageToggle";
+import TenuMark from "@/components/brand/TenuMark";
 import UserMenu from "./UserMenu";
 
 /**
  * Global site header — rendered once in the root layout.
  *
- * Apple HIG language: sticky translucent bar (backdrop-blur), 44pt tap
- * targets, subtle underline-on-hover for text links, soft scale-press
- * on interactive surfaces. Reads Supabase session server-side so the
- * auth-aware chrome is in the first byte instead of flashing in on
- * client rehydration.
+ * Identity v1 chrome (decided 2026-04-18, Option C): solid Tenu Ink
+ * background, Paper link text, Disc mark + Inter Tight wordmark. The
+ * primary CTA keeps the Apple-crisp emerald because task #59 locked
+ * it — green reads well on navy and we don't want to retest CTA lift
+ * before the 11 May soft launch.
  *
  * Not a client component: auth state lives server-side. The avatar
  * menu (UserMenu) is the only client island and only mounts when a
@@ -60,22 +61,23 @@ export default async function GlobalHeader() {
   const isAuthed = !!email;
 
   return (
-    <header className="hig-header-blur sticky top-0 z-40 border-b border-tenu-cream-dark/60">
+    <header className="hig-header-ink sticky top-0 z-40">
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-8">
         <Link
           href="/"
-          className="hig-press text-xl font-semibold tracking-tight text-tenu-forest"
+          className="hig-press flex items-center gap-2"
           aria-label="Tenu — home"
         >
-          tenu
+          <TenuMark container="disc" size={28} title="Tenu" />
+          <span className="t-wordmark text-xl">tenu</span>
         </Link>
 
         <nav className="flex items-center gap-2 md:gap-3">
-          <LanguageToggle currentLocale={locale} />
+          <LanguageToggle currentLocale={locale} chrome="dark" />
 
           <Link
             href="/pricing"
-            className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-tenu-slate/80 hover:bg-tenu-cream-dark/60 hover:text-tenu-slate sm:inline-flex"
+            className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
           >
             {nav.pricing ?? (uiLocale === "fr" ? "Tarifs" : "Pricing")}
           </Link>
@@ -86,7 +88,7 @@ export default async function GlobalHeader() {
             <>
               <Link
                 href="/auth/login"
-                className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-tenu-slate/80 hover:bg-tenu-cream-dark/60 hover:text-tenu-slate sm:inline-flex"
+                className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
               >
                 {nav.login ?? (uiLocale === "fr" ? "Connexion" : "Log in")}
               </Link>

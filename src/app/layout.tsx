@@ -1,11 +1,22 @@
 import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import Script from "next/script";
+import { Inter_Tight } from "next/font/google";
 import { getDirection } from "@/lib/i18n/config";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import CookieBanner from "@/components/legal/CookieBanner";
 import GlobalHeader from "@/components/web/GlobalHeader";
 import "./globals.css";
+
+// Identity v1 brand font. Only carried on the chrome (header
+// wordmark, PDF cover, social share cards). Body type stays on
+// `--font-sans` (SF Pro / system). Medium is the only weight used.
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  display: "swap",
+  variable: "--font-inter-tight",
+});
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://tenu.world";
 const SITE_NAME = "Tenu.World";
@@ -168,7 +179,12 @@ export default async function RootLayout({
   const dir = getDirection(locale);
 
   return (
-    <html lang={locale} dir={dir} suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir={dir}
+      className={interTight.variable}
+      suppressHydrationWarning
+    >
       <head>
         <Script
           id="ld-organization"

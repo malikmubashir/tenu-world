@@ -10,12 +10,19 @@ export default function manifest(): MetadataRoute.Manifest {
       "AI-powered tenant rights companion for international renters in France and the UK.",
     start_url: "/",
     display: "standalone",
-    background_color: "#F8F4EC",
-    theme_color: "#1F3B2D",
+    // Identity v1: Paper canvas, Tenu Ink chrome.
+    background_color: "#F4F1EA",
+    theme_color: "#0B1F3A",
     orientation: "portrait",
     categories: ["legal", "productivity", "utilities"],
     lang: "en",
     icons: [
+      {
+        src: "/favicon.svg",
+        sizes: "any",
+        type: "image/svg+xml",
+        purpose: "any",
+      },
       {
         src: "/icon",
         sizes: "32x32",
@@ -25,6 +32,7 @@ export default function manifest(): MetadataRoute.Manifest {
         src: "/apple-icon",
         sizes: "180x180",
         type: "image/png",
+        purpose: "maskable",
       },
     ],
   };

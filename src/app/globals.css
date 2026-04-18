@@ -62,11 +62,22 @@ html, body {
     box-shadow: var(--shadow-hig-card);
   }
 
-  /* Translucent header — macOS Sonoma / iOS 17 toolbar feel. */
+  /* Translucent header — macOS Sonoma / iOS 17 toolbar feel.
+     Kept for any surface that still wants the light chrome. */
   .hig-header-blur {
     background: color-mix(in oklab, var(--color-tenu-canvas) 80%, transparent);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
+  }
+
+  /* Identity v1 navy chrome — solid Tenu Ink with Paper text.
+     Use on the global header and any surface that carries the
+     brand mark. Body surfaces stay on Apple-crisp canvas. */
+  .hig-header-ink {
+    background: var(--color-brand-ink);
+    color: var(--color-brand-paper);
+    border-bottom: 1px solid
+      color-mix(in oklab, var(--color-brand-paper) 10%, transparent);
   }
 
   .hig-reveal {
@@ -158,6 +169,19 @@ html, body {
     text-transform: uppercase;
     font-weight: 600;
     color: var(--color-tenu-ink-muted);
+  }
+
+  /* Identity v1 wordmark. Inter Tight Medium, lowercase,
+     tracking -0.04em per designer spec. Paper colour by default
+     because it lives on the navy chrome; override `color` inline
+     when used on Paper surfaces (PDF cover, etc). */
+  .t-wordmark {
+    font-family: var(--font-brand);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    text-transform: lowercase;
+    color: var(--color-brand-paper);
+    line-height: 1;
   }
 
   /* ---------- CTAs ---------- */
