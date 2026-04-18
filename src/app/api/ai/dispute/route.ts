@@ -12,6 +12,7 @@ import type {
   DisputeTone,
 } from "@/lib/ai/types/dispute-letter";
 import type { RiskScanOutputV2 } from "@/lib/ai/types/risk-scan";
+import { notifyDisputeReady } from "@/lib/email/notify";
 
 interface RequestBody {
   inspectionId: string;
@@ -255,6 +256,22 @@ export async function POST(request: Request) {
       );
     }
     disputeId = inserted.id;
+  }
+
+  // Fire dispute-ready email. Best-effort (same rationale as scan): the
+  // letter is persisted; out-of-band transport failure must not surface
+  // as a 5xx to the paying user.
+  try {
+    const emailRes = await notifyDisputeReady({
+      userId: user.id,
+      inspectionId,
+      letterType,
+    });
+    if (!emailRes.ok) {
+      console.warn("[dispute] notifyDisputeReady failed:", emailRes.error);
+    }
+  } catch (err) {
+    console.warn("[dispute] notifyDisputeReady threw:", err);
   }
 
   return NextResponse.json({

@@ -328,29 +328,29 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">23 days</div>
-    <div>Regenerated <span id="gen-ts">2026-04-18T21:24:18</span></div>
+    <div>Regenerated <span id="gen-ts">2026-04-18T21:30:13</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">48</div>
-    <div class="hint"><span id="c-ip">2</span> in progress</div>
+    <div class="value" id="c-open">47</div>
+    <div class="hint"><span id="c-ip">1</span> in progress</div>
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">11</div>
+    <div class="value" id="c-done">12</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">21</div>
+    <div class="value" id="c-due7">20</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">42</div>
+    <div class="value" id="c-p0">41</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -372,7 +372,7 @@
     <div class="n">
       <span id="r-mh">25</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
-      <span id="r-cc">23</span>
+      <span id="r-cc">22</span>
     </div>
     <div class="lbl">MH · CC open</div>
   </div>
@@ -424,23 +424,23 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-04-18T21:24:18",
+    "generated": "2026-04-18T21:30:13",
     "today": "2026-04-18",
     "launch": "2026-05-11",
     "days_to_launch": 23,
     "counts": {
       "total": 59,
       "open": 46,
-      "in_progress": 2,
-      "done": 11,
+      "in_progress": 1,
+      "done": 12,
       "dropped": 0,
-      "p0_open": 42,
+      "p0_open": 41,
       "p1_open": 2,
       "p2_open": 4,
       "no_priority": 0,
       "mh_open": 25,
-      "cc_open": 23,
-      "due_next_7": 21,
+      "cc_open": 22,
+      "due_next_7": 20,
       "overdue": 0,
       "p0_no_due": 0
     }
@@ -637,12 +637,12 @@
       "id": "T-018",
       "line_no": 46,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "In Progress",
+      "status": "Done",
       "owner": "CC",
       "title": "Brevo transactional email leg",
       "priority": "P0 Blocker",
       "due": "2026-04-23",
-      "note": "send scan-complete + dispute-ready emails with R2 PDF link — started 2026-04-18: model chosen = in-repo HTML templates under docs/email-templates/, Brevo as transport via API. Awaiting Dr Mubashir confirmation on template path vs dashboard-template-ID path before wiring."
+      "note": "send scan-complete + dispute-ready emails with R2 PDF link — done 2026-04-18: in-repo template model (HTML-as-TS-string), Brevo as REST transport. Shipped src/lib/email/brevo.ts (fetch wrapper, no SDK dep), src/lib/email/notify.ts (high-level notifyScanComplete + notifyDisputeReady pulling email/locale/display_name from profiles via admin client), src/lib/email/templates/{scan-complete,dispute-ready}.ts (FR/EN stacked, Identity v1 palette, matches brevo-welcome.html register). Wired into /api/ai/scan post-update and /api/ai/dispute post-persist, both best-effort (try/catch + console.warn, never block caller). Typecheck exit 0. Link currently points to /inspection/{id}/report — dispute-ready template will grow a \"Download PDF\" button fed by R2 presigned URL once the @react-pdf/renderer leg lands; helper signature is already stable."
     },
     {
       "id": "T-019",

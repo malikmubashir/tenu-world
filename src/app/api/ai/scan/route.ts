@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { scanAllRooms, ScanError, type ScanInput } from "@/lib/ai/risk-scan";
+import { notifyScanComplete } from "@/lib/email/notify";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -143,6 +144,21 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString(),
     })
     .eq("id", inspectionId);
+
+  // Fire scan-complete email. Best-effort: the scan is already persisted,
+  // a transport failure should not surface as a 5xx to the caller. Log
+  // and move on — out-of-band monitoring will pick up persistent failures.
+  try {
+    const emailRes = await notifyScanComplete({
+      userId: user.id,
+      inspectionId,
+    });
+    if (!emailRes.ok) {
+      console.warn("[scan] notifyScanComplete failed:", emailRes.error);
+    }
+  } catch (err) {
+    console.warn("[scan] notifyScanComplete threw:", err);
+  }
 
   return NextResponse.json({
     scanResult,
