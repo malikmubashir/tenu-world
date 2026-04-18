@@ -1,7 +1,11 @@
 # Tenu · Brand Guidelines
 
-Version 1.0 · 2026-04-18 · Owner: Dr Mubashir (Global Apex.Net SAS)
+Version 1.1 · 2026-04-18 · Owner: Dr Mubashir (Global Apex.Net SAS)
 Source of truth for every Tenu surface: web, iOS, Android, PDF reports, email, presentations, letterhead, social.
+
+Change log.
+v1.1 (2026-04-18) · Repositioned to a full professional services register. Removed the "advocate's voice" framing. Every surface holds to the same standard as an audit report, a legal memorandum, or a notarial deed.
+v1.0 (2026-04-18) · Initial release.
 
 ---
 
@@ -9,9 +13,11 @@ Source of truth for every Tenu surface: web, iOS, Android, PDF reports, email, p
 
 This is the canonical reference. If any Tenu asset, template, or partner deliverable disagrees with this file, this file wins.
 
-Tenu sits between two contradictory demands. Our users (tenants, international students, expats) are people failed by institutions. Our counterparties (landlords, agences, CDC, CAF, tribunals) are institutions. The brand resolves the contradiction by adopting **institutional discipline in an advocate's voice**: the typography, geometry, and tone of an Apple or a Supreme Court, paired with copy that is plain, warm, and unambiguously on the tenant's side.
+Tenu operates in a regulated, legally adjacent space. Our users are tenants; our counterparties are landlords, agences, the Commission Départementale de Conciliation, mediators, and tribunals. Every surface we ship is a business instrument, not a marketing artefact: a scan report, a dispute letter, a transactional email, a landing page that a counterparty will read before responding.
 
-We do not do "corporate" in the BNP Paribas sense. No stock imagery, no "trust" buzzwords, no stock-photo handshakes. Everything we ship looks like it could be evidence in a case file.
+The brand therefore holds a **full professional services register** throughout — the discipline of a cabinet d'avocats, a notariat, or a top-tier audit practice. Typography, geometry, colour, copy, and legal footer language are calibrated to one standard: every surface must read as a credible business deliverable to both our users and their counterparties.
+
+No stock imagery. No marketing buzzwords. No casual register. No visual or verbal shortcut that could undermine the evidentiary or commercial weight of the output.
 
 ---
 
@@ -28,9 +34,9 @@ We do not do "corporate" in the BNP Paribas sense. No stock imagery, no "trust" 
 **Audience secondary.** French-native tenants who distrust the landlord's état des lieux.
 **Audience tertiary (roadmap).** UK tenants under the Tenancy Deposit Scheme / DPS regime.
 
-**Positioning.** The only multilingual, evidence-grade tenant rights companion whose output is accepted by French mediators and, on request, by the Commission Départementale de Conciliation.
+**Positioning.** A multilingual professional service that produces evidence-grade inspection records and dispute correspondence accepted by French mediators and, where applicable, submitted to the Commission Départementale de Conciliation.
 
-**What we are not.** We are not a marketplace. We are not a landlord tool. We are not an insurance product. We are not legal counsel and we say so on every surface.
+**What we are not.** Tenu is not a marketplace, not a landlord tool, not an insurance product, not a law firm. Every surface states this where relevant, and the legal disclaimer in §3.4 is mandatory on every output that could be mistaken for legal advice.
 
 ---
 
@@ -38,11 +44,12 @@ We do not do "corporate" in the BNP Paribas sense. No stock imagery, no "trust" 
 
 ### 3.1 Principles
 
-1. **Plain over clever.** A scared tenant on their phone at 23:00 should read us without rereading.
-2. **Evidence over emotion.** We state facts and cite articles. We do not catastrophise.
-3. **Advocacy without partisanship.** We are pro-tenant, never anti-landlord. A fair landlord should be able to read our text and nod.
-4. **Legal precision where it matters.** We cite article numbers verbatim (art. 22 loi du 6 juillet 1989; art. L221-28 Code de la consommation). We never paraphrase law into a slogan.
-5. **Multilingual symmetry.** Every sentence ships in the target language from day one. No "coming soon" French translations of English marketing.
+1. **Clarity before cleverness.** Users read us under pressure, often in a second or third language. Every sentence must be understood on first pass.
+2. **Evidence over rhetoric.** We state facts and cite articles. We do not dramatize, editorialise, or catastrophise.
+3. **Professional neutrality.** Tenu serves tenants. Tenu does not campaign against landlords. A counterparty reading any Tenu output must find it procedurally correct and factually precise, even if the conclusions are unwelcome.
+4. **Legal precision where it matters.** We cite article numbers verbatim (art. 22 loi du 6 juillet 1989; art. L221-28 Code de la consommation). We never paraphrase law into slogan.
+5. **Multilingual symmetry.** Every user-facing sentence ships in each target language at commit time. We do not publish "coming soon" translations, and we do not ship machine-translated copy.
+6. **Register consistency.** The same institutional tone carries from the landing page through checkout, inspection flow, PDF report, dispute letter, and support email. No register shift between marketing and product.
 
 ### 3.2 What we avoid
 

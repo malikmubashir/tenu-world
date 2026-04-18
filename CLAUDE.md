@@ -221,7 +221,7 @@ Single source of truth for every Tenu surface (web, app, email, PDF, letterhead,
 - **Parametric mark component:** `src/components/brand/TenuMark.tsx` (11 containers)
 - **Email templates:** `docs/email-templates/` (six Supabase + one Brevo, stacked FR/EN/ZH/AR)
 
-Principle: institutional discipline in an advocate's voice. Never BNP-corporate. Palette is Apple-crisp body (#059669 emerald CTA, #1D1D1F ink, #FFFFFF canvas) + Identity v1 chrome (#0B1F3A navy, #F4F1EA paper). Wordmark is lowercase `tenu`, Inter Tight 500, tracking −0.04em.
+Principle: full professional services register throughout, calibrated to a cabinet d'avocats or audit practice. Every surface must read as a credible business deliverable to both the tenant and the counterparty. No casual register, no marketing buzzwords, no stock imagery, no artisanal touches. Palette is Apple-crisp body (#059669 emerald CTA, #1D1D1F ink, #FFFFFF canvas) + Identity v1 chrome (#0B1F3A navy, #F4F1EA paper). Wordmark is lowercase `tenu`, Inter Tight 500, tracking −0.04em.
 
 ---
 
