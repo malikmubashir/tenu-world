@@ -49,6 +49,7 @@ STASH_PATHS=(
 restore() {
   local status=$?
   if [ ! -d "$STASH_ROOT" ]; then
+    sweep_icloud_dupes
     exit $status
   fi
   # Restore in reverse order so parents come back after nested children.
@@ -69,7 +70,18 @@ restore() {
   done
   find "$STASH_ROOT" -type d -empty -delete 2>/dev/null || true
   rmdir "$STASH_ROOT" 2>/dev/null || true
+  sweep_icloud_dupes
   exit $status
+}
+
+# macOS iCloud Drive replicates any `mv` inside ~/Documents by creating
+# a "<name> (<n>).<ext>" duplicate of the moved path. Across enough
+# build iterations these accumulate into hundreds of 0-byte files —
+# some under src/app/ which Next.js might register as routes.
+sweep_icloud_dupes() {
+  find src/app -type d -name "* ([0-9]*)" -prune -exec rm -rf {} + 2>/dev/null || true
+  find src/app -type f -name "* ([0-9]*).tsx" -delete 2>/dev/null || true
+  find src/app -type f -name "* ([0-9]*).ts" -delete 2>/dev/null || true
 }
 trap restore EXIT INT TERM
 
