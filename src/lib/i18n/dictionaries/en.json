@@ -38,10 +38,11 @@
     }
   },
   "example": {
-    "label": "Illustrative scenario",
-    "heading": "What this looks like",
-    "body": "Furnished studio in Lyon. Landlord withheld €720 of a €900 deposit. Tenu analysed the move-out photos: €540 was normal wear under the official scale. Template letter sent by registered post. Deposit returned in twenty-two days.",
-    "disclaimer": "Scenario built on the current wear-and-tear scale. Results vary by situation."
+    "label": "Cases",
+    "heading": "Two tenants. Two cities. The same mechanism.",
+    "intro": "Each case is a composite drawn from tenant files we have seen. From May 2026 we publish outcome data from real disputes that closed, anonymised, with written consent.",
+    "seeAll": "See all cases",
+    "disclaimer": "Composite cases. Names fictitious, sums illustrative, legal references accurate as at 18 April 2026."
   },
   "features": {
     "eyebrow": "What you get",

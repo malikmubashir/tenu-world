@@ -5,6 +5,7 @@ import { Shield, Camera, BookOpen, Brain, FileText, Bell } from "lucide-react";
 import { getDictionary } from "@/lib/i18n/server";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n/config";
+import { getFeaturedStories } from "@/lib/stories";
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://tenu.world";
 
@@ -119,6 +120,11 @@ export default async function Home() {
   const features = t.features as Record<string, unknown>;
   const closing = t.closing as Record<string, string>;
 
+  // Case cards are rendered from the story manifest, not the dictionary.
+  // EN + FR only per launch directive; non-en locales receive FR content.
+  const featured = getFeaturedStories(2);
+  const storyLang: "en" | "fr" = locale === "en" ? "en" : "fr";
+
   const featureList = [
     { key: "onboarding", icon: Shield },
     { key: "evidence", icon: Camera },
@@ -199,19 +205,53 @@ export default async function Home() {
           </section>
         )}
 
-        {/* ---------- 3. EXAMPLE CASE ---------- */}
-        {example?.heading && (
+        {/* ---------- 3. CASES (dual-card, manifest-driven) ---------- */}
+        {/* Reads from getFeaturedStories(). Adding a new case = one append to
+            src/lib/stories.ts with featured: true. Nothing else changes here.
+            Success stories slot into the same grid once they land in May 2026. */}
+        {example?.heading && featured.length > 0 && (
           <section id="example" className="t-section-canvas px-6 md:px-12">
-            <div className="t-content max-w-3xl">
-              {example.label && (
-                <span className="t-label mb-4 inline-block text-tenu-accent">
-                  {example.label}
-                </span>
+            <div className="t-content max-w-5xl">
+              <div className="mx-auto mb-12 max-w-2xl text-center">
+                {example.label && (
+                  <span className="t-label mb-4 inline-block text-tenu-accent">
+                    {example.label}
+                  </span>
+                )}
+                <h2 className="t-section-heading mb-5">{example.heading}</h2>
+                {example.intro && (
+                  <p className="t-body-muted">{example.intro}</p>
+                )}
+              </div>
+
+              <div className="grid gap-6 md:grid-cols-2">
+                {featured.map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={s.href}
+                    className="t-card hig-press block transition hover:-translate-y-0.5 hover:border-tenu-accent/40"
+                  >
+                    <div className="t-label mb-3 text-tenu-accent">
+                      {s.eyebrow[storyLang]}
+                    </div>
+                    <h3 className="t-h3 mb-2">{s.title[storyLang]}</h3>
+                    <p className="t-small-muted">{s.hook[storyLang]}</p>
+                  </Link>
+                ))}
+              </div>
+
+              {example.seeAll && (
+                <div className="mt-10 text-center">
+                  <Link href="/stories" className="t-cta-ghost hig-press">
+                    {example.seeAll} →
+                  </Link>
+                </div>
               )}
-              <h2 className="t-section-heading mb-6">{example.heading}</h2>
-              <p className="t-body">{example.body}</p>
+
               {example.disclaimer && (
-                <p className="mt-6 text-xs text-tenu-ink-muted">{example.disclaimer}</p>
+                <p className="mt-8 text-center text-xs text-tenu-ink-muted">
+                  {example.disclaimer}
+                </p>
               )}
             </div>
           </section>
@@ -232,13 +272,18 @@ export default async function Home() {
               {featureList.map(({ key, icon: Icon }) => {
                 const feat = features[key] as Record<string, string>;
                 return (
-                  <div key={key} className="t-card hig-press">
+                  <Link
+                    key={key}
+                    href={`/features/${key}`}
+                    aria-label={feat.title}
+                    className="t-card hig-press block transition hover:-translate-y-0.5 hover:border-tenu-accent/40"
+                  >
                     <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-tenu-accent/10">
                       <Icon className="h-5 w-5 text-tenu-accent" strokeWidth={2.25} />
                     </div>
                     <h3 className="t-h3 mb-1.5">{feat.title}</h3>
                     <p className="t-small-muted">{feat.desc}</p>
-                  </div>
+                  </Link>
                 );
               })}
             </div>

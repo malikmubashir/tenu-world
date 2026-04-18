@@ -38,10 +38,11 @@
     }
   },
   "example": {
-    "label": "Scénario illustratif",
-    "heading": "À quoi cela ressemble",
-    "body": "Studio meublé à Lyon. La propriétaire retient 720 € sur une caution de 900 €. Tenu analyse les photos de sortie : 540 € relèvent de la vétusté normale selon la grille officielle. La lettre type part en recommandé. Caution remboursée en vingt-deux jours.",
-    "disclaimer": "Situation type construite sur la grille de vétusté en vigueur. Les résultats varient selon votre cas."
+    "label": "Cas",
+    "heading": "Deux locataires. Deux villes. Le même mécanisme.",
+    "intro": "Chaque cas est un composite tiré de dossiers que nous avons vus. À partir de mai 2026, nous publierons les résultats de contestations réelles menées à leur terme, anonymisées avec l'accord écrit du locataire.",
+    "seeAll": "Tous les cas",
+    "disclaimer": "Cas composites. Prénoms fictifs, montants illustratifs, références juridiques à jour au 18 avril 2026."
   },
   "features": {
     "eyebrow": "Ce que vous obtenez",
