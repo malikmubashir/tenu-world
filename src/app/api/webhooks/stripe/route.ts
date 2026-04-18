@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { verifyWebhookSignature } from "@/lib/payments/stripe";
-import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -31,7 +31,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Missing metadata" }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    // Service-role client — BYPASSES RLS. Required because Stripe webhook
+    // has no user session (no cookies, no bearer token). The anon-keyed
+    // server client would have auth.uid() = null and every insert/update
+    // on user-scoped tables (payments, inspections, dispute_letters)
+    // would be silently denied by RLS.
+    const supabase = createAdminClient();
 
     // Tax fields from Stripe Tax output. When Stripe Tax is disabled
     // these come back as zero/null and we persist them as-is so
@@ -51,7 +56,7 @@ export async function POST(request: Request) {
     // Earlier drafts used stripe_session_id / stripe_payment_intent / product;
     // the canonical schema exposes stripe_checkout_session_id /
     // stripe_payment_intent_id / type. Renamed 2026-04-17.
-    await supabase.from("payments").insert({
+    const { error: paymentInsertError } = await supabase.from("payments").insert({
       user_id: metadata.userId,
       inspection_id: metadata.inspectionId,
       stripe_checkout_session_id: session.id,
@@ -65,6 +70,15 @@ export async function POST(request: Request) {
       tax_rate_bps: taxRateBps,
       tax_country: taxCountry,
     });
+    if (paymentInsertError) {
+      // Return 500 so Stripe retries. Silent failure is the anti-pattern
+      // we burned weeks on (consents, 2026-04-18). Never repeat.
+      console.error("[stripe-webhook] payments insert failed:", paymentInsertError);
+      return NextResponse.json(
+        { error: "payments_insert_failed", details: paymentInsertError.message },
+        { status: 500 },
+      );
+    }
 
     if (
       metadata.product === "report" ||
@@ -74,7 +88,7 @@ export async function POST(request: Request) {
       // Unlock the report: mark as paid, trigger AI pipeline.
       // exit_only follows the same "paid → scan" path; the scan handler
       // branches on whether an entry-EDL record exists.
-      await supabase
+      const { error: paidUpdateError } = await supabase
         .from("inspections")
         .update({
           status: "paid",
@@ -82,6 +96,13 @@ export async function POST(request: Request) {
           updated_at: new Date().toISOString(),
         })
         .eq("id", metadata.inspectionId);
+      if (paidUpdateError) {
+        console.error("[stripe-webhook] inspections paid update failed:", paidUpdateError);
+        return NextResponse.json(
+          { error: "inspection_paid_update_failed", details: paidUpdateError.message },
+          { status: 500 },
+        );
+      }
     }
 
     if (metadata.product === "dispute" || metadata.product === "report_and_dispute") {
@@ -100,25 +121,47 @@ export async function POST(request: Request) {
         .maybeSingle();
 
       if (!alreadyInserted) {
-        await supabase.from("dispute_letters").insert({
-          inspection_id: metadata.inspectionId,
-          user_id: metadata.userId,
-          stripe_payment_id: session.id,
-          stripe_amount_cents: session.amount_total ?? 0,
-          status: "pending",
-        });
+        const { error: disputeInsertError } = await supabase
+          .from("dispute_letters")
+          .insert({
+            inspection_id: metadata.inspectionId,
+            user_id: metadata.userId,
+            stripe_payment_id: session.id,
+            stripe_amount_cents: session.amount_total ?? 0,
+            status: "pending",
+          });
+        if (disputeInsertError) {
+          console.error(
+            "[stripe-webhook] dispute_letters insert failed:",
+            disputeInsertError,
+          );
+          return NextResponse.json(
+            { error: "dispute_insert_failed", details: disputeInsertError.message },
+            { status: 500 },
+          );
+        }
       }
 
       // Flip the inspection flag so the report page swaps from "Purchase
       // Dispute Letter" to "Generate Dispute Letter" on reload. Idempotent
       // by design — stripe retries hitting the same row are harmless.
-      await supabase
+      const { error: disputeFlagError } = await supabase
         .from("inspections")
         .update({
           dispute_purchased: true,
           updated_at: new Date().toISOString(),
         })
         .eq("id", metadata.inspectionId);
+      if (disputeFlagError) {
+        console.error(
+          "[stripe-webhook] inspections dispute_purchased update failed:",
+          disputeFlagError,
+        );
+        return NextResponse.json(
+          { error: "dispute_flag_update_failed", details: disputeFlagError.message },
+          { status: 500 },
+        );
+      }
     }
   }
 
