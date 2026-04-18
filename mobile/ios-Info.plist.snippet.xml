@@ -25,6 +25,22 @@
 <key>NSFaceIDUsageDescription</key>
 <string>Tenu peut utiliser Face ID pour protéger l'accès à vos constats.</string>
 
+<!-- Export compliance. Tenu only uses HTTPS (TLS via WKWebView) + Apple
+     platform crypto; no custom encryption. Setting this key to false
+     skips the annual self-classification prompt in App Store Connect. -->
+<key>ITSAppUsesNonExemptEncryption</key>
+<false/>
+
+<!-- App-to-app URL schemes we need to *open* (not be opened by).
+     Android 11+ equivalent is <queries> in the manifest. iOS 9+ requires
+     each scheme be declared up-front or `canOpenURL` returns NO. -->
+<key>LSApplicationQueriesSchemes</key>
+<array>
+  <string>mailto</string>   <!-- dispute letter "send to landlord" -->
+  <string>tel</string>       <!-- support phone links -->
+  <string>https</string>     <!-- Safari fallback for Universal Link gaps -->
+</array>
+
 <!-- App Transport Security. We disable arbitrary loads and only allow
      tenu.world domains to be hit, which is stricter than App Review's
      default bar. -->
