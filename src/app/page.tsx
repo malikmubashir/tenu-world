@@ -147,52 +147,42 @@ export default async function Home() {
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
-      {/* Hero — white canvas, near-black heading, emerald CTA.
-          Tracking -0.02em matches SF Pro Display at display sizes. */}
+      {/* Hero + features — all visual decisions live in theme.css / globals.css.
+          Markup references semantic .t-* classes so a token swap repaints everything. */}
       <main className="flex flex-1 flex-col">
-        <section className="hig-fade-in flex flex-col items-center px-6 py-24 text-center md:py-36">
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.05] tracking-tight text-tenu-slate md:text-7xl" style={{ letterSpacing: "-0.03em" }}>
+        <section className="hig-fade-in t-section-canvas flex flex-col items-center px-6 text-center">
+          <h1 className="t-display max-w-4xl">
             {hero.title}
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-tenu-slate/60 md:text-xl">
+          <p className="t-body-muted mt-6 max-w-2xl">
             {hero.subtitle}
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/inspection/new"
-              className="hig-press inline-flex h-12 items-center rounded-full bg-tenu-forest px-7 text-base font-semibold text-white hover:bg-tenu-forest-light"
-            >
+            <Link href="/inspection/new" className="t-cta-primary hig-press">
               {hero.cta}
             </Link>
-            <Link
-              href="#features"
-              className="hig-press inline-flex h-12 items-center rounded-full px-7 text-base font-semibold text-tenu-forest hover:text-tenu-forest-light"
-            >
+            <Link href="#features" className="t-cta-ghost hig-press">
               {hero.ctaSecondary} →
             </Link>
           </div>
         </section>
 
-        {/* Features — cool light-gray band against white body, tiles pop as white cards. */}
-        <section id="features" className="bg-tenu-cream-dark px-6 py-24 md:px-12">
-          <h2 className="mb-16 text-center text-4xl font-semibold tracking-tight text-tenu-slate md:text-5xl" style={{ letterSpacing: "-0.02em" }}>
+        <section id="features" className="t-section-band px-6 md:px-12">
+          <h2 className="t-section-heading mb-16 text-center">
             {features.heading as string}
           </h2>
-          <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="t-content grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {featureList.map(({ key, icon: Icon }) => {
               const feat = features[key] as Record<string, string>;
               return (
-                <div
-                  key={key}
-                  className="hig-card hig-press p-7"
-                >
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-tenu-forest/10">
-                    <Icon className="h-5 w-5 text-tenu-forest" strokeWidth={2.25} />
+                <div key={key} className="t-card hig-press">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-tenu-accent/10">
+                    <Icon className="h-5 w-5 text-tenu-accent" strokeWidth={2.25} />
                   </div>
-                  <h3 className="mb-1.5 text-base font-semibold tracking-tight text-tenu-slate">
+                  <h3 className="t-h3 mb-1.5">
                     {feat.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-tenu-slate/60">{feat.desc}</p>
+                  <p className="t-small-muted">{feat.desc}</p>
                 </div>
               );
             })}
@@ -200,17 +190,17 @@ export default async function Home() {
         </section>
       </main>
 
-      {/* Footer — thin ink-on-light separator, muted copy, emerald on hover. */}
-      <footer className="border-t border-tenu-cream-dark px-6 py-10 text-center text-sm text-tenu-slate/50">
+      {/* Footer — separator + muted copy, accent on hover. */}
+      <footer className="border-t t-hairline px-6 py-10 text-center text-sm text-tenu-ink-muted">
         <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
         <nav className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2">
-          <Link href="/legal" className="hover:text-tenu-forest">Legal</Link>
-          <Link href="/legal/privacy/fr" className="hover:text-tenu-forest">Confidentialité</Link>
-          <Link href="/legal/privacy/en" className="hover:text-tenu-forest">Privacy</Link>
-          <Link href="/legal/terms/fr" className="hover:text-tenu-forest">CGU</Link>
-          <Link href="/legal/terms/en" className="hover:text-tenu-forest">Terms</Link>
-          <Link href="/legal/refund/fr" className="hover:text-tenu-forest">Remboursement</Link>
-          <Link href="/legal/refund/en" className="hover:text-tenu-forest">Refund</Link>
+          <Link href="/legal" className="hover:text-tenu-accent">Legal</Link>
+          <Link href="/legal/privacy/fr" className="hover:text-tenu-accent">Confidentialité</Link>
+          <Link href="/legal/privacy/en" className="hover:text-tenu-accent">Privacy</Link>
+          <Link href="/legal/terms/fr" className="hover:text-tenu-accent">CGU</Link>
+          <Link href="/legal/terms/en" className="hover:text-tenu-accent">Terms</Link>
+          <Link href="/legal/refund/fr" className="hover:text-tenu-accent">Remboursement</Link>
+          <Link href="/legal/refund/en" className="hover:text-tenu-accent">Refund</Link>
         </nav>
       </footer>
     </div>

@@ -1,45 +1,17 @@
 @import "tailwindcss";
+@import "./theme.css";
 
-@theme {
-  /* Brand palette — Apple-crisp rework (2026-04-18).
-     Rule: canvas is white, headings near-black, emerald is accent only.
-     Semantic names kept to avoid a global rename; read values below. */
-  --color-tenu-forest: #059669;       /* vivid emerald — CTAs, links, icons */
-  --color-tenu-forest-light: #10B981; /* emerald-500 — hover state */
-  --color-tenu-cream: #FFFFFF;        /* base canvas — pure white */
-  --color-tenu-cream-dark: #EEEEF1;   /* cool light gray — section bands, borders */
-  --color-tenu-gold: #C4A35A;
-  --color-tenu-gold-light: #D4B86A;
-  --color-tenu-slate: #1D1D1F;        /* Apple heading + body ink — near-black */
-  --color-tenu-danger: #DC2626;
-  --color-tenu-warning: #F59E0B;
-  --color-tenu-success: #16A34A;
+/* ============================================================
+   globals.css — reset, utility component classes, motion primitives.
 
-  /* Typography — system-first stack, matches iOS/macOS native feel,
-     falls back to Inter where the system font isn't available. */
-  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont,
-    "SF Pro Text", "SF Pro Display", "Inter", system-ui, Segoe UI,
-    Roboto, "Helvetica Neue", Arial, sans-serif;
+   This file deliberately carries NO colour values or type scale.
+   All of that lives in theme.css so a single token swap repaints
+   the entire site. Component classes here only reference the
+   semantic tokens (`--color-tenu-*`, `--radius-hig-*`, etc.).
 
-  /* Radii — Apple HIG uses 10/14/20 as the main steps. */
-  --radius-hig-button: 12px;
-  --radius-hig-card: 16px;
-  --radius-hig-sheet: 20px;
-
-  /* Shadows — layered, very subtle. Card gets one soft shadow; floating
-     surfaces (menus, sheets) get a slightly deeper one. Never dark. */
-  --shadow-hig-card: 0 1px 2px rgba(15, 23, 42, 0.04),
-    0 2px 12px rgba(15, 23, 42, 0.06);
-  --shadow-hig-float: 0 4px 12px rgba(15, 23, 42, 0.08),
-    0 12px 40px rgba(15, 23, 42, 0.10);
-
-  /* Motion — 150ms is the Apple baseline for hover/press. 220ms for
-     larger reveals (dropdowns, sheets). 320ms for full page enter. */
-  --ease-hig: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --duration-hig-fast: 150ms;
-  --duration-hig-base: 220ms;
-  --duration-hig-slow: 320ms;
-}
+   If you find yourself hard-coding a hex value in this file,
+   stop — it belongs in theme.css.
+   ============================================================ */
 
 /* Global smoothing. SF-like rendering without the font swap flicker. */
 html, body {
@@ -51,8 +23,8 @@ html, body {
 
 /* Selection color — match brand. */
 ::selection {
-  background: color-mix(in oklab, var(--color-tenu-forest) 30%, transparent);
-  color: var(--color-tenu-forest);
+  background: color-mix(in oklab, var(--color-tenu-accent) 30%, transparent);
+  color: var(--color-tenu-accent);
 }
 
 /* Focus ring — Apple-ish offset ring. Always visible via keyboard,
@@ -61,12 +33,13 @@ html, body {
   outline: none;
   box-shadow:
     0 0 0 2px #fff,
-    0 0 0 4px color-mix(in oklab, var(--color-tenu-forest) 55%, transparent);
+    0 0 0 4px color-mix(in oklab, var(--color-tenu-accent) 55%, transparent);
   border-radius: inherit;
 }
 
-/* Reusable motion primitives. The class names keep JSX clean. */
 @layer components {
+  /* ---------- MOTION PRIMITIVES ---------- */
+
   /* Base press feedback — scale + opacity on active. Touch-optimised
      (works without hover). Use on any interactive surface. */
   .hig-press {
@@ -84,21 +57,18 @@ html, body {
 
   /* Card surface — flat-ish, soft shadow, rounded. */
   .hig-card {
-    background: #fff;
+    background: var(--color-tenu-canvas);
     border-radius: var(--radius-hig-card);
     box-shadow: var(--shadow-hig-card);
   }
 
-  /* Translucent header — macOS Sonoma / iOS 17 toolbar feel.
-     80% white over the page so scroll content bleeds through faintly. */
+  /* Translucent header — macOS Sonoma / iOS 17 toolbar feel. */
   .hig-header-blur {
-    background: rgba(255, 255, 255, 0.8);
+    background: color-mix(in oklab, var(--color-tenu-canvas) 80%, transparent);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
   }
 
-  /* Sheet / menu reveal. Use with inline style-duration or via
-     data-attributes. Respects reduced motion. */
   .hig-reveal {
     animation: hig-reveal var(--duration-hig-base) var(--ease-hig) both;
   }
@@ -115,14 +85,12 @@ html, body {
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* Shimmer for loading placeholders. Much cheaper than an SVG spinner
-     and matches the Apple skeleton aesthetic. */
   .hig-skeleton {
     background: linear-gradient(
       90deg,
-      var(--color-tenu-cream-dark) 0%,
-      color-mix(in oklab, var(--color-tenu-cream-dark) 50%, #fff) 50%,
-      var(--color-tenu-cream-dark) 100%
+      var(--color-tenu-band) 0%,
+      color-mix(in oklab, var(--color-tenu-band) 50%, #fff) 50%,
+      var(--color-tenu-band) 100%
     );
     background-size: 200% 100%;
     animation: hig-shimmer 1.4s linear infinite;
@@ -130,6 +98,127 @@ html, body {
   @keyframes hig-shimmer {
     from { background-position: 200% 0; }
     to   { background-position: -200% 0; }
+  }
+
+  /* ============================================================
+     T-COMPONENTS — semantic design system classes.
+
+     Markup references these (`<h1 class="t-display">`) instead of
+     raw Tailwind utility chains. This means a token change in
+     theme.css repaints the whole site without touching JSX.
+     ============================================================ */
+
+  /* ---------- TYPOGRAPHY ---------- */
+
+  .t-display {
+    font-size: var(--font-size-display);
+    line-height: 1.05;
+    letter-spacing: var(--tracking-display);
+    font-weight: 600;
+    color: var(--color-tenu-ink);
+  }
+
+  .t-section-heading {
+    font-size: var(--font-size-section);
+    line-height: 1.1;
+    letter-spacing: var(--tracking-section);
+    font-weight: 600;
+    color: var(--color-tenu-ink);
+  }
+
+  .t-h3 {
+    font-size: var(--font-size-h3);
+    line-height: 1.3;
+    letter-spacing: var(--tracking-tight);
+    font-weight: 600;
+    color: var(--color-tenu-ink);
+  }
+
+  .t-body {
+    font-size: var(--font-size-body);
+    line-height: 1.6;
+    color: var(--color-tenu-ink);
+  }
+
+  .t-body-muted {
+    font-size: var(--font-size-body);
+    line-height: 1.6;
+    color: color-mix(in oklab, var(--color-tenu-ink) 60%, transparent);
+  }
+
+  .t-small-muted {
+    font-size: var(--font-size-small);
+    line-height: 1.55;
+    color: color-mix(in oklab, var(--color-tenu-ink) 60%, transparent);
+  }
+
+  .t-label {
+    font-size: var(--font-size-label);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-tenu-ink-muted);
+  }
+
+  /* ---------- CTAs ---------- */
+
+  .t-cta-primary {
+    display: inline-flex;
+    align-items: center;
+    height: 3rem;
+    padding: 0 1.75rem;
+    border-radius: var(--radius-hig-pill);
+    background: var(--color-tenu-accent);
+    color: #fff;
+    font-size: var(--font-size-body);
+    font-weight: 600;
+    box-shadow: var(--shadow-hig-cta);
+  }
+  .t-cta-primary:hover {
+    background: var(--color-tenu-accent-hover);
+  }
+
+  .t-cta-ghost {
+    display: inline-flex;
+    align-items: center;
+    height: 3rem;
+    padding: 0 1.75rem;
+    border-radius: var(--radius-hig-pill);
+    color: var(--color-tenu-accent);
+    font-size: var(--font-size-body);
+    font-weight: 600;
+  }
+  .t-cta-ghost:hover {
+    color: var(--color-tenu-accent-hover);
+  }
+
+  /* ---------- SURFACES ---------- */
+
+  .t-section-canvas {
+    background: var(--color-tenu-canvas);
+    padding-block: var(--section-padding-y);
+  }
+
+  .t-section-band {
+    background: var(--color-tenu-band);
+    padding-block: var(--section-padding-y);
+  }
+
+  .t-content {
+    width: 100%;
+    max-width: var(--content-max-width);
+    margin-inline: auto;
+  }
+
+  .t-card {
+    background: var(--color-tenu-canvas);
+    border-radius: var(--radius-hig-card);
+    box-shadow: var(--shadow-hig-card);
+    padding: 1.75rem;
+  }
+
+  .t-hairline {
+    border-color: var(--color-tenu-hairline);
   }
 }
 

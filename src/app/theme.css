@@ -1,0 +1,94 @@
+/* ============================================================
+   Tenu design tokens — single source of truth for visual design.
+
+   Edit THIS FILE to change aesthetics site-wide. Do not touch
+   components or globals.css for colour / radius / type scale.
+
+   Two layers:
+     1. PALETTE  — raw hex values, never used directly in markup.
+     2. SEMANTIC — what components reference (accent, ink, canvas).
+
+   Legacy `tenu-*` names are preserved as aliases so existing
+   surface (25+ files) keeps compiling. New code should prefer
+   the semantic names.
+
+   To swap themes:
+     - Copy one of the presets in docs/THEMING.md into the
+       PALETTE block below, then reload.
+   ============================================================ */
+
+@theme {
+  /* ---------- 1. PALETTE (raw values — only change here) ---------- */
+  --palette-accent:        #059669; /* emerald-600 — CTA / links / icons */
+  --palette-accent-hover:  #10B981; /* emerald-500 — hover state */
+  --palette-ink:           #1D1D1F; /* Apple near-black — headings / body */
+  --palette-ink-muted:     #6E6E73; /* Apple gray — captions / meta */
+  --palette-canvas:        #FFFFFF; /* base canvas — always white-ish */
+  --palette-band:          #EEEEF1; /* cool light gray — section bands */
+  --palette-hairline:      #D2D2D7; /* Apple separator — thin borders */
+  --palette-danger:        #DC2626;
+  --palette-warning:       #F59E0B;
+  --palette-success:       #16A34A;
+
+  /* ---------- 2. SEMANTIC tokens (component-facing) ---------- */
+  --color-tenu-accent:       var(--palette-accent);
+  --color-tenu-accent-hover: var(--palette-accent-hover);
+  --color-tenu-ink:          var(--palette-ink);
+  --color-tenu-ink-muted:    var(--palette-ink-muted);
+  --color-tenu-canvas:       var(--palette-canvas);
+  --color-tenu-band:         var(--palette-band);
+  --color-tenu-hairline:     var(--palette-hairline);
+  --color-tenu-danger:       var(--palette-danger);
+  --color-tenu-warning:      var(--palette-warning);
+  --color-tenu-success:      var(--palette-success);
+
+  /* ---------- 3. LEGACY aliases (do not remove — 25+ files use them) ---------- */
+  /* Map old concrete names to new semantic tokens so existing
+     className="text-tenu-forest" surfaces still resolve. */
+  --color-tenu-forest:       var(--color-tenu-accent);
+  --color-tenu-forest-light: var(--color-tenu-accent-hover);
+  --color-tenu-cream:        var(--color-tenu-canvas);
+  --color-tenu-cream-dark:   var(--color-tenu-band);
+  --color-tenu-slate:        var(--color-tenu-ink);
+  --color-tenu-gold:         #C4A35A;
+  --color-tenu-gold-light:   #D4B86A;
+
+  /* ---------- 4. TYPOGRAPHY ---------- */
+  --font-sans: ui-sans-serif, -apple-system, BlinkMacSystemFont,
+    "SF Pro Text", "SF Pro Display", "Inter", system-ui, Segoe UI,
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* Display scale — mobile first, md/lg breakpoints bump in CSS classes. */
+  --font-size-display:  clamp(2.5rem, 5vw + 1rem, 4.5rem);   /* hero h1 */
+  --font-size-section:  clamp(2rem,   3vw + 1rem, 3rem);     /* section h2 */
+  --font-size-h3:       1.125rem;                             /* card title */
+  --font-size-body:     1rem;
+  --font-size-small:    0.875rem;
+  --font-size-label:    0.75rem;
+  --tracking-display:   -0.03em;
+  --tracking-section:   -0.02em;
+  --tracking-tight:     -0.01em;
+
+  /* ---------- 5. RADII ---------- */
+  --radius-hig-button: 12px;
+  --radius-hig-card:   16px;
+  --radius-hig-sheet:  20px;
+  --radius-hig-pill:   9999px;
+
+  /* ---------- 6. SHADOWS ---------- */
+  --shadow-hig-card:  0 1px 2px rgba(15, 23, 42, 0.04),
+                      0 2px 12px rgba(15, 23, 42, 0.06);
+  --shadow-hig-float: 0 4px 12px rgba(15, 23, 42, 0.08),
+                      0 12px 40px rgba(15, 23, 42, 0.10);
+  --shadow-hig-cta:   0 1px 2px rgba(5, 150, 105, 0.20);
+
+  /* ---------- 7. MOTION ---------- */
+  --ease-hig: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-hig-fast: 150ms;
+  --duration-hig-base: 220ms;
+  --duration-hig-slow: 320ms;
+
+  /* ---------- 8. SPACING / LAYOUT ---------- */
+  --section-padding-y:   clamp(4rem, 6vw + 2rem, 9rem);
+  --content-max-width:   64rem; /* 1024px — reading-friendly */
+}
