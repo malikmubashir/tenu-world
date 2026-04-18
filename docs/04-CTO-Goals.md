@@ -4,6 +4,9 @@
 **Adapter:** codex_local (gemma4:31b via Ollama)
 **Max turns:** 15
 **Role:** Technical planning, task decomposition, dev agent supervision. Minimal direct execution.
+**Status:** RETIRED 2026-04-18. Agent paused, OpenAI account cancelled. Document kept for historical reference.
+
+> ⚠ **RETIRED 2026-04-18.** The CTO agent is paused in the Paperclip DB and the OpenAI account used by the codex_local adapter was cancelled. This document is preserved only for historical context. Active technical planning now happens in Claude Cowork sessions. See `docs/09-Paperclip-Retirement-Handover-2026-04-18.md`.
 
 ---
 

@@ -1,5 +1,11 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════
+# RETIRED 2026-04-18. DO NOT INVOKE.
+# OpenAI plans cancelled, API keys revoked, ~/.codex/auth.json removed.
+# All 10 Paperclip agents paused. Embedded Postgres on :54329 no longer running.
+# Kept as historical reference. See docs/09-Paperclip-Retirement-Handover-2026-04-18.md
+# ───────────────────────────────────────────────────────────────
+# Original purpose (for reference):
 # TENU — Option C Reconfiguration
 # Switches CEO + CTO to codex_local (gpt-4o-mini via OpenAI API)
 # Requires: ~/.codex/auth.json with auth_mode=apikey and valid OPENAI_API_KEY

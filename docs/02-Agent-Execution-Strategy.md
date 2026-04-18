@@ -2,9 +2,11 @@
 
 **Version:** 1.0
 **Date:** 2026-04-15
-**Status:** Pre-execution, all agents paused
+**Status:** RETIRED 2026-04-18. Document kept for historical reference.
 **Objective:** Go live with full-stack app: Next.js web + Capacitor iOS + Capacitor Android. Zero more wasted runs.
 **Supersedes:** 01-MVP-Architecture.md (Make.com no-code approach is abandoned. We build everything.)
+
+> ⚠ **RETIRED 2026-04-18.** Paperclip agents retired 2026-04-17, OpenAI account cancelled 2026-04-18. All execution now happens via Claude Cowork sessions directly against the Tenu.World repo. This strategy document describes the prior multi-agent approach and is preserved only for context. See `docs/09-Paperclip-Retirement-Handover-2026-04-18.md`.
 
 ---
 

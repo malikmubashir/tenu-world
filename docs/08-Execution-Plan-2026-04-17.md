@@ -4,6 +4,8 @@
 **Author:** Claude (acting as senior advisor, Big4 style)
 **Supersedes:** Prior weekly plan references in CLAUDE.md and Development Log.
 
+> ⚠ **Post-retirement note (2026-04-18).** Sections referring to Paperclip, CEO/CTO agents on gpt-4o-mini, codex_local adapter, Option C, or the "Paperclip delegation" layer are obsolete. The Paperclip agent stack was retired 2026-04-17 and the OpenAI account was cancelled 2026-04-18. Execution now happens entirely via Claude Cowork sessions. The execution timeline, pricing, scope, and commercial sections of this plan remain authoritative. See `docs/09-Paperclip-Retirement-Handover-2026-04-18.md` for the retirement record.
+
 ---
 
 ## 1. Executive Review (the blunt version)

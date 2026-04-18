@@ -1,4 +1,10 @@
 #!/bin/bash
+# ═══════════════════════════════════════════════════════════════
+# RETIRED 2026-04-18. DO NOT INVOKE.
+# OpenAI plans cancelled, API keys revoked, all 10 Paperclip agents paused.
+# Embedded Postgres on :54329 no longer running.
+# Kept as historical reference. See docs/09-Paperclip-Retirement-Handover-2026-04-18.md
+# ═══════════════════════════════════════════════════════════════
 # Agent Health Check — Tasks + Ollama connectivity
 # Run: bash ~/Documents/Claude/Projects/Tenu.World/scripts/agent-health-check.sh
 

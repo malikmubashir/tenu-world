@@ -1,3 +1,9 @@
+-- ═══════════════════════════════════════════════════════════════
+-- RETIRED 2026-04-18. DO NOT INVOKE.
+-- OpenAI plans cancelled, API keys revoked, all 10 Paperclip agents paused.
+-- All 14 issues queued by this script were closed 2026-04-17 with audit comments.
+-- Kept as historical reference. See docs/09-Paperclip-Retirement-Handover-2026-04-18.md
+-- ═══════════════════════════════════════════════════════════════
 -- Paperclip task queue for 2026-04-17
 -- Purpose: queue 14 small atomic tasks for CEO (8) and CTO (6)
 -- Each task sized to complete under 30 agent turns (avoids max_turns error)

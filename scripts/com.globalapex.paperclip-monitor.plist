@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  RETIRED 2026-04-18. DO NOT LOAD.
+  OpenAI plans cancelled, API keys revoked, all 10 Paperclip agents paused.
+  Embedded Postgres on :54329 no longer running.
+  Kept as historical reference. See docs/09-Paperclip-Retirement-Handover-2026-04-18.md
+-->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>

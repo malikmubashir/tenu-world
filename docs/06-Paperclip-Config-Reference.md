@@ -1,5 +1,7 @@
 # Paperclip Configuration Reference
 
+> ⚠ **RETIRED 2026-04-18.** The Paperclip stack was retired 2026-04-17 and the OpenAI account was cancelled 2026-04-18. The host `:3100`, the Postgres on `:54329`, and the CEO/CTO agents referenced below are no longer running. This document is preserved as a historical configuration record only. See `docs/09-Paperclip-Retirement-Handover-2026-04-18.md`.
+
 ## Connection
 - Dashboard: http://127.0.0.1:3100
 - Postgres: localhost:54329 (user: paperclip, pass: paperclip, db: paperclip)

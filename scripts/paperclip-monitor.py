@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+# ═══════════════════════════════════════════════════════════════
+# RETIRED 2026-04-18. DO NOT INVOKE.
+# OpenAI plans cancelled, API keys revoked, all 10 Paperclip agents paused.
+# Embedded Postgres on :54329 no longer running.
+# Kept as historical reference. See docs/09-Paperclip-Retirement-Handover-2026-04-18.md
+# ═══════════════════════════════════════════════════════════════
 """
 Paperclip Agent Monitor — Telegram Alert System
 Queries Paperclip's embedded Postgres every 5 minutes.

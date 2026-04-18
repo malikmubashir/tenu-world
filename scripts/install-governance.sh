@@ -1,5 +1,9 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════
+# RETIRED 2026-04-18. DO NOT INVOKE.
+# OpenAI plans cancelled, API keys revoked, all 10 Paperclip agents paused.
+# Kept as historical reference. See docs/09-Paperclip-Retirement-Handover-2026-04-18.md
+# ───────────────────────────────────────────────────────────────
 # Install Governance Sync System
 # 1. Runs reconfigure-option-c.sh (agents → gpt-oss:20b)
 # 2. Copies governance-sync.py to ~/.paperclip/
