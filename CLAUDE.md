@@ -212,4 +212,17 @@ Breakeven: ~4 paying users/month against €47 fixed burn.
 
 ---
 
+## Brand (canonical)
+Single source of truth for every Tenu surface (web, app, email, PDF, letterhead, deck, social):
+- **Brand guidelines:** `docs/brand/BRAND-GUIDELINES.md`
+- **Design tokens:** `src/app/theme.css` (palette + semantic + legacy aliases)
+- **Theming preset doc:** `docs/THEMING.md`
+- **Official marks:** `public/brand/mark-disc.svg` (primary), `public/brand/mark-portal.svg` (secondary)
+- **Parametric mark component:** `src/components/brand/TenuMark.tsx` (11 containers)
+- **Email templates:** `docs/email-templates/` (six Supabase + one Brevo, stacked FR/EN/ZH/AR)
+
+Principle: institutional discipline in an advocate's voice. Never BNP-corporate. Palette is Apple-crisp body (#059669 emerald CTA, #1D1D1F ink, #FFFFFF canvas) + Identity v1 chrome (#0B1F3A navy, #F4F1EA paper). Wordmark is lowercase `tenu`, Inter Tight 500, tracking −0.04em.
+
+---
+
 *Update this file whenever a major decision changes.*
