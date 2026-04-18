@@ -1,0 +1,130 @@
+<!doctype html>
+<!--
+  Supabase Auth — Magic Link template for Tenu.
+  Paste into: Project Settings -> Authentication -> Email Templates -> Magic Link.
+
+  Design language: matches tenu.world web shell. Apple HIG.
+  - Forest #1B4D3E / Cream #F5F0EB / Slate #334155 palette
+  - Radius 20px on main surface (--radius-hig-sheet), 14px on button
+  - Soft layered shadow (--shadow-hig-card)
+  - System font stack, semibold headings, tracking-tight
+  - Typography-driven hierarchy: no pills, no visible dividers
+
+  Subject recommendation:
+    Tenu — Votre lien de connexion / Your sign-in link
+
+  Variable: {{ .ConfirmationURL }} (default magic-link flow).
+  If you switch to token_hash (task #48), replace both hrefs with:
+    {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=magiclink
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light">
+  <title>Tenu</title>
+</head>
+<body style="margin:0;padding:0;background:#F5F0EB;">
+
+  <!-- Preheader (hidden, fills inbox preview line) -->
+  <span style="display:none!important;opacity:0;color:transparent;height:0;width:0;overflow:hidden;max-height:0;max-width:0;mso-hide:all;">
+    Bienvenue sur Tenu. Vos droits, votre langue, votre dépôt.
+  </span>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F5F0EB;padding:40px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px;">
+
+          <!-- Wordmark -->
+          <tr>
+            <td style="padding:0 0 28px;text-align:center;">
+              <span style="font:600 24px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;color:#1B4D3E;letter-spacing:-0.5px;">tenu</span>
+            </td>
+          </tr>
+
+          <!-- Sheet -->
+          <tr>
+            <td style="background:#ffffff;border-radius:20px;padding:44px 40px;box-shadow:0 1px 2px rgba(15,23,42,0.04),0 2px 12px rgba(15,23,42,0.06);">
+
+              <!-- FR (primary launch) -->
+              <div style="text-align:center;">
+                <h1 style="margin:0 0 10px;font:600 26px/1.2 -apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',system-ui,sans-serif;color:#1B4D3E;letter-spacing:-0.5px;">
+                  Bienvenue sur Tenu.
+                </h1>
+                <p style="margin:0 auto;max-width:400px;font:500 15px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;color:#334155;opacity:0.85;">
+                  Vos droits, votre langue, votre dépôt. Cliquez ci-dessous pour vous connecter. Votre lien est valable soixante minutes.
+                </p>
+              </div>
+
+              <!-- CTA -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:28px;">
+                <tr>
+                  <td align="center">
+                    <a href="{{ .ConfirmationURL }}" style="background:#1B4D3E;color:#ffffff;text-decoration:none;padding:14px 32px;border-radius:14px;display:inline-block;font:600 15px/1 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',system-ui,sans-serif;letter-spacing:-0.1px;">
+                      Se connecter
+                    </a>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Secondary languages: typography-only, spaced, no chrome -->
+              <div style="margin-top:40px;padding-top:32px;border-top:1px solid rgba(232,221,212,0.6);">
+
+                <!-- EN -->
+                <div style="text-align:center;padding:0 0 22px;">
+                  <p style="margin:0 0 4px;font:600 11px/1 -apple-system,sans-serif;letter-spacing:1.5px;color:#1B4D3E;opacity:0.55;text-transform:uppercase;">English</p>
+                  <p style="margin:0;font:500 14px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;color:#334155;">
+                    Welcome to Tenu. Your rights, your language, your deposit. The link above signs you in. It stays valid for sixty minutes.
+                  </p>
+                </div>
+
+                <!-- ZH -->
+                <div lang="zh-Hans" style="text-align:center;padding:0 0 22px;">
+                  <p style="margin:0 0 4px;font:600 11px/1 -apple-system,sans-serif;letter-spacing:1.5px;color:#1B4D3E;opacity:0.55;text-transform:uppercase;">中文</p>
+                  <p style="margin:0;font:500 14px/1.6 'PingFang SC','Microsoft YaHei','Noto Sans SC',-apple-system,sans-serif;color:#334155;">
+                    欢迎加入 Tenu。您的权利，您的语言，您的押金。点击上方按钮登录，链接有效期为六十分钟。
+                  </p>
+                </div>
+
+                <!-- AR (RTL) -->
+                <div lang="ar" dir="rtl" style="text-align:center;padding:0;">
+                  <p style="margin:0 0 4px;font:600 11px/1 -apple-system,sans-serif;letter-spacing:1.5px;color:#1B4D3E;opacity:0.55;">العربية</p>
+                  <p style="margin:0;font:500 14px/1.8 'SF Arabic','Geeza Pro','Noto Naskh Arabic','Noto Sans Arabic',Tahoma,sans-serif;color:#334155;">
+                    مرحباً بك في Tenu. حقوقك، لغتك، وديعتك. اضغط على الزر أعلاه لتسجيل الدخول. الرابط صالح لمدة ستين دقيقة.
+                  </p>
+                </div>
+
+              </div>
+
+              <!-- Fallback link -->
+              <p style="margin:36px 0 0;font:500 12px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;color:#334155;opacity:0.45;text-align:center;">
+                Si le bouton ne fonctionne pas, copiez ce lien :<br>
+                <a href="{{ .ConfirmationURL }}" style="color:#1B4D3E;word-break:break-all;opacity:0.8;">{{ .ConfirmationURL }}</a>
+              </p>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:28px 12px 0;text-align:center;">
+              <p style="margin:0;font:500 12px/1.55 -apple-system,BlinkMacSystemFont,'SF Pro Text','Segoe UI',sans-serif;color:#334155;opacity:0.5;">
+                <a href="https://tenu.world" style="color:#1B4D3E;text-decoration:none;opacity:0.8;">tenu.world</a>
+                &nbsp;·&nbsp;
+                support@tenu.world
+              </p>
+              <p style="margin:10px 0 0;font:500 11px/1.5 -apple-system,sans-serif;color:#334155;opacity:0.4;">
+                Global Apex NET (SAS) &middot; 4 Boulevard du Château, 78280 Guyancourt, France
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
