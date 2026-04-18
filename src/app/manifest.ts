@@ -1,6 +1,13 @@
-// Dynamic Web App Manifest. Next serves this at /manifest.webmanifest.
+// Web App Manifest. Next serves this at /manifest.webmanifest.
 // Docs: https://nextjs.org/docs/app/api-reference/file-conventions/metadata/manifest
+//
+// Force static: the manifest has no per-request variation, so it
+// pre-renders once at build time. Required under `output: 'export'`
+// (MOBILE_BUILD=1) — without it, Next treats the route as dynamic
+// and refuses the export.
 import type { MetadataRoute } from "next";
+
+export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {

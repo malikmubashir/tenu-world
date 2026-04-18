@@ -7,6 +7,9 @@
 // site operators want them blocked — we want them indexed.
 import type { MetadataRoute } from "next";
 
+// Force static for output: 'export' (MOBILE_BUILD=1) compatibility.
+export const dynamic = "force-static";
+
 const SITE = "https://tenu.world";
 
 const disallow = [

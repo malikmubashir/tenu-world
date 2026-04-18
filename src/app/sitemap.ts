@@ -3,6 +3,9 @@
 // Regenerate by redeploying. Do not edit /sitemap.xml directly in the build output.
 import type { MetadataRoute } from "next";
 
+// Force static for output: 'export' (MOBILE_BUILD=1) compatibility.
+export const dynamic = "force-static";
+
 const SITE = "https://tenu.world";
 
 // Decision: DRAFT legal pages are EXCLUDED from the sitemap and marked noindex

@@ -97,7 +97,14 @@ const faqJsonLd = {
   ],
 };
 
+// MOBILE_BUILD=1 produces a static export for the Capacitor shell.
+// Dynamic APIs would prevent the root route from being exported and
+// the WebView would launch to 404. Default to en; MobileGate (client)
+// handles first-launch routing to /intro or /app-home.
+const IS_MOBILE_EXPORT = process.env.MOBILE_BUILD === "1";
+
 async function getLocale(): Promise<Locale> {
+  if (IS_MOBILE_EXPORT) return "en";
   const cookieStore = await cookies();
   const headerStore = await headers();
   const cookieLocale = cookieStore.get("locale")?.value;

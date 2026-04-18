@@ -164,18 +164,29 @@ const websiteJsonLd = {
   inLanguage: ["en", "fr"],
 };
 
+// MOBILE_BUILD=1 produces a static export for the Capacitor shell.
+// Dynamic APIs (cookies/headers) would mark the whole tree dynamic
+// and drop every app-router route from the export (only /404 ships).
+// In mobile mode we default to locale "en" and let client-side code
+// (MobileGate, next-intl providers, user Preferences) pick the real
+// locale on device.
+const IS_MOBILE_EXPORT = process.env.MOBILE_BUILD === "1";
+
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const headerStore = await headers();
+  let locale = "en" as ReturnType<typeof parseLocaleFromHeader>;
 
-  const cookieLocale = cookieStore.get("locale")?.value;
-  const locale = cookieLocale
-    ? parseLocaleFromCookie(cookieLocale)
-    : parseLocaleFromHeader(headerStore.get("accept-language") ?? undefined);
+  if (!IS_MOBILE_EXPORT) {
+    const cookieStore = await cookies();
+    const headerStore = await headers();
+    const cookieLocale = cookieStore.get("locale")?.value;
+    locale = cookieLocale
+      ? parseLocaleFromCookie(cookieLocale)
+      : parseLocaleFromHeader(headerStore.get("accept-language") ?? undefined);
+  }
 
   const dir = getDirection(locale);
 
@@ -202,9 +213,14 @@ export default async function RootLayout({
       </head>
       <body className="min-h-screen bg-tenu-cream text-tenu-slate antialiased">
         <MobileGate />
-        <GlobalHeader />
+        {/* Web-only chrome: GlobalHeader pulls in UserMenu → server
+            actions, which are unsupported under output: 'export'.
+            CookieBanner is GDPR chrome for the web deploy only. */}
+        {!IS_MOBILE_EXPORT && <GlobalHeader />}
         {children}
-        <CookieBanner locale={locale === "fr" ? "fr" : "en"} />
+        {!IS_MOBILE_EXPORT && (
+          <CookieBanner locale={locale === "fr" ? "fr" : "en"} />
+        )}
       </body>
     </html>
   );

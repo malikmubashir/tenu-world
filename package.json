@@ -9,7 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "build:mobile": "MOBILE_BUILD=1 next build",
+    "build:mobile": "bash scripts/build-mobile.sh",
     "cap:sync": "npm run build:mobile && npx cap sync",
     "cap:ios": "npm run cap:sync && npx cap open ios",
     "cap:android": "npm run cap:sync && npx cap open android",
