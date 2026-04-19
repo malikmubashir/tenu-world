@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { scanAllRooms, ScanError, type ScanInput } from "@/lib/ai/risk-scan";
 import { notifyScanComplete } from "@/lib/email/notify";
+import { renderAndUploadScanPdf } from "@/lib/pdf/render-and-upload";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -124,8 +125,28 @@ export async function POST(request: Request) {
       .eq("id", roomRisk.roomId);
   }
 
+  // Generate the report PDF + push to R2. Best-effort: a render or
+  // upload failure must not fail the scan response — the scan_result
+  // is the primary deliverable, the PDF is a convenience artefact.
+  // Captured for the email + report-view link if it succeeds.
+  let pdfUrl: string | null = null;
+  if (scanResult.v2) {
+    try {
+      const out = await renderAndUploadScanPdf({
+        inspectionId,
+        userId: user.id,
+        address: inspection.address_formatted ?? "non communiquee",
+        scan: scanResult.v2,
+      });
+      pdfUrl = out.url;
+    } catch (err) {
+      console.warn("[scan] PDF render/upload failed (non-fatal):", err);
+    }
+  }
+
   // persist the full v2 payload + observability metadata on the inspection
   // using the existing risk_score jsonb column (no schema migration needed).
+  // pdfUrl folded into the same blob.
   await supabase
     .from("inspections")
     .update({
@@ -135,6 +156,7 @@ export async function POST(request: Request) {
         overallRisk: scanResult.overallRisk,
         totalEstimatedDeductionEur: scanResult.totalEstimatedDeduction,
         scanTimestamp: scanResult.scanTimestamp,
+        pdfUrl,
         telemetry: {
           costEur: scanResult.costEur,
           modelUsed: scanResult.modelUsed,
@@ -152,6 +174,7 @@ export async function POST(request: Request) {
     const emailRes = await notifyScanComplete({
       userId: user.id,
       inspectionId,
+      pdfUrl,
     });
     if (!emailRes.ok) {
       console.warn("[scan] notifyScanComplete failed:", emailRes.error);
@@ -163,5 +186,6 @@ export async function POST(request: Request) {
   return NextResponse.json({
     scanResult,
     status: "scanned",
+    pdfUrl,
   });
 }

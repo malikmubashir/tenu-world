@@ -209,7 +209,22 @@ export default function SubmitFlow() {
         setProgress((p) => ({ ...p, uploaded: p.uploaded + 1 }));
       }
 
-      // Step 3 — kick off Haiku scan.
+      // Step 3 — flip the inspection status capturing → submitted so the
+      // scan endpoint accepts it. Single short call, no body data.
+      const submitRes = await fetch(
+        "https://tenu.world/api/inspection/submit",
+        {
+          method: "POST",
+          headers: authHeaders,
+          body: JSON.stringify({ inspectionId }),
+        },
+      );
+      if (!submitRes.ok) {
+        const j = (await submitRes.json().catch(() => ({}))) as { error?: string };
+        throw new Error(j.error ?? `Soumission échouée (${submitRes.status}).`);
+      }
+
+      // Step 4 — kick off Haiku scan.
       setStage("scanning");
       const scanRes = await fetch("https://tenu.world/api/ai/scan", {
         method: "POST",

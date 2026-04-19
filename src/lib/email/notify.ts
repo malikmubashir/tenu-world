@@ -59,6 +59,8 @@ async function loadProfile(userId: string): Promise<{
 export async function notifyScanComplete(params: {
   userId: string;
   inspectionId: string;
+  /** R2 URL of the rendered PDF report. Optional — link omitted if absent. */
+  pdfUrl?: string | null;
 }): Promise<BrevoSendResult> {
   const profile = await loadProfile(params.userId);
   if (!profile) {
@@ -77,6 +79,7 @@ export async function notifyScanComplete(params: {
     htmlContent: scanCompleteHtml({
       displayName: profile.displayName,
       reportUrl,
+      pdfUrl: params.pdfUrl ?? null,
     }),
     tag: "scan-complete",
   });

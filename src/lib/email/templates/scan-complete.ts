@@ -14,6 +14,8 @@ import { escapeHtml } from "../brevo";
 export interface ScanCompleteParams {
   displayName?: string | null;
   reportUrl: string;
+  /** R2 link to the rendered PDF report. Optional; button hidden if absent. */
+  pdfUrl?: string | null;
 }
 
 export function scanCompleteSubject(locale: "fr" | "en"): string {
@@ -29,6 +31,19 @@ export function scanCompleteHtml(p: ScanCompleteParams): string {
     : "Bonjour,";
   const enGreet = name ? `Hi ${escapeHtml(name)},` : "Hi,";
   const url = escapeHtml(p.reportUrl);
+  const pdf = p.pdfUrl ? escapeHtml(p.pdfUrl) : null;
+  const frPdfButton = pdf
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px 0;"><tr>
+<td align="center" style="border:1px solid #0B1F3A;border-radius:9999px;">
+<a href="${pdf}" style="display:inline-block;padding:12px 24px;font-size:15px;font-weight:600;color:#0B1F3A;text-decoration:none;border-radius:9999px;">Télécharger le PDF</a>
+</td></tr></table>`
+    : "";
+  const enPdfButton = pdf
+    ? `<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 12px 0;"><tr>
+<td align="center" style="border:1px solid #0B1F3A;border-radius:9999px;">
+<a href="${pdf}" style="display:inline-block;padding:12px 24px;font-size:15px;font-weight:600;color:#0B1F3A;text-decoration:none;border-radius:9999px;">Download the PDF</a>
+</td></tr></table>`
+    : "";
 
   return `<!doctype html>
 <html lang="fr">
@@ -60,6 +75,7 @@ export function scanCompleteHtml(p: ScanCompleteParams): string {
 <td align="center" bgcolor="#059669" style="border-radius:9999px;">
 <a href="${url}" style="display:inline-block;padding:12px 24px;font-size:15px;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:9999px;">Voir mon rapport</a>
 </td></tr></table>
+${frPdfButton}
 <p style="margin:0;font-size:13px;line-height:1.55;color:#6E6E73;">Si le risque est élevé, vous pouvez générer une lettre de contestation depuis le rapport.</p>
 </td></tr>
 
@@ -73,6 +89,7 @@ export function scanCompleteHtml(p: ScanCompleteParams): string {
 <td align="center" bgcolor="#059669" style="border-radius:9999px;">
 <a href="${url}" style="display:inline-block;padding:12px 24px;font-size:15px;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:9999px;">View my report</a>
 </td></tr></table>
+${enPdfButton}
 <p style="margin:0;font-size:13px;line-height:1.55;color:#6E6E73;">If the risk is high, you can generate a dispute letter directly from the report.</p>
 </td></tr>
 
