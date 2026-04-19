@@ -189,12 +189,20 @@ Tenu runs a **two-layer token architecture** in `src/app/theme.css`. Layer 1 is 
 
 ### 6.2 Identity v1 brand chrome
 
-| Token | Hex | RGB | Use |
-|---|---|---|---|
-| `--palette-brand-ink` | #0B1F3A | 11, 31, 58 | Header navy strip, logo fill, deck masters |
-| `--palette-brand-paper` | #F4F1EA | 244, 241, 234 | Logo carve-through, print paper tone |
-| `--palette-brand-red` | #8B2E2A | 139, 46, 42 | Rights-assertion accent (sparingly) |
-| `--palette-brand-carbon` | #1A1A1A | 26, 26, 26 | Deep print tone for cover stock |
+| Token | Hex / RGBA | Use |
+|---|---|---|
+| `--palette-brand-ink` | #0B1F3A | Header navy strip, logo fill, deck masters, mobile chrome |
+| `--palette-brand-paper` | #F4F1EA | Logo carve-through, print paper tone, mobile canvas |
+| `--palette-brand-paper-2` | #EDE8DC | Layered surface on Paper — cards, banners, list rows |
+| `--palette-brand-red` | #8B2E2A | Rights-assertion accent. **NEVER a CTA.** Quote rules, callouts, badges. |
+| `--palette-brand-carbon` | #1A1A1A | Deep print tone for cover stock |
+| `--palette-brand-rule` | rgba(11,31,58,0.12) | Hairline divider on Paper (Ink at 12% opacity) |
+| `--palette-brand-muted` | rgba(11,31,58,0.55) | Secondary text on Paper (Ink at 55% opacity) |
+
+These tokens are the source-of-truth from the Identity v1 exploration HTML
+(`Tenu Identity v1 - standalone.html`, 2026-04-19). The Paper / Paper-2 /
+Rule / Muted set is what mobile screens (Welcome, Login, Inspections,
+Settings) are built against. CTAs everywhere remain emerald per §6.3.
 
 ### 6.3 Where each colour belongs
 

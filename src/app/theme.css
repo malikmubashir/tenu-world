@@ -34,10 +34,13 @@
      These tokens drive the header, wordmark, PDF headers, app icons, and
      social-share artwork. They DO NOT override the Apple-crisp palette used
      for body surfaces or CTAs. Option C (2026-04-18 decision). */
-  --palette-brand-ink:     #0B1F3A; /* Tenu Ink — primary chrome */
-  --palette-brand-paper:   #F4F1EA; /* Paper — carve / surface on chrome */
-  --palette-brand-red:     #8B2E2A; /* Notaire Red — sparing accent */
-  --palette-brand-carbon:  #1A1A1A; /* Carbon — print body */
+  --palette-brand-ink:       #0B1F3A;            /* Tenu Ink — primary chrome */
+  --palette-brand-paper:     #F4F1EA;            /* Paper — carve / surface on chrome */
+  --palette-brand-paper-2:   #EDE8DC;            /* Paper-2 — layered surface, cards/banners on Paper */
+  --palette-brand-red:       #8B2E2A;            /* Notaire Red — sparing accent (NOT a CTA) */
+  --palette-brand-carbon:    #1A1A1A;            /* Carbon — print body */
+  --palette-brand-rule:      rgba(11,31,58,0.12);/* Rule — hairline divider on Paper (Ink @ 12%) */
+  --palette-brand-muted:     rgba(11,31,58,0.55);/* Muted — secondary text on Paper (Ink @ 55%) */
 
   /* ---------- 2. SEMANTIC tokens (component-facing) ---------- */
   --color-tenu-accent:       var(--palette-accent);
@@ -54,8 +57,11 @@
   /* Identity v1 chrome tokens (component-facing). */
   --color-brand-ink:         var(--palette-brand-ink);
   --color-brand-paper:       var(--palette-brand-paper);
+  --color-brand-paper-2:     var(--palette-brand-paper-2);
   --color-brand-red:         var(--palette-brand-red);
   --color-brand-carbon:      var(--palette-brand-carbon);
+  --color-brand-rule:        var(--palette-brand-rule);
+  --color-brand-muted:       var(--palette-brand-muted);
 
   /* ---------- 3. LEGACY aliases (do not remove — 25+ files use them) ---------- */
   /* Map old concrete names to new semantic tokens so existing
