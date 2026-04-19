@@ -1,6 +1,19 @@
 # CLAUDE.md — Tenu Project Context
 # Auto-read by Claude Code at session start.
-# Last updated: 2026-04-18
+# Last updated: 2026-04-19
+
+---
+
+## Source of Truth (SOT) — read first
+
+**Canonical repo path on this Mac:**
+`/Users/mmh/Documents/Claude/Projects/Tenu.World/`
+
+**Canonical remote:** https://github.com/malikmubashir/tenu-world (branch `main`)
+
+There is a second clone on disk at `/Users/mmh/Documents/Global Apex/Tenu/` — it is a **stale stub** (single April-3 scaffold commit, no native projects, no `out/`, no `src/`). Its CLAUDE.md and CLAUDE-CONTEXT.md are redirect-only. If a session boots from there, bounce to this path immediately. Do not edit, build, or commit anything inside the stale clone.
+
+If you are a Claude Chat / Design surface with no file access, treat this CLAUDE.md (the one at the SOT path above) as authoritative over any pasted snippet from elsewhere.
 
 ---
 
@@ -115,42 +128,69 @@ AI-powered deposit risk scoring + dispute letters in 10 languages.
 
 ## Project structure
 ```
-/Users/mmh/Documents/Global Apex/Tenu/
-├── CLAUDE.md                        ← Claude Code reads this (you are here)
-├── CLAUDE-CONTEXT.md                ← Claude Chat reads this
-├── README.md
+/Users/mmh/Documents/Claude/Projects/Tenu.World/    ← SOT (you are here)
+├── CLAUDE.md                            ← Claude Code reads this
+├── CLAUDE-CONTEXT.md                    ← Claude Chat / Design read this
+├── TASKS.md                             ← single source of truth for work
+├── Tenu-Reste-a-Faire.xlsx              ← auto-generated mirror, never hand-edit
+├── dashboard.html                       ← auto-generated dashboard
+├── MOBILE-RUNBOOK.md
 ├── tenu.code-workspace
-├── app/                             ← ALL code lives here
-│   ├── src/
-│   │   ├── app/                     ← Next.js App Router
-│   │   │   ├── [locale]/            ← i18n routing (en, fr, ar, zh, etc.)
-│   │   │   │   ├── page.tsx         ← Landing page
-│   │   │   │   ├── inspect/         ← Inspection flow
-│   │   │   │   ├── report/          ← Report view
-│   │   │   │   └── dispute/         ← Dispute letter
-│   │   │   └── api/                 ← Server-side API routes
-│   │   │       ├── risk-scan/       ← Claude Haiku call
-│   │   │       ├── dispute-letter/  ← Claude Sonnet call
-│   │   │       └── upload/          ← Cloudflare R2 upload
-│   │   ├── components/              ← Shared React components
-│   │   ├── lib/                     ← Utilities, API clients
-│   │   └── messages/                ← i18n translation files
-│   │       ├── en.json
-│   │       ├── fr.json
-│   │       ├── ar.json
-│   │       └── zh.json (+ 6 more)
-│   ├── capacitor.config.ts          ← Capacitor config for iOS/Android
-│   ├── next.config.ts
-│   ├── tailwind.config.ts
-│   └── package.json
-├── 01-Strategy/
-├── 02-Product/
-├── 03-Technical/
-├── 04-Financial/
-├── 05-Legal-Compliance/
-├── 06-Marketing-GTM/
-└── 07-Risk/
+├── capacitor.config.ts                  ← Capacitor 7 config (palette LOCKED)
+├── next.config.ts
+├── package.json
+├── vercel.json
+├── src/                                 ← all app code (no nested app/ wrapper)
+│   ├── app/                             ← Next.js App Router
+│   │   ├── [locale]/                    ← i18n routes
+│   │   ├── (mobile)/intro/              ← Capacitor first-launch carousel
+│   │   ├── app-home/                    ← post-auth shell
+│   │   ├── auth/                        ← magic-link callback, accept-terms
+│   │   ├── api/                         ← server-side handlers
+│   │   │   ├── ai/scan/                 ← Claude Haiku
+│   │   │   ├── ai/dispute/              ← Claude Sonnet
+│   │   │   ├── mobile/upload-intent/    ← R2 presigned PUT
+│   │   │   ├── mobile/upload-commit/    ← R2 verification + DB row
+│   │   │   └── webhooks/stripe/         ← Stripe → Supabase
+│   │   └── theme.css                    ← design tokens (Identity v1, LOCKED)
+│   ├── components/
+│   ├── lib/                             ← storage/r2-upload, email/brevo, etc.
+│   └── middleware.ts                    ← auth + locale + public-path allow-list
+├── public/
+│   └── brand/                           ← mark-disc.svg, mark-portal.svg
+├── docs/
+│   ├── brand/BRAND-GUIDELINES.md        ← canonical brand SOT
+│   ├── 10-Mobile-Build-Handover-2026-04-19.md
+│   ├── 11-Mobile-Build-Handover-2026-04-19-addendum.md
+│   ├── store-listings/                  ← FR + EN, iOS + Play
+│   ├── email-templates/
+│   └── reference/
+├── ios/                                 ← Capacitor native iOS project
+├── android/                             ← Capacitor native Android project
+├── mobile/                              ← native snippets + Privacy Manifest
+│   ├── PrivacyInfo.xcprivacy
+│   ├── ios-Info.plist.snippet.xml
+│   ├── android-manifest.snippet.xml
+│   └── network_security_config.xml
+├── resources/                           ← @capacitor/assets sources + generated
+│   ├── icon.svg, icon-foreground.svg, icon-background.svg
+│   ├── splash.svg, splash-dark.svg
+│   └── icons-generated/{ios,android}/
+├── out/                                 ← static export consumed by Capacitor
+├── supabase/                            ← migrations + policies
+├── scripts/
+│   ├── tracker-refresh.py               ← TASKS.md → xlsx + dashboard.html
+│   ├── generate-icons.mjs
+│   └── build-mobile.sh
+└── 01-Strategy … 07-Risk/               ← business docs (read-only context)
 ```
+
+**Strategy/legal docs (`01-Strategy/` … `07-Risk/`):** mostly mirrored inside the SOT, but as of 2026-04-19 the stale clone at `/Users/mmh/Documents/Global Apex/Tenu/05-Legal-Compliance/` still holds 6 files that have not been moved across:
+- `01-Legal-Checklist.md` — content, needs migration
+- `etat-des-lieux.pdf`, `etat-des-lieux-meuble.pdf`, `modele-etat-des-lieux T2-T3.pdf` — product reference templates, need migration into SOT (likely under `docs/reference/` or `05-Legal-Compliance/`)
+- `client_secret_*.json` (×2) and `stripe_backup_code.txt` — **leaked secrets in plain sight**, must be moved to `~/.secrets/` or 1Password and deleted from disk. **Never** commit these. See MH lines in TASKS.md.
+
+Until the migration tasks close, do not assume the SOT `05-Legal-Compliance/` is complete. Cross-check before quoting it.
 
 ---
 
