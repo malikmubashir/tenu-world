@@ -13,12 +13,15 @@
 import type { ReactNode } from "react";
 import Shell from "@/components/mobile/Shell";
 import TabBar from "@/components/mobile/TabBar";
+import AuthGate from "@/components/mobile/AuthGate";
 
 export default function AppHomeLayout({ children }: { children: ReactNode }) {
   return (
     <Shell>
-      <main className="flex flex-1 flex-col">{children}</main>
-      <TabBar />
+      <AuthGate>
+        <main className="flex flex-1 flex-col">{children}</main>
+        <TabBar />
+      </AuthGate>
     </Shell>
   );
 }

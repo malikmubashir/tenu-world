@@ -75,13 +75,18 @@ restore() {
 }
 
 # macOS iCloud Drive replicates any `mv` inside ~/Documents by creating
-# a "<name> (<n>).<ext>" duplicate of the moved path. Across enough
-# build iterations these accumulate into hundreds of 0-byte files —
-# some under src/app/ which Next.js might register as routes.
+# duplicates of the moved path. Two patterns observed:
+#   * "<name> (<n>).<ext>" — older macOS naming
+#   * "<name> <n>"          — newer macOS naming (no parens, single trailing digit)
+# Across enough build iterations these accumulate into hundreds of files.
+# Some land under src/app/ where Next would register them as routes.
 sweep_icloud_dupes() {
   find src/app -type d -name "* ([0-9]*)" -prune -exec rm -rf {} + 2>/dev/null || true
   find src/app -type f -name "* ([0-9]*).tsx" -delete 2>/dev/null || true
   find src/app -type f -name "* ([0-9]*).ts" -delete 2>/dev/null || true
+  find src/app -type d -name "* [0-9]" -prune -exec rm -rf {} + 2>/dev/null || true
+  find src/app -type f -name "* [0-9].tsx" -delete 2>/dev/null || true
+  find src/app -type f -name "* [0-9].ts" -delete 2>/dev/null || true
 }
 trap restore EXIT INT TERM
 
