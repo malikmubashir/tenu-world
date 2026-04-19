@@ -131,5 +131,12 @@
     "loading": "جارٍ التحميل...",
     "error": "حدث خطأ",
     "retry": "حاول مرة أخرى"
+  },
+  "app": {
+    "heading": "متاح على iOS وAndroid",
+    "subtext": "حمّل تطبيق Tenu لتصوير شقتك وتوثيق كل غرفة والوصول إلى تقريرك في أي مكان.",
+    "appStore": "تنزيل من App Store",
+    "playStore": "احصل عليه من Google Play",
+    "comingSoon": "قريباً"
   }
 }

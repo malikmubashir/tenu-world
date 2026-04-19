@@ -11,7 +11,7 @@
 // Both sections read from src/lib/stories.ts. Adding a story = one append
 // to the manifest + one new /stories/<slug>/page.tsx. Nothing here changes.
 //
-// Bilingual EN/FR inline. Non-en/fr locales receive FR per launch directive.
+// Bilingual EN/FR inline. Non-en/fr locales fall back to EN.
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import {
@@ -93,8 +93,8 @@ async function resolveChrome(): Promise<{ c: Chrome; lang: "en" | "fr" }> {
   const locale = cookieLocale
     ? parseLocaleFromCookie(cookieLocale)
     : parseLocaleFromHeader(headerStore.get("accept-language") ?? undefined);
-  const isEn = locale === "en";
-  return { c: isEn ? EN : FR, lang: isEn ? "en" : "fr" };
+  const isFr = locale === "fr";
+  return { c: isFr ? FR : EN, lang: isFr ? "fr" : "en" };
 }
 
 export async function generateMetadata() {

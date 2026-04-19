@@ -111,6 +111,7 @@
 - [ ] CC: Full T-103 suite — 24 unit + 10 E2E + 5 canaries + 20 evals + OWASP ZAP baseline (p:2)
 - [ ] CC: 14-day outcome survey cron — Brevo trigger + Supabase write-back (p:2)
 - [ ] CC: Additional UI locales — ar, zh, hi, ur, ja, es, it, uk, pt, ko staged rollout (p:2)
+- [ ] CC: i18n audit phase 2 — inspection/new/page.tsx (715 lines, FR-hardcoded client component): extract all string literals into a `COPY: Record<Locale, InspectionCopy>` dict; room labels (Chambre, Séjour…), step labels, field labels, error messages (p:1)
 - [ ] CC: App Store + Play production updates with post-launch fixes (p:2)
 
 ---

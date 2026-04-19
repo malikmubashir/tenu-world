@@ -131,5 +131,12 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "retry": "Try again"
+  },
+  "app": {
+    "heading": "Available on iOS and Android",
+    "subtext": "Download the Tenu app to photograph your property, document every room, and access your report on the go.",
+    "appStore": "Download on the App Store",
+    "playStore": "Get it on Google Play",
+    "comingSoon": "Coming soon"
   }
 }

@@ -126,6 +126,7 @@ export default async function Home() {
   const example = t.example as Record<string, string>;
   const features = t.features as Record<string, unknown>;
   const closing = t.closing as Record<string, string>;
+  const app = t.app as Record<string, string>;
 
   // Case cards are rendered from the story manifest, not the dictionary.
   // EN + FR only per launch directive; non-en locales receive FR content.
@@ -189,6 +190,48 @@ export default async function Home() {
               {hero.ctaSecondary} →
             </Link>
           </div>
+
+          {/* App Store + Play Store badges — coming soon */}
+          {app?.heading && (
+            <div className="mt-12 flex flex-col items-center gap-4">
+              <p className="t-label text-tenu-ink-muted">{app.heading}</p>
+              <div className="flex flex-wrap justify-center gap-3">
+                {/* Apple App Store badge */}
+                <a
+                  href="#"
+                  aria-label={app.appStore}
+                  className="hig-press group relative inline-flex h-12 items-center gap-3 rounded-xl border border-tenu-hairline bg-tenu-ink px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2c2c2e] focus-visible:ring-2 focus-visible:ring-tenu-accent"
+                  title={app.comingSoon}
+                >
+                  {/* Apple logo SVG */}
+                  <svg viewBox="0 0 814 1000" className="h-5 w-4 shrink-0 fill-white" aria-hidden="true">
+                    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-43.1-150.3-110.2c-52.1-76.3-93.1-193.9-93.1-307.5 0-177.3 115.6-271.2 229.6-271.2 58 0 106.2 40.2 142.2 40.2 34 0 87.2-42.6 152.7-42.6 24.8 0 108.2 2.6 168.6 81.3zm-119.2-146.8c-28.2 35-74.2 62.8-116.2 62.8-5.2 0-10.5-.6-15.8-1.9C540.8 206 606.4 113 606.4 33c0-4.5-.3-9.1-.7-13.6-58.6 2.3-131.9 40.2-170.6 88.5-35.1 43.3-67.5 111.2-67.5 183.7 0 6.5.7 13 1.3 15.2 4.5.7 9.1 1 13.7 1 56.8 0 124.2-37.7 159.5-85.1 18.8-25.6 37.1-67.1 37.1-109.1 0-5.2-.3-10.3-.7-15.4z"/>
+                  </svg>
+                  <span className="flex flex-col items-start leading-tight">
+                    <span className="text-[10px] font-normal opacity-80">{app.comingSoon}</span>
+                    <span>{app.appStore}</span>
+                  </span>
+                </a>
+
+                {/* Google Play badge */}
+                <a
+                  href="#"
+                  aria-label={app.playStore}
+                  className="hig-press group relative inline-flex h-12 items-center gap-3 rounded-xl border border-tenu-hairline bg-tenu-ink px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2c2c2e] focus-visible:ring-2 focus-visible:ring-tenu-accent"
+                  title={app.comingSoon}
+                >
+                  {/* Google Play logo SVG */}
+                  <svg viewBox="0 0 512 512" className="h-5 w-5 shrink-0" aria-hidden="true">
+                    <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zm-116.6 217L325.3 277.7l60.1 60.1L104.6 499l104.1-47.7zM7.2 44.6C4.1 47.5 2 52 2 57.4V454.7c0 5.3 2.1 9.7 5.2 12.7l.7.6 226.5-226.5v-3.4L7.9 44.1l-.7.5zm466.5 161.5l-54.4-31.4-60.5 60.5 60.5 60.5 54.8-31.6c15.7-9.1 15.7-23.8 0-32.8l-.4-.2z" fill="#fff"/>
+                  </svg>
+                  <span className="flex flex-col items-start leading-tight">
+                    <span className="text-[10px] font-normal opacity-80">{app.comingSoon}</span>
+                    <span>{app.playStore}</span>
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
         </section>
 
         {/* ---------- 2. TRUST LADDER ---------- */}

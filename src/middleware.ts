@@ -7,6 +7,7 @@ const publicPaths = [
   "/legal",
   "/stories",
   "/features",
+  "/inspection",
   "/auth/login",
   "/auth/callback",
   "/auth/accept-terms",

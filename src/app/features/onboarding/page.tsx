@@ -1,6 +1,6 @@
 // /features/onboarding — "Know your rights before you move in" / "Connaître
 // vos droits avant d'emménager". Ten non-negotiable facts under Loi 89-462.
-// Server component, EN + FR only. Non-FR/EN locales fall back to FR.
+// Server component, EN + FR only. Non-FR locales fall back to EN.
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import Script from "next/script";
@@ -156,7 +156,7 @@ async function resolveCopy(): Promise<Copy> {
   const locale = cookieLocale
     ? parseLocaleFromCookie(cookieLocale)
     : parseLocaleFromHeader(headerStore.get("accept-language") ?? undefined);
-  return locale === "en" ? EN : FR;
+  return locale === "fr" ? FR : EN;
 }
 
 const faqJsonLd = {
