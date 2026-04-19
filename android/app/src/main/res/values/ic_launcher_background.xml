@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tenu Identity v1 — Tenu Ink navy. Paired with the Portal foreground
+     in mipmap-*/ic_launcher_foreground.png (paper silhouette on navy). -->
+<resources>
+    <color name="ic_launcher_background">#0B1F3A</color>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Tenu Android — network security config.
+  Drop into: android/app/src/main/res/xml/network_security_config.xml
+  Then in AndroidManifest.xml <application> add attribute:
+    android:networkSecurityConfig="@xml/network_security_config"
+
+  Policy:
+    - tenu.world + subdomains: HTTPS-only. Cleartext forbidden.
+    - localhost + 10.0.2.2 (Android emulator loopback): cleartext allowed
+      so `cap run android` can talk to `next dev` on the host laptop.
+    - All other domains: default Android platform behaviour (cleartext
+      allowed on API <28, blocked on API 28+). The Capacitor shell
+      only navigates to tenu.world (allowNavigation in capacitor.config.ts)
+      so this doesn't open an exfil hole.
+
+  TODO (post-launch): add <pin-set> for tenu.world once certificate
+  rotation cadence is documented. Pinning requires we know the SHA-256
+  of the current + next intermediate CA. Do NOT pin the leaf — rotates
+  every 90 days with Let's Encrypt / Vercel. See:
+  https://developer.android.com/training/articles/security-config#CertificatePinning
+-->
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="true">tenu.world</domain>
+    </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain>localhost</domain>
+        <domain>10.0.2.2</domain>
+    </domain-config>
+</network-security-config>

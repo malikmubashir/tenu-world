@@ -26,11 +26,31 @@
 *.tsbuildinfo
 next-env.d.ts
 
-# capacitor
-/ios/
-/android/
-*.xcworkspace
-*.xcodeproj
+# capacitor — commit native projects so signing config + entitlements
+# survive across `cap add` regenerations. Build outputs and dependency
+# caches stay local.
+ios/App/Pods/
+ios/App/build/
+ios/App/DerivedData/
+ios/App/App/public/
+ios/App/.gradle/
+ios/App/.idea/
+ios/.DS_Store
+ios/App/.DS_Store
+
+android/.gradle/
+android/.idea/
+android/build/
+android/app/build/
+android/captures/
+android/local.properties
+android/app/release/
+android/app/src/main/assets/public/
+android/.DS_Store
+android/app/.DS_Store
+
+# Capacitor regenerates these from out/ on every cap sync — no need
+# to track the bundled web assets in either platform's tree.
 
 # misc
 .DS_Store
