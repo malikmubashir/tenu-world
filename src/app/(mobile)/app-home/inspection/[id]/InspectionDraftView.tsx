@@ -126,7 +126,7 @@ export default function InspectionDraftView() {
 
         <div className="mt-auto pt-8">
           <HIGButton
-            onClick={() => router.push(`/app-home/inspection/${draftId}/review`)}
+            onClick={() => router.push(`/app-home/inspection/${draftId}/submit`)}
             disabled={allPhotos.length < 4}
           >
             Vérifier et envoyer

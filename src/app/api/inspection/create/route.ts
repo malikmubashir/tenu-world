@@ -161,9 +161,10 @@ export async function POST(request: Request) {
     sort_order: idx,
   }));
 
-  const { error: roomError } = await supabase
+  const { data: roomsCreated, error: roomError } = await supabase
     .from("rooms")
-    .insert(roomInserts);
+    .insert(roomInserts)
+    .select("id, room_type, label, sort_order");
 
   if (roomError) {
     console.error("Room insert error:", roomError);
@@ -198,5 +199,13 @@ export async function POST(request: Request) {
     noticePeriodMonths,
     furnished,
     inspectionType,
+    // Server room IDs — mobile needs these to feed /api/mobile/upload-intent.
+    // Map back from local room codes via room_type, e.g. "salon" → uuid.
+    rooms: (roomsCreated ?? []).map((r) => ({
+      id: r.id as string,
+      type: r.room_type as string,
+      label: r.label as string,
+      sortOrder: r.sort_order as number,
+    })),
   });
 }
