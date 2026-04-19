@@ -23,10 +23,10 @@ import { type Locale, locales } from "@/lib/i18n/config";
  * checkbox. The marketing checkbox is optional and defaults to
  * unchecked (GDPR Art. 7.2 — no pre-ticked boxes, no bundling).
  *
- * Legal consent copy (DPA / marketing) is locked to FR/EN per
- * consents.ts — "DO NOT translate through LLM. Requires avocat review."
- * ZH/AR/UR users see the EN legal copy. All other UI chrome is
- * translated into the user's chosen locale.
+ * Tenu hardcodes only FR and EN. All other locales fall back to FR
+ * chrome. Users who need another language use the on-demand translation
+ * widget in the site header — machine-translated preview, unofficial.
+ * Legal copy stays FR/EN only per consents.ts (avocat-reviewed text).
  */
 
 interface LoginCopy {
@@ -45,7 +45,7 @@ interface LoginCopy {
   gateHint: string;
 }
 
-const UI_COPY: Record<Locale, LoginCopy> = {
+const UI_COPY: Record<"fr" | "en", LoginCopy> = {
   fr: {
     title: "Connexion",
     subtitle: "Continuez avec Google ou utilisez votre e-mail.",
@@ -76,65 +76,15 @@ const UI_COPY: Record<Locale, LoginCopy> = {
     or: "or",
     gateHint: "Tick the Terms and Privacy Policy box to continue.",
   },
-  ar: {
-    title: "تسجيل الدخول",
-    subtitle: "تابع مع Google أو استخدم بريدك الإلكتروني.",
-    emailLabel: "البريد الإلكتروني",
-    emailPlaceholder: "you@example.com",
-    googleBtn: "المتابعة مع Google",
-    googleLoading: "جارٍ التحويل...",
-    magicBtn: "إرسال رابط الدخول",
-    magicLoading: "جارٍ الإرسال...",
-    magicSent: "تحقق من بريدك الوارد",
-    magicSentBody: (e) => `أرسلنا رابط تسجيل الدخول إلى ${e}. انقر على الرابط للمتابعة.`,
-    useOther: "استخدام عنوان آخر",
-    or: "أو",
-    gateHint: "ضع علامة في خانة قبول الشروط وسياسة الخصوصية للمتابعة.",
-  },
-  zh: {
-    title: "登录",
-    subtitle: "使用 Google 继续，或输入您的电子邮件。",
-    emailLabel: "电子邮件地址",
-    emailPlaceholder: "you@example.com",
-    googleBtn: "使用 Google 继续",
-    googleLoading: "跳转中...",
-    magicBtn: "发送魔法链接",
-    magicLoading: "发送中...",
-    magicSent: "请查看您的收件箱",
-    magicSentBody: (e) => `我们已向 ${e} 发送了登录链接，点击链接继续。`,
-    useOther: "使用其他地址",
-    or: "或",
-    gateHint: "请勾选服务条款和隐私政策复选框以继续。",
-  },
-  ur: {
-    title: "سائن ان",
-    subtitle: "Google کے ساتھ جاری رکھیں یا اپنا ای میل استعمال کریں۔",
-    emailLabel: "ای میل پتہ",
-    emailPlaceholder: "you@example.com",
-    googleBtn: "Google کے ساتھ جاری رکھیں",
-    googleLoading: "منتقل ہو رہا ہے...",
-    magicBtn: "میجک لنک بھیجیں",
-    magicLoading: "بھیج رہا ہے...",
-    magicSent: "اپنا ان باکس چیک کریں",
-    magicSentBody: (e) => `ہم نے ${e} پر سائن ان لنک بھیجا ہے۔ جاری رکھنے کے لیے لنک پر کلک کریں۔`,
-    useOther: "مختلف پتہ استعمال کریں",
-    or: "یا",
-    gateHint: "جاری رکھنے کے لیے شرائط اور رازداری پالیسی کا خانہ نشان زد کریں۔",
-  },
-  hi: null as unknown as LoginCopy,
-  ja: null as unknown as LoginCopy,
-  es: null as unknown as LoginCopy,
-  pt: null as unknown as LoginCopy,
-  ko: null as unknown as LoginCopy,
 };
 
 function resolveUiCopy(locale: Locale): LoginCopy {
-  return UI_COPY[locale] ?? UI_COPY["en"];
+  return locale === "en" ? UI_COPY.en : UI_COPY.fr;
 }
 
 // Legal consent copy is locked to FR/EN — ZH/AR/UR users see EN.
 function consentLocale(locale: Locale): ConsentLocale {
-  return locale === "fr" ? "fr" : "en";
+  return locale === "en" ? "en" : "fr";
 }
 
 export default function LoginPage() {

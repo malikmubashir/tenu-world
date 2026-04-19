@@ -30,7 +30,7 @@ interface AcceptCopy {
   continuingBtn: string;
 }
 
-const UI_COPY: Record<Locale, AcceptCopy> = {
+const UI_COPY: Record<"fr" | "en", AcceptCopy> = {
   fr: {
     heading: "Dernière étape",
     body: "Pour finaliser la création de votre compte, confirmez votre acceptation de nos conditions.",
@@ -43,37 +43,14 @@ const UI_COPY: Record<Locale, AcceptCopy> = {
     continueBtn: "Continue",
     continuingBtn: "Saving...",
   },
-  ar: {
-    heading: "خطوة أخيرة",
-    body: "لإتمام إنشاء حسابك، يرجى تأكيد قبولك لشروطنا.",
-    continueBtn: "متابعة",
-    continuingBtn: "جارٍ الحفظ...",
-  },
-  zh: {
-    heading: "最后一步",
-    body: "为完成账户创建，请确认您接受我们的条款。",
-    continueBtn: "继续",
-    continuingBtn: "保存中...",
-  },
-  ur: {
-    heading: "آخری قدم",
-    body: "اپنا اکاؤنٹ مکمل کرنے کے لیے، براہ کرم ہماری شرائط کی منظوری کی تصدیق کریں۔",
-    continueBtn: "جاری رکھیں",
-    continuingBtn: "محفوظ ہو رہا ہے...",
-  },
-  hi: null as unknown as AcceptCopy,
-  ja: null as unknown as AcceptCopy,
-  es: null as unknown as AcceptCopy,
-  pt: null as unknown as AcceptCopy,
-  ko: null as unknown as AcceptCopy,
 };
 
 function resolveUiCopy(locale: Locale): AcceptCopy {
-  return UI_COPY[locale] ?? UI_COPY["en"];
+  return locale === "en" ? UI_COPY.en : UI_COPY.fr;
 }
 
 function consentLocale(locale: Locale): ConsentLocale {
-  return locale === "fr" ? "fr" : "en";
+  return locale === "en" ? "en" : "fr";
 }
 
 export default function AcceptTermsPage() {

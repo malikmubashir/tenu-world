@@ -23,8 +23,8 @@
   --palette-accent-hover:  #10B981; /* emerald-500 — hover state */
   --palette-ink:           #1D1D1F; /* Apple near-black — headings / body */
   --palette-ink-muted:     #6E6E73; /* Apple gray — captions / meta */
-  --palette-canvas:        #FFFFFF; /* base canvas — always white-ish */
-  --palette-band:          #EEEEF1; /* cool light gray — section bands */
+  --palette-canvas:        #F4F1EA; /* Paper — aligned with iOS mobile canvas (2026-04-19) */
+  --palette-band:          #EDE8DC; /* Paper-2 — layered band on Paper, matches iOS */
   --palette-hairline:      #D2D2D7; /* Apple separator — thin borders */
   --palette-danger:        #DC2626;
   --palette-warning:       #F59E0B;

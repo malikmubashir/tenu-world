@@ -223,7 +223,7 @@ async function resolveCopy(): Promise<Copy> {
   const locale = cookieLocale
     ? parseLocaleFromCookie(cookieLocale)
     : parseLocaleFromHeader(headerStore.get("accept-language") ?? undefined);
-  return locale === "fr" ? FR : EN;
+  return locale === "en" ? EN : FR;
 }
 
 export async function generateMetadata() {

@@ -6,6 +6,7 @@ import { getDirection } from "@/lib/i18n/config";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import CookieBanner from "@/components/legal/CookieBanner";
 import GlobalHeader from "@/components/web/GlobalHeader";
+import TranslatePreview from "@/components/web/TranslatePreview";
 import MobileGate from "@/components/mobile/MobileGate";
 import "./globals.css";
 
@@ -217,9 +218,10 @@ export default async function RootLayout({
             actions, which are unsupported under output: 'export'.
             CookieBanner is GDPR chrome for the web deploy only. */}
         {!IS_MOBILE_EXPORT && <GlobalHeader />}
+        {!IS_MOBILE_EXPORT && <TranslatePreview />}
         {children}
         {!IS_MOBILE_EXPORT && (
-          <CookieBanner locale={locale === "fr" ? "fr" : "en"} />
+          <CookieBanner locale={locale === "en" ? "en" : "fr"} />
         )}
       </body>
     </html>

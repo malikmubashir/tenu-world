@@ -93,8 +93,8 @@ async function resolveChrome(): Promise<{ c: Chrome; lang: "en" | "fr" }> {
   const locale = cookieLocale
     ? parseLocaleFromCookie(cookieLocale)
     : parseLocaleFromHeader(headerStore.get("accept-language") ?? undefined);
-  const isFr = locale === "fr";
-  return { c: isFr ? FR : EN, lang: isFr ? "fr" : "en" };
+  const isEn = locale === "en";
+  return { c: isEn ? EN : FR, lang: isEn ? "en" : "fr" };
 }
 
 export async function generateMetadata() {

@@ -105,7 +105,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AccountPage() {
   const locale = await getLocale();
-  const uiLocale: "fr" | "en" = locale === "fr" ? "fr" : "en";
+  const uiLocale: "fr" | "en" = locale === "en" ? "en" : "fr";
   const t = COPY[uiLocale];
 
   const supabase = await createClient();

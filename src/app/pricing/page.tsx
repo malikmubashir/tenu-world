@@ -74,7 +74,7 @@ interface PriceCopy {
   startLink: string;
 }
 
-const COPY: Record<Locale, PriceCopy> = {
+const COPY: Record<"fr" | "en", PriceCopy> = {
   fr: {
     heading: "Protégez votre dépôt",
     subheading: "Rapport IA d'état des lieux pour anticiper les retenues avant la sortie.",
@@ -129,103 +129,16 @@ const COPY: Record<Locale, PriceCopy> = {
     errorNoInspection: "No inspection selected. Start a new inspection first.",
     startLink: "Start a new inspection first",
   },
-  ar: {
-    heading: "احمِ وديعتك",
-    subheading: "تقرير فحص بالذكاء الاصطناعي لتوقّع الاستقطاعات قبل تسليم المفاتيح.",
-    disputeNote: (p) => `خطاب النزاع (${p}) يُطلَب بعد الفحص بناءً على النتيجة.`,
-    scanTitle: "مسح مخاطر الذكاء الاصطناعي",
-    scanDesc: "اعرف مخاطر وديعتك قبل أن يوقّع المالك على محضر المغادرة.",
-    vatLabel: "شامل الضريبة",
-    principalUnit: (n) => `${n} غرفة رئيسية`,
-    serviceUnit: "خدمية",
-    annexeUnit: () => "ملحقة",
-    features: [
-      "تحليل ذكاء اصطناعي للصور لكل غرفة رئيسية وخدمية وملحقة",
-      "تقدير الاستقطاعات العادلة (مقياس الإهلاك الفرنسي)",
-      "حزمة صور موثقة بالوقت كدليل",
-      "تقرير PDF قابل للتنزيل",
-      "النتائج في أقل من دقيقتين",
-    ],
-    colocNote:
-      "الإقامة المشتركة: كل مستأجر يشتري مسحه بسعر الشقة. زوجان يتشاركان عقداً واحداً = مستأجر واحد.",
-    runScan: (p) => `ابدأ مسحي — ${p}`,
-    cancel: "إلغاء",
-    pay: (p) => `ادفع ${p}`,
-    redirecting: "جارٍ التحويل…",
-    errorBothBoxes: "يجب تحديد خانتي الإقرار للمتابعة.",
-    errorNoInspection: "لم يتم اختيار أي فحص. ابدأ فحصاً جديداً أولاً.",
-    startLink: "ابدأ فحصاً جديداً أولاً",
-  },
-  zh: {
-    heading: "保护您的押金",
-    subheading: "AI 检测报告，在交钥匙前预判房东可能扣除的费用。",
-    disputeNote: (p) => `争议信 (${p}) 在扫描完成后根据结果单独购买。`,
-    scanTitle: "AI 风险扫描",
-    scanDesc: "在房东签署退租清单之前，了解押金风险。",
-    vatLabel: "含税",
-    principalUnit: (n) => `${n} 间主要房间`,
-    serviceUnit: "服务间",
-    annexeUnit: (n) => `${n} 间附属空间`,
-    features: [
-      "AI 逐室照片分析（主卧、服务间及附属空间）",
-      "依据法国折旧标准估算合理扣除金额",
-      "带时间戳的照片证据包",
-      "可下载的 PDF 报告",
-      "2 分钟内出结果",
-    ],
-    colocNote:
-      "合租：每位租客按房型价格单独购买扫描。一对夫妻共用同一租约视为一位租客。",
-    runScan: (p) => `开始扫描 — ${p}`,
-    cancel: "取消",
-    pay: (p) => `支付 ${p}`,
-    redirecting: "跳转中…",
-    errorBothBoxes: "必须勾选两个声明复选框才能继续。",
-    errorNoInspection: "未选择检测项目，请先创建新检测。",
-    startLink: "先创建新检测",
-  },
-  ur: {
-    heading: "اپنی ضمانت رقم محفوظ رکھیں",
-    subheading: "AI معائنہ رپورٹ — چابیاں واپس کرنے سے پہلے کٹوتیوں کا اندازہ لگائیں۔",
-    disputeNote: (p) => `تنازع خط (${p}) اسکین کے بعد نتیجے کی بنیاد پر منگوایا جاتا ہے۔`,
-    scanTitle: "AI خطرہ اسکین",
-    scanDesc: "مالک مکان کے EDL پر دستخط سے پہلے اپنی ضمانت کا خطرہ جانیں۔",
-    vatLabel: "VAT سمیت",
-    principalUnit: (n) => `${n} اہم کمرہ`,
-    serviceUnit: "سروس",
-    annexeUnit: () => "ضمیمہ",
-    features: [
-      "ہر اہم، سروس اور ضمیمہ کمرے کی AI فوٹو تجزیہ",
-      "فی کمرہ منصفانہ کٹوتی کا تخمینہ (فرانسیسی وقت گزاری گرڈ)",
-      "ثبوت کے لیے ٹائم اسٹیمپ تصویری پیکیج",
-      "ڈاؤنلوڈ کے قابل PDF رپورٹ",
-      "2 منٹ سے کم میں نتائج",
-    ],
-    colocNote:
-      "مشترکہ رہائش: ہر ساتھی کرایہ دار فلیٹ کی سطح پر اسکین خریدتا ہے۔ ایک معاہدے پر جوڑا = ایک کرایہ دار۔",
-    runScan: (p) => `میرا اسکین چلائیں — ${p}`,
-    cancel: "منسوخ",
-    pay: (p) => `${p} ادا کریں`,
-    redirecting: "منتقل ہو رہا ہے…",
-    errorBothBoxes: "ادائیگی کے لیے دونوں خانوں پر نشان لگانا ضروری ہے۔",
-    errorNoInspection: "کوئی معائنہ منتخب نہیں۔ پہلے نیا معائنہ بنائیں۔",
-    startLink: "پہلے نیا معائنہ بنائیں",
-  },
-  // P2/P3 locales fall back to English until translated
-  hi: null as unknown as PriceCopy,
-  ja: null as unknown as PriceCopy,
-  es: null as unknown as PriceCopy,
-  pt: null as unknown as PriceCopy,
-  ko: null as unknown as PriceCopy,
 };
 
 function resolveCopy(locale: Locale): PriceCopy {
-  return COPY[locale] ?? COPY["en"];
+  return locale === "en" ? COPY.en : COPY.fr;
 }
 
 // Legal waiver only exists in FR/EN (avocat-reviewed text).
 // ZH/AR/UR users see the EN version.
 function waiverLocale(locale: Locale): "fr" | "en" {
-  return locale === "fr" ? "fr" : "en";
+  return locale === "en" ? "en" : "fr";
 }
 
 export default function PricingPage() {
