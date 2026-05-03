@@ -328,29 +328,29 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">8 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-03T11:24:21</span></div>
+    <div>Regenerated <span id="gen-ts">2026-05-03T11:42:23</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">66</div>
+    <div class="value" id="c-open">63</div>
     <div class="hint"><span id="c-ip">3</span> in progress</div>
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">30</div>
+    <div class="value" id="c-done">33</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">51</div>
+    <div class="value" id="c-due7">48</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">55</div>
+    <div class="value" id="c-p0">54</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -361,7 +361,7 @@
     <div class="tagline">What should bother you today. Tap a stat to filter.</div>
   </div>
   <div class="stat" data-filter="overdue" style="cursor:pointer;">
-    <div class="n bad" id="r-overdue">5</div>
+    <div class="n bad" id="r-overdue">3</div>
     <div class="lbl">Overdue</div>
   </div>
   <div class="stat" data-filter="p0-no-due" style="cursor:pointer;">
@@ -370,9 +370,9 @@
   </div>
   <div class="stat">
     <div class="n">
-      <span id="r-mh">42</span>
+      <span id="r-mh">40</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
-      <span id="r-cc">24</span>
+      <span id="r-cc">23</span>
     </div>
     <div class="lbl">MH · CC open</div>
   </div>
@@ -424,24 +424,24 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-03T11:24:21",
+    "generated": "2026-05-03T11:42:23",
     "today": "2026-05-03",
     "launch": "2026-05-11",
     "days_to_launch": 8,
     "counts": {
       "total": 96,
-      "open": 63,
+      "open": 60,
       "in_progress": 3,
-      "done": 30,
+      "done": 33,
       "dropped": 0,
-      "p0_open": 55,
-      "p1_open": 7,
+      "p0_open": 54,
+      "p1_open": 5,
       "p2_open": 4,
       "no_priority": 0,
-      "mh_open": 42,
-      "cc_open": 24,
-      "due_next_7": 51,
-      "overdue": 5,
+      "mh_open": 40,
+      "cc_open": 23,
+      "due_next_7": 48,
+      "overdue": 3,
       "p0_no_due": 0
     }
   },
@@ -692,34 +692,34 @@
       "id": "T-023",
       "line_no": 56,
       "section": "THIS WEEKEND (17-20 Apr)",
-      "status": "Open",
+      "status": "Done",
       "owner": "MH",
       "title": "Move leaked secrets out of `/Users/mmh/Documents/Global Apex/Tenu/05-Legal-Compliance/`",
       "priority": "P0 Blocker",
       "due": "2026-05-04",
-      "note": "`client_secret_1016793771503-bnq65154rootrva2e81kh1jicoks7hss.apps.googleusercontent.com.json`, the same with \" (1)\" suffix, and `stripe_backup_code.txt`. All three are sitting in plaintext in a Documents folder (iCloud-syncable, Time-Machine-backupable). Move to `~/.secrets/` or 1Password, then `rm` from disk. **Do NOT git commit them anywhere.**"
+      "note": "`client_secret_1016793771503-bnq65154rootrva2e81kh1jicoks7hss.apps.googleusercontent.com.json`, the same with \" (1)\" suffix, and `stripe_backup_code.txt`. All three are sitting in plaintext in a Documents folder (iCloud-syncable, Time-Machine-backupable). Move to `~/.secrets/` or 1Password, then `rm` from disk. **Do NOT git commit them anywhere.** — done 2026-05-03: stripe_backup_code.txt contents migrated to 1Password as Secure Note \"Stripe 2FA backup codes — Global Apex NET\" (per Dr Mubashir). Two client_secret JSON files deleted (burned credentials, no preservation needed — Cloud project shutdown will close the trust loop). All three files removed from disk via `rm -rf` on parent folder. Verify by inspection: `/Users/mmh/Documents/Global Apex/Tenu/` no longer exists."
     },
     {
       "id": "T-024",
       "line_no": 57,
       "section": "THIS WEEKEND (17-20 Apr)",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Migrate stragglers from stale-clone `05-Legal-Compliance/` into SOT",
       "priority": "P1 Important",
       "due": "2026-04-21",
-      "note": "`01-Legal-Checklist.md` (review + dedupe against SOT 05-Legal-Compliance content first), `etat-des-lieux.pdf`, `etat-des-lieux-meuble.pdf`, `modele-etat-des-lieux T2-T3.pdf` into SOT `docs/reference/etat-des-lieux/` (or wherever Dr Mubashir prefers). Delete from stale clone after move"
+      "note": "`01-Legal-Checklist.md` (review + dedupe against SOT 05-Legal-Compliance content first), `etat-des-lieux.pdf`, `etat-des-lieux-meuble.pdf`, `modele-etat-des-lieux T2-T3.pdf` into SOT `docs/reference/etat-des-lieux/` (or wherever Dr Mubashir prefers). Delete from stale clone after move — done 2026-05-03: audit found `01-Legal-Checklist.md` already byte-identical between stale and SOT (no migration needed); 3 PDFs in stale folder, two of which (`modele-etat-des-lieux.pdf` and `modele-etat-des-lieux T2-T3.pdf`) are byte-identical (sha 4b9fed2e0c14...) — only one carried over. Final SOT state: `docs/reference/etat-des-lieux/etat-des-lieux-meuble.pdf` (sha 6e1e3f5acd83...) + `docs/reference/etat-des-lieux/modele-etat-des-lieux T2-T3.pdf` (sha 4b9fed2e0c14...). Note: original task line referenced `etat-des-lieux.pdf` which never existed in stale clone — actual filenames discovered during audit."
     },
     {
       "id": "T-025",
       "line_no": 58,
       "section": "THIS WEEKEND (17-20 Apr)",
-      "status": "Open",
+      "status": "Done",
       "owner": "MH",
       "title": "Decide fate of `/Users/mmh/Documents/Global Apex/Tenu/` once secrets + legal stragglers are out",
       "priority": "P1 Important",
       "due": "2026-04-22",
-      "note": "archive to `~/Archive/` or `rm -rf`. Sandbox cannot delete the parent folder."
+      "note": "archive to `~/Archive/` or `rm -rf`. Sandbox cannot delete the parent folder. — done 2026-05-03 — decision: `rm -rf`, no archive. Audit grounds: (a) 533 MB of the 538 MB total was regenerable node_modules; (b) git remote pointed at the same `malikmubashir/tenu-world.git` with HEAD at `c3614ef` (the original April 3 scaffold commit, redundant with everything in main since); (c) all 10 doc files were either byte-identical to SOT or differed only in COI-scrubbed wording (HEC GEMM / MHF references that SOT correctly removed per role-separation policy in CLAUDE.md); (d) parent had `com.apple.macl` and `com.apple.provenance` xattrs only — NOT iCloud-synced, so no recurring sync source to sever; (e) Time Machine retains snapshots back to April 3 if recovery ever needed. Final stale-clone removal verified: parent path no longer exists. Container `/Users/mmh/Documents/Global Apex/` retained for other uses. Companion finding: the dedup chaos cleaned in the prior task was therefore NOT from active iCloud sync — likely a one-time merge incident from a multi-machine sync, not ongoing. Worth knowing for future repo-cleanup heuristics."
     },
     {
       "id": "T-026",
