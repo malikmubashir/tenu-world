@@ -9,6 +9,9 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "build:mobile": "bash scripts/build-mobile.sh",
     "cap:sync": "npm run build:mobile && npx cap sync",
     "cap:ios": "npm run cap:sync && npx cap open ios",
@@ -49,15 +52,18 @@
     "@capacitor/filesystem": "^7.0.1",
     "@capacitor/ios": "^7.6.2",
     "@capacitor/push-notifications": "^7.0.1",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4.1.4",
     "@types/node": "^22.15.2",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@vitest/coverage-v8": "^3.2.4",
     "eslint": "^9.24.0",
     "eslint-config-next": "^15.3.1",
     "postcss": "^8.5.3",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.1.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
   }
 }
