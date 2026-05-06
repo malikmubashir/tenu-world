@@ -4,7 +4,7 @@
 # Refresh xlsx after any change: python3 scripts/tracker-refresh.py
 # Protocol: CLAUDE.md > "Task Tracker Protocol" section.
 # Owned by Dr Mubashir + Claude.
-# Last sync: 2026-04-18
+# Last sync: 2026-05-06
 # Launch target: Mon 11 May 2026 (Fork B — public App Store + Play Store)
 # OOO: Dr Mubashir off 27-30 Apr (works nights during OOO)
 
@@ -25,8 +25,8 @@
 
 Context: Dr Mubashir back from holiday on 2026-05-03 (D-8). Audit shows 36 p:0 overdue (31 MH + 5 CC). Vercel rotations resolved 2026-05-03. Apple Dev + Play enrolment submitted, Apple verification pending. Legal sign-offs not yet engaged. Realistic native-binary submission window: 18-25 May. Decision: **soft launch 11 May = web-only at tenu.world** with the F&F cohort. Strip "App Store + Play Store" from launch comms. Native binaries follow 2-3 weeks later. All comms, store-listing copy, and Brevo welcome flow updated to reflect web-only launch. Native-build MH lines (cap add ios / cap add android / Xcode / Android Studio) re-dated to post-launch sprint. Treat 11-25 May as the Native Build Bridge.
 
-- [>] CC: Update store-listing copy + welcome email + landing page to reflect web-first launch + native binaries follow (p:0, due 2026-05-04) — opened 2026-05-03.
-- [ ] CC: Native Build Bridge plan — write docs/12-Native-Build-Bridge-2026-05-12.md mapping the 11-25 May path: cap add ios + cap add android dependencies, Xcode + Android Studio prerequisites, TestFlight + Play internal track submission, screenshots backlog, App Store reviewer notes refresh (p:0, due 2026-05-05) — opened 2026-05-03.
+- [x] CC: Update store-listing copy + welcome email + landing page to reflect web-first launch + native binaries follow (p:0, due 2026-05-04) — done 2026-05-06: EX-8. Hero badge block stripped, all 5 dictionaries reduced to single "25 mai" heading, docs/store-listings/reviewer-notes.md created. Commit f5ca79f.
+- [x] CC: Native Build Bridge plan — write docs/12-Native-Build-Bridge-2026-05-12.md mapping the 11-25 May path: cap add ios + cap add android dependencies, Xcode + Android Studio prerequisites, TestFlight + Play internal track submission, screenshots backlog, App Store reviewer notes refresh (p:0, due 2026-05-05) — done 2026-05-06: EX-7. 12-section doc, all commands copy-pasteable, failure modes table, timeline 2026-05-11 to 2026-06-30. Commit 55892bf.
 - [x] CC: Move native-build MH lines (build:mobile, cap add, cap sync, Xcode, Android Studio) into the Native Build Bridge section dated 18-25 May — keep their content verbatim, only re-section + re-date so the launch checklist stops bleeding red on items that were never blocking 11 May web-only (p:1, due 2026-05-04) — opened 2026-05-03. — done 2026-05-06: re-dating applied via runbook-2026-05-06 (TE-1..TE-7).
 
 ## LEGAL — fixed-fee review briefs (CC drafts ready for MH to send, opened 2026-05-03)

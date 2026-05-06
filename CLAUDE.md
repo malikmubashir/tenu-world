@@ -93,7 +93,7 @@ AI-powered deposit risk scoring + dispute letters in 10 languages.
 
 **Tagline:** Your rights. Your language. Your deposit.
 **Domain:** tenu.world (Namecheap, 3 years, registered 2026-04-02)
-**Status:** Pre-launch — Week 1 build in progress (April 2026)
+**Status:** Pre-launch — D-5 web-only soft launch 11 May 2026 (Option B: web first, native binaries 18-25 May)
 **Trademarks:** EUIPO ✓ | CNIPA ✓
 
 ---
@@ -162,7 +162,8 @@ AI-powered deposit risk scoring + dispute letters in 10 languages.
 │   ├── brand/BRAND-GUIDELINES.md        ← canonical brand SOT
 │   ├── 10-Mobile-Build-Handover-2026-04-19.md
 │   ├── 11-Mobile-Build-Handover-2026-04-19-addendum.md
-│   ├── store-listings/                  ← FR + EN, iOS + Play
+│   ├── 12-Native-Build-Bridge-2026-05-12.md ← cap add / TestFlight / Play internal track runbook
+│   ├── store-listings/                  ← FR + EN, iOS + Play + reviewer-notes.md
 │   ├── email-templates/
 │   └── reference/
 ├── ios/                                 ← Capacitor native iOS project
@@ -260,16 +261,16 @@ Breakeven: ~4 paying users/month against €47 fixed burn.
 
 ---
 
-## Build timeline (revised 2026-04-17)
+## Build timeline (revised 2026-05-06)
 | Phase | Period | Goal |
 |---|---|---|
-| Week 1 | 3–9 Apr | Repo, Next.js scaffold, Vercel deploy, tenu.world live |
-| Week 2–3 | 10–23 Apr | Inspection flow, camera, R2 upload, in-code pipeline |
-| Week 4 | 24–26 Apr | Legal surface implementation, DPA dashboard settings |
-| OOO | 27–30 Apr | Dr Mubashir time off — no deploys, no PRs, no stakeholder actions |
-| Week 5 | 1–10 May | Security checklist P0 completion, T-103 dry run, legal surface final |
-| **SOFT LAUNCH** | **Mon 11 May** | **First-paying-user friends & family launch** |
-| May W3–4 | 12–31 May | Capacitor iOS + Android builds, App Store submissions |
+| Week 1 | 3–9 Apr | Repo, Next.js scaffold, Vercel deploy, tenu.world live ✓ |
+| Week 2–3 | 10–23 Apr | Inspection flow, camera, R2 upload, in-code pipeline ✓ |
+| Week 4 | 24–26 Apr | Legal surface, DPA dashboard settings ✓ |
+| OOO | 27–30 Apr | Dr Mubashir time off ✓ |
+| Week 5 | 1–10 May | Key rotations, bug sweep (EX-6), native bridge doc (EX-7), badge strip (EX-8) ✓ |
+| **SOFT LAUNCH** | **Mon 11 May** | **Web-only F&F launch at tenu.world (Option B)** |
+| Native Bridge | 12–25 May | cap add ios/android, TestFlight + Play internal track — see docs/12-Native-Build-Bridge-2026-05-12.md |
 | June | 1–30 Jun | Both stores live (pessimistic: end June) |
 | July | 1–31 Jul | 50 paying users, 10 outcome data points |
 
