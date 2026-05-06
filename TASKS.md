@@ -27,7 +27,7 @@ Context: Dr Mubashir back from holiday on 2026-05-03 (D-8). Audit shows 36 p:0 o
 
 - [>] CC: Update store-listing copy + welcome email + landing page to reflect web-first launch + native binaries follow (p:0, due 2026-05-04) — opened 2026-05-03.
 - [ ] CC: Native Build Bridge plan — write docs/12-Native-Build-Bridge-2026-05-12.md mapping the 11-25 May path: cap add ios + cap add android dependencies, Xcode + Android Studio prerequisites, TestFlight + Play internal track submission, screenshots backlog, App Store reviewer notes refresh (p:0, due 2026-05-05) — opened 2026-05-03.
-- [ ] CC: Move native-build MH lines (build:mobile, cap add, cap sync, Xcode, Android Studio) into the Native Build Bridge section dated 18-25 May — keep their content verbatim, only re-section + re-date so the launch checklist stops bleeding red on items that were never blocking 11 May web-only (p:1, due 2026-05-04) — opened 2026-05-03.
+- [x] CC: Move native-build MH lines (build:mobile, cap add, cap sync, Xcode, Android Studio) into the Native Build Bridge section dated 18-25 May — keep their content verbatim, only re-section + re-date so the launch checklist stops bleeding red on items that were never blocking 11 May web-only (p:1, due 2026-05-04) — opened 2026-05-03. — done 2026-05-06: re-dating applied via runbook-2026-05-06 (TE-1..TE-7).
 
 ## LEGAL — fixed-fee review briefs (CC drafts ready for MH to send, opened 2026-05-03)
 
@@ -122,18 +122,18 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [x] CC: Splash screens per density, status bar theming, safe-area insets (p:0, due 2026-04-29) — done 2026-04-18: already shipped via commit f21f5a8 (MobileGate + Shell + resources/{splash,splash-dark}.svg sources + capacitor.config.ts SplashScreen plugin config at #F4F1EA/#0B1F3A, StatusBar overlaysWebView=false). capacitor-assets generate on the Mac (documented in the handover doc) produces the density ladder from the SVG sources.
 - [x] CC: Deep-linking scheme tenu:// + Universal Links config pointing at tenu.world (p:0, due 2026-04-30) — done 2026-04-18: MB-04 shipped src/app/.well-known/apple-app-site-association/route.ts (applinks details for /auth/callback, /app-home, /inspection, /report, /dispute with force-static) and assetlinks.json/route.ts (android_app target world.tenu.app, SHA-256 placeholder with TODO for MH post-keystore), middleware allow-listed /.well-known. tenu:// scheme already present in capacitor.config.ts + Info.plist + AndroidManifest snippets. TEAMID still a TODO (unblocks once Apple Developer enrolment completes). Commit 88cc97e.
 - [x] CC: Store listing copy drafted in FR + EN — description, keywords, support URL, privacy URL (p:0, due 2026-04-30) — done 2026-04-18 (ahead of schedule): MB-07 shipped docs/store-listings/{ios-fr,ios-en,play-fr,play-en}.md. Professional services register throughout (no buzzwords, no guaranteed-outcome claims), character counts validated inline, Stripe reader-app classification explicitly argued in reviewer notes, data safety section filled for Play form. Awaits MH (nights) review + edit before submission. Commit 50db60f.
-- [ ] CC: 6 iOS screenshots at 6.9 inch + 4 Play screenshots at 16:9 (p:0, due 2026-05-08)
+- [ ] CC: 6 iOS screenshots at 6.9 inch + 4 Play screenshots at 16:9 (p:0, due 2026-05-20)
 - [ ] MH (nights): Review store listing copy in Notion/file, approve or edit (p:0, due 2026-05-06) — re-dated 2026-05-03: depends on CC web-only listing revision (line in DECISION 2026-05-03 section).
 - [ ] MH (nights): Decide Apple IAP stance — physical service argument documented (p:0, due 2026-05-05) — re-dated 2026-05-03: needs to land before App Store reviewer notes lock.
 
 ## WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray
 
-- [ ] CC: Stripe Checkout in-app web view with return-URL deep link back to app (p:0, due 2026-05-04)
-- [ ] CC: Magic-link auth working inside app — email link opens app, session persists (p:0, due 2026-05-05)
-- [ ] CC: Push notifications APNs + FCM for risk-scan complete + letter ready (p:1, due 2026-05-07)
+- [ ] CC: Stripe Checkout in-app web view with return-URL deep link back to app (p:0, due 2026-05-13)
+- [ ] CC: Magic-link auth working inside app — email link opens app, session persists (p:0, due 2026-05-14)
+- [ ] CC: Push notifications APNs + FCM for risk-scan complete + letter ready (p:1, due 2026-05-18)
 - [ ] CC: T-103-core pipeline tests — unit + integration for critical path only, skip full 48-item P0 coverage (p:0, due 2026-05-06)
-- [ ] CC: Signed iOS production binary uploaded to App Store Connect (p:0, due 2026-05-04)
-- [ ] CC: Signed Android app bundle uploaded to Play Console production track (p:0, due 2026-05-04)
+- [ ] CC: Signed iOS production binary uploaded to App Store Connect (p:0, due 2026-05-22)
+- [ ] CC: Signed Android app bundle uploaded to Play Console production track (p:0, due 2026-05-22)
 - [ ] MH: Médiateur de la consommation signed — MEDICYS OR SMCE OR AME Conso (p:0, due 2026-05-05)
 - [ ] MH: French avocat sign-off on legal v1.0, strip DRAFT banners (p:0, due 2026-05-07)
 - [ ] MH: UK solicitor sign-off on TDS/DPS template (p:0, due 2026-05-07)
@@ -143,8 +143,10 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 
 ## LAUNCH WEEK (8-11 May)
 
-- [ ] CC: Bug sweep on inspection UI — camera retries, upload resume, offline queue (p:0, due 2026-05-09)
-- [ ] CC: F&F install test on 2 real devices each (iPhone + Android) (p:0, due 2026-05-10)
+- [x] CC: Bug sweep on inspection UI — camera retries, upload resume, offline queue (p:0, due 2026-05-09) — done 2026-05-06: EX-6. camera.ts: retry up to 3× on NotReadableError (500ms/1s backoff). uploadQueue.ts: StoredIntent interface + storeIntent/loadIntent/clearIntent (4.5-min TTL cache against R2 presigned URL). db.ts: v3 migration adds intent_url/key/headers/fetched_at columns to upload_queue. syncEngine.ts: uploadPhoto reuses cached intent on retry; startSyncLoop adds Capacitor Network.addListener + window.addEventListener("online") for reactive drain on reconnect; returns stop() that cancels both. AuthGate.tsx: wires startSyncLoop on native session confirmation. Commits 2bf561b (camera+sync) + earlier intent-cache commit.
+- [x] CC: Native build bridge doc for iOS TestFlight + Android Play internal track (p:0, due 2026-05-12) — done 2026-05-06: EX-7. docs/12-Native-Build-Bridge-2026-05-12.md: 12 sections, all commands copy-pasteable with pinned versions, expected/red-flag per step, failure modes table, timeline 2026-05-11 to 2026-06-30. Commit 55892bf.
+- [x] CC: Strip App Store/Play Store badges from hero, add 25 May mobile note, create reviewer-notes.md (p:0, due 2026-05-11) — done 2026-05-06: EX-8. page.tsx: replaced SVG badge block with single <p> {app.heading}. All 5 dictionaries: stripped appStore/playStore/comingSoon/subtext, heading → "Apps mobiles natives à partir du 25 mai". docs/store-listings/reviewer-notes.md: test account, permission table, Reader App IAP declaration, AI disclosure, data handling. Commit f5ca79f.
+- [ ] CC: F&F install test on 2 real devices each (iPhone + Android) (p:0, due 2026-05-23)
 - [ ] MH: Invite F&F list on 11 May 09:00 Paris (p:0, due 2026-05-11)
 - [ ] MH: Monitor first 24h, triage, log issues, not fix (p:0, due 2026-05-12)
 
