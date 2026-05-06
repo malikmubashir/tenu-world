@@ -130,6 +130,7 @@ export async function POST(request: Request) {
   // is the primary deliverable, the PDF is a convenience artefact.
   // Captured for the email + report-view link if it succeeds.
   let pdfUrl: string | null = null;
+  let pdfSha256: string | null = null;
   if (scanResult.v2) {
     try {
       const out = await renderAndUploadScanPdf({
@@ -139,18 +140,21 @@ export async function POST(request: Request) {
         scan: scanResult.v2,
       });
       pdfUrl = out.url;
+      pdfSha256 = out.sha256;
     } catch (err) {
       console.warn("[scan] PDF render/upload failed (non-fatal):", err);
     }
   }
 
-  // persist the full v2 payload + observability metadata on the inspection
-  // using the existing risk_score jsonb column (no schema migration needed).
-  // pdfUrl folded into the same blob.
+  // persist the full v2 payload + observability metadata on the inspection.
+  // pdf_url and pdf_sha256 get their own dedicated columns (EX-1); pdfUrl
+  // is also kept inside risk_score jsonb for backwards compatibility.
   await supabase
     .from("inspections")
     .update({
       status: "scanned",
+      pdf_url: pdfUrl,
+      pdf_sha256: pdfSha256,
       risk_score: {
         v2: scanResult.v2 ?? null,
         overallRisk: scanResult.overallRisk,
