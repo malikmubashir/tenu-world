@@ -10,6 +10,21 @@
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import { isNative } from "./platform";
 
+// NotReadableError: camera hardware temporarily claimed by another app or
+// process (common on Android mid-capture). Retry up to twice with backoff.
+function isCameraBusy(err: unknown): boolean {
+  const msg = err instanceof Error ? err.message : String(err ?? "");
+  const name = err instanceof DOMException ? err.name : "";
+  return (
+    name === "NotReadableError" ||
+    /NotReadableError|camera.*busy|device.*in use|overconstrained/i.test(msg)
+  );
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((r) => setTimeout(r, ms));
+}
+
 export interface CapturedPhoto {
   blob: Blob;
   /** Display-only local URL. Revoke with URL.revokeObjectURL when done. */
@@ -60,48 +75,58 @@ export async function pickFromLibrary(): Promise<CapturedPhoto | null> {
 async function takeNativePhoto(
   source: CameraSource,
 ): Promise<CapturedPhoto | null> {
-  let photo;
-  try {
-    photo = await Camera.getPhoto({
-      source,
-      resultType: CameraResultType.Uri,
-      // 75 quality is the brief-spec ceiling that keeps Haiku input
-      // well under 512 KB per image after JPEG encode. 1600px max
-      // edge preserves text legibility for compteurs/serrures and
-      // stays under Capacitor's 5 MB in-memory photo limit on low-end
-      // Android devices.
-      quality: 75,
-      width: 1600,
-      correctOrientation: true,
-      saveToGallery: false,
-      allowEditing: false,
-    });
-  } catch (err) {
-    if (isCancellation(err)) return null;
-    // Capacitor wraps OS permission denials in errors whose messages
-    // include "denied" or "User denied access". Treat explicitly.
-    const msg = err instanceof Error ? err.message : String(err ?? "");
-    if (/denied|permission/i.test(msg)) {
-      throw new CameraPermissionError(msg);
+  let lastError: unknown;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt > 0) await sleep(500 * attempt); // 500ms then 1000ms
+    let photo;
+    try {
+      photo = await Camera.getPhoto({
+        source,
+        resultType: CameraResultType.Uri,
+        // 75 quality is the brief-spec ceiling that keeps Haiku input
+        // well under 512 KB per image after JPEG encode. 1600px max
+        // edge preserves text legibility for compteurs/serrures and
+        // stays under Capacitor's 5 MB in-memory photo limit on low-end
+        // Android devices.
+        quality: 75,
+        width: 1600,
+        correctOrientation: true,
+        saveToGallery: false,
+        allowEditing: false,
+      });
+    } catch (err) {
+      if (isCancellation(err)) return null;
+      // Capacitor wraps OS permission denials in errors whose messages
+      // include "denied" or "User denied access". Treat explicitly.
+      const msg = err instanceof Error ? err.message : String(err ?? "");
+      if (/denied|permission/i.test(msg)) {
+        throw new CameraPermissionError(msg);
+      }
+      // Camera hardware temporarily busy (NotReadableError): retry with backoff.
+      if (isCameraBusy(err) && attempt < 2) {
+        lastError = err;
+        continue;
+      }
+      throw err;
     }
-    throw err;
-  }
 
-  const uri = photo.webPath ?? photo.path;
-  if (!uri) {
-    throw new Error("Camera returned no URI");
+    const uri = photo.webPath ?? photo.path;
+    if (!uri) {
+      throw new Error("Camera returned no URI");
+    }
+    // webPath is a blob:/file: URL the WebView can fetch directly.
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const mimeType = blob.type || `image/${photo.format ?? "jpeg"}`;
+    const format = photo.format ?? (mimeType.split("/")[1] || "jpeg");
+    return {
+      blob,
+      previewUrl: URL.createObjectURL(blob),
+      mimeType,
+      suggestedName: `photo-${Date.now()}.${format}`,
+    };
   }
-  // webPath is a blob:/file: URL the WebView can fetch directly.
-  const response = await fetch(uri);
-  const blob = await response.blob();
-  const mimeType = blob.type || `image/${photo.format ?? "jpeg"}`;
-  const format = photo.format ?? (mimeType.split("/")[1] || "jpeg");
-  return {
-    blob,
-    previewUrl: URL.createObjectURL(blob),
-    mimeType,
-    suggestedName: `photo-${Date.now()}.${format}`,
-  };
+  throw lastError;
 }
 
 function takeWebPhoto(allowLibrary = false): Promise<CapturedPhoto | null> {

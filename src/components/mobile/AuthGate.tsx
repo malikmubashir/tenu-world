@@ -18,6 +18,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { isNative } from "@/lib/mobile/platform";
 import { createClient } from "@/lib/supabase/client";
+import { startSyncLoop } from "@/lib/mobile/sync/syncEngine";
 
 type AuthState = "checking" | "authed" | "anon";
 
@@ -32,6 +33,7 @@ export default function AuthGate({ children }: { children: ReactNode }) {
       return;
     }
     let cancelled = false;
+    let stopSync: (() => void) | null = null;
     void (async () => {
       try {
         const supabase = createClient();
@@ -39,6 +41,12 @@ export default function AuthGate({ children }: { children: ReactNode }) {
         if (cancelled) return;
         if (data.session) {
           setState("authed");
+          // Start the background upload sync loop. Token is refreshed on
+          // each drain tick so short-lived JWTs never block an upload.
+          stopSync = startSyncLoop(async () => {
+            const { data: s } = await supabase.auth.getSession();
+            return s.session?.access_token ?? null;
+          });
         } else {
           setState("anon");
           router.replace("/login/");
@@ -51,6 +59,7 @@ export default function AuthGate({ children }: { children: ReactNode }) {
     })();
     return () => {
       cancelled = true;
+      stopSync?.();
     };
   }, [router]);
 

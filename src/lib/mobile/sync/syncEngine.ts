@@ -23,6 +23,9 @@ import {
   nextPendingBatch,
   recordAttemptFailure,
   shouldRetryNow,
+  storeIntent,
+  loadIntent,
+  clearIntent,
 } from "../storage/uploadQueue";
 import {
   listPhotosForDraft,
@@ -89,43 +92,44 @@ async function uploadPhoto(
   photo: LocalPhotoRecord,
   authToken: string,
 ): Promise<string> {
-  // 1. Intent — ask server for a presigned PUT URL.
-  const intentRes = await fetch(`${API_BASE}/api/mobile/upload-intent`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${authToken}`,
-    },
-    body: JSON.stringify({
-      inspectionId: photo.inspectionId,
-      roomId: photo.roomId,
-      mimeType: photo.mimeType,
-      sizeBytes: photo.sizeBytes,
-      sha256: photo.sha256,
-    }),
-  });
-  if (!intentRes.ok) {
-    throw new Error(`upload-intent ${intentRes.status}`);
+  // 1. Intent — reuse the cached presigned URL if still within its 4.5-min
+  //    window; otherwise fetch a fresh one. Caching means a retry after a
+  //    mid-upload network drop reuses the same R2 key and avoids orphaned
+  //    partial objects.
+  let intent = await loadIntent(photo.id);
+  if (!intent) {
+    const intentRes = await fetch(`${API_BASE}/api/mobile/upload-intent`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({
+        inspectionId: photo.inspectionId,
+        roomId: photo.roomId,
+        mimeType: photo.mimeType,
+        sizeBytes: photo.sizeBytes,
+        sha256: photo.sha256,
+      }),
+    });
+    if (!intentRes.ok) throw new Error(`upload-intent ${intentRes.status}`);
+    const raw = (await intentRes.json()) as {
+      url: string;
+      key: string;
+      headers?: Record<string, string>;
+    };
+    intent = { url: raw.url, key: raw.key, headers: raw.headers ?? {}, fetchedAt: Date.now() };
+    await storeIntent(photo.id, intent);
   }
-  const intent = (await intentRes.json()) as {
-    url: string;
-    key: string;
-    headers?: Record<string, string>;
-  };
 
   // 2. PUT the bytes directly to R2.
   const bytes = await readPhotoBytes(photo);
   const putRes = await fetch(intent.url, {
     method: "PUT",
-    headers: {
-      "Content-Type": photo.mimeType,
-      ...(intent.headers ?? {}),
-    },
+    headers: { "Content-Type": photo.mimeType, ...intent.headers },
     body: bytes,
   });
-  if (!putRes.ok) {
-    throw new Error(`r2 put ${putRes.status}`);
-  }
+  if (!putRes.ok) throw new Error(`r2 put ${putRes.status}`);
 
   // 3. Commit — server records the photos row + evidence chain fields.
   const commitRes = await fetch(`${API_BASE}/api/mobile/upload-commit`, {
@@ -145,10 +149,9 @@ async function uploadPhoto(
       capturedAt: new Date(photo.capturedAt).toISOString(),
     }),
   });
-  if (!commitRes.ok) {
-    throw new Error(`upload-commit ${commitRes.status}`);
-  }
+  if (!commitRes.ok) throw new Error(`upload-commit ${commitRes.status}`);
 
+  await clearIntent(photo.id);
   return intent.key;
 }
 
@@ -186,35 +189,59 @@ async function isOnline(): Promise<boolean> {
 
 /**
  * Fire-and-forget background loop. Call once from the mobile shell
- * `useEffect`. Returns a stop function.
+ * `useEffect`. Returns a stop function that cancels both the interval
+ * and the network-reconnect listeners.
  */
 export function startSyncLoop(
   getAuthToken: () => Promise<string | null>,
   intervalMs = 15_000,
 ): () => void {
   let stopped = false;
+
+  async function drain() {
+    if (stopped) return;
+    try {
+      const token = await getAuthToken();
+      await drainOnce(token);
+    } catch {
+      // Swallow — next tick will try again.
+    }
+  }
+
+  // Periodic drain
   (async function loop() {
     while (!stopped) {
-      try {
-        const token = await getAuthToken();
-        await drainOnce(token);
-      } catch {
-        // Swallow — next tick will try again.
-      }
+      await drain();
       await sleep(intervalMs);
     }
   })();
+
+  // Reactive drain on reconnect: Capacitor Network (native) + window online (web)
+  let removeNetworkListener: (() => void) | null = null;
+  Network.addListener("networkStatusChange", (status) => {
+    if (status.connected) void drain();
+  })
+    .then((handle) => {
+      removeNetworkListener = () => handle.remove();
+    })
+    .catch(() => {
+      // Network plugin unavailable in web/test environment — window event covers it.
+    });
+
+  const onOnline = () => void drain();
+  if (typeof window !== "undefined") {
+    window.addEventListener("online", onOnline);
+  }
+
   return () => {
     stopped = true;
+    removeNetworkListener?.();
+    if (typeof window !== "undefined") {
+      window.removeEventListener("online", onOnline);
+    }
   };
 }
 
 function sleep(ms: number): Promise<void> {
   return new Promise((r) => setTimeout(r, ms));
 }
-
-// DONE(2026-04-18): /api/mobile/upload-intent and /api/mobile/upload-commit
-// are implemented. Intent returns a 5-min presigned PUT URL; commit
-// writes the photos row with sha256 + EXIF. Next gap: /api/inspection/
-// create hook from the mobile Review & Send step, so draft.serverInspectionId
-// gets populated before the sync loop finds the photos.

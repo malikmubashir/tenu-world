@@ -108,6 +108,11 @@ async function migrate(conn: SQLiteDBConnection): Promise<void> {
   } catch {
     // column already exists
   }
+  // v3 — intent cache columns on upload_queue for upload-resume on reconnect
+  try { await conn.execute(`ALTER TABLE upload_queue ADD COLUMN intent_url TEXT`); } catch { /* exists */ }
+  try { await conn.execute(`ALTER TABLE upload_queue ADD COLUMN intent_key TEXT`); } catch { /* exists */ }
+  try { await conn.execute(`ALTER TABLE upload_queue ADD COLUMN intent_headers TEXT`); } catch { /* exists */ }
+  try { await conn.execute(`ALTER TABLE upload_queue ADD COLUMN intent_fetched_at INTEGER`); } catch { /* exists */ }
 }
 
 export async function closeDb(): Promise<void> {
