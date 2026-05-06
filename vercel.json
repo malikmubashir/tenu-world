@@ -15,5 +15,8 @@
         { "key": "X-Frame-Options", "value": "DENY" }
       ]
     }
+  ],
+  "crons": [
+    { "path": "/api/cron/ecb-fx", "schedule": "0 8 * * *" }
   ]
 }

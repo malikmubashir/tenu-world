@@ -2,10 +2,10 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import {
   createCheckoutSession,
-  calculatePrice,
   type Product,
   type InspectionRoom,
 } from "@/lib/payments/stripe";
+import { calculatePriceWithFx } from "@/lib/pricing/calculate";
 import {
   isValidWaiverPayload,
   WAIVER_TEXT_VERSION,
@@ -208,7 +208,7 @@ export async function GET(request: Request) {
   }));
 
   const jurisdiction = inspection.jurisdiction as "fr" | "uk";
-  const pricing = calculatePrice(inspectionRooms, jurisdiction);
+  const pricing = await calculatePriceWithFx(inspectionRooms, jurisdiction);
 
   return NextResponse.json({ pricing });
 }
