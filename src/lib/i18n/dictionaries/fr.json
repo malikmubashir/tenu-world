@@ -133,10 +133,6 @@
     "retry": "Réessayer"
   },
   "app": {
-    "heading": "Disponible sur iOS et Android",
-    "subtext": "Téléchargez l'application Tenu pour photographier votre logement, documenter chaque pièce et accéder à votre rapport où que vous soyez.",
-    "appStore": "Télécharger sur l'App Store",
-    "playStore": "Disponible sur Google Play",
-    "comingSoon": "Bientôt disponible"
+    "heading": "Apps mobiles natives à partir du 25 mai"
   }
 }

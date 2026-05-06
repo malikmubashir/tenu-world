@@ -133,10 +133,6 @@
     "retry": "重试"
   },
   "app": {
-    "heading": "支持 iOS 和 Android",
-    "subtext": "下载 Tenu 应用，随时随地拍摄房间、记录每个细节，查看您的报告。",
-    "appStore": "在 App Store 下载",
-    "playStore": "在 Google Play 下载",
-    "comingSoon": "即将推出"
+    "heading": "Apps mobiles natives à partir du 25 mai"
   }
 }
