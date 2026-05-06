@@ -209,6 +209,11 @@ export default function NewInspectionPage() {
     const data = await res.json();
     setLoading(false);
 
+    if (res.status === 403 && data.code === "DPA_REQUIRED") {
+      router.push("/auth/accept-terms?redirect=/inspection/new");
+      return;
+    }
+
     if (!res.ok) {
       setError(data.error ?? "Une erreur est survenue");
       return;

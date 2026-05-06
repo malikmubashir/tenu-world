@@ -65,6 +65,20 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  // -- DPA gate: user must have accepted terms before starting an inspection --
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("dpa_accepted_at")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile?.dpa_accepted_at) {
+    return NextResponse.json(
+      { error: "Vous devez accepter les conditions d'utilisation avant de commencer.", code: "DPA_REQUIRED" },
+      { status: 403 },
+    );
+  }
+
   const body = (await request.json()) as CreateInspectionBody;
 
   // -- Validation --

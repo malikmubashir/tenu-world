@@ -19,6 +19,12 @@
  */
 
 // ───────────────────────────────────────────────────────────────
+// Terms version — single identifier for the current ToU document.
+// Bump on ANY substantive change to Terms of Use / Privacy Policy.
+// ───────────────────────────────────────────────────────────────
+export const TERMS_VERSION = "1.0.0";
+
+// ───────────────────────────────────────────────────────────────
 // Text versions — bump on ANY copy change
 // ───────────────────────────────────────────────────────────────
 export const DPA_TEXT_VERSION = "v1.0-2026-04-17";
