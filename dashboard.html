@@ -328,14 +328,14 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">4 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-07T11:23:30</span></div>
+    <div>Regenerated <span id="gen-ts">2026-05-07T17:48:16</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">66</div>
+    <div class="value" id="c-open">63</div>
     <div class="hint"><span id="c-ip">4</span> in progress</div>
   </div>
   <div class="card accent-emerald">
@@ -350,7 +350,7 @@
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">53</div>
+    <div class="value" id="c-p0">54</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -361,7 +361,7 @@
     <div class="tagline">What should bother you today. Tap a stat to filter.</div>
   </div>
   <div class="stat" data-filter="overdue" style="cursor:pointer;">
-    <div class="n bad" id="r-overdue">40</div>
+    <div class="n bad" id="r-overdue">39</div>
     <div class="lbl">Overdue</div>
   </div>
   <div class="stat" data-filter="p0-no-due" style="cursor:pointer;">
@@ -370,9 +370,9 @@
   </div>
   <div class="stat">
     <div class="n">
-      <span id="r-mh">41</span>
+      <span id="r-mh">40</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
-      <span id="r-cc">25</span>
+      <span id="r-cc">23</span>
     </div>
     <div class="lbl">MH · CC open</div>
   </div>
@@ -424,24 +424,24 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-07T11:23:30",
+    "generated": "2026-05-07T17:48:16",
     "today": "2026-05-07",
     "launch": "2026-05-11",
     "days_to_launch": 4,
     "counts": {
-      "total": 100,
-      "open": 62,
+      "total": 97,
+      "open": 59,
       "in_progress": 4,
       "done": 34,
       "dropped": 0,
-      "p0_open": 53,
-      "p1_open": 9,
+      "p0_open": 54,
+      "p1_open": 5,
       "p2_open": 4,
       "no_priority": 0,
-      "mh_open": 41,
-      "cc_open": 25,
+      "mh_open": 40,
+      "cc_open": 23,
       "due_next_7": 57,
-      "overdue": 40,
+      "overdue": 39,
       "p0_no_due": 0
     }
   },
@@ -505,16 +505,27 @@
       "id": "T-006",
       "line_no": 36,
       "section": "LEGAL — fixed-fee review briefs (CC drafts ready for MH to send, opened 2026-05-03)",
-      "status": "Open",
+      "status": "Done",
       "owner": "MH",
       "title": "Personalise + send the FR avocat brief (review draft, fill recipient name + cabinet, send by email)",
       "priority": "P0 Blocker",
       "due": "2026-05-04",
-      "note": "depends on CC line above."
+      "note": "done 2026-05-07: lettre `outreach/legal/letter-avocat-droit-immobilier-FR.docx` + dossier 9 pièces `outreach/legal/Tenu-Dossier-Revue-Avocat-FR.zip` envoyés à l'avocat·e. Réponse en attente. Suivi : nouvelle ligne MH ci-dessous."
     },
     {
       "id": "T-007",
       "line_no": 37,
+      "section": "LEGAL — fixed-fee review briefs (CC drafts ready for MH to send, opened 2026-05-03)",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Suivi avocat·e",
+      "priority": "P0 Blocker",
+      "due": "2026-05-09",
+      "note": "relance polie si pas de réponse à J+2 — opened 2026-05-07. Critical path pour décision launch-vs-slip 11 May ; bloque CGU §11 médiateur, mentions légales §médiation, et la levée des bannières DRAFT."
+    },
+    {
+      "id": "T-008",
+      "line_no": 38,
       "section": "LEGAL — fixed-fee review briefs (CC drafts ready for MH to send, opened 2026-05-03)",
       "status": "Open",
       "owner": "MH",
@@ -524,8 +535,8 @@
       "note": "depends on CC line above."
     },
     {
-      "id": "T-008",
-      "line_no": 41,
+      "id": "T-009",
+      "line_no": 42,
       "section": "THIS WEEKEND (17-20 Apr)",
       "status": "Done",
       "owner": "CC",
@@ -535,26 +546,15 @@
       "note": "replace Gmail create_draft with Brevo direct send — done 2026-04-19: new SKILL.md at scripts/scheduled-tasks/tenu-daily-push.md, brevo.env.example alongside. Telegram path unchanged. MH installs + adds BREVO_API_KEY — see MH line below."
     },
     {
-      "id": "T-009",
-      "line_no": 42,
-      "section": "THIS WEEKEND (17-20 Apr)",
-      "status": "In Progress",
-      "owner": "MH",
-      "title": "Install scheduled-push v2",
-      "priority": "P1 Important",
-      "due": "2026-05-04",
-      "note": "copy scripts/scheduled-tasks/tenu-daily-push.md into ~/Documents/Claude/Scheduled/tenu-daily-push/SKILL.md and drop BREVO_API_KEY into .secrets/brevo.env — re-dated 2026-05-03. CC fixed all 6 hardcoded paths in SKILL.md from `/Users/mmh/Documents/Claude/Projects/Tenu.World/` to `/Users/mmh/Code/Tenu.World/` (root cause of today's 09:04 diagnostic log). Bumped to v2.1. brevo.env.example header path also corrected. SKILL.md installed at ~/Documents/Claude/Scheduled/tenu-daily-push/SKILL.md. .secrets/brevo.env file created but currently holds CC's placeholder text (51 bytes, \"xkeysib-PASTE_THE_REAL_KEY_VALUE_HERE\"). MH must pull real BREVO_API_KEY from Vercel env panel and overwrite. After overwrite, remove the [>] marker and close [x]."
-    },
-    {
       "id": "T-010",
       "line_no": 43,
       "section": "THIS WEEKEND (17-20 Apr)",
       "status": "Open",
       "owner": "MH",
-      "title": "Recover Brevo account access",
+      "title": "Install scheduled-push v2",
       "priority": "P1 Important",
-      "due": "2026-05-08",
-      "note": "can't log in to dashboard as of 2026-05-03. Try password reset at app.brevo.com/account/login → mubashirr@gmail.com. If 2FA is the blocker, contact Brevo support (help.brevo.com) for identity-verified MFA reset. Search Downloads folder for any \"brevo\" or \"recovery\" file from original signup. Needed before F&F cohort outcome data starts coming in mid-May (template tuning + bounce monitoring)"
+      "due": "2026-04-20",
+      "note": "copy scripts/scheduled-tasks/tenu-daily-push.md into ~/Documents/Claude/Scheduled/tenu-daily-push/SKILL.md and drop BREVO_API_KEY into .secrets/brevo.env"
     },
     {
       "id": "T-011",
@@ -967,12 +967,12 @@
       "id": "T-048",
       "line_no": 94,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Done",
+      "status": "Open",
       "owner": "CC",
       "title": "PDF generation leg",
       "priority": "P0 Blocker",
       "due": "2026-05-06",
-      "note": "@react-pdf/renderer report builder invoked by webhook/post-scan, output to R2 — done 2026-04-19: shipped via MB-16 (commit d77d85b, 2026-04-19); architectural deltas captured as 3 new p:1 hardening lines below."
+      "note": "@react-pdf/renderer report builder invoked by webhook/post-scan, output to R2"
     },
     {
       "id": "T-049",
@@ -1352,12 +1352,12 @@
       "id": "T-083",
       "line_no": 138,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
+      "status": "In Progress",
       "owner": "MH",
-      "title": "Médiateur de la consommation signed",
+      "title": "Médiateur de la consommation",
       "priority": "P0 Blocker",
-      "due": "2026-05-05",
-      "note": "MEDICYS OR SMCE OR AME Conso"
+      "due": "2026-05-09",
+      "note": "comparer MEDICYS vs CM2C (frais d'adhésion, délai de saisine, périmètre B2C numérique), choisir, signer, publier le nom dans CGU §11 + remboursement §6 + mentions légales §médiation — opened 2026-05-07: shortlist réduite à MEDICYS + CM2C, à arbitrer cette semaine. Obligation L612-1 Code de la conso pour activité B2C en ligne, blocage de la mise en service tant que le médiateur n'est pas adhéré."
     },
     {
       "id": "T-084",
@@ -1510,39 +1510,6 @@
       "owner": "CC",
       "title": "App Store + Play production updates with post-launch fixes",
       "priority": "P2 Post-launch",
-      "due": "",
-      "note": ""
-    },
-    {
-      "id": "T-098",
-      "line_no": 159,
-      "section": "POST-LAUNCH (12-31 May)",
-      "status": "Open",
-      "owner": "CC",
-      "title": "Add scans.pdf_url + scans.pdf_sha256 columns; migrate from risk_score.pdfUrl jsonb.",
-      "priority": "P1 Important",
-      "due": "",
-      "note": ""
-    },
-    {
-      "id": "T-099",
-      "line_no": 160,
-      "section": "POST-LAUNCH (12-31 May)",
-      "status": "Open",
-      "owner": "CC",
-      "title": "Extract /api/pdf/build dedicated route with runtime='nodejs' + maxDuration=60; trigger async from /api/ai/scan.",
-      "priority": "P1 Important",
-      "due": "",
-      "note": ""
-    },
-    {
-      "id": "T-100",
-      "line_no": 161,
-      "section": "POST-LAUNCH (12-31 May)",
-      "status": "Open",
-      "owner": "CC",
-      "title": "Switch R2 PDF URLs to signed URLs with renewable TTL (default 30 days).",
-      "priority": "P1 Important",
       "due": "",
       "note": ""
     }

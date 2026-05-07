@@ -33,7 +33,8 @@ Context: Dr Mubashir back from holiday on 2026-05-03 (D-8). Audit shows 36 p:0 o
 
 - [x] CC: Draft FR avocat fixed-fee review brief in French — `outreach/legal/letter-avocat-droit-immobilier-FR.md`. Scope: pre-contractual disclosure (art. L221-5), CGU, Privacy/RGPD, DPA, dispute-letter LRAR template, état-des-lieux verbiage. Budget €1,000-2,000 fixed-fee. Asks for sign-off date 2026-05-07. Includes one-page summary of Tenu, target user, jurisdiction. (p:0, due 2026-05-03) — done 2026-05-03: file written, recipient/cabinet bracketed, attachments list at end, notes for MH on cabinet leads + rétractation defence.
 - [x] CC: Draft UK housing solicitor TDS/DPS brief in English — `outreach/legal/letter-uk-housing-solicitor-EN.md`. Scope: TDS/DPS/MyDeposits dispute-letter template review, UK Consumer Rights Act 2015 alignment, ICO/UK GDPR check on photo handling. Budget GBP 500-1,500 fixed-fee. Asks for sign-off date 2026-05-07. (p:0, due 2026-05-03) — done 2026-05-03: file written, recipient/firm bracketed, attachments list at end, notes for MH on solicitor sourcing + Legal Services Act 2007 reserved-activities check.
-- [ ] MH: Personalise + send the FR avocat brief (review draft, fill recipient name + cabinet, send by email) (p:0, due 2026-05-04) — depends on CC line above.
+- [x] MH: Personalise + send the FR avocat brief (review draft, fill recipient name + cabinet, send by email) (p:0, due 2026-05-04) — done 2026-05-07: lettre `outreach/legal/letter-avocat-droit-immobilier-FR.docx` + dossier 9 pièces `outreach/legal/Tenu-Dossier-Revue-Avocat-FR.zip` envoyés à l'avocat·e. Réponse en attente. Suivi : nouvelle ligne MH ci-dessous.
+- [ ] MH: Suivi avocat·e — relance polie si pas de réponse à J+2 (p:0, due 2026-05-09) — opened 2026-05-07. Critical path pour décision launch-vs-slip 11 May ; bloque CGU §11 médiateur, mentions légales §médiation, et la levée des bannières DRAFT.
 - [ ] MH: Personalise + send the UK solicitor brief (review draft, fill recipient name + firm, send by email) (p:0, due 2026-05-04) — depends on CC line above.
 
 ## THIS WEEKEND (17-20 Apr)
@@ -134,7 +135,7 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [ ] CC: T-103-core pipeline tests — unit + integration for critical path only, skip full 48-item P0 coverage (p:0, due 2026-05-06)
 - [ ] CC: Signed iOS production binary uploaded to App Store Connect (p:0, due 2026-05-04)
 - [ ] CC: Signed Android app bundle uploaded to Play Console production track (p:0, due 2026-05-04)
-- [ ] MH: Médiateur de la consommation signed — MEDICYS OR SMCE OR AME Conso (p:0, due 2026-05-05)
+- [>] MH: Médiateur de la consommation — comparer MEDICYS vs CM2C (frais d'adhésion, délai de saisine, périmètre B2C numérique), choisir, signer, publier le nom dans CGU §11 + remboursement §6 + mentions légales §médiation (p:0, due 2026-05-09) — opened 2026-05-07: shortlist réduite à MEDICYS + CM2C, à arbitrer cette semaine. Obligation L612-1 Code de la conso pour activité B2C en ligne, blocage de la mise en service tant que le médiateur n'est pas adhéré.
 - [ ] MH: French avocat sign-off on legal v1.0, strip DRAFT banners (p:0, due 2026-05-07)
 - [ ] MH: UK solicitor sign-off on TDS/DPS template (p:0, due 2026-05-07)
 - [ ] MH: dpo@tenu.world mailbox live with auto-acknowledge (p:0, due 2026-05-05)
