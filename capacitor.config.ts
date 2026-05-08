@@ -27,7 +27,7 @@ const config: CapacitorConfig = {
    * development against `next dev`.
    */
   server: {
-    androidScheme: "https",
+    androidScheme: "http",
     iosScheme: "https",
     // For local device testing against a dev laptop:
     //   set CAP_SERVER_URL=http://192.168.x.y:3000 before cap sync.

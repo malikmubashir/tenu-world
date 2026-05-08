@@ -11,6 +11,7 @@ import {
   disputeReadySubject,
   type DisputeLetterType,
 } from "./templates/dispute-ready";
+import { sendPushNotification } from "@/lib/notifications/push";
 
 // Tenu — high-level email notifications.
 // Route handlers call these. They pull recipient + locale from
@@ -73,6 +74,16 @@ export async function notifyScanComplete(params: {
 
   const reportUrl = `${appOrigin()}/inspection/${params.inspectionId}/report`;
 
+  // Push and email fire concurrently. Push is a no-op until FCM env vars are set.
+  void sendPushNotification({
+    userId: params.userId,
+    title: profile.locale === "fr" ? "Votre rapport est prêt" : "Your report is ready",
+    body: profile.locale === "fr"
+      ? "Consultez votre analyse de dépôt."
+      : "View your deposit risk analysis.",
+    link: reportUrl,
+  });
+
   return sendBrevoTransactional({
     to: { email: profile.email, name: profile.displayName ?? undefined },
     subject: scanCompleteSubject(profile.locale),
@@ -106,6 +117,16 @@ export async function notifyDisputeReady(params: {
   }
 
   const letterUrl = `${appOrigin()}/inspection/${params.inspectionId}/report`;
+
+  // Push and email fire concurrently. Push is a no-op until FCM env vars are set.
+  void sendPushNotification({
+    userId: params.userId,
+    title: profile.locale === "fr" ? "Votre lettre est prête" : "Your letter is ready",
+    body: profile.locale === "fr"
+      ? "Votre courrier de contestation est disponible."
+      : "Your deposit dispute letter is ready to download.",
+    link: letterUrl,
+  });
 
   return sendBrevoTransactional({
     to: { email: profile.email, name: profile.displayName ?? undefined },
