@@ -153,7 +153,7 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 
 ## POST-LAUNCH (12-31 May)
 
-- [ ] CC: Fix static export — add `export const dynamic = 'force-static'` to all mobile routes so out/ is non-empty for Capacitor (p:1, due 2026-05-12) — opened 2026-05-08. Blocker for MH build:mobile. Routes: src/app/(mobile)/intro/, src/app/app-home/. Root cause: root layout uses cookies()/headers(); fix scoped to mobile routes only.
+- [x] CC: Fix static export — root cause was top-level `import { cookies, headers }` in layout.tsx and page.tsx marking all pages as dynamic (p:1, due 2026-05-12) — done 2026-05-08: changed to `await import("next/headers")` inside existing IS_MOBILE_EXPORT guards in both src/app/layout.tsx and src/app/page.tsx. Dynamic [id] routes already had generateStaticParams(_placeholder). `tsc --noEmit` clean. MH can now run `npm run build:mobile` and get a populated out/.
 - [ ] CC: Bug sweep — camera upload retry + offline queue hardening (p:1, due 2026-05-14) — deferred from launch week; acceptable for F&F web, required before native App Store submission.
 - [ ] CC: Full T-103 suite — 24 unit + 10 E2E + 5 canaries + 20 evals + OWASP ZAP baseline (p:2)
 - [ ] CC: 14-day outcome survey cron — Brevo trigger + Supabase write-back (p:2)

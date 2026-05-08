@@ -328,24 +328,24 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">3 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-08T14:11:45</span></div>
+    <div>Regenerated <span id="gen-ts">2026-05-08T14:36:38</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">56</div>
+    <div class="value" id="c-open">55</div>
     <div class="hint"><span id="c-ip">3</span> in progress</div>
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">47</div>
+    <div class="value" id="c-done">48</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">43</div>
+    <div class="value" id="c-due7">42</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
@@ -372,7 +372,7 @@
     <div class="n">
       <span id="r-mh">37</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
-      <span id="r-cc">19</span>
+      <span id="r-cc">18</span>
     </div>
     <div class="lbl">MH · CC open</div>
   </div>
@@ -424,23 +424,23 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-08T14:11:45",
+    "generated": "2026-05-08T14:36:38",
     "today": "2026-05-08",
     "launch": "2026-05-11",
     "days_to_launch": 3,
     "counts": {
       "total": 107,
-      "open": 53,
+      "open": 52,
       "in_progress": 3,
-      "done": 47,
+      "done": 48,
       "dropped": 4,
       "p0_open": 35,
-      "p1_open": 16,
+      "p1_open": 15,
       "p2_open": 5,
       "no_priority": 0,
       "mh_open": 37,
-      "cc_open": 19,
-      "due_next_7": 43,
+      "cc_open": 18,
+      "due_next_7": 42,
       "overdue": 30,
       "p0_no_due": 0
     }
@@ -1484,12 +1484,12 @@
       "id": "T-095",
       "line_no": 156,
       "section": "POST-LAUNCH (12-31 May)",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Fix static export",
       "priority": "P1 Important",
       "due": "2026-05-12",
-      "note": "add `export const dynamic = 'force-static'` to all mobile routes so out/ is non-empty for Capacitor — opened 2026-05-08. Blocker for MH build:mobile. Routes: src/app/(mobile)/intro/, src/app/app-home/. Root cause: root layout uses cookies()/headers(); fix scoped to mobile routes only."
+      "note": "root cause was top-level `import { cookies, headers }` in layout.tsx and page.tsx marking all pages as dynamic — done 2026-05-08: changed to `await import(\"next/headers\")` inside existing IS_MOBILE_EXPORT guards in both src/app/layout.tsx and src/app/page.tsx. Dynamic [id] routes already had generateStaticParams(_placeholder). `tsc --noEmit` clean. MH can now run `npm run build:mobile` and get a populated out/."
     },
     {
       "id": "T-096",

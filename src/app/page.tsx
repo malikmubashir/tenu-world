@@ -1,4 +1,3 @@
-import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import Script from "next/script";
 import { Shield, Camera, BookOpen, Brain, FileText, Bell } from "lucide-react";
@@ -105,6 +104,7 @@ const IS_MOBILE_EXPORT = process.env.MOBILE_BUILD === "1";
 
 async function getLocale(): Promise<Locale> {
   if (IS_MOBILE_EXPORT) return "en";
+  const { cookies, headers } = await import("next/headers");
   const cookieStore = await cookies();
   const headerStore = await headers();
   const cookieLocale = cookieStore.get("locale")?.value;

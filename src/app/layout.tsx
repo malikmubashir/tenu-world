@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { cookies, headers } from "next/headers";
 import Script from "next/script";
 import { Inter_Tight } from "next/font/google";
 import { getDirection } from "@/lib/i18n/config";
@@ -181,6 +180,7 @@ export default async function RootLayout({
   let locale = "en" as ReturnType<typeof parseLocaleFromHeader>;
 
   if (!IS_MOBILE_EXPORT) {
+    const { cookies, headers } = await import("next/headers");
     const cookieStore = await cookies();
     const headerStore = await headers();
     const cookieLocale = cookieStore.get("locale")?.value;
