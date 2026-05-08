@@ -328,29 +328,29 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">3 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-08T14:36:38</span></div>
+    <div>Regenerated <span id="gen-ts">2026-05-08T14:40:49</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">55</div>
+    <div class="value" id="c-open">54</div>
     <div class="hint"><span id="c-ip">3</span> in progress</div>
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">48</div>
+    <div class="value" id="c-done">49</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">42</div>
+    <div class="value" id="c-due7">41</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">35</div>
+    <div class="value" id="c-p0">34</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -370,7 +370,7 @@
   </div>
   <div class="stat">
     <div class="n">
-      <span id="r-mh">37</span>
+      <span id="r-mh">36</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
       <span id="r-cc">18</span>
     </div>
@@ -424,23 +424,23 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-08T14:36:38",
+    "generated": "2026-05-08T14:40:49",
     "today": "2026-05-08",
     "launch": "2026-05-11",
     "days_to_launch": 3,
     "counts": {
       "total": 107,
-      "open": 52,
+      "open": 51,
       "in_progress": 3,
-      "done": 48,
+      "done": 49,
       "dropped": 4,
-      "p0_open": 35,
+      "p0_open": 34,
       "p1_open": 15,
       "p2_open": 5,
       "no_priority": 0,
-      "mh_open": 37,
+      "mh_open": 36,
       "cc_open": 18,
-      "due_next_7": 42,
+      "due_next_7": 41,
       "overdue": 30,
       "p0_no_due": 0
     }
@@ -1022,12 +1022,12 @@
       "id": "T-053",
       "line_no": 99,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "In Progress",
+      "status": "Done",
       "owner": "MH",
       "title": "Run `npm run build:mobile` on Mac to produce non-empty out/ static export",
       "priority": "P0 Blocker",
       "due": "2026-05-12",
-      "note": "BLOCKER: CC fix required first (add `export const dynamic = 'force-static'` to mobile routes; see docs/12 §2). Once CC fix lands, MH re-runs build:mobile and verifies out/ is non-empty."
+      "note": "done 2026-05-08: 15 pages exported, out/ fully populated after CC dynamic-import fix. cap sync clean. App running in iOS simulator."
     },
     {
       "id": "T-054",
@@ -1077,12 +1077,12 @@
       "id": "T-058",
       "line_no": 104,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "In Progress",
       "owner": "MH",
       "title": "Open Xcode (`npx cap open ios`), set Team ID + Bundle world.tenu.app + capabilities (Camera, Push, Associated Domains for tenu.world), run on simulator + physical iPhone",
       "priority": "P0 Blocker",
       "due": "2026-05-14",
-      "note": ""
+      "note": "simulator confirmed running 2026-05-08. Next: set Team ID + signing, run on physical device."
     },
     {
       "id": "T-059",
