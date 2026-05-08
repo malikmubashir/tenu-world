@@ -12,14 +12,12 @@ export default function PrivacyFR() {
     <LegalPage
       meta={{
         title: "Politique de confidentialité",
-        version: "v1.0-draft",
+        version: "v1.0",
         lastUpdated: "2026-04-17",
-        statusLine: "DRAFT, en attente de revue avocat",
+        statusLine: "v1.0 — en cours de revue avocat",
         localeLabel: "Français",
         otherLocaleHref: "/legal/privacy/en",
         otherLocaleLabel: "English",
-        draftBanner:
-          "Version de travail. En attente de validation par Dr Mubashir et revue avocat. Non encore opposable.",
         backToIndex: "Documents légaux",
       }}
     >

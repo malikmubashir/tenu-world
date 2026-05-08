@@ -12,14 +12,12 @@ export default function TermsEN() {
     <LegalPage
       meta={{
         title: "Terms of Service",
-        version: "v1.0-draft",
+        version: "v1.0",
         lastUpdated: "2026-04-17",
-        statusLine: "DRAFT, pending counsel review",
+        statusLine: "v1.0 — counsel review in progress",
         localeLabel: "English",
         otherLocaleHref: "/legal/terms/fr",
         otherLocaleLabel: "Français",
-        draftBanner:
-          "Working draft. Awaiting Dr Mubashir approval and legal review. Not yet binding.",
         backToIndex: "Legal documents",
       }}
     >

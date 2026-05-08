@@ -12,7 +12,6 @@ export type LegalDocMeta = {
   localeLabel: string;
   otherLocaleHref: string;
   otherLocaleLabel: string;
-  draftBanner: string;
   backToIndex: string;
 };
 
@@ -40,15 +39,6 @@ export default function LegalPage({ meta, children }: Props) {
           </Link>
         </nav>
       </header>
-
-      <div className="border-y border-tenu-warning/40 bg-tenu-warning/10 px-6 py-3 md:px-12">
-        <p className="mx-auto max-w-3xl text-sm text-tenu-slate">
-          <span className="mr-2 rounded bg-tenu-warning px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">
-            Draft
-          </span>
-          {meta.draftBanner}
-        </p>
-      </div>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10 md:px-0">
         <h1 className="text-3xl font-bold text-tenu-forest md:text-4xl">{meta.title}</h1>
