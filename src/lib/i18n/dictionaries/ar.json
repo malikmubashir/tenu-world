@@ -133,10 +133,10 @@
     "retry": "حاول مرة أخرى"
   },
   "app": {
-    "heading": "متاح على iOS وAndroid",
-    "subtext": "حمّل تطبيق Tenu لتصوير شقتك وتوثيق كل غرفة والوصول إلى تقريرك في أي مكان.",
-    "appStore": "تنزيل من App Store",
-    "playStore": "احصل عليه من Google Play",
+    "heading": "قريباً على iOS وAndroid",
+    "subtext": "تطبيق Tenu في الطريق. استخدم tenu.world في متصفحك الآن — دون تنزيل.",
+    "appStore": "App Store",
+    "playStore": "Google Play",
     "comingSoon": "قريباً"
   }
 }

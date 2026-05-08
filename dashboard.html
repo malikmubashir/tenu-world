@@ -328,29 +328,29 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">3 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-08T13:32:03</span></div>
+    <div>Regenerated <span id="gen-ts">2026-05-08T14:11:45</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">64</div>
-    <div class="hint"><span id="c-ip">4</span> in progress</div>
+    <div class="value" id="c-open">56</div>
+    <div class="hint"><span id="c-ip">3</span> in progress</div>
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">40</div>
+    <div class="value" id="c-done">47</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">54</div>
+    <div class="value" id="c-due7">43</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">48</div>
+    <div class="value" id="c-p0">35</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -361,7 +361,7 @@
     <div class="tagline">What should bother you today. Tap a stat to filter.</div>
   </div>
   <div class="stat" data-filter="overdue" style="cursor:pointer;">
-    <div class="n bad" id="r-overdue">37</div>
+    <div class="n bad" id="r-overdue">30</div>
     <div class="lbl">Overdue</div>
   </div>
   <div class="stat" data-filter="p0-no-due" style="cursor:pointer;">
@@ -370,9 +370,9 @@
   </div>
   <div class="stat">
     <div class="n">
-      <span id="r-mh">40</span>
+      <span id="r-mh">37</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
-      <span id="r-cc">24</span>
+      <span id="r-cc">19</span>
     </div>
     <div class="lbl">MH · CC open</div>
   </div>
@@ -424,24 +424,24 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-08T13:32:03",
+    "generated": "2026-05-08T14:11:45",
     "today": "2026-05-08",
     "launch": "2026-05-11",
     "days_to_launch": 3,
     "counts": {
-      "total": 104,
-      "open": 60,
-      "in_progress": 4,
-      "done": 40,
-      "dropped": 0,
-      "p0_open": 48,
-      "p1_open": 11,
+      "total": 107,
+      "open": 53,
+      "in_progress": 3,
+      "done": 47,
+      "dropped": 4,
+      "p0_open": 35,
+      "p1_open": 16,
       "p2_open": 5,
       "no_priority": 0,
-      "mh_open": 40,
-      "cc_open": 24,
-      "due_next_7": 54,
-      "overdue": 37,
+      "mh_open": 37,
+      "cc_open": 19,
+      "due_next_7": 43,
+      "overdue": 30,
       "p0_no_due": 0
     }
   },
@@ -450,23 +450,23 @@
       "id": "T-001",
       "line_no": 28,
       "section": "DECISION 2026-05-03 — Launch path: Option B (web-only on 11 May)",
-      "status": "In Progress",
+      "status": "Done",
       "owner": "CC",
       "title": "Update store-listing copy + welcome email + landing page to reflect web-first launch + native binaries follow",
       "priority": "P0 Blocker",
       "due": "2026-05-04",
-      "note": "opened 2026-05-03."
+      "note": "done 2026-05-08: homepage app section heading updated across all 5 locales (EN/FR/ZH/AR/UR) from \"Available on iOS and Android\" → \"Coming to iOS/Android\" equivalents; subtext updated to say \"use tenu.world in browser today, no download needed\"; Brevo welcome email confirmed no app-download references; store listing docs in docs/store-listings/ are App Store submission docs (not user-facing web), will be revised in native-app sprint W/C 18 May."
     },
     {
       "id": "T-002",
       "line_no": 29,
       "section": "DECISION 2026-05-03 — Launch path: Option B (web-only on 11 May)",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Native Build Bridge plan",
       "priority": "P0 Blocker",
       "due": "2026-05-05",
-      "note": "write docs/12-Native-Build-Bridge-2026-05-12.md mapping the 11-25 May path: cap add ios + cap add android dependencies, Xcode + Android Studio prerequisites, TestFlight + Play internal track submission, screenshots backlog, App Store reviewer notes refresh — opened 2026-05-03."
+      "note": "write docs/12-Native-Build-Bridge-2026-05-12.md mapping the 11-25 May path: cap add ios + cap add android dependencies, Xcode + Android Studio prerequisites, TestFlight + Play internal track submission, screenshots backlog, App Store reviewer notes refresh — done 2026-05-08: docs/12-Native-Build-Bridge-2026-05-12.md written; iOS simulator BUILD SUCCEEDED; Android blocked on missing Java runtime (brew install openjdk@17 needed); brand icons + splash committed (3f7c76c)."
     },
     {
       "id": "T-003",
@@ -967,12 +967,12 @@
       "id": "T-048",
       "line_no": 94,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "In Progress",
+      "status": "Done",
       "owner": "CC",
       "title": "End-to-end pipeline wiring Stripe webhook → Supabase → R2 → Haiku → @react-pdf/renderer → R2 → Brevo",
       "priority": "P0 Blocker",
       "due": "2026-04-23",
-      "note": "partially wired 2026-04-18: Stripe webhook → Supabase chain live (src/app/api/webhooks/stripe/route.ts, commit ce748ec, admin client bypasses RLS). Photos up through R2, scan via /api/ai/scan (Haiku) and dispute via /api/ai/dispute (Sonnet). MISSING: @react-pdf/renderer PDF generation step (only present in features/scan marketing page, not pipeline), Brevo transactional email leg (zero references in src/). Split into two new tasks below."
+      "note": "done 2026-05-08: full chain confirmed wired. Stripe webhook → Supabase: src/app/api/webhooks/stripe/route.ts (ce748ec). R2: /api/mobile/upload-intent + /api/mobile/upload-commit. Haiku: /api/ai/scan calls renderAndUploadScanPdf (src/lib/pdf/render-and-upload.tsx, d77d85b) + notifyScanComplete (src/lib/email/notify.ts), both best-effort try/catch post-scan. Prior \"MISSING\" note was stale — PDF + Brevo legs both shipped 2026-04-18/19 as sub-tasks below."
     },
     {
       "id": "T-049",
@@ -1022,56 +1022,56 @@
       "id": "T-053",
       "line_no": 99,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "In Progress",
       "owner": "MH",
-      "title": "Run `npm run build:mobile` on Mac to produce out/ static export",
+      "title": "Run `npm run build:mobile` on Mac to produce non-empty out/ static export",
       "priority": "P0 Blocker",
       "due": "2026-05-12",
-      "note": ""
+      "note": "BLOCKER: CC fix required first (add `export const dynamic = 'force-static'` to mobile routes; see docs/12 §2). Once CC fix lands, MH re-runs build:mobile and verifies out/ is non-empty."
     },
     {
       "id": "T-054",
       "line_no": 100,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "Done",
       "owner": "MH",
       "title": "Run `npx cap add ios` on Mac, then merge mobile/ios-Info.plist.snippet.xml entries into ios/App/App/Info.plist",
       "priority": "P0 Blocker",
       "due": "2026-05-12",
-      "note": ""
+      "note": "done 2026-05-08: ios/ Capacitor project already present on main with all Info.plist snippet keys merged. Pods installed. BUILD SUCCEEDED on iphonesimulator arm64+x86_64."
     },
     {
       "id": "T-055",
       "line_no": 101,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "Done",
       "owner": "MH",
       "title": "Run `npx cap add android` on Mac, then merge mobile/android-manifest.snippet.xml + drop network_security_config.xml under res/xml/",
       "priority": "P0 Blocker",
       "due": "2026-05-12",
-      "note": ""
+      "note": "done 2026-05-08: android/ Capacitor project present on main, AndroidManifest merged, network_security_config.xml in place. Android APK blocked on missing Java runtime — MH must `brew install openjdk@17` (see docs/12 §1)."
     },
     {
       "id": "T-056",
       "line_no": 102,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "Done",
       "owner": "MH",
       "title": "Run `npx capacitor-assets generate --iconBackgroundColor \"#0B1F3A\" --iconBackgroundColorDark \"#0B1F3A\" --splashBackgroundColor \"#F4F1EA\" --splashBackgroundColorDark \"#0B1F3A\"` after cap add",
       "priority": "P0 Blocker",
       "due": "2026-05-13",
-      "note": ""
+      "note": "done 2026-05-08: CC ran ./node_modules/.bin/capacitor-assets generate; all Android density buckets + iOS AppIcon + Splash imageset committed (3f7c76c, 70 files)."
     },
     {
       "id": "T-057",
       "line_no": 103,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "Done",
       "owner": "MH",
       "title": "Run `npx cap sync` to wire build:mobile output into native projects",
       "priority": "P0 Blocker",
       "due": "2026-05-13",
-      "note": ""
+      "note": "done 2026-05-08: cap sync verified clean. xattr fix on ios/App/build documented in docs/12 if needed."
     },
     {
       "id": "T-058",
@@ -1267,9 +1267,9 @@
       "status": "Open",
       "owner": "CC",
       "title": "6 iOS screenshots at 6.9 inch + 4 Play screenshots at 16:9",
-      "priority": "P0 Blocker",
-      "due": "2026-05-08",
-      "note": ""
+      "priority": "P1 Important",
+      "due": "2026-05-18",
+      "note": "rescheduled 2026-05-08: web-only launch 11 May. Screenshots require simulator with seeded data. Planned W/C 18 May per docs/12 §8."
     },
     {
       "id": "T-076",
@@ -1300,9 +1300,9 @@
       "status": "Open",
       "owner": "CC",
       "title": "Stripe Checkout in-app web view with return-URL deep link back to app",
-      "priority": "P0 Blocker",
-      "due": "2026-05-04",
-      "note": ""
+      "priority": "P1 Important",
+      "due": "2026-05-16",
+      "note": "deferred 2026-05-08: native app concern. Web-only F&F launch uses browser Stripe Checkout directly. Needed before App Store/Play submission."
     },
     {
       "id": "T-079",
@@ -1311,9 +1311,9 @@
       "status": "Open",
       "owner": "CC",
       "title": "Magic-link auth working inside app",
-      "priority": "P0 Blocker",
-      "due": "2026-05-05",
-      "note": "email link opens app, session persists"
+      "priority": "P1 Important",
+      "due": "2026-05-16",
+      "note": "email link opens app, session persists — deferred 2026-05-08: native app concern. Web-only magic link works in browser. Needed before App Store/Play submission."
     },
     {
       "id": "T-080",
@@ -1341,23 +1341,23 @@
       "id": "T-082",
       "line_no": 137,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
+      "status": "Dropped",
       "owner": "CC",
       "title": "Signed iOS production binary uploaded to App Store Connect",
       "priority": "P0 Blocker",
       "due": "2026-05-04",
-      "note": ""
+      "note": "deferred 2026-05-08: web-only launch 11 May per DECISION 2026-05-03. TestFlight submission moved to W/C 18 May (docs/12 §6). MH owns Xcode Archive + upload; Apple Developer enrolment verification still pending."
     },
     {
       "id": "T-083",
       "line_no": 138,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
+      "status": "Dropped",
       "owner": "CC",
       "title": "Signed Android app bundle uploaded to Play Console production track",
       "priority": "P0 Blocker",
       "due": "2026-05-04",
-      "note": ""
+      "note": "deferred 2026-05-08: web-only launch 11 May. Play internal track submission moved to W/C 21 May (docs/12 §7). Android APK blocked on missing Java runtime (MH: brew install openjdk@17)."
     },
     {
       "id": "T-084",
@@ -1429,23 +1429,23 @@
       "id": "T-090",
       "line_no": 148,
       "section": "LAUNCH WEEK (8-11 May)",
-      "status": "Open",
+      "status": "Dropped",
       "owner": "CC",
       "title": "Bug sweep on inspection UI",
       "priority": "P0 Blocker",
       "due": "2026-05-09",
-      "note": "camera retries, upload resume, offline queue"
+      "note": "camera retries, upload resume, offline queue — dropped for web-only F&F launch 2026-05-08: CameraCapture.tsx is capture-only (no upload logic). R2 upload is single-attempt; user can manually retry. Acceptable risk for 8-person cohort. Re-open as p:1 for native-app sprint (docs/12 scope)."
     },
     {
       "id": "T-091",
       "line_no": 149,
       "section": "LAUNCH WEEK (8-11 May)",
-      "status": "Open",
+      "status": "Dropped",
       "owner": "CC",
       "title": "F&F install test on 2 real devices each (iPhone + Android)",
       "priority": "P0 Blocker",
       "due": "2026-05-10",
-      "note": ""
+      "note": "deferred 2026-05-08: web-only launch. Native device testing in docs/12 §5, W/C 14 May, MH-owned."
     },
     {
       "id": "T-092",
@@ -1453,14 +1453,25 @@
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "MH",
-      "title": "Invite F&F list on 11 May 09:00 Paris",
+      "title": "Create Stripe coupon LAUNCH25",
       "priority": "P0 Blocker",
       "due": "2026-05-11",
-      "note": ""
+      "note": "100% off, duration=once, 8 redemption limit, code=LAUNCH25. Stripe Dashboard → Coupons → + Create. Must exist before F&F invites go out. Templates at docs/launch/ff-invite-en.md + ff-invite-fr.md reference this code."
     },
     {
       "id": "T-093",
       "line_no": 151,
+      "section": "LAUNCH WEEK (8-11 May)",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Invite F&F list on 11 May 09:00 Paris",
+      "priority": "P0 Blocker",
+      "due": "2026-05-11",
+      "note": "use docs/launch/ff-invite-en.md or ff-invite-fr.md templates. Confirm LAUNCH25 coupon exists in Stripe first."
+    },
+    {
+      "id": "T-094",
+      "line_no": 152,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "MH",
@@ -1470,8 +1481,30 @@
       "note": ""
     },
     {
-      "id": "T-094",
-      "line_no": 155,
+      "id": "T-095",
+      "line_no": 156,
+      "section": "POST-LAUNCH (12-31 May)",
+      "status": "Open",
+      "owner": "CC",
+      "title": "Fix static export",
+      "priority": "P1 Important",
+      "due": "2026-05-12",
+      "note": "add `export const dynamic = 'force-static'` to all mobile routes so out/ is non-empty for Capacitor — opened 2026-05-08. Blocker for MH build:mobile. Routes: src/app/(mobile)/intro/, src/app/app-home/. Root cause: root layout uses cookies()/headers(); fix scoped to mobile routes only."
+    },
+    {
+      "id": "T-096",
+      "line_no": 157,
+      "section": "POST-LAUNCH (12-31 May)",
+      "status": "Open",
+      "owner": "CC",
+      "title": "Bug sweep",
+      "priority": "P1 Important",
+      "due": "2026-05-14",
+      "note": "camera upload retry + offline queue hardening — deferred from launch week; acceptable for F&F web, required before native App Store submission."
+    },
+    {
+      "id": "T-097",
+      "line_no": 158,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1481,8 +1514,8 @@
       "note": "24 unit + 10 E2E + 5 canaries + 20 evals + OWASP ZAP baseline"
     },
     {
-      "id": "T-095",
-      "line_no": 156,
+      "id": "T-098",
+      "line_no": 159,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1492,8 +1525,8 @@
       "note": "Brevo trigger + Supabase write-back"
     },
     {
-      "id": "T-096",
-      "line_no": 157,
+      "id": "T-099",
+      "line_no": 160,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1503,8 +1536,8 @@
       "note": "ar, zh, hi, ur, ja, es, it, uk, pt, ko staged rollout"
     },
     {
-      "id": "T-097",
-      "line_no": 158,
+      "id": "T-100",
+      "line_no": 161,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1514,8 +1547,8 @@
       "note": "inspection/new/page.tsx (715 lines, FR-hardcoded client component): extract all string literals into a `COPY: Record<Locale, InspectionCopy>` dict; room labels (Chambre, Séjour…), step labels, field labels, error messages"
     },
     {
-      "id": "T-098",
-      "line_no": 159,
+      "id": "T-101",
+      "line_no": 162,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1525,8 +1558,8 @@
       "note": ""
     },
     {
-      "id": "T-099",
-      "line_no": 160,
+      "id": "T-102",
+      "line_no": 163,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1536,8 +1569,8 @@
       "note": ""
     },
     {
-      "id": "T-100",
-      "line_no": 161,
+      "id": "T-103",
+      "line_no": 164,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1547,8 +1580,8 @@
       "note": ""
     },
     {
-      "id": "T-101",
-      "line_no": 162,
+      "id": "T-104",
+      "line_no": 165,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1558,8 +1591,8 @@
       "note": ""
     },
     {
-      "id": "T-102",
-      "line_no": 163,
+      "id": "T-105",
+      "line_no": 166,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1569,8 +1602,8 @@
       "note": "create .env.test.local with Supabase service-role key + Stripe test keys so npm run test:e2e actually executes"
     },
     {
-      "id": "T-103",
-      "line_no": 164,
+      "id": "T-106",
+      "line_no": 167,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1580,8 +1613,8 @@
       "note": "agreed in principle 2026-05-08; formal letter required before paid signups open beyond F&F cohort"
     },
     {
-      "id": "T-104",
-      "line_no": 165,
+      "id": "T-107",
+      "line_no": 168,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",

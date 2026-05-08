@@ -133,10 +133,10 @@
     "retry": "دوبارہ کوشش کریں"
   },
   "app": {
-    "heading": "iOS اور Android پر دستیاب",
-    "subtext": "Tenu ایپ ڈاؤن لوڈ کریں تاکہ اپنی پراپرٹی کی تصویریں لیں، ہر کمرے کو دستاویز کریں اور کہیں بھی اپنی رپورٹ تک رسائی حاصل کریں۔",
-    "appStore": "App Store سے ڈاؤن لوڈ کریں",
-    "playStore": "Google Play سے حاصل کریں",
+    "heading": "جلد iOS اور Android پر",
+    "subtext": "Tenu ایپ جلد آ رہی ہے۔ ابھی اپنے براؤزر میں tenu.world استعمال کریں — کوئی ڈاؤن لوڈ نہیں۔",
+    "appStore": "App Store",
+    "playStore": "Google Play",
     "comingSoon": "جلد آ رہا ہے"
   }
 }

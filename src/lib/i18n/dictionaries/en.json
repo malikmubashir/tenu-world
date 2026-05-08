@@ -133,10 +133,10 @@
     "retry": "Try again"
   },
   "app": {
-    "heading": "Available on iOS and Android",
-    "subtext": "Download the Tenu app to photograph your property, document every room, and access your report on the go.",
-    "appStore": "Download on the App Store",
-    "playStore": "Get it on Google Play",
+    "heading": "Coming to iOS and Android",
+    "subtext": "The Tenu app is on its way. Use tenu.world in your browser today — no download needed.",
+    "appStore": "App Store",
+    "playStore": "Google Play",
     "comingSoon": "Coming soon"
   }
 }
