@@ -1,6 +1,28 @@
 # CLAUDE.md — Tenu Project Context
 # Auto-read by Claude Code at session start.
-# Last updated: 2026-04-19
+# Last updated: 2026-05-08
+
+## Status — T-3 (Friday 2026-05-08, merge sweep complete)
+
+Main branch is clean. All p:0 items for soft launch Mon 2026-05-11 are merged:
+- Consents gate + DPA UX touchpoints (f9aea8a)
+- Unit tests baseline — 4 files / 10 tests, exit 0 (f1cb161)
+- e2e smoke spec scaffolded; full run needs `.env.test.local` (6ce9b29)
+- Tracker hygiene committed; open=65 done=39 total=104 (3d6df9b)
+
+ECB FX cron killed (line 107, `src/lib/fx.ts`) — no FX surface at launch.
+Dead agent branches pruned; only `main` + `feat/sitemap-robots` remain.
+
+Open for weekend / post-F&F sprint (p:1):
+- Wire e2e env (`.env.test.local` with service-role key + Stripe test keys)
+- Lawyer formal sign-off letter (FR avocat + UK solicitor)
+- DPA gate: promote from client useEffect to middleware (defence-in-depth)
+
+Deferred to v0.1 sprint (p:2):
+- UK jurisdiction re-enable (after first FR cohort outcome data)
+- Préavis letter (zone tendue lookup)
+
+---
 
 ---
 
