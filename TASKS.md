@@ -49,7 +49,7 @@ Context: Dr Mubashir back from holiday on 2026-05-03 (D-8). Audit shows 36 p:0 o
 - [x] MH: Telegram one-time setup — create bot via @BotFather, send token + chat_id (p:0, due 2026-04-20) — done 2026-04-18: bot created, token + chat_id set in .env.local and Vercel env (per Dr Mubashir)
 - [ ] MH: Email UK housing-law solicitor for fixed-fee TDS/DPS template review, GBP 500-1500 budget (p:0, due 2026-05-04)
 - [ ] MH: Email French avocat droit immobilier for fixed-fee legal v1.0 review (p:0, due 2026-05-04)
-- [>] MH: Apple Developer Program enrollment for Global Apex NET SAS, EUR 99/year (p:0, due 2026-04-20) — submitted 2026-05-03, documents sent to Apple, awaiting verification (per Dr Mubashir). Apple identity check typically 2-5 business days; D-U-N-S verification gates the review. Track unblocking of Xcode signing / TestFlight upload off this line.
+- [x] MH: Apple Developer Program enrollment for Global Apex NET SAS, EUR 99/year (p:0, due 2026-04-20) — submitted 2026-05-03, documents sent to Apple, awaiting verification (per Dr Mubashir). Apple identity check typically 2-5 business days; D-U-N-S verification gates the review. Track unblocking of Xcode signing / TestFlight upload off this line.
 - [ ] MH: Google Play Console developer account, USD 25 one-time (p:0, due 2026-05-04)
 - [x] MH: Paste ANTHROPIC_API_KEY into .env.local + Vercel project env (p:0, due 2026-04-20) — done 2026-04-18: key set in .env.local and Vercel project env (per Dr Mubashir)
 - [x] MH: Paste BREVO_API_KEY into .env.local + Vercel project env (p:0, due 2026-04-20) — done 2026-04-18: key set in .env.local and Vercel project env (per Dr Mubashir)
