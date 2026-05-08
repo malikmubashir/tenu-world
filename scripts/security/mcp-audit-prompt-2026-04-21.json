@@ -1,0 +1,121 @@
+{
+  "mission": "Audit local MCP exposure on this Mac workstation following the April 2026 MCP stdio-transport vulnerability (OX Security disclosure, CVE-2026-30615 family). Produce a read-only risk report. Do not modify, rotate, delete, install, commit, or push anything.",
+
+  "operator": "Dr Mubashir (Malik Mubashir Hassan). Working directory: /Users/mmh/Documents/Claude/Projects/Tenu.World",
+
+  "threat_model": {
+    "vulnerability": "Unsafe defaults in MCP STDIO transport allow RCE on host when the MCP server processes untrusted input.",
+    "tenu_production_exposure": "Claimed nil. Tenu calls the Anthropic REST API from server-side Next.js route handlers. No MCP runtime in prod. This audit must verify that claim.",
+    "secondary_blast_radius": "If a vulnerable MCP server runs on this Mac and its config or spawn-cwd holds Tenu secrets in plaintext, workstation RCE leaks those secrets.",
+    "primary_source": "https://www.theregister.com/2026/04/16/anthropic_mcp_design_flaw/"
+  },
+
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "Confirm Tenu has no MCP dependency",
+      "read_only": true,
+      "actions": [
+        "From the Tenu repo root, run: grep -nE '@modelcontextprotocol|langchain|litellm|langflow|flowise|lettaai|langbot' package.json package-lock.json",
+        "Record: Tenu production MCP exposure = GREEN if no match. RED with file and line number if any match."
+      ]
+    },
+    {
+      "id": "T2",
+      "title": "Inventory MCP client configs on this Mac",
+      "read_only": true,
+      "actions": [
+        "ls -la ~/Library/Application\\ Support/Claude/claude_desktop_config.json 2>/dev/null",
+        "ls -la ~/.cursor/mcp.json 2>/dev/null",
+        "ls -la ~/.config/claude/*.json 2>/dev/null",
+        "find ~ -maxdepth 6 -name 'mcp*.json' -not -path '*/node_modules/*' -not -path '*/.Trash/*' -not -path '*/Library/Caches/*' 2>/dev/null",
+        "For each file found: parse JSON, list server names, transport (stdio|sse|http), command, args. Note whether the 'env' block is present and non-empty. Never print env values."
+      ]
+    },
+    {
+      "id": "T3",
+      "title": "Scan MCP configs for plaintext secrets",
+      "read_only": true,
+      "actions": [
+        "For each file from T2, run grep -nE against the patterns listed in 'patterns' below.",
+        "For each hit, report: file, line number, pattern label, and first 4 characters followed by ****.",
+        "Never print full or middle of any matched value.",
+        "Flag RED if any hit. GREEN if none."
+      ],
+      "patterns": {
+        "anthropic": "sk-ant-[A-Za-z0-9_-]{10,}",
+        "stripe_secret": "sk_(live|test)_[A-Za-z0-9]{10,}",
+        "stripe_restricted": "rk_(live|test)_[A-Za-z0-9]{10,}",
+        "stripe_webhook": "whsec_[A-Za-z0-9]{10,}",
+        "jwt": "eyJ[A-Za-z0-9_-]{40,}",
+        "github_pat_classic": "ghp_[A-Za-z0-9]{20,}",
+        "github_pat_fine_grained": "github_pat_[A-Za-z0-9_]{20,}",
+        "slack": "xox[baprs]-[A-Za-z0-9-]{10,}",
+        "aws_access_key": "AKIA[0-9A-Z]{16}",
+        "google_api": "AIza[0-9A-Za-z_-]{35}"
+      }
+    },
+    {
+      "id": "T4",
+      "title": "Cross-reference installed MCP servers against the known-vulnerable list",
+      "read_only": true,
+      "known_vulnerable": [
+        "LiteLLM",
+        "LangChain",
+        "LangFlow",
+        "Flowise",
+        "LettaAI",
+        "LangBot",
+        "mcp-atlassian",
+        "nginx-ui",
+        "Windsurf"
+      ],
+      "actions": [
+        "For each MCP server identified in T2, extract the npm package or python module name from the 'command' plus 'args' fields.",
+        "Run: npm list -g --depth=0 2>/dev/null | grep -iE 'modelcontextprotocol|litellm|langchain|langflow|flowise|letta|langbot'",
+        "Run: pip show litellm langchain langflow flowise letta langbot 2>/dev/null | grep -E '^(Name|Version):'",
+        "Flag YELLOW for any match pending vendor patch. Record version strings verbatim."
+      ]
+    },
+    {
+      "id": "T5",
+      "title": "Map MCP server spawn paths to nearby .env files",
+      "read_only": true,
+      "actions": [
+        "For each MCP server in T2 with a spawn-cwd or script path, check whether the parent directory contains .env, .env.local, or .env.production.",
+        "If yes, run: grep -cE 'ANTHROPIC_API_KEY|STRIPE_SECRET_KEY|STRIPE_WEBHOOK_SECRET|SUPABASE_SERVICE_ROLE_KEY|R2_SECRET_ACCESS_KEY|BREVO_API_KEY|TELEGRAM_BOT_TOKEN' <envfile>",
+        "Do not print values. Report only counts per secret name.",
+        "Flag RED if any count greater than zero for a Tenu secret sharing a directory with a stdio-transport MCP server."
+      ]
+    }
+  ],
+
+  "deliverable": {
+    "path": "/Users/mmh/Documents/Claude/Projects/Tenu.World/docs/security/mcp-workstation-audit-2026-04-21.md",
+    "format": "Markdown. Title block, TL;DR (GREEN or YELLOW or RED with one-line reason), sections T1..T5, remediation checklist ordered by blast radius, and a final block of proposed TASKS.md lines Dr Mubashir can paste in.",
+    "rules": [
+      "Never include full secret values. First 4 characters plus **** maximum.",
+      "Never include absolute paths inside ~/.ssh/, ~/.aws/credentials, or browser keychain files. Those are out of scope.",
+      "If the file already exists from a prior run, append a new dated section rather than overwriting."
+    ]
+  },
+
+  "constraints": [
+    "Read-only. Zero writes outside the deliverable path.",
+    "No npm install, pip install, brew, cap sync, cap add, or any mutation command.",
+    "No git add, no git commit, no git push.",
+    "No API calls to Anthropic, Stripe, Supabase, Cloudflare, Brevo, or GitHub.",
+    "If a command would take more than 30 seconds (for example a find on ~ that is slow), skip it and note the skip in the report."
+  ],
+
+  "stop_conditions": [
+    "Stop and print a short warning if any finding suggests active compromise (unexpected .bash_history entries writing to a Cloudflare endpoint, unknown launchd items, MCP servers added in the last 72 hours).",
+    "Stop and ask Dr Mubashir before proceeding if T3 finds a real secret pattern AND T4 flags a vulnerable MCP server in the same config."
+  ],
+
+  "success_criteria": [
+    "Deliverable file written with all five T sections completed or explicitly marked SKIPPED with reason.",
+    "TL;DR reflects the worst single flag across T1..T5.",
+    "No mutation on disk outside the deliverable file."
+  ]
+}

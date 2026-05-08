@@ -75,3 +75,6 @@ __pycache__/
 playwright-report/
 test-results/
 .write-test
+
+# Gradle daemon JVM config (auto-generated, not project config)
+android/gradle/gradle-daemon-jvm.properties

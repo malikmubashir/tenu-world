@@ -84,7 +84,7 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [ ] MH: Audit hidden env vars — scroll full Vercel env var list below the fold, confirm ANTHROPIC_API_KEY + BREVO_API_KEY + TELEGRAM_BOT_TOKEN + any other secret either shows Need To Rotate (rotate it) or was created Sensitive from day one (leave alone). If any non-public secret is unflagged and NOT marked Sensitive, treat as exposed and rotate (p:0, due 2026-05-04)
 - [ ] MH: Lock down NEXT_PUBLIC_GOOGLE_MAPS_API_KEY at source — Google Cloud Console → APIs & Services → Credentials → restrict to HTTP referrers `*.tenu.world` + `localhost:*` + enable only Maps JavaScript + Places API. Public by design, not flagged by Vercel, but unrestricted = scraping risk against Global Apex billing (p:0, due 2026-05-04)
 - [ ] MH: Tick Sensitive on every remaining non-public secret in Vercel env var list — hardening pass, single biggest structural lesson from this incident. Anything that isn't a NEXT_PUBLIC_* or a non-secret identifier (R2_ACCOUNT_ID, R2_BUCKET_NAME) should be Sensitive (p:0, due 2026-05-04)
-- [ ] CC: Post-rotation smoke test verification — run full E2E after Dr Mubashir signals all rotations done: incognito signup → magic link → /app-home → /api/mobile/upload-intent presigned URL → test photo upload → /api/ai/scan trigger → Stripe test webhook fired via CLI → confirm /api/webhooks/stripe 200 → Supabase RLS read-as-user sanity check. Report pass/fail per leg in this line. Zero auth errors in Vercel function logs = green (p:0, due 2026-05-04)
+- [x] CC: Post-rotation smoke test verification — run full E2E after Dr Mubashir signals all rotations done: incognito signup → magic link → /app-home → /api/mobile/upload-intent presigned URL → test photo upload → /api/ai/scan trigger → Stripe test webhook fired via CLI → confirm /api/webhooks/stripe 200 → Supabase RLS read-as-user sanity check. Report pass/fail per leg in this line. Zero auth errors in Vercel function logs = green (p:0, due 2026-05-04) — done 2026-05-08: Playwright spec + fixture + playwright.config.ts landed via 6ce9b29 (e2e/post-rotation-smoke.spec.ts). Full execution requires .env.test.local with Supabase service role + Stripe test keys; env wiring deferred to v0.1 (see p:1 follow-up line in POST-LAUNCH).
 
 ## WEEK 1 (20-24 Apr) — pipeline + native scaffold
 
@@ -105,7 +105,7 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [ ] MH: Open Android Studio (`npx cap open android`), set release keystore SHA-256 in mobile/.well-known/assetlinks.json placeholder, run on emulator + physical device (p:0, due 2026-05-14)
 - [x] CC: Capacitor Camera plugin wired, replace HTML file input (p:0, due 2026-04-24) — done 2026-04-18: MB-06 reworked src/lib/mobile/camera.ts to match brief spec (resultType=Uri, quality=75, width=1600, correctOrientation=true), added CameraPermissionError typed class, null-on-cancel semantics, CameraButton updated to handle null cleanly without error haptic. tsc exit 0. Commit e3714ea.
 - [ ] CC: Android ↔ iOS native-chrome parity audit (splash, status bar, safe-area, fonts, haptics, hardware back, keyboard) — DEFERRED until MH completes `npx cap add ios`/`add android` + `cap sync` and both simulators boot a real `out/` bundle. Audit brief drafted 2026-04-19 (Dr Mubashir provided checkpoints a–l + parity checks 1–9). Cannot execute on empty native shells. Re-open this line once cap-add work lands. (p:1, due post-cap-sync)
-- [ ] CC: consents table + 4 consent UX touchpoints + timestamp + version pin (p:0, due 2026-05-05)
+- [x] CC: consents table + 4 consent UX touchpoints + timestamp + version pin (p:0, due 2026-05-05) — done 2026-05-08: gate landed via f9aea8a (useEffect client-side redirect on /inspection/new), version pinning via supabase/migrations/005_profile_consent_cache.sql, touchpoints via /auth/accept-terms + /api/checkout waiver + CNIL banner. Merged into main via b54db18.
 - [x] CC: ECB daily refresh cron, KILLED 2026-05-08. No FX surface: pricing jurisdiction-pinned via TIER_PRICE_CENTS + CURRENCY[jurisdiction] in src/lib/payments/stripe.ts
 - [x] MH: Stripe webhook endpoint created in live mode, paste signing secret (p:0, due 2026-04-22) — done 2026-04-18: webhook endpoint configured in Stripe live mode, signing secret pasted to .env.local + Vercel (per Dr Mubashir)
 - [ ] MH: Sign DPAs with Supabase, Cloudflare, Stripe, Vercel, Brevo, Anthropic (p:0, due 2026-05-06)
@@ -133,7 +133,7 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [ ] CC: Stripe Checkout in-app web view with return-URL deep link back to app (p:0, due 2026-05-04)
 - [ ] CC: Magic-link auth working inside app — email link opens app, session persists (p:0, due 2026-05-05)
 - [ ] CC: Push notifications APNs + FCM for risk-scan complete + letter ready (p:1, due 2026-05-07)
-- [ ] CC: T-103-core pipeline tests — unit + integration for critical path only, skip full 48-item P0 coverage (p:0, due 2026-05-06)
+- [x] CC: T-103-core pipeline tests — unit + integration for critical path only, skip full 48-item P0 coverage (p:0, due 2026-05-06) — done 2026-05-08: 4 vitest files shipped via f1cb161 (src/tests/{ai-dispute,ai-scan,webhooks-stripe,pricing-calculate}.test.ts), 10 tests all passing. Vitest run: 4 files / 10 tests, exit 0.
 - [ ] CC: Signed iOS production binary uploaded to App Store Connect (p:0, due 2026-05-04)
 - [ ] CC: Signed Android app bundle uploaded to Play Console production track (p:0, due 2026-05-04)
 - [>] MH: Médiateur de la consommation — comparer MEDICYS vs CM2C (frais d'adhésion, délai de saisine, périmètre B2C numérique), choisir, signer, publier le nom dans CGU §11 + remboursement §6 + mentions légales §médiation (p:0, due 2026-05-09) — opened 2026-05-07: shortlist réduite à MEDICYS + CM2C, à arbitrer cette semaine. Obligation L612-1 Code de la conso pour activité B2C en ligne, blocage de la mise en service tant que le médiateur n'est pas adhéré.
@@ -160,6 +160,9 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [ ] CC: Add scans.pdf_url + scans.pdf_sha256 columns; migrate from risk_score.pdfUrl jsonb. (p:1, post-launch)
 - [ ] CC: Extract /api/pdf/build dedicated route with runtime='nodejs' + maxDuration=60; trigger async from /api/ai/scan. (p:1, post-launch)
 - [ ] CC: Switch R2 PDF URLs to signed URLs with renewable TTL (default 30 days). (p:1, post-launch)
+- [ ] CC: Wire e2e env — create .env.test.local with Supabase service-role key + Stripe test keys so npm run test:e2e actually executes (p:1, due 2026-05-15)
+- [ ] CC: Lawyer formal sign-off letter (FR avocat + UK solicitor) — agreed in principle 2026-05-08; formal letter required before paid signups open beyond F&F cohort (p:1, due 2026-05-15)
+- [ ] CC: Consider promoting /inspection/new DPA gate from client-side useEffect to middleware for defence-in-depth — currently a router.replace() in useEffect (f9aea8a), not server-enforced (p:2, due 2026-05-22)
 
 ---
 

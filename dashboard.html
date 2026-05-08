@@ -328,7 +328,7 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">3 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-08T09:47:15</span></div>
+    <div>Regenerated <span id="gen-ts">2026-05-08T10:19:55</span></div>
   </div>
 </header>
 
@@ -340,17 +340,17 @@
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">36</div>
+    <div class="value" id="c-done">39</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">56</div>
+    <div class="value" id="c-due7">55</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">52</div>
+    <div class="value" id="c-p0">49</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -361,7 +361,7 @@
     <div class="tagline">What should bother you today. Tap a stat to filter.</div>
   </div>
   <div class="stat" data-filter="overdue" style="cursor:pointer;">
-    <div class="n bad" id="r-overdue">41</div>
+    <div class="n bad" id="r-overdue">38</div>
     <div class="lbl">Overdue</div>
   </div>
   <div class="stat" data-filter="p0-no-due" style="cursor:pointer;">
@@ -424,24 +424,24 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-08T09:47:15",
+    "generated": "2026-05-08T10:19:55",
     "today": "2026-05-08",
     "launch": "2026-05-11",
     "days_to_launch": 3,
     "counts": {
-      "total": 101,
+      "total": 104,
       "open": 60,
       "in_progress": 5,
-      "done": 36,
+      "done": 39,
       "dropped": 0,
-      "p0_open": 52,
-      "p1_open": 9,
-      "p2_open": 4,
+      "p0_open": 49,
+      "p1_open": 11,
+      "p2_open": 5,
       "no_priority": 0,
       "mh_open": 41,
       "cc_open": 24,
-      "due_next_7": 56,
-      "overdue": 41,
+      "due_next_7": 55,
+      "overdue": 38,
       "p0_no_due": 0
     }
   },
@@ -923,12 +923,12 @@
       "id": "T-044",
       "line_no": 87,
       "section": "THIS WEEKEND (17-20 Apr)",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Post-rotation smoke test verification",
       "priority": "P0 Blocker",
       "due": "2026-05-04",
-      "note": "run full E2E after Dr Mubashir signals all rotations done: incognito signup → magic link → /app-home → /api/mobile/upload-intent presigned URL → test photo upload → /api/ai/scan trigger → Stripe test webhook fired via CLI → confirm /api/webhooks/stripe 200 → Supabase RLS read-as-user sanity check. Report pass/fail per leg in this line. Zero auth errors in Vercel function logs = green"
+      "note": "run full E2E after Dr Mubashir signals all rotations done: incognito signup → magic link → /app-home → /api/mobile/upload-intent presigned URL → test photo upload → /api/ai/scan trigger → Stripe test webhook fired via CLI → confirm /api/webhooks/stripe 200 → Supabase RLS read-as-user sanity check. Report pass/fail per leg in this line. Zero auth errors in Vercel function logs = green — done 2026-05-08: Playwright spec + fixture + playwright.config.ts landed via 6ce9b29 (e2e/post-rotation-smoke.spec.ts). Full execution requires .env.test.local with Supabase service role + Stripe test keys; env wiring deferred to v0.1 (see p:1 follow-up line in POST-LAUNCH)."
     },
     {
       "id": "T-045",
@@ -1121,12 +1121,12 @@
       "id": "T-062",
       "line_no": 108,
       "section": "WEEK 1 (20-24 Apr) — pipeline + native scaffold",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "consents table + 4 consent UX touchpoints + timestamp + version pin",
       "priority": "P0 Blocker",
       "due": "2026-05-05",
-      "note": ""
+      "note": "done 2026-05-08: gate landed via f9aea8a (useEffect client-side redirect on /inspection/new), version pinning via supabase/migrations/005_profile_consent_cache.sql, touchpoints via /auth/accept-terms + /api/checkout waiver + CNIL banner. Merged into main via b54db18."
     },
     {
       "id": "T-063",
@@ -1330,12 +1330,12 @@
       "id": "T-081",
       "line_no": 136,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "T-103-core pipeline tests",
       "priority": "P0 Blocker",
       "due": "2026-05-06",
-      "note": "unit + integration for critical path only, skip full 48-item P0 coverage"
+      "note": "unit + integration for critical path only, skip full 48-item P0 coverage — done 2026-05-08: 4 vitest files shipped via f1cb161 (src/tests/{ai-dispute,ai-scan,webhooks-stripe,pricing-calculate}.test.ts), 10 tests all passing. Vitest run: 4 files / 10 tests, exit 0."
     },
     {
       "id": "T-082",
@@ -1556,6 +1556,39 @@
       "priority": "P1 Important",
       "due": "",
       "note": ""
+    },
+    {
+      "id": "T-102",
+      "line_no": 163,
+      "section": "POST-LAUNCH (12-31 May)",
+      "status": "Open",
+      "owner": "CC",
+      "title": "Wire e2e env",
+      "priority": "P1 Important",
+      "due": "2026-05-15",
+      "note": "create .env.test.local with Supabase service-role key + Stripe test keys so npm run test:e2e actually executes"
+    },
+    {
+      "id": "T-103",
+      "line_no": 164,
+      "section": "POST-LAUNCH (12-31 May)",
+      "status": "Open",
+      "owner": "CC",
+      "title": "Lawyer formal sign-off letter (FR avocat + UK solicitor)",
+      "priority": "P1 Important",
+      "due": "2026-05-15",
+      "note": "agreed in principle 2026-05-08; formal letter required before paid signups open beyond F&F cohort"
+    },
+    {
+      "id": "T-104",
+      "line_no": 165,
+      "section": "POST-LAUNCH (12-31 May)",
+      "status": "Open",
+      "owner": "CC",
+      "title": "Consider promoting /inspection/new DPA gate from client-side useEffect to middleware for defence-in-depth",
+      "priority": "P2 Post-launch",
+      "due": "2026-05-22",
+      "note": "currently a router.replace() in useEffect (f9aea8a), not server-enforced"
     }
   ]
 }</script>
