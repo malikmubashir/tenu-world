@@ -66,3 +66,12 @@ android/app/.DS_Store
 # python build artifacts from scripts/
 __pycache__/
 *.pyc
+
+# Claude Code internal worktrees and caches (1.5GB+, never commit)
+.claude/
+.claire/
+
+# Test runner artifacts
+playwright-report/
+test-results/
+.write-test
