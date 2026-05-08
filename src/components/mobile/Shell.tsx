@@ -10,16 +10,24 @@
  * on app launch.
  */
 import { useEffect, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { StatusBar, Style as StatusBarStyle } from "@capacitor/status-bar";
 import { SplashScreen } from "@capacitor/splash-screen";
 import { isNative } from "@/lib/mobile/platform";
 import { initDeepLinks } from "@/lib/mobile/deepLink";
+import { useMagicLinkHandler } from "@/lib/mobile/useMagicLinkHandler";
+import { initPushNotifications, setPushNavigate } from "@/lib/mobile/notifications";
 
 interface ShellProps {
   children: ReactNode;
 }
 
 export default function Shell({ children }: ShellProps) {
+  const router = useRouter();
+
+  // Handle magic-link deep links and Stripe payment-return intents.
+  useMagicLinkHandler();
+
   useEffect(() => {
     if (!isNative()) return;
 
@@ -34,8 +42,13 @@ export default function Shell({ children }: ShellProps) {
 
     initDeepLinks();
 
+    // Wire push notification navigate fn before registering, so tap-to-open
+    // events have a router before the first notification arrives.
+    setPushNavigate((path: string) => router.push(path));
+    void initPushNotifications();
+
     return () => clearTimeout(hideTimer);
-  }, []);
+  }, [router]);
 
   return (
     <div

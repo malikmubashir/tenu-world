@@ -328,24 +328,24 @@
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
     <div class="countdown-big" id="countdown">3 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-08T14:40:49</span></div>
+    <div>Regenerated <span id="gen-ts">2026-05-08T22:01:31</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">54</div>
+    <div class="value" id="c-open">51</div>
     <div class="hint"><span id="c-ip">3</span> in progress</div>
   </div>
   <div class="card accent-emerald">
     <div class="label">Done</div>
-    <div class="value" id="c-done">49</div>
+    <div class="value" id="c-done">53</div>
     <div class="hint">closed with dated note</div>
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">41</div>
+    <div class="value" id="c-due7">40</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
@@ -361,7 +361,7 @@
     <div class="tagline">What should bother you today. Tap a stat to filter.</div>
   </div>
   <div class="stat" data-filter="overdue" style="cursor:pointer;">
-    <div class="n bad" id="r-overdue">30</div>
+    <div class="n bad" id="r-overdue">29</div>
     <div class="lbl">Overdue</div>
   </div>
   <div class="stat" data-filter="p0-no-due" style="cursor:pointer;">
@@ -370,9 +370,9 @@
   </div>
   <div class="stat">
     <div class="n">
-      <span id="r-mh">36</span>
+      <span id="r-mh">37</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
-      <span id="r-cc">18</span>
+      <span id="r-cc">14</span>
     </div>
     <div class="lbl">MH · CC open</div>
   </div>
@@ -424,24 +424,24 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-08T14:40:49",
+    "generated": "2026-05-08T22:01:31",
     "today": "2026-05-08",
     "launch": "2026-05-11",
     "days_to_launch": 3,
     "counts": {
-      "total": 107,
-      "open": 51,
+      "total": 108,
+      "open": 48,
       "in_progress": 3,
-      "done": 49,
+      "done": 53,
       "dropped": 4,
       "p0_open": 34,
-      "p1_open": 15,
+      "p1_open": 12,
       "p2_open": 5,
       "no_priority": 0,
-      "mh_open": 36,
-      "cc_open": 18,
-      "due_next_7": 41,
-      "overdue": 30,
+      "mh_open": 37,
+      "cc_open": 14,
+      "due_next_7": 40,
+      "overdue": 29,
       "p0_no_due": 0
     }
   },
@@ -1297,38 +1297,49 @@
       "id": "T-078",
       "line_no": 133,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Stripe Checkout in-app web view with return-URL deep link back to app",
       "priority": "P1 Important",
       "due": "2026-05-16",
-      "note": "deferred 2026-05-08: native app concern. Web-only F&F launch uses browser Stripe Checkout directly. Needed before App Store/Play submission."
+      "note": "done 2026-05-08: src/lib/mobile/checkout.ts (openStripeCheckout via @capacitor/browser, stripeReturnUrls); src/app/inspection/[id]/payment-return/page.tsx (polling up to 6 s for webhook to land, falls back to URL hint, routes to report or back to review); deepLink.ts extended with IncomingPaymentReturnIntent + parseIntent for /inspection/{id}/payment-return paths; tsc exit 0."
     },
     {
       "id": "T-079",
       "line_no": 134,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Magic-link auth working inside app",
       "priority": "P1 Important",
       "due": "2026-05-16",
-      "note": "email link opens app, session persists — deferred 2026-05-08: native app concern. Web-only magic link works in browser. Needed before App Store/Play submission."
+      "note": "email link opens app, session persists — done 2026-05-08: src/lib/mobile/useMagicLinkHandler.ts (hook subscribes to onDeepLink; on auth-callback intent navigates WebView to https://tenu.world/auth/callback?... so server route handles session + DPA recording; on payment-return intent router.pushes to local page); Shell.tsx wired: useMagicLinkHandler() + setPushNavigate + initPushNotifications called after initDeepLinks; tsc exit 0."
     },
     {
       "id": "T-080",
       "line_no": 135,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "Push notifications APNs + FCM for risk-scan complete + letter ready",
       "priority": "P1 Important",
       "due": "2026-05-07",
-      "note": ""
+      "note": "done 2026-05-08: supabase/migrations/006_push_tokens.sql (device_tokens table, RLS insert/delete for user); /api/mobile/push-token POST+DELETE; src/lib/mobile/notifications.ts (client: requestPermissions → register → save token, foreground display, tap routing, deregisterPushToken on logout); src/lib/notifications/push.ts (server: service-account JWT, OAuth2 token exchange, FCM v1 REST, stale-token pruning); notify.ts wired — sendPushNotification fires concurrently with Brevo on scan-complete + dispute-ready. Zero new deps (node:crypto). No-op until MH adds Firebase env vars (see MH line below). tsc exit 0."
     },
     {
       "id": "T-081",
       "line_no": 136,
+      "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Firebase project setup for push notifications",
+      "priority": "P1 Important",
+      "due": "2026-05-18",
+      "note": "create Firebase project at console.firebase.google.com; add Android app (package world.tenu.app) + iOS app (bundle world.tenu.app); download google-services.json → android/app/ and GoogleService-Info.plist → ios/App/App/; run npx cap sync; create service account with \"Firebase Cloud Messaging Admin\" role; download service account JSON; add to Vercel env: FCM_PROJECT_ID, FCM_SERVICE_ACCOUNT_EMAIL, FCM_PRIVATE_KEY"
+    },
+    {
+      "id": "T-082",
+      "line_no": 137,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Done",
       "owner": "CC",
@@ -1338,8 +1349,8 @@
       "note": "unit + integration for critical path only, skip full 48-item P0 coverage — done 2026-05-08: 4 vitest files shipped via f1cb161 (src/tests/{ai-dispute,ai-scan,webhooks-stripe,pricing-calculate}.test.ts), 10 tests all passing. Vitest run: 4 files / 10 tests, exit 0."
     },
     {
-      "id": "T-082",
-      "line_no": 137,
+      "id": "T-083",
+      "line_no": 138,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Dropped",
       "owner": "CC",
@@ -1349,8 +1360,8 @@
       "note": "deferred 2026-05-08: web-only launch 11 May per DECISION 2026-05-03. TestFlight submission moved to W/C 18 May (docs/12 §6). MH owns Xcode Archive + upload; Apple Developer enrolment verification still pending."
     },
     {
-      "id": "T-083",
-      "line_no": 138,
+      "id": "T-084",
+      "line_no": 139,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Dropped",
       "owner": "CC",
@@ -1360,8 +1371,8 @@
       "note": "deferred 2026-05-08: web-only launch 11 May. Play internal track submission moved to W/C 21 May (docs/12 §7). Android APK blocked on missing Java runtime (MH: brew install openjdk@17)."
     },
     {
-      "id": "T-084",
-      "line_no": 139,
+      "id": "T-085",
+      "line_no": 140,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "In Progress",
       "owner": "MH",
@@ -1371,23 +1382,12 @@
       "note": "comparer MEDICYS vs CM2C (frais d'adhésion, délai de saisine, périmètre B2C numérique), choisir, signer, publier le nom dans CGU §11 + remboursement §6 + mentions légales §médiation — opened 2026-05-07: shortlist réduite à MEDICYS + CM2C, à arbitrer cette semaine. Obligation L612-1 Code de la conso pour activité B2C en ligne, blocage de la mise en service tant que le médiateur n'est pas adhéré."
     },
     {
-      "id": "T-085",
-      "line_no": 140,
-      "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
-      "status": "Open",
-      "owner": "MH",
-      "title": "French avocat sign-off on legal v1.0, strip DRAFT banners",
-      "priority": "P0 Blocker",
-      "due": "2026-05-07",
-      "note": ""
-    },
-    {
       "id": "T-086",
       "line_no": 141,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
-      "title": "UK solicitor sign-off on TDS/DPS template",
+      "title": "French avocat sign-off on legal v1.0, strip DRAFT banners",
       "priority": "P0 Blocker",
       "due": "2026-05-07",
       "note": ""
@@ -1398,14 +1398,25 @@
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
+      "title": "UK solicitor sign-off on TDS/DPS template",
+      "priority": "P0 Blocker",
+      "due": "2026-05-07",
+      "note": ""
+    },
+    {
+      "id": "T-088",
+      "line_no": 143,
+      "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
+      "status": "Open",
+      "owner": "MH",
       "title": "dpo@tenu.world mailbox live with auto-acknowledge",
       "priority": "P0 Blocker",
       "due": "2026-05-05",
       "note": ""
     },
     {
-      "id": "T-088",
-      "line_no": 143,
+      "id": "T-089",
+      "line_no": 144,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -1415,8 +1426,8 @@
       "note": "8 names, email, jurisdiction, case type"
     },
     {
-      "id": "T-089",
-      "line_no": 144,
+      "id": "T-090",
+      "line_no": 145,
       "section": "WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray",
       "status": "Open",
       "owner": "MH",
@@ -1426,8 +1437,8 @@
       "note": ""
     },
     {
-      "id": "T-090",
-      "line_no": 148,
+      "id": "T-091",
+      "line_no": 149,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Dropped",
       "owner": "CC",
@@ -1437,8 +1448,8 @@
       "note": "camera retries, upload resume, offline queue — dropped for web-only F&F launch 2026-05-08: CameraCapture.tsx is capture-only (no upload logic). R2 upload is single-attempt; user can manually retry. Acceptable risk for 8-person cohort. Re-open as p:1 for native-app sprint (docs/12 scope)."
     },
     {
-      "id": "T-091",
-      "line_no": 149,
+      "id": "T-092",
+      "line_no": 150,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Dropped",
       "owner": "CC",
@@ -1448,8 +1459,8 @@
       "note": "deferred 2026-05-08: web-only launch. Native device testing in docs/12 §5, W/C 14 May, MH-owned."
     },
     {
-      "id": "T-092",
-      "line_no": 150,
+      "id": "T-093",
+      "line_no": 151,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "MH",
@@ -1459,8 +1470,8 @@
       "note": "100% off, duration=once, 8 redemption limit, code=LAUNCH25. Stripe Dashboard → Coupons → + Create. Must exist before F&F invites go out. Templates at docs/launch/ff-invite-en.md + ff-invite-fr.md reference this code."
     },
     {
-      "id": "T-093",
-      "line_no": 151,
+      "id": "T-094",
+      "line_no": 152,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "MH",
@@ -1470,8 +1481,8 @@
       "note": "use docs/launch/ff-invite-en.md or ff-invite-fr.md templates. Confirm LAUNCH25 coupon exists in Stripe first."
     },
     {
-      "id": "T-094",
-      "line_no": 152,
+      "id": "T-095",
+      "line_no": 153,
       "section": "LAUNCH WEEK (8-11 May)",
       "status": "Open",
       "owner": "MH",
@@ -1481,8 +1492,8 @@
       "note": ""
     },
     {
-      "id": "T-095",
-      "line_no": 156,
+      "id": "T-096",
+      "line_no": 157,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Done",
       "owner": "CC",
@@ -1492,8 +1503,8 @@
       "note": "root cause was top-level `import { cookies, headers }` in layout.tsx and page.tsx marking all pages as dynamic — done 2026-05-08: changed to `await import(\"next/headers\")` inside existing IS_MOBILE_EXPORT guards in both src/app/layout.tsx and src/app/page.tsx. Dynamic [id] routes already had generateStaticParams(_placeholder). `tsc --noEmit` clean. MH can now run `npm run build:mobile` and get a populated out/."
     },
     {
-      "id": "T-096",
-      "line_no": 157,
+      "id": "T-097",
+      "line_no": 158,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1503,8 +1514,8 @@
       "note": "camera upload retry + offline queue hardening — deferred from launch week; acceptable for F&F web, required before native App Store submission."
     },
     {
-      "id": "T-097",
-      "line_no": 158,
+      "id": "T-098",
+      "line_no": 159,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1514,8 +1525,8 @@
       "note": "24 unit + 10 E2E + 5 canaries + 20 evals + OWASP ZAP baseline"
     },
     {
-      "id": "T-098",
-      "line_no": 159,
+      "id": "T-099",
+      "line_no": 160,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1525,8 +1536,8 @@
       "note": "Brevo trigger + Supabase write-back"
     },
     {
-      "id": "T-099",
-      "line_no": 160,
+      "id": "T-100",
+      "line_no": 161,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1536,19 +1547,19 @@
       "note": "ar, zh, hi, ur, ja, es, it, uk, pt, ko staged rollout"
     },
     {
-      "id": "T-100",
-      "line_no": 161,
+      "id": "T-101",
+      "line_no": 162,
       "section": "POST-LAUNCH (12-31 May)",
-      "status": "Open",
+      "status": "Done",
       "owner": "CC",
       "title": "i18n audit phase 2",
       "priority": "P1 Important",
       "due": "",
-      "note": "inspection/new/page.tsx (715 lines, FR-hardcoded client component): extract all string literals into a `COPY: Record<Locale, InspectionCopy>` dict; room labels (Chambre, Séjour…), step labels, field labels, error messages"
+      "note": "inspection/new/page.tsx (715 lines, FR-hardcoded client component): extract all string literals into a `COPY: Record<Locale, InspectionCopy>` dict; room labels (Chambre, Séjour…), step labels, field labels, error messages — done 2026-05-08: page already fully i18n'd via `COPY: Record<Locale, InspectionCopy>` dict (1062 lines). FR + EN fully implemented; AR/ZH/UR/HI/JA/ES/PT/KO set to `null as unknown as InspectionCopy` with `resolveCopy(locale)` fallback to English. Room labels in `copy.roomLabels` per locale. Locale from `useSearchParams().get(\"locale\")`. Nothing to extract — already done."
     },
     {
-      "id": "T-101",
-      "line_no": 162,
+      "id": "T-102",
+      "line_no": 163,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1558,23 +1569,12 @@
       "note": ""
     },
     {
-      "id": "T-102",
-      "line_no": 163,
-      "section": "POST-LAUNCH (12-31 May)",
-      "status": "Open",
-      "owner": "CC",
-      "title": "Add scans.pdf_url + scans.pdf_sha256 columns; migrate from risk_score.pdfUrl jsonb.",
-      "priority": "P1 Important",
-      "due": "",
-      "note": ""
-    },
-    {
       "id": "T-103",
       "line_no": 164,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
-      "title": "Extract /api/pdf/build dedicated route with runtime='nodejs' + maxDuration=60; trigger async from /api/ai/scan.",
+      "title": "Add scans.pdf_url + scans.pdf_sha256 columns; migrate from risk_score.pdfUrl jsonb.",
       "priority": "P1 Important",
       "due": "",
       "note": ""
@@ -1585,7 +1585,7 @@
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
-      "title": "Switch R2 PDF URLs to signed URLs with renewable TTL (default 30 days).",
+      "title": "Extract /api/pdf/build dedicated route with runtime='nodejs' + maxDuration=60; trigger async from /api/ai/scan.",
       "priority": "P1 Important",
       "due": "",
       "note": ""
@@ -1596,14 +1596,25 @@
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
+      "title": "Switch R2 PDF URLs to signed URLs with renewable TTL (default 30 days).",
+      "priority": "P1 Important",
+      "due": "",
+      "note": ""
+    },
+    {
+      "id": "T-106",
+      "line_no": 167,
+      "section": "POST-LAUNCH (12-31 May)",
+      "status": "Open",
+      "owner": "CC",
       "title": "Wire e2e env",
       "priority": "P1 Important",
       "due": "2026-05-15",
       "note": "create .env.test.local with Supabase service-role key + Stripe test keys so npm run test:e2e actually executes"
     },
     {
-      "id": "T-106",
-      "line_no": 167,
+      "id": "T-107",
+      "line_no": 168,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",
@@ -1613,8 +1624,8 @@
       "note": "agreed in principle 2026-05-08; formal letter required before paid signups open beyond F&F cohort"
     },
     {
-      "id": "T-107",
-      "line_no": 168,
+      "id": "T-108",
+      "line_no": 169,
       "section": "POST-LAUNCH (12-31 May)",
       "status": "Open",
       "owner": "CC",

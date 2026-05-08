@@ -29,7 +29,17 @@ export interface IncomingAuthIntent {
   redirect?: string;
 }
 
-export type IncomingIntent = IncomingAuthIntent | { kind: "unknown"; rawUrl: string };
+export interface IncomingPaymentReturnIntent {
+  kind: "payment-return";
+  inspectionId: string;
+  /** URL-level hint only — always verify against DB before acting. */
+  statusHint: "paid" | "cancelled" | "unknown";
+}
+
+export type IncomingIntent =
+  | IncomingAuthIntent
+  | IncomingPaymentReturnIntent
+  | { kind: "unknown"; rawUrl: string };
 
 type Listener = (intent: IncomingIntent) => void;
 
@@ -61,6 +71,7 @@ export function initDeepLinks(): void {
 function parseIntent(rawUrl: string): IncomingIntent {
   try {
     const url = new URL(rawUrl);
+
     const isAuthPath =
       url.pathname === "/auth/callback" ||
       url.pathname === "auth/callback" ||
@@ -75,6 +86,21 @@ function parseIntent(rawUrl: string): IncomingIntent {
           url.searchParams.get("redirect") ??
           url.searchParams.get("next") ??
           undefined,
+      };
+    }
+
+    // /inspection/{id}/payment-return?status=paid|cancelled
+    const paymentMatch = url.pathname.match(
+      /^\/inspection\/([^/]+)\/payment-return$/
+    );
+    if (paymentMatch) {
+      const raw = url.searchParams.get("status");
+      const statusHint: IncomingPaymentReturnIntent["statusHint"] =
+        raw === "paid" ? "paid" : raw === "cancelled" ? "cancelled" : "unknown";
+      return {
+        kind: "payment-return",
+        inspectionId: paymentMatch[1],
+        statusHint,
       };
     }
   } catch {
