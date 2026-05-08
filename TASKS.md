@@ -104,7 +104,7 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [x] CC: Capacitor Camera plugin wired, replace HTML file input (p:0, due 2026-04-24) — done 2026-04-18: MB-06 reworked src/lib/mobile/camera.ts to match brief spec (resultType=Uri, quality=75, width=1600, correctOrientation=true), added CameraPermissionError typed class, null-on-cancel semantics, CameraButton updated to handle null cleanly without error haptic. tsc exit 0. Commit e3714ea.
 - [ ] CC: Android ↔ iOS native-chrome parity audit (splash, status bar, safe-area, fonts, haptics, hardware back, keyboard) — DEFERRED until MH completes `npx cap add ios`/`add android` + `cap sync` and both simulators boot a real `out/` bundle. Audit brief drafted 2026-04-19 (Dr Mubashir provided checkpoints a–l + parity checks 1–9). Cannot execute on empty native shells. Re-open this line once cap-add work lands. (p:1, due post-cap-sync)
 - [ ] CC: consents table + 4 consent UX touchpoints + timestamp + version pin (p:0, due 2026-05-05)
-- [ ] CC: ECB daily refresh cron for EUR/GBP feeding calculatePrice (p:0, due 2026-05-07)
+- [x] CC: ECB daily refresh cron, KILLED 2026-05-08. No FX surface: pricing jurisdiction-pinned via TIER_PRICE_CENTS + CURRENCY[jurisdiction] in src/lib/payments/stripe.ts
 - [x] MH: Stripe webhook endpoint created in live mode, paste signing secret (p:0, due 2026-04-22) — done 2026-04-18: webhook endpoint configured in Stripe live mode, signing secret pasted to .env.local + Vercel (per Dr Mubashir)
 - [ ] MH: Sign DPAs with Supabase, Cloudflare, Stripe, Vercel, Brevo, Anthropic (p:0, due 2026-05-06)
 
