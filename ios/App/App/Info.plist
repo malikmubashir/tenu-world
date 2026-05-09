@@ -46,15 +46,15 @@
 
 	<!-- Camera usage. Mandatory: Capacitor Camera plugin fails silently without it. -->
 	<key>NSCameraUsageDescription</key>
-	<string>Tenu utilise l'appareil photo pour que vous puissiez documenter votre logement pièce par pièce. Les photos sont stockées sur votre téléphone jusqu'à l'envoi.</string>
+	<string>Tenu utilise l'appareil photo pour documenter l'etat du logement et constituer la preuve d'inventaire. Tenu uses the camera to document the rental's condition and build photographic evidence.</string>
 
 	<!-- Photo library — only needed if the user can pick from the library.
 	     We disable gallery picker at plugin level, but iOS still checks this
 	     string exists when the plugin is linked. -->
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Tenu peut enregistrer une copie de vos photos de constat dans votre pellicule si vous le demandez.</string>
+	<string>Tenu enregistre les photos d'inventaire dans votre bibliotheque. Tenu saves inventory photos to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Tenu accède à votre pellicule uniquement si vous souhaitez ajouter des photos déjà prises à un constat.</string>
+	<string>Tenu accede a vos photos pour ajouter des images d'inventaire existantes. Tenu accesses your photo library to add existing inventory photos.</string>
 
 	<!-- Face ID / biometrics — reserved for post-launch. Keep the string
 	     committed so we don't need to re-submit the build when we flip it on. -->
