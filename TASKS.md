@@ -172,6 +172,22 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - [ ] CC: Lawyer formal sign-off letter (FR avocat + UK solicitor) — agreed in principle 2026-05-08; formal letter required before paid signups open beyond F&F cohort (p:1, due 2026-05-15)
 - [ ] CC: Consider promoting /inspection/new DPA gate from client-side useEffect to middleware for defence-in-depth — currently a router.replace() in useEffect (f9aea8a), not server-enforced (p:2, due 2026-05-22)
 
+## iOS Launch — Preflight 2026-05-09
+- [x] Bundle ID world.tenu.app registered in Apple Developer portal
+- [x] App Store Connect record created (Tenu, FR primary, Team XWP5RS8Q4H)
+- [x] WKAppBoundDomains present in Info.plist (tenu.world + www + app subdomains)
+- [x] Camera + Photo Library usage descriptions updated to bilingual ASCII in Info.plist
+- [x] AASA route handler fixed: TEAMID placeholder replaced with XWP5RS8Q4H in src/app/.well-known/apple-app-site-association/route.ts
+- [x] Stripe Checkout invocation pattern: @capacitor/browser Browser.open() already correct in src/lib/mobile/checkout.ts — no code change needed
+- [x] npm run build:mobile passing (exit 0)
+- [x] npx cap sync ios passing (exit 0, 11 plugins, pod install clean)
+- [x] out/.well-known/apple-app-site-association exported with correct Team ID XWP5RS8Q4H
+- [ ] MH: Distribution Certificate provisioned in Xcode (next session, p:0, due 2026-05-12)
+- [ ] MH: Associated Domains capability added in Xcode Signing tab — applinks:tenu.world (next session, p:0, due 2026-05-12)
+- [ ] MH: Merge ios-preflight-2026-05-09 → main, confirm Vercel deploys AASA at https://tenu.world/.well-known/apple-app-site-association with correct Team ID (p:0, due 2026-05-12)
+- [ ] MH: Product → Archive in Xcode, upload to TestFlight via Organizer (p:0, due 2026-05-14)
+- [ ] MH: Internal TestFlight test on physical iPhone (p:0, due 2026-05-14)
+
 ---
 
 ## Blocked / Waiting

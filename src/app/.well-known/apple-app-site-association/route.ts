@@ -6,12 +6,11 @@ import { NextResponse } from "next/server";
 // the export even though we return from a route file.
 export const dynamic = "force-static";
 
-// TODO(MH): after Apple Developer enrolment, replace TEAMID with the
-// 10-character Team ID from developer.apple.com → Membership. Format
-// is <TEAMID>.<BUNDLE_ID>. The Apple CDN fetches this file every time
+// Apple Developer Team ID (XWP5RS8Q4H) confirmed 2026-05-09.
+// Format: <TEAMID>.<BUNDLE_ID>. The Apple CDN fetches this file every time
 // an app with a matching Associated Domains entitlement is installed,
-// so a wrong TeamID means Universal Links silently fail.
-const APP_ID = "TEAMID.world.tenu.app";
+// so a wrong TeamID causes Universal Links to silently fail.
+const APP_ID = "XWP5RS8Q4H.world.tenu.app";
 
 const PAYLOAD = {
   applinks: {
