@@ -217,3 +217,33 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 | 2026-05-08 | Evening session: DRAFT banners stripped from all 6 legal pages; robots.index flipped to true; OG/favicon confirmed already live; MEDICYS brief written; Google OAuth 9-step runbook delivered. Two stale duplicate MH lines (THIS WEEKEND block) marked [-]. CC OAuth script task added [x]. |
 | 2026-05-08 | Session sweep (CTO mode): pipeline wiring confirmed done (stale MISSING note resolved); native build lines updated — cap add ios/android [x], capacitor-assets [x], cap sync [x], build:mobile [>] pending static-export fix; iOS simulator BUILD SUCCEEDED; Android blocked on Java runtime (MH brew install openjdk@17); docs/12 written; signed-binary lines deferred to post-launch; bug-sweep + device-test lines scoped to native sprint. Static export fix + camera retry hardening added to POST-LAUNCH p:1 queue. |
 | 2026-04-21 | Vercel April 2026 incident response block added. Dr Mubashir confirmed incident via vercel.com/kb bulletin and four Need To Rotate flags in the Vercel env var panel. STRIPE_SECRET_KEY already rotated (~14:00). Seven new lines added: three core rotations (R2 pair, Stripe webhook, Supabase JWT pair), one env-var audit, one Google Maps restrict, one Sensitive-everything hardening pass, one CC post-rotation smoke test verification. All p:0 due 2026-04-21. |
+
+## 2026-05-09 — iOS TestFlight upload
+- [x] Apple Developer Program enrolled (Global Apex SAS, Team XWP5RS8Q4H)
+- [x] Bundle ID world.tenu.app registered
+- [x] App Store Connect record (Tenu, FR primary, Lifestyle)
+- [x] AASA TEAMID -> XWP5RS8Q4H fix deployed to prod
+- [x] Xcode automatic signing, Associated Domains applinks:tenu.world
+- [x] Display Name=Tenu, destinations=iPhone+iPad
+- [x] iPhone 12 UDID registered (00008101-001065AE0288001E)
+- [x] iPad UpsideDown orientation re-enabled (Apple validation #90474)
+- [x] Build 1.0 (1) uploaded to App Store Connect 17:13
+- [ ] Apple TestFlight processing complete (await email)
+- [ ] Internal tester added in ASC TestFlight
+- [ ] Magic-link Universal Link tested on iPhone 12
+- [ ] App Store metadata draft (description, screenshots, keywords, privacy)
+
+## 2026-05-09 — Google Workspace migration
+- [x] Workspace Business Starter active on globalapex.net
+- [x] Domain TXT verified
+- [x] MX swapped from mysecurecloudhost to smtp.google.com
+- [x] SPF rewritten to include:_spf.google.com ~all
+- [ ] DKIM key generation in admin.google.com (post-launch)
+- [ ] DMARC tighten p=none -> p=quarantine after 2 weeks
+
+## 2026-05-09 — Google Play Console (deferred)
+- [ ] Sign up as Organization, Global Apex SAS, DUNS reuse from Apple
+- [ ] Submit DUNS, SIRET, KBIS, ID for org verification (2-7 business days)
+- [ ] Pay $25 one-time fee
+- [ ] Create app entry "Tenu", Application ID world.tenu.app
+- [ ] Merchant Profile / Payments (separate verification, ~5 days)

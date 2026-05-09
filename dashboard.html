@@ -327,15 +327,15 @@
   </div>
   <div class="meta">
     <div class="launch">Soft launch Mon 2026-05-11</div>
-    <div class="countdown-big" id="countdown">3 days</div>
-    <div>Regenerated <span id="gen-ts">2026-05-08T22:47:49</span></div>
+    <div class="countdown-big" id="countdown">2 days</div>
+    <div>Regenerated <span id="gen-ts">2026-05-09T17:18:07</span></div>
   </div>
 </header>
 
 <section class="cards">
   <div class="card">
     <div class="label">Open</div>
-    <div class="value" id="c-open">46</div>
+    <div class="value" id="c-open">51</div>
     <div class="hint"><span id="c-ip">3</span> in progress</div>
   </div>
   <div class="card accent-emerald">
@@ -345,12 +345,12 @@
   </div>
   <div class="card accent-amber">
     <div class="label">Due next 7 days</div>
-    <div class="value" id="c-due7">35</div>
+    <div class="value" id="c-due7">39</div>
     <div class="hint">launch-gate burn-down</div>
   </div>
   <div class="card accent-red">
     <div class="label">P0 remaining</div>
-    <div class="value" id="c-p0">29</div>
+    <div class="value" id="c-p0">33</div>
     <div class="hint">blocks 11 May soft launch</div>
   </div>
 </section>
@@ -361,7 +361,7 @@
     <div class="tagline">What should bother you today. Tap a stat to filter.</div>
   </div>
   <div class="stat" data-filter="overdue" style="cursor:pointer;">
-    <div class="n bad" id="r-overdue">25</div>
+    <div class="n bad" id="r-overdue">26</div>
     <div class="lbl">Overdue</div>
   </div>
   <div class="stat" data-filter="p0-no-due" style="cursor:pointer;">
@@ -370,7 +370,7 @@
   </div>
   <div class="stat">
     <div class="n">
-      <span id="r-mh">32</span>
+      <span id="r-mh">37</span>
       <span style="color:#C6CEDB;font-size:18px;">·</span>
       <span id="r-cc">14</span>
     </div>
@@ -424,24 +424,24 @@
 
 <script id="task-data" type="application/json">{
   "summary": {
-    "generated": "2026-05-08T22:47:49",
-    "today": "2026-05-08",
+    "generated": "2026-05-09T17:18:07",
+    "today": "2026-05-09",
     "launch": "2026-05-11",
-    "days_to_launch": 3,
+    "days_to_launch": 2,
     "counts": {
-      "total": 112,
-      "open": 43,
+      "total": 117,
+      "open": 48,
       "in_progress": 3,
       "done": 60,
       "dropped": 6,
-      "p0_open": 29,
+      "p0_open": 33,
       "p1_open": 12,
       "p2_open": 5,
-      "no_priority": 0,
-      "mh_open": 32,
+      "no_priority": 1,
+      "mh_open": 37,
       "cc_open": 14,
-      "due_next_7": 35,
-      "overdue": 25,
+      "due_next_7": 39,
+      "overdue": 26,
       "p0_no_due": 0
     }
   },
@@ -1410,9 +1410,9 @@
       "status": "In Progress",
       "owner": "MH",
       "title": "Médiateur de la consommation",
-      "priority": "P0 Blocker",
-      "due": "2026-05-09",
-      "note": "comparer MEDICYS vs CM2C (frais d'adhésion, délai de saisine, périmètre B2C numérique), choisir, signer, publier le nom dans CGU §11 + remboursement §6 + mentions légales §médiation — opened 2026-05-07: shortlist réduite à MEDICYS + CM2C, à arbitrer cette semaine. Obligation L612-1 Code de la conso pour activité B2C en ligne, blocage de la mise en service tant que le médiateur n'est pas adhéré."
+      "priority": "",
+      "due": "",
+      "note": "sign with MEDICYS (medicys.fr → Adhérer → SIREN 941 666 067, ~€250-350, ~20 min online). Due 2026-05-09. Decision made: MEDICYS chosen over CM2C per brief at docs/legal/mediateur-decision-brief.md. Ping CC when membership certificate received → CC updates 5 [MEDIATEUR PENDING] placeholders in legal pages same day. Obligation L612-1 Code de la conso, hard blocker for commercial launch."
     },
     {
       "id": "T-089",
@@ -1677,6 +1677,61 @@
       "priority": "P2 Post-launch",
       "due": "2026-05-22",
       "note": "currently a router.replace() in useEffect (f9aea8a), not server-enforced"
+    },
+    {
+      "id": "T-113",
+      "line_no": 185,
+      "section": "iOS Launch — Preflight 2026-05-09",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Distribution Certificate provisioned in Xcode",
+      "priority": "P0 Blocker",
+      "due": "2026-05-12",
+      "note": ""
+    },
+    {
+      "id": "T-114",
+      "line_no": 186,
+      "section": "iOS Launch — Preflight 2026-05-09",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Associated Domains capability added in Xcode Signing tab",
+      "priority": "P0 Blocker",
+      "due": "2026-05-12",
+      "note": "applinks:tenu.world"
+    },
+    {
+      "id": "T-115",
+      "line_no": 187,
+      "section": "iOS Launch — Preflight 2026-05-09",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Merge ios-preflight-2026-05-09 → main, confirm Vercel deploys AASA at https://tenu.world/.well-known/apple-app-site-association with correct Team ID",
+      "priority": "P0 Blocker",
+      "due": "2026-05-12",
+      "note": ""
+    },
+    {
+      "id": "T-116",
+      "line_no": 188,
+      "section": "iOS Launch — Preflight 2026-05-09",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Product → Archive in Xcode, upload to TestFlight via Organizer",
+      "priority": "P0 Blocker",
+      "due": "2026-05-14",
+      "note": ""
+    },
+    {
+      "id": "T-117",
+      "line_no": 189,
+      "section": "iOS Launch — Preflight 2026-05-09",
+      "status": "Open",
+      "owner": "MH",
+      "title": "Internal TestFlight test on physical iPhone",
+      "priority": "P0 Blocker",
+      "due": "2026-05-14",
+      "note": ""
     }
   ]
 }</script>
