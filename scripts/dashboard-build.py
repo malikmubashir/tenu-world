@@ -171,7 +171,7 @@ def render(items):
 </div>
 
 <div class="alert">
-  <b>Data note:</b> TASKS.md last synced 2026-05-08 (13 days stale). 18 May reschedule was never merged in. Most P0 items below show overdue because line-level due dates still point at the retired 11 May launch target. A one-pass re-date is owed.
+  <b>Data note:</b> Line-level due dates re-baselined 2026-05-21 against the six-phase plan. 1A RGPD 18-31 May, 1B legal 21 May - 13 Jun, Phase 2 tech 21 May - 6 Jun, Phase 4 paid funnel 15-22 Jun, Phase 5 native 29 Jun - 13 Jul. Public launch target 15 Jul.
 </div>
 
 <div class="kpi">

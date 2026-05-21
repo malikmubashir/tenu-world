@@ -83,15 +83,15 @@
 </div>
 
 <div class="alert">
-  <b>Data note:</b> TASKS.md last synced 2026-05-08 (13 days stale). 18 May reschedule was never merged in. Most P0 items below show overdue because line-level due dates still point at the retired 11 May launch target. A one-pass re-date is owed.
+  <b>Data note:</b> Line-level due dates re-baselined 2026-05-21 against the six-phase plan. 1A RGPD 18-31 May, 1B legal 21 May - 13 Jun, Phase 2 tech 21 May - 6 Jun, Phase 4 paid funnel 15-22 Jun, Phase 5 native 29 Jun - 13 Jul. Public launch target 15 Jul.
 </div>
 
 <div class="kpi">
   <div class="stat"><div class="n">51</div><div class="lbl">Total open</div></div>
-  <div class="stat bad"><div class="n">31</div><div class="lbl">P0 · blocks launch</div></div>
-  <div class="stat warn"><div class="n">15</div><div class="lbl">P1 · important</div></div>
+  <div class="stat bad"><div class="n">34</div><div class="lbl">P0 · blocks launch</div></div>
+  <div class="stat warn"><div class="n">12</div><div class="lbl">P1 · important</div></div>
   <div class="stat"><div class="n">5</div><div class="lbl">P2 · post-launch</div></div>
-  <div class="stat bad"><div class="n">41</div><div class="lbl">Overdue vs today</div></div>
+  <div class="stat bad"><div class="n">0</div><div class="lbl">Overdue vs today</div></div>
 </div>
 
 <div class="phase-strip">
@@ -116,314 +116,110 @@
 
 
         <section class="block block-p0">
-          <h2><span class="dot" style="background:#EF4444"></span>P0 — blocks launch <span class="count">(31)</span></h2>
+          <h2><span class="dot" style="background:#EF4444"></span>P0 — blocks launch <span class="count">(34)</span></h2>
           <div class="items">
         <article class="item open" id="task-002">
           <header>
             <span class="id">#002</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-04</span>
+            <span class="due ">2026-05-23</span>
             <span class="sec">LEGAL — fixed-fee review briefs (CC drafts ready for MH to s</span>
             
           </header>
           <p class="title">Personalise + send the UK solicitor brief (review draft, fill recipient name + firm, send by email)</p>
           <div class="note">depends on CC line above.</div>
         </article>
-        <article class="item open" id="task-005">
-          <header>
-            <span class="id">#005</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-04</span>
-            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
-            
-          </header>
-          <p class="title">Check D-U-N-S number for Global Apex NET SAS at dnb.com/duns-number-lookup</p>
-          
-        </article>
-        <article class="item open" id="task-006">
-          <header>
-            <span class="id">#006</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-04</span>
-            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
-            
-          </header>
-          <p class="title">Google Play Console developer account, USD 25 one-time</p>
-          
-        </article>
-        <article class="item open" id="task-007">
-          <header>
-            <span class="id">#007</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-04</span>
-            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
-            
-          </header>
-          <p class="title">Confirm SAS legal name + siège exactly match Apple + Play enrolment forms</p>
-          
-        </article>
         <article class="item open" id="task-018">
           <header>
             <span class="id">#018</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-04</span>
+            <span class="due ">2026-05-24</span>
             <span class="sec">Vercel April 2026 incident — key rotation (opened 2026-04-21</span>
             
           </header>
           <p class="title">Audit hidden env vars</p>
-          <div class="note">scroll full Vercel env var list below the fold, confirm ANTHROPIC_API_KEY + BREVO_API_KEY + TELEGRAM_BOT_TOKEN + any other secret either shows Need To Rotate (rotate it) or was created Sensitive from day one (leave alone). If any non-public secret is unflagged and NOT marked Sensitive, treat as exposed and rotate (p:0, due 2026-05-04)</div>
-        </article>
-        <article class="item open" id="task-019">
-          <header>
-            <span class="id">#019</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-04</span>
-            <span class="sec">Vercel April 2026 incident — key rotation (opened 2026-04-21</span>
-            
-          </header>
-          <p class="title">Lock down NEXT_PUBLIC_GOOGLE_MAPS_API_KEY at source</p>
-          <div class="note">Google Cloud Console → APIs &amp; Services → Credentials → restrict to HTTP referrers `*.tenu.world` + `localhost:*` + enable only Maps JavaScript + Places API. Public by design, not flagged by Vercel, but unrestricted = scraping risk against Global Apex billing (p:0, due 2026-05-04)</div>
-        </article>
-        <article class="item open" id="task-020">
-          <header>
-            <span class="id">#020</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-04</span>
-            <span class="sec">Vercel April 2026 incident — key rotation (opened 2026-04-21</span>
-            
-          </header>
-          <p class="title">Tick Sensitive on every remaining non-public secret in Vercel env var list</p>
-          <div class="note">hardening pass, single biggest structural lesson from this incident. Anything that isn&#x27;t a NEXT_PUBLIC_* or a non-secret identifier (R2_ACCOUNT_ID, R2_BUCKET_NAME) should be Sensitive (p:0, due 2026-05-04)</div>
-        </article>
-        <article class="item open" id="task-008">
-          <header>
-            <span class="id">#008</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Google Workspace subscription on `tenu.world`</p>
-          <div class="note">create `ops@tenu.world` (owner) + `support@tenu.world` + `dpo@tenu.world` (aliases acceptable) (p:0, due 2026-05-05)</div>
-        </article>
-        <article class="item open" id="task-009">
-          <header>
-            <span class="id">#009</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Create new Cloud project `tenu-production` signed in as `ops@tenu.world` at console.cloud.google.com</p>
-          
-        </article>
-        <article class="item open" id="task-010">
-          <header>
-            <span class="id">#010</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Verify `tenu.world` domain ownership via Search Console TXT record</p>
-          
-        </article>
-        <article class="item open" id="task-011">
-          <header>
-            <span class="id">#011</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">OAuth consent screen → User Type: External → App name &quot;Tenu&quot; → support email `support@tenu.world` → developer contact `dpo@tenu.world` → scopes: email, profile, openid only</p>
-          
-        </article>
-        <article class="item open" id="task-012">
-          <header>
-            <span class="id">#012</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Create OAuth 2.0 Client ID (Web application) → authorized redirect URI = Supabase callback (`https://&lt;project-ref&gt;.supabase.co/auth/v1/callback`) → save client_id + client_secret into 1Password, NOT to disk</p>
-          
-        </article>
-        <article class="item open" id="task-013">
-          <header>
-            <span class="id">#013</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Paste new client_id + client_secret into Supabase dashboard → Authentication → Providers → Google → Save</p>
-          
-        </article>
-        <article class="item open" id="task-017">
-          <header>
-            <span class="id">#017</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Before 11 May</p>
-          <div class="note">publish OAuth consent screen Testing → Production (requires domain verified + privacy URL + terms URL live at tenu.world/legal/privacy + /legal/terms) (p:0, due 2026-05-05)</div>
-        </article>
-        <article class="item open" id="task-031">
-          <header>
-            <span class="id">#031</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
-            
-          </header>
-          <p class="title">dpo@tenu.world mailbox live with auto-acknowledge</p>
-          
-        </article>
-        <article class="item open" id="task-027">
-          <header>
-            <span class="id">#027</span>
-            <span class="who who-mh">MH (nights)</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-05</span>
-            <span class="sec">OOO BRIDGE (27-30 Apr)</span>
-            
-          </header>
-          <p class="title">Decide Apple IAP stance</p>
-          <div class="note">physical service argument documented (p:0, due 2026-05-05) — re-dated 2026-05-03: needs to land before App Store reviewer notes lock.</div>
-        </article>
-        <article class="item open" id="task-014">
-          <header>
-            <span class="id">#014</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-06</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Smoke-test Google login end-to-end on tenu.world production + localhost</p>
-          <div class="note">expect no 403 org_internal, consent screen shows &quot;Tenu&quot; with `support@tenu.world` (p:0, due 2026-05-06)</div>
-        </article>
-        <article class="item open" id="task-015">
-          <header>
-            <span class="id">#015</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-06</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Delete `05-Legal-Compliance/client_secret_1016793771503-bnq65154rootrva2e81kh1jicoks7hss.apps.googleusercontent.com.json` AND the ` (1).json` duplicate from disk. `rm` only</p>
-          <div class="note">do not archive, the secret is burned (p:0, due 2026-05-06)</div>
-        </article>
-        <article class="item open" id="task-016">
-          <header>
-            <span class="id">#016</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-06</span>
-            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
-            
-          </header>
-          <p class="title">Shut down old `gen-lang-client-0896170717` Cloud project (Cloud Console → Settings → Shut down)</p>
-          <div class="note">revokes the leaked secret at source even if a copy is still cached somewhere (p:0, due 2026-05-06)</div>
+          <div class="note">scroll full Vercel env var list below the fold, confirm ANTHROPIC_API_KEY + BREVO_API_KEY + TELEGRAM_BOT_TOKEN + any other secret either shows Need To Rotate (rotate it) or was created Sensitive from day one (leave alone). If any non-public secret is unflagged and NOT marked Sensitive, treat as exposed and rotate (p:0, due 2026-05-24)</div>
         </article>
         <article class="item open" id="task-024">
           <header>
             <span class="id">#024</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-06</span>
+            <span class="due ">2026-05-25</span>
             <span class="sec">WEEK 1 (20-24 Apr) — pipeline + native scaffold</span>
             
           </header>
           <p class="title">Sign DPAs with Supabase, Cloudflare, Stripe, Vercel, Brevo, Anthropic</p>
           
         </article>
-        <article class="item open" id="task-032">
+        <article class="item open" id="task-031">
           <header>
-            <span class="id">#032</span>
+            <span class="id">#031</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-06</span>
+            <span class="due ">2026-05-25</span>
             <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
             
           </header>
-          <p class="title">F&amp;F invite list</p>
-          <div class="note">8 names, email, jurisdiction, case type (p:0, due 2026-05-06)</div>
-        </article>
-        <article class="item open" id="task-026">
-          <header>
-            <span class="id">#026</span>
-            <span class="who who-mh">MH (nights)</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-06</span>
-            <span class="sec">OOO BRIDGE (27-30 Apr)</span>
-            
-          </header>
-          <p class="title">Review store listing copy in Notion/file, approve or edit</p>
-          <div class="note">re-dated 2026-05-03: depends on CC web-only listing revision (line in DECISION 2026-05-03 section).</div>
-        </article>
-        <article class="item open" id="task-030">
-          <header>
-            <span class="id">#030</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-07</span>
-            <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
-            
-          </header>
-          <p class="title">UK solicitor sign-off on TDS/DPS template</p>
+          <p class="title">dpo@tenu.world mailbox live with auto-acknowledge</p>
           
         </article>
-        <article class="item open" id="task-033">
+        <article class="item open" id="task-019">
           <header>
-            <span class="id">#033</span>
+            <span class="id">#019</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-11</span>
-            <span class="sec">LAUNCH WEEK (8-11 May)</span>
+            <span class="due ">2026-05-28</span>
+            <span class="sec">Vercel April 2026 incident — key rotation (opened 2026-04-21</span>
             
           </header>
-          <p class="title">Create Stripe coupon LAUNCH25</p>
-          <div class="note">100% off, duration=once, 8 redemption limit, code=LAUNCH25. Stripe Dashboard → Coupons → + Create. Must exist before F&amp;F invites go out. Templates at docs/launch/ff-invite-en.md + ff-invite-fr.md reference this code. (p:0, due 2026-05-11)</div>
+          <p class="title">Lock down NEXT_PUBLIC_GOOGLE_MAPS_API_KEY at source</p>
+          <div class="note">Google Cloud Console → APIs &amp; Services → Credentials → restrict to HTTP referrers `*.tenu.world` + `localhost:*` + enable only Maps JavaScript + Places API. Public by design, not flagged by Vercel, but unrestricted = scraping risk against Global Apex billing (p:0, due 2026-05-28)</div>
+        </article>
+        <article class="item open" id="task-020">
+          <header>
+            <span class="id">#020</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-05-28</span>
+            <span class="sec">Vercel April 2026 incident — key rotation (opened 2026-04-21</span>
+            
+          </header>
+          <p class="title">Tick Sensitive on every remaining non-public secret in Vercel env var list</p>
+          <div class="note">hardening pass, single biggest structural lesson from this incident. Anything that isn&#x27;t a NEXT_PUBLIC_* or a non-secret identifier (R2_ACCOUNT_ID, R2_BUCKET_NAME) should be Sensitive (p:0, due 2026-05-28)</div>
+        </article>
+        <article class="item in_progress" id="task-029">
+          <header>
+            <span class="id">#029</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-05-28</span>
+            <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
+            <span class="badge">IN PROGRESS</span>
+          </header>
+          <p class="title">Médiateur de la consommation</p>
+          <div class="note">sign with MEDICYS (p:0, due 2026-05-28). medicys.fr → Adhérer → SIREN 941 666 067, ~€250-350, ~20 min online. Decision made: MEDICYS chosen over CM2C per brief at docs/legal/mediateur-decision-brief.md. Ping CC when membership certificate received → CC updates 5 [MEDIATEUR PENDING] placeholders in legal pages same day. Obligation L612-1 Code de la conso, hard blocker for commercial launch. Re-dated from 2026-05-09 (was retired 11 May target).</div>
         </article>
         <article class="item open" id="task-034">
           <header>
             <span class="id">#034</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-11</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">LAUNCH WEEK (8-11 May)</span>
             
           </header>
           <p class="title">Invite F&amp;F list on 11 May 09:00 Paris</p>
-          <div class="note">use docs/launch/ff-invite-en.md or ff-invite-fr.md templates. Confirm LAUNCH25 coupon exists in Stripe first. (p:0, due 2026-05-11)</div>
+          <div class="note">use docs/launch/ff-invite-en.md or ff-invite-fr.md templates. Confirm LAUNCH25 coupon exists in Stripe first. (p:0, due 2026-06-06)</div>
         </article>
         <article class="item open" id="task-035">
           <header>
             <span class="id">#035</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-12</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">LAUNCH WEEK (8-11 May)</span>
             
           </header>
@@ -435,35 +231,11 @@
             <span class="id">#049</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-12</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">iOS Launch — Preflight 2026-05-09</span>
             
           </header>
           <p class="title">Merge ios-preflight-2026-05-09 → main, confirm Vercel deploys AASA at https://tenu.world/.well-known/apple-app-site-association with correct Team ID</p>
-          
-        </article>
-        <article class="item in_progress" id="task-021">
-          <header>
-            <span class="id">#021</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-14</span>
-            <span class="sec">WEEK 1 (20-24 Apr) — pipeline + native scaffold</span>
-            <span class="badge">IN PROGRESS</span>
-          </header>
-          <p class="title">Open Xcode (`npx cap open ios`), set Team ID + Bundle world.tenu.app + capabilities (Camera, Push, Associated Domains for tenu.world), run on simulator + physical iPhone</p>
-          <div class="note">simulator confirmed running 2026-05-08. Next: set Team ID + signing, run on physical device.</div>
-        </article>
-        <article class="item open" id="task-022">
-          <header>
-            <span class="id">#022</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-14</span>
-            <span class="sec">WEEK 1 (20-24 Apr) — pipeline + native scaffold</span>
-            
-          </header>
-          <p class="title">Open Android Studio (`npx cap open android`), set release keystore SHA-256 in mobile/.well-known/assetlinks.json placeholder, run on emulator + physical device</p>
           
         </article>
         <article class="item open" id="task-050">
@@ -471,7 +243,7 @@
             <span class="id">#050</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-14</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">iOS Launch — Preflight 2026-05-09</span>
             
           </header>
@@ -483,137 +255,377 @@
             <span class="id">#051</span>
             <span class="who who-mh">MH</span>
             <span class="prio p0">P0</span>
-            <span class="due overdue">2026-05-14</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">iOS Launch — Preflight 2026-05-09</span>
             
           </header>
           <p class="title">Internal TestFlight test on physical iPhone</p>
           
-        </article></div>
-        </section>
-
-        <section class="block block-p1">
-          <h2><span class="dot" style="background:#F59E0B"></span>P1 — important <span class="count">(15)</span></h2>
-          <div class="items">
-        <article class="item open" id="task-001">
+        </article>
+        <article class="item open" id="task-030">
           <header>
-            <span class="id">#001</span>
-            <span class="who who-cc">CC</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-04</span>
-            <span class="sec">DECISION 2026-05-03 — Launch path: Option B (web-only on 11 </span>
+            <span class="id">#030</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-06-13</span>
+            <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
             
           </header>
-          <p class="title">Move native-build MH lines (build:mobile, cap add, cap sync, Xcode, Android Studio) into the Native Build Bridge section dated 18-25 May</p>
-          <div class="note">keep their content verbatim, only re-section + re-date so the launch checklist stops bleeding red on items that were never blocking 11 May web-only (p:1, due 2026-05-04) — opened 2026-05-03.</div>
+          <p class="title">UK solicitor sign-off on TDS/DPS template</p>
+          
         </article>
-        <article class="item in_progress" id="task-003">
+        <article class="item open" id="task-032">
           <header>
-            <span class="id">#003</span>
+            <span class="id">#032</span>
             <span class="who who-mh">MH</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-04</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-06-15</span>
+            <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
+            
+          </header>
+          <p class="title">F&amp;F invite list</p>
+          <div class="note">8 names, email, jurisdiction, case type (p:0, due 2026-06-15)</div>
+        </article>
+        <article class="item open" id="task-033">
+          <header>
+            <span class="id">#033</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-06-15</span>
+            <span class="sec">LAUNCH WEEK (8-11 May)</span>
+            
+          </header>
+          <p class="title">Create Stripe coupon LAUNCH25</p>
+          <div class="note">100% off, duration=once, 8 redemption limit, code=LAUNCH25. Stripe Dashboard → Coupons → + Create. Must exist before F&amp;F invites go out. Templates at docs/launch/ff-invite-en.md + ff-invite-fr.md reference this code. (p:0, due 2026-06-15)</div>
+        </article>
+        <article class="item open" id="task-005">
+          <header>
+            <span class="id">#005</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-06-29</span>
             <span class="sec">THIS WEEKEND (17-20 Apr)</span>
+            
+          </header>
+          <p class="title">Check D-U-N-S number for Global Apex NET SAS at dnb.com/duns-number-lookup</p>
+          
+        </article>
+        <article class="item open" id="task-007">
+          <header>
+            <span class="id">#007</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-06-29</span>
+            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
+            
+          </header>
+          <p class="title">Confirm SAS legal name + siège exactly match Apple + Play enrolment forms</p>
+          
+        </article>
+        <article class="item open" id="task-006">
+          <header>
+            <span class="id">#006</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-01</span>
+            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
+            
+          </header>
+          <p class="title">Google Play Console developer account, USD 25 one-time</p>
+          
+        </article>
+        <article class="item in_progress" id="task-021">
+          <header>
+            <span class="id">#021</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-01</span>
+            <span class="sec">WEEK 1 (20-24 Apr) — pipeline + native scaffold</span>
             <span class="badge">IN PROGRESS</span>
           </header>
-          <p class="title">Install scheduled-push v2</p>
-          <div class="note">copy scripts/scheduled-tasks/tenu-daily-push.md into ~/Documents/Claude/Scheduled/tenu-daily-push/SKILL.md and drop BREVO_API_KEY into .secrets/brevo.env (p:1, due 2026-05-04) — re-dated 2026-05-03. CC fixed all 6 hardcoded paths in SKILL.md from `/Users/mmh/Documents/Claude/Projects/Tenu.World/` to `/Users/mmh/Code/Tenu.World/` (root cause of today&#x27;s 09:04 diagnostic log). Bumped to v2.1. brevo.env.example header path also corrected. SKILL.md installed at ~/Documents/Claude/Scheduled/tenu-daily-push/SKILL.md. .secrets/brevo.env file created but currently holds CC&#x27;s placeholder text (51 bytes, &quot;xkeysib-PASTE_THE_REAL_KEY_VALUE_HERE&quot;). MH must pull real BREVO_API_KEY from Vercel env panel and overwrite. After overwrite, remove the [&gt;] marker and close [x].</div>
-        </article>
-        <article class="item open" id="task-004">
-          <header>
-            <span class="id">#004</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-08</span>
-            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
-            
-          </header>
-          <p class="title">Recover Brevo account access</p>
-          <div class="note">can&#x27;t log in to dashboard as of 2026-05-03. Try password reset at app.brevo.com/account/login → mubashirr@gmail.com. If 2FA is the blocker, contact Brevo support (help.brevo.com) for identity-verified MFA reset. Search Downloads folder for any &quot;brevo&quot; or &quot;recovery&quot; file from original signup. Needed before F&amp;F cohort outcome data starts coming in mid-May (template tuning + bounce monitoring) (p:1, due 2026-05-08)</div>
+          <p class="title">Open Xcode (`npx cap open ios`), set Team ID + Bundle world.tenu.app + capabilities (Camera, Push, Associated Domains for tenu.world), run on simulator + physical iPhone</p>
+          <div class="note">simulator confirmed running 2026-05-08. Next: set Team ID + signing, run on physical device.</div>
         </article>
         <article class="item open" id="task-047">
           <header>
             <span class="id">#047</span>
             <span class="who who-mh">MH</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-12</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-01</span>
             <span class="sec">iOS Launch — Preflight 2026-05-09</span>
             
           </header>
           <p class="title">Distribution Certificate provisioned in Xcode</p>
-          
+          <div class="note">re-dated from 2026-05-12 to Phase 5 native window.</div>
         </article>
         <article class="item open" id="task-048">
           <header>
             <span class="id">#048</span>
             <span class="who who-mh">MH</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-12</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-01</span>
             <span class="sec">iOS Launch — Preflight 2026-05-09</span>
             
           </header>
           <p class="title">Associated Domains capability added in Xcode Signing tab</p>
-          <div class="note">applinks:tenu.world (next session, p:0, due 2026-05-12)</div>
+          <div class="note">applinks:tenu.world (p:0, due 2026-07-01) — re-dated from 2026-05-12 to Phase 5 native window.</div>
         </article>
-        <article class="item open" id="task-036">
+        <article class="item open" id="task-026">
           <header>
-            <span class="id">#036</span>
-            <span class="who who-cc">CC</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-14</span>
-            <span class="sec">POST-LAUNCH (12-31 May)</span>
+            <span class="id">#026</span>
+            <span class="who who-mh">MH (nights)</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-01</span>
+            <span class="sec">OOO BRIDGE (27-30 Apr)</span>
             
           </header>
-          <p class="title">Bug sweep</p>
-          <div class="note">camera upload retry + offline queue hardening (p:1, due 2026-05-14) — deferred from launch week; acceptable for F&amp;F web, required before native App Store submission.</div>
+          <p class="title">Review store listing copy in Notion/file, approve or edit</p>
+          <div class="note">re-dated 2026-05-03: depends on CC web-only listing revision (line in DECISION 2026-05-03 section).</div>
         </article>
-        <article class="item open" id="task-044">
+        <article class="item open" id="task-027">
           <header>
-            <span class="id">#044</span>
-            <span class="who who-cc">CC</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-15</span>
-            <span class="sec">POST-LAUNCH (12-31 May)</span>
+            <span class="id">#027</span>
+            <span class="who who-mh">MH (nights)</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-01</span>
+            <span class="sec">OOO BRIDGE (27-30 Apr)</span>
             
           </header>
-          <p class="title">Wire e2e env</p>
-          <div class="note">create .env.test.local with Supabase service-role key + Stripe test keys so npm run test:e2e actually executes (p:1, due 2026-05-15)</div>
+          <p class="title">Decide Apple IAP stance</p>
+          <div class="note">physical service argument documented (p:0, due 2026-07-01) — re-dated 2026-05-03: needs to land before App Store reviewer notes lock.</div>
         </article>
-        <article class="item open" id="task-045">
+        <article class="item open" id="task-022">
           <header>
-            <span class="id">#045</span>
-            <span class="who who-cc">CC</span>
-            <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-15</span>
-            <span class="sec">POST-LAUNCH (12-31 May)</span>
+            <span class="id">#022</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-03</span>
+            <span class="sec">WEEK 1 (20-24 Apr) — pipeline + native scaffold</span>
             
           </header>
-          <p class="title">Lawyer formal sign-off letter (FR avocat + UK solicitor)</p>
-          <div class="note">agreed in principle 2026-05-08; formal letter required before paid signups open beyond F&amp;F cohort (p:1, due 2026-05-15)</div>
+          <p class="title">Open Android Studio (`npx cap open android`), set release keystore SHA-256 in mobile/.well-known/assetlinks.json placeholder, run on emulator + physical device</p>
+          
+        </article>
+        <article class="item open" id="task-008">
+          <header>
+            <span class="id">#008</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-04</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Google Workspace subscription on `tenu.world`</p>
+          <div class="note">create `ops@tenu.world` (owner) + `support@tenu.world` + `dpo@tenu.world` (aliases acceptable) (p:0, due 2026-07-04)</div>
+        </article>
+        <article class="item open" id="task-009">
+          <header>
+            <span class="id">#009</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-04</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Create new Cloud project `tenu-production` signed in as `ops@tenu.world` at console.cloud.google.com</p>
+          
+        </article>
+        <article class="item open" id="task-010">
+          <header>
+            <span class="id">#010</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-04</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Verify `tenu.world` domain ownership via Search Console TXT record</p>
+          
+        </article>
+        <article class="item open" id="task-011">
+          <header>
+            <span class="id">#011</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-05</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">OAuth consent screen → User Type: External → App name &quot;Tenu&quot; → support email `support@tenu.world` → developer contact `dpo@tenu.world` → scopes: email, profile, openid only</p>
+          
+        </article>
+        <article class="item open" id="task-012">
+          <header>
+            <span class="id">#012</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-05</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Create OAuth 2.0 Client ID (Web application) → authorized redirect URI = Supabase callback (`https://&lt;project-ref&gt;.supabase.co/auth/v1/callback`) → save client_id + client_secret into 1Password, NOT to disk</p>
+          
+        </article>
+        <article class="item open" id="task-013">
+          <header>
+            <span class="id">#013</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-05</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Paste new client_id + client_secret into Supabase dashboard → Authentication → Providers → Google → Save</p>
+          
+        </article>
+        <article class="item open" id="task-017">
+          <header>
+            <span class="id">#017</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-05</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Before 11 May</p>
+          <div class="note">publish OAuth consent screen Testing → Production (requires domain verified + privacy URL + terms URL live at tenu.world/legal/privacy + /legal/terms) (p:0, due 2026-07-05)</div>
+        </article>
+        <article class="item open" id="task-014">
+          <header>
+            <span class="id">#014</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-06</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Smoke-test Google login end-to-end on tenu.world production + localhost</p>
+          <div class="note">expect no 403 org_internal, consent screen shows &quot;Tenu&quot; with `support@tenu.world` (p:0, due 2026-07-06)</div>
+        </article>
+        <article class="item open" id="task-015">
+          <header>
+            <span class="id">#015</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-06</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Delete `05-Legal-Compliance/client_secret_1016793771503-bnq65154rootrva2e81kh1jicoks7hss.apps.googleusercontent.com.json` AND the ` (1).json` duplicate from disk. `rm` only</p>
+          <div class="note">do not archive, the secret is burned (p:0, due 2026-07-06)</div>
+        </article>
+        <article class="item open" id="task-016">
+          <header>
+            <span class="id">#016</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p0">P0</span>
+            <span class="due ">2026-07-06</span>
+            <span class="sec">Google OAuth migration — personal Gmail project → Workspace-</span>
+            
+          </header>
+          <p class="title">Shut down old `gen-lang-client-0896170717` Cloud project (Cloud Console → Settings → Shut down)</p>
+          <div class="note">revokes the leaked secret at source even if a copy is still cached somewhere (p:0, due 2026-07-06)</div>
+        </article></div>
+        </section>
+
+        <section class="block block-p1">
+          <h2><span class="dot" style="background:#F59E0B"></span>P1 — important <span class="count">(12)</span></h2>
+          <div class="items">
+        <article class="item in_progress" id="task-003">
+          <header>
+            <span class="id">#003</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p1">P1</span>
+            <span class="due ">2026-05-24</span>
+            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
+            <span class="badge">IN PROGRESS</span>
+          </header>
+          <p class="title">Install scheduled-push v2</p>
+          <div class="note">copy scripts/scheduled-tasks/tenu-daily-push.md into ~/Documents/Claude/Scheduled/tenu-daily-push/SKILL.md and drop BREVO_API_KEY into .secrets/brevo.env (p:1, due 2026-05-24) — re-dated 2026-05-03. CC fixed all 6 hardcoded paths in SKILL.md from `/Users/mmh/Documents/Claude/Projects/Tenu.World/` to `/Users/mmh/Code/Tenu.World/` (root cause of today&#x27;s 09:04 diagnostic log). Bumped to v2.1. brevo.env.example header path also corrected. SKILL.md installed at ~/Documents/Claude/Scheduled/tenu-daily-push/SKILL.md. .secrets/brevo.env file created but currently holds CC&#x27;s placeholder text (51 bytes, &quot;xkeysib-PASTE_THE_REAL_KEY_VALUE_HERE&quot;). MH must pull real BREVO_API_KEY from Vercel env panel and overwrite. After overwrite, remove the [&gt;] marker and close [x].</div>
         </article>
         <article class="item open" id="task-025">
           <header>
             <span class="id">#025</span>
             <span class="who who-cc">CC</span>
             <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-18</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">OOO BRIDGE (27-30 Apr)</span>
             
           </header>
           <p class="title">6 iOS screenshots at 6.9 inch + 4 Play screenshots at 16:9</p>
           <div class="note">rescheduled 2026-05-08: web-only launch 11 May. Screenshots require simulator with seeded data. Planned W/C 18 May per docs/12 §8.</div>
         </article>
+        <article class="item open" id="task-036">
+          <header>
+            <span class="id">#036</span>
+            <span class="who who-cc">CC</span>
+            <span class="prio p1">P1</span>
+            <span class="due ">2026-06-06</span>
+            <span class="sec">POST-LAUNCH (12-31 May)</span>
+            
+          </header>
+          <p class="title">Bug sweep</p>
+          <div class="note">camera upload retry + offline queue hardening (p:1, due 2026-06-06) — deferred from launch week; acceptable for F&amp;F web, required before native App Store submission.</div>
+        </article>
+        <article class="item open" id="task-044">
+          <header>
+            <span class="id">#044</span>
+            <span class="who who-cc">CC</span>
+            <span class="prio p1">P1</span>
+            <span class="due ">2026-06-06</span>
+            <span class="sec">POST-LAUNCH (12-31 May)</span>
+            
+          </header>
+          <p class="title">Wire e2e env</p>
+          <div class="note">create .env.test.local with Supabase service-role key + Stripe test keys so npm run test:e2e actually executes (p:1, due 2026-06-06)</div>
+        </article>
+        <article class="item open" id="task-045">
+          <header>
+            <span class="id">#045</span>
+            <span class="who who-cc">CC</span>
+            <span class="prio p1">P1</span>
+            <span class="due ">2026-06-06</span>
+            <span class="sec">POST-LAUNCH (12-31 May)</span>
+            
+          </header>
+          <p class="title">Lawyer formal sign-off letter (FR avocat + UK solicitor)</p>
+          <div class="note">agreed in principle 2026-05-08; formal letter required before paid signups open beyond F&amp;F cohort (p:1, due 2026-06-06)</div>
+        </article>
         <article class="item open" id="task-028">
           <header>
             <span class="id">#028</span>
             <span class="who who-mh">MH</span>
             <span class="prio p1">P1</span>
-            <span class="due overdue">2026-05-18</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
             
           </header>
           <p class="title">Firebase project setup for push notifications</p>
-          <div class="note">create Firebase project at console.firebase.google.com; add Android app (package world.tenu.app) + iOS app (bundle world.tenu.app); download google-services.json → android/app/ and GoogleService-Info.plist → ios/App/App/; run npx cap sync; create service account with &quot;Firebase Cloud Messaging Admin&quot; role; download service account JSON; add to Vercel env: FCM_PROJECT_ID, FCM_SERVICE_ACCOUNT_EMAIL, FCM_PRIVATE_KEY (p:1, due 2026-05-18)</div>
+          <div class="note">create Firebase project at console.firebase.google.com; add Android app (package world.tenu.app) + iOS app (bundle world.tenu.app); download google-services.json → android/app/ and GoogleService-Info.plist → ios/App/App/; run npx cap sync; create service account with &quot;Firebase Cloud Messaging Admin&quot; role; download service account JSON; add to Vercel env: FCM_PROJECT_ID, FCM_SERVICE_ACCOUNT_EMAIL, FCM_PRIVATE_KEY (p:1, due 2026-06-06)</div>
+        </article>
+        <article class="item open" id="task-004">
+          <header>
+            <span class="id">#004</span>
+            <span class="who who-mh">MH</span>
+            <span class="prio p1">P1</span>
+            <span class="due ">2026-06-12</span>
+            <span class="sec">THIS WEEKEND (17-20 Apr)</span>
+            
+          </header>
+          <p class="title">Recover Brevo account access</p>
+          <div class="note">can&#x27;t log in to dashboard as of 2026-05-03. Try password reset at app.brevo.com/account/login → mubashirr@gmail.com. If 2FA is the blocker, contact Brevo support (help.brevo.com) for identity-verified MFA reset. Search Downloads folder for any &quot;brevo&quot; or &quot;recovery&quot; file from original signup. Needed before F&amp;F cohort outcome data starts coming in mid-May (template tuning + bounce monitoring) (p:1, due 2026-06-12)</div>
+        </article>
+        <article class="item open" id="task-001">
+          <header>
+            <span class="id">#001</span>
+            <span class="who who-cc">CC</span>
+            <span class="prio p1">P1</span>
+            <span class="due ">2026-07-03</span>
+            <span class="sec">DECISION 2026-05-03 — Launch path: Option B (web-only on 11 </span>
+            
+          </header>
+          <p class="title">Move native-build MH lines (build:mobile, cap add, cap sync, Xcode, Android Studio) into the Native Build Bridge section dated 18-25 May</p>
+          <div class="note">keep their content verbatim, only re-section + re-date so the launch checklist stops bleeding red on items that were never blocking 11 May web-only (p:1, due 2026-07-03) — opened 2026-05-03.</div>
         </article>
         <article class="item open" id="task-023">
           <header>
@@ -662,92 +674,80 @@
           </header>
           <p class="title">Switch R2 PDF URLs to signed URLs with renewable TTL (default 30 days).</p>
           
-        </article>
-        <article class="item in_progress" id="task-029">
-          <header>
-            <span class="id">#029</span>
-            <span class="who who-mh">MH</span>
-            <span class="prio p1">P1</span>
-            <span class="due ">—</span>
-            <span class="sec">WEEK 2 (4-7 May + 8 May bank holiday) — submit + pray</span>
-            <span class="badge">IN PROGRESS</span>
-          </header>
-          <p class="title">Médiateur de la consommation</p>
-          <div class="note">sign with MEDICYS (medicys.fr → Adhérer → SIREN 941 666 067, ~€250-350, ~20 min online). Due 2026-05-09. Decision made: MEDICYS chosen over CM2C per brief at docs/legal/mediateur-decision-brief.md. Ping CC when membership certificate received → CC updates 5 [MEDIATEUR PENDING] placeholders in legal pages same day. Obligation L612-1 Code de la conso, hard blocker for commercial launch.</div>
         </article></div>
         </section>
 
         <section class="block block-p2">
           <h2><span class="dot" style="background:#3B82F6"></span>P2 — post-launch <span class="count">(5)</span></h2>
           <div class="items">
-        <article class="item open" id="task-046">
-          <header>
-            <span class="id">#046</span>
-            <span class="who who-cc">CC</span>
-            <span class="prio p2">P2</span>
-            <span class="due ">2026-05-22</span>
-            <span class="sec">POST-LAUNCH (12-31 May)</span>
-            
-          </header>
-          <p class="title">Consider promoting /inspection/new DPA gate from client-side useEffect to middleware for defence-in-depth</p>
-          <div class="note">currently a router.replace() in useEffect (f9aea8a), not server-enforced (p:2, due 2026-05-22)</div>
-        </article>
         <article class="item open" id="task-037">
           <header>
             <span class="id">#037</span>
             <span class="who who-cc">CC</span>
             <span class="prio p2">P2</span>
-            <span class="due ">—</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">POST-LAUNCH (12-31 May)</span>
             
           </header>
           <p class="title">Full T-103 suite</p>
-          <div class="note">24 unit + 10 E2E + 5 canaries + 20 evals + OWASP ZAP baseline (p:2)</div>
+          <div class="note">24 unit + 10 E2E + 5 canaries + 20 evals + OWASP ZAP baseline (p:2, due 2026-06-06)</div>
         </article>
         <article class="item open" id="task-038">
           <header>
             <span class="id">#038</span>
             <span class="who who-cc">CC</span>
             <span class="prio p2">P2</span>
-            <span class="due ">—</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">POST-LAUNCH (12-31 May)</span>
             
           </header>
           <p class="title">14-day outcome survey cron</p>
-          <div class="note">Brevo trigger + Supabase write-back (p:2)</div>
+          <div class="note">Brevo trigger + Supabase write-back (p:2, due 2026-06-06)</div>
         </article>
         <article class="item open" id="task-039">
           <header>
             <span class="id">#039</span>
             <span class="who who-cc">CC</span>
             <span class="prio p2">P2</span>
-            <span class="due ">—</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">POST-LAUNCH (12-31 May)</span>
             
           </header>
           <p class="title">Additional UI locales</p>
-          <div class="note">ar, zh, hi, ur, ja, es, it, uk, pt, ko staged rollout (p:2)</div>
+          <div class="note">ar, zh, hi, ur, ja, es, it, uk, pt, ko staged rollout (p:2, due 2026-06-06)</div>
         </article>
         <article class="item open" id="task-040">
           <header>
             <span class="id">#040</span>
             <span class="who who-cc">CC</span>
             <span class="prio p2">P2</span>
-            <span class="due ">—</span>
+            <span class="due ">2026-06-06</span>
             <span class="sec">POST-LAUNCH (12-31 May)</span>
             
           </header>
           <p class="title">App Store + Play production updates with post-launch fixes</p>
           
+        </article>
+        <article class="item open" id="task-046">
+          <header>
+            <span class="id">#046</span>
+            <span class="who who-cc">CC</span>
+            <span class="prio p2">P2</span>
+            <span class="due ">2026-06-06</span>
+            <span class="sec">POST-LAUNCH (12-31 May)</span>
+            
+          </header>
+          <p class="title">Consider promoting /inspection/new DPA gate from client-side useEffect to middleware for defence-in-depth</p>
+          <div class="note">currently a router.replace() in useEffect (f9aea8a), not server-enforced (p:2, due 2026-06-06)</div>
         </article></div>
         </section>
 
 <footer>
   <div>Regenerated by <code>scripts/dashboard-build.py</code> · self-contained · Chart.js 4.4.1 via CDN</div>
-  <div>51 tasks · 41 overdue · 3 in progress · IDs stable while TASKS.md order is preserved</div>
+  <div>51 tasks · 0 overdue · 3 in progress · IDs stable while TASKS.md order is preserved</div>
 </footer>
 
 </div><script>
-new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['P0','P1','P2'],datasets:[{data:[31,15,5],backgroundColor:['#FCA5A5','#FCD34D','#93C5FD'],borderColor:['#B91C1C','#B45309','#1E40AF'],borderWidth:1,borderRadius:4}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#E5E0D5'}},y:{grid:{display:false}}}}});
+new Chart(document.getElementById('c1'),{type:'bar',data:{labels:['P0','P1','P2'],datasets:[{data:[34,12,5],backgroundColor:['#FCA5A5','#FCD34D','#93C5FD'],borderColor:['#B91C1C','#B45309','#1E40AF'],borderWidth:1,borderRadius:4}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'#E5E0D5'}},y:{grid:{display:false}}}}});
 new Chart(document.getElementById('c2'),{type:'doughnut',data:{labels:['MH (Dr Mubashir)','CC (Claude)'],datasets:[{data:[37,14],backgroundColor:['#3730A3','#065F46'],borderColor:'#fff',borderWidth:2}]},options:{plugins:{legend:{position:'bottom'}},cutout:'62%'}});
 </script></body></html>
