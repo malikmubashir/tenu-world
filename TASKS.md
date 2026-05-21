@@ -6,7 +6,7 @@
 # To add new tasks: run python3 scripts/tasks-id-stamp.py (auto-assigns next #TNNN to any line without one).
 # Protocol: CLAUDE.md > "Task Tracker Protocol" section.
 # Owned by Dr Mubashir + Claude.
-# Last sync: 2026-05-08
+# Last sync: 2026-05-21
 # Launch target: Wed 15 Jul 2026 (public). Soft launch 11 May was retired; see project_tenu_reschedule_2026_05_18 memory.
 # OOO: Dr Mubashir off 27-30 Apr (works nights during OOO)
 
@@ -254,3 +254,15 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 
 - [ ] MH: #T118 Fix obsidian-vault MCP config — `allowedDirectory` currently points at `/Users/mmh/Code/Tenu.World`, should point at `/Users/mmh/Documents/Obsidian Vault`. Edit the MCP server JSON config in Cowork Settings → MCP Servers. Once fixed, the EOS protocol will write session logs to `~/Documents/Obsidian Vault/01-Global-Apex/Sessions/` instead of the in-repo fallback. (p:1, due 2026-05-25)
 - [ ] MH: #T119 Mount `~/Code/Tenu.World/` in the scheduled-task sandbox — current state is the daily-push job AND the new tenu-eos-rollup job both fail because the sandbox doesn't see the repo. Add the folder to the scheduled-task sandbox mount config in Cowork Settings. (p:1, due 2026-05-25)
+
+## 2026-05-21 — Tracker SSOT adoption + EOS protocol
+
+- Adopted `dashboard.html` as SSOT view, bookmarked by Dr Mubashir.
+- Retrofitted permanent `#TNNN` IDs into every task line (117 retrofitted + 2 new = 119 assigned, counter at #T120).
+- Re-baselined 48 task due-dates against the six-phase plan; result 0 overdue vs 41 before.
+- Retired the xlsx mirror + `tracker-refresh.py` + `tracker-serve.py` + interim `.push-queue/`.
+- New scripts: `scripts/dashboard-build.py` + `scripts/tasks-id-stamp.py`.
+- New rule memory: `feedback_eos_farewell_protocol.md` (triggers EOS routine on bye/bonne nuit/allah hafiz/ttyl/...).
+- New scheduled task: `tenu-eos-rollup` at 23:30 Paris (safety net for forgotten sign-offs).
+- Updated protocol docs: `CLAUDE.md`, `CLAUDE-CONTEXT.md`, `.claude/settings.local.json`.
+- 2 new MH lines: `#T118` (fix obsidian-vault MCP) + `#T119` (mount Tenu.World in scheduled-task sandbox).
