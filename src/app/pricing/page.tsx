@@ -256,6 +256,10 @@ export default function PricingPage() {
     <div className="min-h-screen bg-tenu-canvas">
       <main className="mx-auto max-w-xl px-4 py-12 md:py-16">
         <div className="mb-10 text-start">
+          {/* v2.1 (#T167) — kicker-rule treatment: the page has no
+              eyebrow copy, so the bare 1px gold rule (same geometry
+              as .ed-kicker::before) opens the page instead. */}
+          <div aria-hidden="true" className="mb-4 h-px w-8 bg-tenu-gold" />
           <h1 className="t-section-heading">
             {copy.heading}
           </h1>

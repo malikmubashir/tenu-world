@@ -1,7 +1,12 @@
 // SiteFooter — typographic editorial footer shared by every public
-// web surface (Éditorial v2, #T149). 1px hairline top rule, white
-// ground, underlined ink links, ash copyright line. No fills, no
-// icons, no chrome — the footer is set like a colophon.
+// web surface (Éditorial v2, #T149). White ground, underlined ink
+// links, ash copyright line. No fills, no icons, no chrome — the
+// footer is set like a colophon.
+//
+// v2.1 (#T167): the top rule is the site's SIGNATURE 1px gold rule
+// (.ed-rule-gold) — the single consistent gold placement in the
+// chrome, like the rule above a colophon in a bound report. Do not
+// repeat it elsewhere.
 //
 // Server component, no locale dependency: legal links carry their
 // own FR/EN labels (each document ships both languages).
@@ -21,7 +26,7 @@ const LINKS = [
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t t-hairline bg-tenu-canvas">
+    <footer className="ed-rule-gold bg-tenu-canvas">
       <div className="ed-frame py-10 md:py-12">
         <div className="flex flex-col gap-6 md:flex-row md:items-baseline md:justify-between">
           <span className="t-wordmark text-2xl">tenu</span>

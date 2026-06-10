@@ -7,10 +7,18 @@
    THEME: "Éditorial" v2 (2026-06-10, #T149 — see
    docs/brand/DESIGN-EDITORIAL-2026-06-10.md). Swiss-grid editorial
    system: white canvas, 1px hairline structure, absolute black ink,
-   whisper-weight display type, signal-blue links, inverted black
-   bands. Actions are underlined typographic links — the ONLY filled
-   button in the system is .t-cta-primary (approved MH exception for
-   primary commercial actions: Pay / Run scan / Start).
+   whisper-weight display type. Actions are underlined typographic
+   links — the ONLY filled button in the system is .t-cta-primary
+   (approved MH exception for primary commercial actions: Pay /
+   Run scan / Start).
+
+   v2.1 accent layer (#T167, 2026-06-10 evening, owner override):
+   inversion bands and the CTA fill are deep navy (not black), links
+   are navy ink, and gold appears as LINES AND MICRO-DETAILS ONLY —
+   .ed-kicker (1px gold rule above section labels), .ed-rule-gold
+   (the single signature rule, used at the top of the footer), and
+   the key-value circle strokes. Gold is never a fill and never body
+   text. Colour values live in theme.css.
 
    This file deliberately carries NO colour values or type scale.
    All of that lives in theme.css so a single token swap repaints
@@ -145,6 +153,15 @@ html, body {
     color: var(--color-tenu-ink);
   }
 
+  /* Conversion-hero display clamp (v2.1, #T167) — the 100px display
+     token pushes the CTA below the fold in the split hero. Cap at
+     ~76px (≈66px at 1440) so kicker, headline, subtext, CTA pair and
+     the photographic plate all share the first viewport. Apply ON TOP
+     of .t-display; only the size changes. */
+  .ed-display-hero {
+    font-size: clamp(2.5rem, 4vw + 0.5rem, 4.75rem);
+  }
+
   .t-section-heading {
     font-size: var(--font-size-section);
     line-height: var(--leading-section);
@@ -199,6 +216,35 @@ html, body {
     color: var(--color-tenu-ink);
   }
 
+  /* Gold Kicker (v2.1, #T167) — the SECTION-OPENING variant of the
+     label: a short 1px gold rule sits above the label text. The text
+     itself stays ink, weight 500 (gold is never text). Reserved for
+     section/page openers — row-level eyebrows inside lists keep the
+     plain .ed-label. On navy bands the rule lifts to gold-soft and
+     the text goes white (see .ed-band override below). */
+  .ed-kicker {
+    display: block;
+    font-size: var(--font-size-label);
+    letter-spacing: var(--tracking-tight);
+    font-weight: var(--font-weight-label);
+    color: var(--color-tenu-ink);
+  }
+  .ed-kicker::before {
+    content: "";
+    display: block;
+    inline-size: 2rem;
+    block-size: var(--hairline);
+    background: var(--color-tenu-gold);
+    margin-block-end: 0.625rem;
+  }
+
+  /* Signature gold rule (v2.1, #T167) — ONE consistent placement
+     site-wide: the top of the footer (the colophon rule). Do not
+     scatter this class elsewhere; restraint is the point. */
+  .ed-rule-gold {
+    border-block-start: var(--hairline) solid var(--color-tenu-gold);
+  }
+
   /* Wordmark — UNCHANGED per MH. Inter Tight Medium, lowercase,
      tracking -0.04em. Default colour is now chrome ink (the header
      is white); override inline on inverted surfaces. */
@@ -249,8 +295,9 @@ html, body {
     text-decoration-color: var(--color-tenu-accent);
   }
 
-  /* Underlined link on an inverted black band. White underline; hover
-     softens to Ash (blue stays off the black ground). */
+  /* Underlined link on an inverted navy band. White underline; hover
+     softens to Ash (accent ink stays off the navy ground — it would
+     vanish against it). */
   .ed-link-inverted {
     color: var(--color-tenu-cta-text);
     font-weight: var(--font-weight-label);
@@ -270,8 +317,9 @@ html, body {
   /* ---------- CTAs ---------- */
 
   /* APPROVED EXCEPTION (MH 2026-06-10): primary commercial actions
-     (Pay, Run scan, Start) are a filled #000 rectangle, 0px radius,
-     white text. Everything else on the site is a typographic link. */
+     (Pay, Run scan, Start) are a filled rectangle, 0px radius, white
+     text — deep navy as of v2.1 (--color-tenu-cta). Everything else
+     on the site is a typographic link. */
   .t-cta-primary {
     display: inline-flex;
     align-items: center;
@@ -328,8 +376,9 @@ html, body {
     padding-block: var(--section-padding-y);
   }
 
-  /* Inverted Black Band — the sole elevation shift in the system.
-     Full-width #000 ground, white text, 64–80px vertical padding. */
+  /* Inverted Band — the sole elevation shift in the system. Deep navy
+     ground (v2.1; was #000), white text, 64–80px vertical padding.
+     Gold details on the band use gold-soft (lifted for contrast). */
   .ed-band {
     background: var(--color-tenu-band-inverted);
     color: var(--color-tenu-cta-text);
@@ -337,8 +386,12 @@ html, body {
   }
   .ed-band .t-display, .ed-band .ed-display,
   .ed-band .t-section-heading, .ed-band .t-h3,
-  .ed-band .t-label, .ed-band .ed-label {
+  .ed-band .t-label, .ed-band .ed-label,
+  .ed-band .ed-kicker {
     color: var(--color-tenu-cta-text);
+  }
+  .ed-band .ed-kicker::before {
+    background: var(--color-tenu-gold-soft);
   }
   .ed-band .t-body { color: var(--color-tenu-cta-text); }
   .ed-band .t-body-muted, .ed-band .t-small-muted, .ed-band .t-caption {

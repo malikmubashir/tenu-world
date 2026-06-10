@@ -253,7 +253,7 @@ export default async function SuziStory() {
         </section>
 
         <section className="t-section-canvas ed-frame text-start">
-          <span className="ed-label mb-8 inline-block">{c.eyebrow}</span>
+          <span className="ed-kicker mb-8 inline-block">{c.eyebrow}</span>
           <h1 className="t-display max-w-6xl">{c.title}</h1>
           <p className="t-body-muted mt-8 max-w-2xl">{c.lede}</p>
           <p className="t-caption mt-4 max-w-2xl">{c.disclaimer}</p>

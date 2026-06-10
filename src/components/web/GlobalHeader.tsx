@@ -17,7 +17,7 @@ import UserMenu from "./UserMenu";
  * The disc mark + Inter Tight wordmark are UNCHANGED per MH; only the
  * mark's container colour follows the achromatic chrome (ink on white).
  * The sign-up action is a primary commercial action and therefore uses
- * the approved filled-black exception (.t-cta-primary).
+ * the approved filled-CTA exception (deep navy as of v2.1, #T167).
  *
  * Not a client component: auth state lives server-side. The avatar
  * menu (UserMenu) is the only client island and only mounts when a

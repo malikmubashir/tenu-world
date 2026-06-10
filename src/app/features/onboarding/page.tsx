@@ -199,7 +199,7 @@ export default async function OnboardingFeature() {
 
       <main className="flex flex-1 flex-col">
         <section className="t-section-canvas ed-frame text-start">
-          <span className="ed-label mb-8 inline-block">{c.eyebrow}</span>
+          <span className="ed-kicker mb-8 inline-block">{c.eyebrow}</span>
           <h1 className="t-display max-w-6xl">{c.title}</h1>
           <p className="t-body-muted mt-8 max-w-2xl">{c.lede}</p>
         </section>

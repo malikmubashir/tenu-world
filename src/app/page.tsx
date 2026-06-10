@@ -124,8 +124,10 @@ async function getLocale(): Promise<Locale> {
 }
 
 // Thin-stroke circular line motif — the only decorative graphic the
-// editorial system permits (spec §Key Value Cell). 1px hairline
-// stroke, no fill; the cell text breaks across the circle's edge.
+// editorial system permits (spec §Key Value Cell). 1px stroke, no
+// fill; the cell text breaks across the circle's edge. v2.1 (#T167):
+// the stroke takes gold — a line-art micro-detail, the one place
+// gold draws a shape rather than a rule.
 function BlueprintCircle() {
   return (
     <svg
@@ -138,7 +140,7 @@ function BlueprintCircle() {
         cy="100"
         r="99"
         fill="none"
-        stroke="var(--color-tenu-hairline)"
+        stroke="var(--color-tenu-gold)"
         strokeWidth="1"
       />
     </svg>
@@ -194,58 +196,72 @@ export default async function Home() {
       />
 
       {/*
-        Éditorial v2 scroll (top to bottom):
-          1. Hero plate    — full-bleed photograph, no text overlay. The image leads alone.
-          2. Headline      — 100px display, flush-left, short body, CTA pair.
-          3. Key values    — 4-up hairline blueprint grid (trust proofs).
-          4. Cases         — hairline-divided editorial rows from the story manifest.
-          5. Mid plate     — second full-bleed photograph.
-          6. Features      — numbered 6-up hairline grid, no icons.
-          7. App band      — inverted black band (download section).
-          8. Closing       — flush-left CTA, legal micro-copy.
+        Éditorial v2.1 scroll (top to bottom):
+          1. Conversion hero — split layout, everything in the first
+             viewport: kicker, clamped display headline, subtext,
+             CTA pair AND the photographic plate. Sells in one screen:
+             rights anxiety → photo evidence → €15.
+          2. Key values    — 4-up hairline blueprint grid (trust proofs).
+          3. Cases         — hairline-divided editorial rows from the story manifest.
+          4. Mid plate     — full-bleed photograph.
+          5. Features      — numbered 6-up hairline grid, no icons.
+          6. App band      — inverted navy band (download section).
+          7. Closing       — flush-left CTA, legal micro-copy.
         All visual decisions live in theme.css / globals.css. Markup uses
         .t-* / .ed-* semantic classes and logical properties (RTL-safe).
       */}
       <main className="flex flex-1 flex-col">
 
-        {/* ---------- 1. HERO PLATE — image leads alone ---------- */}
-        <section className="relative h-[48vh] min-h-[320px] w-full md:h-[70vh]">
-          <Image
-            src={HERO_PLATE}
-            alt="Sunlit Haussmannian apartment with herringbone parquet, white panelled walls and tall windows"
-            fill
-            priority
-            loading="eager"
-            sizes="100vw"
-            className="object-cover"
-          />
-        </section>
-
-        {/* ---------- 2. DISPLAY HEADLINE ---------- */}
+        {/* ---------- 1. CONVERSION HERO — split plate (#T167) ----------
+            Desktop: text column at the inline-start (~45%), full-height
+            plate at the inline-end (~55%); section height ≈ 100svh minus
+            the 4rem (h-16) header, so the hero bottoms out exactly at
+            the first fold. Mobile: plate on top (~38svh), text + CTA
+            below, all within the first scroll. flex-row-reverse on a
+            DOM order of [plate, text] keeps the plate first for the
+            mobile column AND resolves to the inline-end on desktop —
+            RTL mirrors for free. */}
         <section className="hig-fade-in border-b t-hairline">
-          <div className="ed-frame py-16 text-start md:py-24">
-            {hero.eyebrow && (
-              <p className="ed-label mb-8">{hero.eyebrow}</p>
-            )}
-            <h1 className="t-display max-w-6xl">{hero.title}</h1>
-            <p className="t-body-muted mt-8 max-w-2xl text-lg">{hero.subtitle}</p>
-            {hero.pricePromise && (
-              <p className="t-body mt-3 max-w-2xl font-medium">
-                {hero.pricePromise}
+          <div className="flex flex-col lg:min-h-[calc(100svh-4rem)] lg:flex-row-reverse">
+            <div className="relative h-[38svh] min-h-60 w-full lg:h-auto lg:min-h-0 lg:w-[55%]">
+              <Image
+                src={HERO_PLATE}
+                alt="Sunlit Haussmannian apartment with herringbone parquet, white panelled walls and tall windows"
+                fill
+                priority
+                loading="eager"
+                sizes="(min-width: 1024px) 55vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="flex w-full flex-col justify-center px-6 py-10 text-start md:px-12 lg:w-[45%] lg:py-16">
+              {hero.eyebrow && (
+                <p className="ed-kicker mb-6">{hero.eyebrow}</p>
+              )}
+              <h1 className="t-display ed-display-hero max-w-2xl">
+                {hero.title}
+              </h1>
+              <p className="t-body-muted mt-5 max-w-md text-lg">
+                {hero.subtitle}
               </p>
-            )}
-            <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-4">
-              <Link href="/inspection/new" className="t-cta-primary hig-press">
-                {hero.cta}
-              </Link>
-              <Link href="#example" className="t-cta-ghost hig-press">
-                {hero.ctaSecondary} →
-              </Link>
+              {hero.pricePromise && (
+                <p className="t-body mt-3 max-w-md font-medium">
+                  {hero.pricePromise}
+                </p>
+              )}
+              <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-4">
+                <Link href="/inspection/new" className="t-cta-primary hig-press">
+                  {hero.cta}
+                </Link>
+                <Link href="#example" className="t-cta-ghost hig-press">
+                  {hero.ctaSecondary} →
+                </Link>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ---------- 3. KEY VALUES — 4-up blueprint grid ---------- */}
+        {/* ---------- 2. KEY VALUES — 4-up blueprint grid ---------- */}
         {trust?.heading && trust?.items && (
           <section className="border-b t-hairline">
             <div className="ed-frame py-16 md:py-20">
@@ -279,14 +295,14 @@ export default async function Home() {
           </section>
         )}
 
-        {/* ---------- 4. CASES — editorial rows (manifest-driven) ---------- */}
+        {/* ---------- 3. CASES — editorial rows (manifest-driven) ---------- */}
         {/* Reads from getFeaturedStories(). Adding a new case = one append to
             src/lib/stories.ts with featured: true. Nothing else changes here. */}
         {example?.heading && featured.length > 0 && (
           <section id="example" className="border-b t-hairline">
             <div className="ed-frame py-16 md:py-20">
               {example.label && (
-                <p className="ed-label mb-6">{example.label}</p>
+                <p className="ed-kicker mb-6">{example.label}</p>
               )}
               <h2 className="t-section-heading max-w-4xl">{example.heading}</h2>
               {example.intro && (
@@ -333,7 +349,7 @@ export default async function Home() {
           </section>
         )}
 
-        {/* ---------- 5. MID PLATE ---------- */}
+        {/* ---------- 4. MID PLATE ---------- */}
         <section className="relative h-[36vh] min-h-[260px] w-full md:h-[55vh]">
           <Image
             src={MID_PLATE}
@@ -344,11 +360,11 @@ export default async function Home() {
           />
         </section>
 
-        {/* ---------- 6. FEATURES — numbered hairline grid, no icons ---------- */}
+        {/* ---------- 5. FEATURES — numbered hairline grid, no icons ---------- */}
         <section id="features" className="border-y t-hairline">
           <div className="ed-frame py-16 md:py-20">
             {(features.eyebrow as string) && (
-              <p className="ed-label mb-6">{features.eyebrow as string}</p>
+              <p className="ed-kicker mb-6">{features.eyebrow as string}</p>
             )}
             <h2 className="t-section-heading max-w-4xl">
               {features.heading as string}
@@ -379,11 +395,14 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ---------- 7. APP BAND — inverted black ---------- */}
+        {/* ---------- 6. APP BAND — inverted navy ---------- */}
         {app?.heading && (
           <section className="ed-band">
             <div className="ed-frame grid gap-10 md:grid-cols-2 md:gap-16">
               <div>
+                {/* v2.1 — gold-soft rule detail on the navy band (the
+                    band's only gold; mirrors the kicker rule geometry). */}
+                <div aria-hidden="true" className="mb-6 h-px w-8 bg-tenu-gold-soft" />
                 <h2 className="t-section-heading">{app.heading}</h2>
                 {app.subtext && (
                   <p className="t-body-muted mt-6 max-w-md">{app.subtext}</p>
@@ -407,7 +426,7 @@ export default async function Home() {
           </section>
         )}
 
-        {/* ---------- 8. CLOSING ---------- */}
+        {/* ---------- 7. CLOSING ---------- */}
         {closing?.heading && (
           <section>
             <div className="ed-frame py-16 text-start md:py-24">

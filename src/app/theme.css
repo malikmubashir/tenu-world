@@ -26,17 +26,24 @@
 
 @theme {
   /* ---------- 1. PALETTE (raw values — only change here) ---------- */
-  --palette-accent:        #2563eb; /* Signal Blue — links / active / focus ONLY, never fills */
-  --palette-accent-hover:  #1d4ed8; /* darkened state of the same hue — no second accent */
+  /* v2.1 accent layer (MH direction 2026-06-10 evening): dark navy +
+     gold join the system — navy for inversion bands, CTA fill, and
+     link ink; gold STRICTLY for lines and micro-details (1px rules,
+     kicker labels, footer rule). Gold is never body text (fails
+     contrast) and never a fill. Canvas stays white, ink stays black. */
+  --palette-accent:        #1E4477; /* Navy link ink — links / active states, underlined */
+  --palette-accent-hover:  #0B1F3A; /* deep navy on hover/active */
   --palette-ink:           #000000; /* Absolute Black — headings / body / nav */
   --palette-ink-muted:     #6b7280; /* Stone Gray — quiet UI feedback, badge text */
   --palette-ash:           #b3b3b3; /* Ash — muted body, captions, placeholders */
   --palette-quartz:        #bbbbbb; /* Quartz — tertiary text, fine print */
   --palette-canvas:        #ffffff; /* Pure White — the only light surface */
-  --palette-band:          #ffffff; /* no off-white surfaces; use hairline frames or black bands */
-  --palette-band-inverted: #000000; /* Inverted Black band — the sole elevation shift */
+  --palette-band:          #ffffff; /* no off-white surfaces; use hairline frames or navy bands */
+  --palette-band-inverted: #0B1F3A; /* Deep Navy inversion band — the sole elevation shift */
   --palette-hairline:      #e5e7eb; /* Hairline Gray — load-bearing structural borders */
-  --palette-cta:           #000000; /* APPROVED EXCEPTION — filled primary action */
+  --palette-gold:          #C4A35A; /* Gold — 1px accent rules, kicker labels, fine details ONLY */
+  --palette-gold-soft:     #D4B86A; /* Gold on navy bands (slightly lifted for contrast) */
+  --palette-cta:           #0B1F3A; /* APPROVED EXCEPTION — filled primary action, deep navy */
   --palette-cta-text:      #ffffff;
   --palette-danger:        #DC2626; /* functional form states only — not chrome */
   --palette-warning:       #F59E0B;
@@ -66,6 +73,8 @@
   --color-tenu-band:         var(--palette-band);
   --color-tenu-band-inverted: var(--palette-band-inverted);
   --color-tenu-hairline:     var(--palette-hairline);
+  --color-tenu-gold:         var(--palette-gold);
+  --color-tenu-gold-soft:    var(--palette-gold-soft);
   --color-tenu-cta:          var(--palette-cta);
   --color-tenu-cta-text:     var(--palette-cta-text);
   --color-tenu-danger:       var(--palette-danger);
@@ -87,8 +96,7 @@
   --color-tenu-cream:        var(--color-tenu-canvas);
   --color-tenu-cream-dark:   var(--color-tenu-band);
   --color-tenu-slate:        var(--color-tenu-ink);
-  --color-tenu-gold:         var(--color-tenu-ink-muted); /* gold retired — achromatic system */
-  --color-tenu-gold-light:   var(--color-tenu-ash);
+  --color-tenu-gold-light:   var(--palette-gold-soft); /* legacy alias → v2.1 gold (un-retired 2026-06-10 evening) */
 
   /* ---------- 4. TYPOGRAPHY ----------
      Single typeface: Inter (closest free substitute for Plain per
