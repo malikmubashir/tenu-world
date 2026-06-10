@@ -266,3 +266,22 @@ Context: Vercel disclosed April 19 2026 a Context.ai OAuth supply-chain breach. 
 - New scheduled task: `tenu-eos-rollup` at 23:30 Paris (safety net for forgotten sign-offs).
 - Updated protocol docs: `CLAUDE.md`, `CLAUDE-CONTEXT.md`, `.claude/settings.local.json`.
 - 2 new MH lines: `#T118` (fix obsidian-vault MCP) + `#T119` (mount Tenu.World in scheduled-task sandbox).
+
+## 2026-05-22 — RGPD itération DPO Renaud (AP3R Consulting)
+
+Renaud (AP3R) a renvoyé la V1 du document RGPD avec quatre artefacts annotés (repères CGV, article CGV data, mentions légales, politique de confidentialité) et trois questions. V2 produite avec typos URL/code postal corrigés partout, durées de rétention harmonisées, bloc hébergeur ajouté. Question téléphone éditeur renvoyée à Renaud (la SAS n'a pas de ligne pro, MH refuse de publier son mobile perso). Trois confirmations admin Supabase + Anthropic encore dues à Renaud.
+
+- [x] MH: #T120 RGPD V1 envoyée à Renaud (AP3R) le 17 mai 2026, réponse reçue le 22 mai 2026 avec quatre artefacts annotés + trois questions (p:0, due 2026-05-22) — done 2026-05-22.
+- [x] CC: #T121 RGPD V2 — typos URL corrigées partout (tenu.world.fr → tenu.world ; dpo@tenu.world unique ; code postal 78280 Guyancourt) (p:0, due 2026-05-22) — done 2026-05-22.
+- [x] CC: #T122 RGPD V2 — question Stripe DPO tranchée : PAN jamais collecté côté éditeur (Stripe Elements), seules métadonnées non sensibles via Stripe Dashboard. Deux énoncés fusionnés en une phrase claire (p:0, due 2026-05-22) — done 2026-05-22.
+- [x] CC: #T123 RGPD V2 — durées de rétention article 8 harmonisées texte/tableau : photos 30j (R2 auto-purge), PDF générés 24m, compte 12m unique (suppression double règle 14m), facturation 10a (L 123-22), logs 6m, traçabilité 12m (p:0, due 2026-05-22) — done 2026-05-22.
+- [x] CC: #T124 RGPD V2 — adresse contact unique dpo@tenu.world pour tous les droits, privacy@tenu.world retirée du document (p:0, due 2026-05-22) — done 2026-05-22.
+- [x] CC: #T125 RGPD V2 — bloc hébergeur ajouté aux mentions légales : Vercel Inc., 340 S Lemon Avenue #4133, Walnut, CA 91789, infra CDG Paris, privacy@vercel.com. Directeur publication = Malik Mubashir Hassan, Président Global Apex.Net (p:0, due 2026-05-22) — done 2026-05-22.
+- [x] CC: #T126 RGPD V2 — fichier livré sous Cowork outputs/ : `2026 05 22 tenu world - rgpd - V2 - Mubashir.docx` + corps email `reponse-Renaud-V2.txt` prêt à coller dans Gmail (p:0, due 2026-05-22) — done 2026-05-22.
+- [x] MH: #T127 RGPD V2 — envoyer mail à Renaud (rdelaruelle@ap3rconsulting.fr) avec V2.docx en pièce jointe, corps prêt dans outputs/reponse-Renaud-V2.txt (p:0, due 2026-05-23) — done 2026-05-22 : mail + V2.docx envoyés à Renaud. Question téléphone éditeur posée. En attente retour.
+- [ ] MH: #T128 RGPD V2 — question téléphone éditeur renvoyée à Renaud (LCEN + L221-5 Code conso). La SAS n'a pas de ligne pro, MH refuse de publier mobile perso. Récupérer réponse Renaud (p:0, due 2026-05-27)
+- [ ] MH: #T129 RGPD V2 — si Renaud exige téléphone : ouvrir ligne virtuelle Aircall / OnOff / Ringover (€15-25/mois), insérer numéro dans mentions légales (p:1, due 2026-05-28)
+- [ ] MH: #T130 RGPD — capture Supabase Dashboard > Auth > Email > « OTP Expiry » = 3600s, datée, archiver dans dossier conformité (p:0, due 2026-05-28)
+- [ ] MH: #T131 RGPD — confirmer plan Supabase actif + durée effective PITR (typiquement 7 jours sur plan Pro), capture datée (p:0, due 2026-05-28)
+- [ ] MH: #T132 RGPD — activer Zero Data Retention sur org Anthropic + capture de l'écran confirmant l'activation contractuelle (p:0, due 2026-05-28)
+- [ ] MH: #T133 RGPD — livrer version définitive (V3 ou V2 validée) à Renaud après intégration du téléphone éditeur + trois confirmations admin Supabase/Anthropic (p:0, due 2026-05-31)
