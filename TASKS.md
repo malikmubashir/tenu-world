@@ -323,7 +323,7 @@ MH explicitly unlocked the brand palette/identity and adopted the editorial Swis
 
 ### Éditorial v2 follow-ups (opened 2026-06-10, post-redesign seams)
 
-- [ ] MH: #T153 Apply Supabase migrations 008 + 009 to live project BEFORE next git push — main auto-deploys and the new scan/notify code requires them; without 008 the scan path is broken in prod (p:0, due 2026-06-11) — alternatively authorize CC to apply via Supabase MCP
+- [-] MH: #T153 Apply Supabase migrations 008 + 009 to live project BEFORE next git push — main auto-deploys and the new scan/notify code requires them; without 008 the scan path is broken in prod (p:0, due 2026-06-11) — alternatively authorize CC to apply via Supabase MCP — dropped 2026-06-10: superseded by full DB cutover decision (deploy from scratch on eu-central, abandon legacy).
 - [ ] MH: #T154 Review the 5 Unsplash plates on the next preview/prod deploy (homepage ×2, stories ×3) — chosen blind, URLs listed in commit; swap any misses (p:1, due 2026-06-13)
 - [ ] MH: #T155 Run `node scripts/generate-icons.mjs` on the Mac and commit resources/icons-generated/ — sharp binary is darwin-only, sandbox cannot (p:1, due 2026-06-13)
 - [ ] CC: #T156 Mobile SubmitFlow payment handoff — flow now correctly receives 402 on unpaid scan; needs a checkout step or pending-payment screen before iOS submission (p:1, due 2026-06-28)
@@ -331,3 +331,14 @@ MH explicitly unlocked the brand palette/identity and adopted the editorial Swis
 - [ ] CC: #T158 Restyle src/lib/pdf report + letterhead to Éditorial v2 — BRAND-GUIDELINES §12-14 now prescribe black header strips; code diverges (p:1, due 2026-06-21)
 - [ ] CC: #T159 Remove stale DISPUTE_PAYMENT_GATE_BYPASS branch + comment — webhook pre-insert is live; bypass must not survive to 15 Jul (p:1, due 2026-07-01)
 - [ ] MH: #T160 Commission real editorial photography (Parisian interiors) to replace Unsplash interim before public launch (p:2, due 2026-07-10)
+
+## DECISION 2026-06-10 — Supabase cutover: deploy from scratch on tenu-world-eu-central, abandon legacy
+
+MH decision: new production base = tenu-world-eu-central (dsbzgrjtiklmxjozbdjv, eu-central-1/Frankfurt — fixes the RGPD residency wart of legacy eu-west-2/London). Legacy umvcjasalzcgtfwsjbfw abandoned (1 auth user, 0 business rows) and deleted after smoke test. Audit findings: old migration chain was never replayable; live legacy was missing code-required photos columns, dispute_letters UPDATE policy, inspections AI-route columns, device_tokens table — inspection/photo/dispute flows were latently broken in prod (masked by zero usage). New baseline = code-truth union, RLS verified, security advisors clean.
+
+- [x] CC: #T161 DB cutover — consolidated baseline 0001_init_eu_baseline + 0002 lockdown applied to eu-central; 117-pair code-contract diff zero-miss; RLS + grants verified; advisors zero findings; old migrations archived to supabase/migrations-archive-legacy/; schema.sql regenerated as documentation mirror; architecture docs + CLAUDE.md + env template updated (p:0, due 2026-06-10) — done 2026-06-10
+- [ ] MH: #T162 Cutover step 1 — Vercel env swap (Prod+Preview): NEXT_PUBLIC_SUPABASE_URL=https://dsbzgrjtiklmxjozbdjv.supabase.co + new ANON_KEY + SERVICE_ROLE_KEY from dashboard Settings>API, then redeploy. MUST happen before the next git push deploys the new code (p:0, due 2026-06-11)
+- [ ] MH: #T163 Cutover step 2 — Supabase Auth config on new project: Site URL https://tenu.world, redirect URLs (auth/callback + dev/Capacitor), Brevo custom SMTP, OTP expiry 3600s. Note: #T130 RGPD screenshot must be re-captured on the NEW project (p:0, due 2026-06-11)
+- [ ] MH: #T164 Cutover step 3 — update local .env.local from template, git push origin main (deploys redesign + payment fixes against new base) (p:0, due 2026-06-11)
+- [ ] MH: #T165 Cutover step 4 — smoke test on prod: signup, DPA, create inspection + photos (web+mobile paths), Stripe test checkout → status paid, scan, dispute generation, push-token (p:0, due 2026-06-12)
+- [ ] MH: #T166 Cutover step 5 — ONLY after smoke test passes: delete legacy Supabase project umvcjasalzcgtfwsjbfw from dashboard (p:0, due 2026-06-13)

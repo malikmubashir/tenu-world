@@ -11,6 +11,7 @@ Where things stand:
 - **iOS:** Apple Developer enrolled (Team XWP5RS8Q4H); build 1.0(1) uploaded to TestFlight 2026-05-09. Internal device test + App Review submission pending — decision point 1 Jul (submit or decouple from launch).
 - **Android:** Play Console account not yet opened (#T020). Recommendation in replan: ship Android post-launch; open the account immediately regardless.
 - **Bedrock migration:** WIP parked on `feat/bedrock-migration`. Not a launch dependency — does NOT merge before 15 Jul.
+- **Supabase:** cutover to tenu-world-eu-central (dsbzgrjtiklmxjozbdjv, eu-central-1) 2026-06-10 — legacy eu-west-2 abandoned, deletion pending cutover smoke test.
 
 Top blockers (all MH-owned, all overdue or scheduled too late — see docs/16):
 1. RGPD V3 with DPO Renaud (AP3R) — #T128, #T130–#T133, overdue since late May; blocked on 3 admin screenshots + téléphone éditeur answer

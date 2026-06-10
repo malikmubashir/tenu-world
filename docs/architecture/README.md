@@ -1,6 +1,6 @@
 # Tenu — Engineering Architecture Documentation
 
-Last verified against commit: `2697e1e` (`main`, 2026-06-10 — "fix(db): 007 security-definer lockdown per RGPD pre-publication audit").
+Last verified against: `main` working tree, 2026-06-10 — Supabase cutover to `tenu-world-eu-central` (`dsbzgrjtiklmxjozbdjv`, eu-central-1) with consolidated baseline `supabase/migrations/0001_init_eu_baseline.sql`; legacy chain 001–009 archived; database sections of 01/04/05/07 verified against the live EU base.
 
 This set documents the system **as built on `main`**. Every statement is grounded in the code (`src/`, `supabase/`, `capacitor.config.ts`, `next.config.ts`, `vercel.json`, `package.json`); where older project docs diverge from the code, the code wins and the divergence is flagged inline. The in-flight AWS Bedrock EU migration (`feat/bedrock-migration`) is flagged in 01, 04 and 07 but not treated as current state.
 

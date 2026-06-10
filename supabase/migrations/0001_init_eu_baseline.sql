@@ -1,31 +1,53 @@
--- ═══════════════════════════════════════════════════════════════
--- Tenu.World — Supabase Database Schema (DOCUMENTATION)
+-- 0001_init_eu_baseline.sql
+-- 2026-06-10 — Consolidated from-scratch baseline for tenu-world-eu-central
+-- (dsbzgrjtiklmxjozbdjv, eu-central-1 / Frankfurt).
 --
--- This file is DOCUMENTATION, not an installer. It mirrors the live
--- production database on tenu-world-eu-central (dsbzgrjtiklmxjozbdjv,
--- eu-central-1 / Frankfurt) exactly, as deployed 2026-06-10 by:
---   supabase/migrations/0001_init_eu_baseline.sql
---   supabase/migrations/0002_revoke_rls_auto_enable_execute.sql
--- Those migrations are the executable source of truth — to provision a
--- fresh project, apply them in order; do not run this file.
+-- Supersedes the legacy migration chain 001–009 (non-replayable: 002 depended
+-- on objects nothing created, 003 altered a payments table no migration
+-- created). Legacy project umvcjasalzcgtfwsjbfw (eu-west-2) abandoned
+-- 2026-06-10 per owner decision.
 --
--- The previous version of this file targeted the abandoned legacy project
--- (umvcjasalzcgtfwsjbfw, eu-west-2) and had drifted from both the live
--- DB and the code. Verified against the live EU base 2026-06-10.
--- ═══════════════════════════════════════════════════════════════
+-- Shape sources, table by table:
+--   profiles        canonical 009 vocabulary (full_name, preferred_language,
+--                   country) + 005 consent cache columns
+--   inspections     UNION of live legacy (001+002 vocabulary inserted by
+--                   /api/inspection/create) and the structured columns read
+--                   by /api/ai/scan + /api/ai/dispute (address_formatted,
+--                   address_line1, city, postal_code, country_code,
+--                   landlord_name, deposit_amount_cents, deposit_currency,
+--                   risk_score jsonb) + 008 status state machine
+--   rooms           live legacy shape (risk_level/risk_score/risk_notes/
+--                   estimated_deduction_eur written by /api/ai/scan)
+--   photos          schema.sql shape — code inserts inspection_id,
+--                   sha256_hash, exif_timestamp, source (live legacy LACKED
+--                   these; inserts were failing there)
+--   element_ratings, tenants  live legacy shape
+--   consents        live legacy shape (003)
+--   payments        live legacy shape (003+004) + 008 partial unique index
+--   dispute_letters live legacy shape + 008 partial unique index
+--   device_tokens   006 (never applied on legacy — push-token route failed)
+--   outcome_surveys schema.sql shape (pipeline 3, roadmapped)
+--
+-- EXCLUDED: 001 relics `disputes` and `outcomes` — zero code references.
+--
+-- Policy deltas vs live legacy (required by code, reported in cutover audit):
+--   inspections      + DELETE own  (/api/inspection/create rollback path)
+--   dispute_letters  + UPDATE own  (/api/ai/dispute updates the webhook
+--                                   pre-inserted row with the user session)
+--
+-- Security posture (007/009): update_updated_at + handle_new_user pinned
+-- search_path; handle_new_user SECURITY DEFINER with EXECUTE revoked from
+-- anon + authenticated; RLS enabled on every table; payments and the
+-- service-role write paths have NO client INSERT/UPDATE policies.
 
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
 -- Extensions
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
 create extension if not exists "uuid-ossp" with schema extensions;
--- gen_random_uuid() comes from core pgcrypto (Postgres 13+); all PK
--- defaults below use it.
 
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
 -- Functions
--- ───────────────────────────────────────────────────────────────
-
--- updated_at trigger helper. search_path pinned (lint 0011).
+-- ─────────────────────────────────────────────────────────────────────
 create or replace function public.update_updated_at()
 returns trigger
 language plpgsql
@@ -37,48 +59,16 @@ begin
 end;
 $function$;
 
--- Auto-create profile on signup. SECURITY DEFINER (writes public.profiles
--- from the auth.users trigger context), search_path pinned, EXECUTE
--- revoked from anon + authenticated (lints 0011/0028/0029).
-create or replace function public.handle_new_user()
-returns trigger
-language plpgsql
-security definer
-set search_path = pg_catalog, public
-as $function$
-begin
-  insert into public.profiles (id, email, full_name, preferred_language)
-  values (
-    new.id,
-    new.email,
-    coalesce(new.raw_user_meta_data->>'full_name', ''),
-    coalesce(new.raw_user_meta_data->>'locale', 'en')
-  );
-  return new;
-end;
-$function$;
-
-revoke execute on function public.handle_new_user() from public;
-revoke execute on function public.handle_new_user() from anon, authenticated;
-
--- Platform-provisioned public.rls_auto_enable() also has EXECUTE revoked
--- from public/anon/authenticated (migration 0002).
-
-create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute function public.handle_new_user();
-
--- ───────────────────────────────────────────────────────────────
--- PROFILES — extends auth.users, canonical vocabulary
--- Read by: /account, GlobalHeader, /api/ai/dispute, lib/email/notify
--- Cache columns written by /api/consents + auth callback
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- PROFILES — extends auth.users, canonical vocabulary (009)
+-- ─────────────────────────────────────────────────────────────────────
 create table public.profiles (
   id                     uuid primary key references auth.users(id) on delete cascade,
   email                  text not null,
   full_name              text,
   preferred_language     text not null default 'en',
   country                text not null default 'FR',
+  -- 005 consent cache (source of truth stays in consents)
   dpa_accepted_at        timestamptz,
   dpa_text_version       text,
   marketing_optin_at     timestamptz,
@@ -105,20 +95,41 @@ create index idx_profiles_marketing_optin
 create trigger set_updated_at before update on public.profiles
   for each row execute function public.update_updated_at();
 
--- ───────────────────────────────────────────────────────────────
--- INSPECTIONS — one per move-in/move-out session
--- Insert vocabulary: /api/inspection/create (address, owner_*, contract,
--- property columns). Structured-read vocabulary: /api/ai/scan +
--- /api/ai/dispute (address_formatted, address_line1, city, postal_code,
--- country_code, landlord_name, deposit_*, risk_score jsonb).
--- Status machine: draft → capturing → submitted → paid → scanning →
--- scanned → disputed → closed
--- ───────────────────────────────────────────────────────────────
+-- Auto-create profile on signup — 009 hardened form.
+create or replace function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = pg_catalog, public
+as $function$
+begin
+  insert into public.profiles (id, email, full_name, preferred_language)
+  values (
+    new.id,
+    new.email,
+    coalesce(new.raw_user_meta_data->>'full_name', ''),
+    coalesce(new.raw_user_meta_data->>'locale', 'en')
+  );
+  return new;
+end;
+$function$;
+
+revoke execute on function public.handle_new_user() from public;
+revoke execute on function public.handle_new_user() from anon, authenticated;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
+
+-- ─────────────────────────────────────────────────────────────────────
+-- INSPECTIONS — code-shape union + 008 status machine
+-- ─────────────────────────────────────────────────────────────────────
 create table public.inspections (
   id                    uuid primary key default gen_random_uuid(),
   user_id               uuid not null references public.profiles(id) on delete cascade,
   jurisdiction          text not null check (jurisdiction in ('fr', 'uk')),
   address               text not null,
+  -- structured address + tenancy facts read by /api/ai/scan + /api/ai/dispute
   address_formatted     text,
   address_line1         text,
   city                  text,
@@ -129,18 +140,22 @@ create table public.inspections (
   deposit_currency      text not null default 'EUR',
   move_in_date          date,
   move_out_date         date,
+  -- 008 state machine: draft → capturing → submitted → paid → scanning →
+  -- scanned → disputed → closed
   status                text not null default 'draft' check (status in (
     'draft', 'capturing', 'submitted', 'paid', 'scanning', 'scanned',
     'disputed', 'closed'
   )),
   stripe_payment_id     text,
   dispute_purchased     boolean not null default false,
+  -- owner details (002)
   owner_type            text not null default 'individual',
   owner_name            text,
   owner_company_name    text,
   owner_email           text,
   owner_phone           text,
   owner_address         text,
+  -- contract details (002)
   furnished             boolean not null default false,
   lease_start_date      date,
   lease_end_date        date,
@@ -148,14 +163,17 @@ create table public.inspections (
   monthly_rent_cents    integer,
   monthly_charges_cents integer,
   contract_pdf_r2_key   text,
+  -- property characteristics (002)
   property_type         text not null default 'appartement',
   surface_m2            numeric,
   main_rooms            integer,
   zone_tendue           boolean not null default false,
   commune_insee         text,
   inspection_type       text not null default 'move_in',
+  -- notification timestamps (002)
   tenant_email_sent_at  timestamptz,
   owner_email_sent_at   timestamptz,
+  -- v2 scan payload + telemetry, written by /api/ai/scan
   risk_score            jsonb,
   created_at            timestamptz not null default now(),
   updated_at            timestamptz not null default now()
@@ -185,10 +203,9 @@ create index idx_inspections_status on public.inspections (status);
 create trigger set_updated_at before update on public.inspections
   for each row execute function public.update_updated_at();
 
--- ───────────────────────────────────────────────────────────────
--- ROOMS — each inspection has multiple rooms
--- risk_* columns written by /api/ai/scan, read by the report page
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- ROOMS — live legacy shape (scan writes the risk_* columns)
+-- ─────────────────────────────────────────────────────────────────────
 create table public.rooms (
   id                      uuid primary key default gen_random_uuid(),
   inspection_id           uuid not null references public.inspections(id) on delete cascade,
@@ -227,10 +244,9 @@ create policy "Users update own rooms"
 
 create index idx_rooms_inspection on public.rooms (inspection_id);
 
--- ───────────────────────────────────────────────────────────────
--- PHOTOS — uploaded to R2, metadata + evidence chain stored here
--- Written by /api/photos and /api/mobile/upload-commit
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- PHOTOS — schema.sql shape (evidence chain: sha256, EXIF, source)
+-- ─────────────────────────────────────────────────────────────────────
 create table public.photos (
   id                            uuid primary key default gen_random_uuid(),
   room_id                       uuid not null references public.rooms(id) on delete cascade,
@@ -284,10 +300,9 @@ create policy "Users delete own photos"
 create index idx_photos_room on public.photos (room_id);
 create index idx_photos_inspection on public.photos (inspection_id);
 
--- ───────────────────────────────────────────────────────────────
--- ELEMENT RATINGS — état des lieux TB/B/M/MV grid per room element
--- Upserted by /api/inspection/ratings on (room_id, element_key)
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- ELEMENT RATINGS — live legacy shape (TB/B/M/MV grid, app-validated)
+-- ─────────────────────────────────────────────────────────────────────
 create table public.element_ratings (
   id          uuid primary key default gen_random_uuid(),
   room_id     uuid not null references public.rooms(id) on delete cascade,
@@ -331,9 +346,9 @@ create index idx_element_ratings_room on public.element_ratings (room_id);
 create trigger set_updated_at before update on public.element_ratings
   for each row execute function public.update_updated_at();
 
--- ───────────────────────────────────────────────────────────────
--- TENANTS — 1–3 per inspection, written by /api/inspection/create
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- TENANTS — live legacy shape (1–3 per inspection)
+-- ─────────────────────────────────────────────────────────────────────
 create table public.tenants (
   id            uuid primary key default gen_random_uuid(),
   inspection_id uuid not null references public.inspections(id) on delete cascade,
@@ -376,10 +391,10 @@ create policy "Users can delete own tenants"
 
 create index idx_tenants_inspection on public.tenants (inspection_id);
 
--- ───────────────────────────────────────────────────────────────
--- CONSENTS — append-only record of explicit user consent actions
--- (L221-28 1° CConso waiver, DPA, marketing opt-in, cookies)
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- CONSENTS — append-only consent log (003). Created BEFORE payments so the
+-- payments.waiver_consent_id FK resolves on a fresh install.
+-- ─────────────────────────────────────────────────────────────────────
 create table public.consents (
   id               uuid primary key default gen_random_uuid(),
   user_id          uuid not null references public.profiles(id) on delete cascade,
@@ -405,6 +420,9 @@ create policy "Users can read own consents"
   on public.consents for select
   using (auth.uid() = user_id);
 
+-- INSERTs come only from server route handlers operating with the user
+-- session (checkout waiver, auth callback DPA/marketing, /api/consents).
+-- No UPDATE/DELETE policy: the log is append-only.
 create policy "Users can insert own consents"
   on public.consents for insert
   to authenticated
@@ -414,15 +432,15 @@ create index idx_consents_user on public.consents (user_id);
 create index idx_consents_inspection on public.consents (inspection_id);
 create index idx_consents_type_version on public.consents (consent_type, text_version);
 
--- ───────────────────────────────────────────────────────────────
--- PAYMENTS — all Stripe transactions. Written EXCLUSIVELY by the
--- Stripe webhook via the service role; clients hold SELECT only.
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- PAYMENTS — live shape (003+004 tax columns) + 008 idempotency index.
+-- Service-role only for writes (Stripe webhook). Clients hold SELECT only.
+-- ─────────────────────────────────────────────────────────────────────
 create table public.payments (
   id                         uuid primary key default gen_random_uuid(),
   user_id                    uuid not null references public.profiles(id) on delete cascade,
   inspection_id              uuid references public.inspections(id),
-  dispute_letter_id          uuid references public.dispute_letters(id),
+  dispute_letter_id          uuid,
   type                       text not null,
   status                     text not null default 'pending',
   stripe_payment_intent_id   text unique,
@@ -448,7 +466,7 @@ create index idx_payments_stripe on public.payments (stripe_payment_intent_id);
 create index idx_payments_waiver on public.payments (waiver_consent_id);
 create index idx_payments_tax_country on public.payments (tax_country);
 
--- Stripe webhook idempotency backstop (at-least-once delivery).
+-- 008: Stripe delivers at-least-once — database-level idempotency backstop.
 create unique index uq_payments_stripe_checkout_session
   on public.payments (stripe_checkout_session_id)
   where stripe_checkout_session_id is not null;
@@ -456,10 +474,9 @@ create unique index uq_payments_stripe_checkout_session
 create trigger set_updated_at before update on public.payments
   for each row execute function public.update_updated_at();
 
--- ───────────────────────────────────────────────────────────────
--- DISPUTE LETTERS — add-on product. Webhook (service role) pre-inserts
--- the paid row; /api/ai/dispute updates it with the user session.
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- DISPUTE LETTERS — live shape + 008 idempotency index
+-- ─────────────────────────────────────────────────────────────────────
 create table public.dispute_letters (
   id                        uuid primary key default gen_random_uuid(),
   inspection_id             uuid not null references public.inspections(id) on delete cascade,
@@ -488,6 +505,9 @@ create policy "Users can create own dispute_letters"
   on public.dispute_letters for insert
   with check (auth.uid() = user_id);
 
+-- Required by /api/ai/dispute: the Stripe webhook (service role) pre-inserts
+-- the paid row; the generation route then UPDATEs it in place with the user
+-- session. Absent on legacy — the update silently matched zero rows there.
 create policy "Users can update own dispute_letters"
   on public.dispute_letters for update
   using (auth.uid() = user_id)
@@ -496,16 +516,19 @@ create policy "Users can update own dispute_letters"
 create index idx_dispute_letters_inspection on public.dispute_letters (inspection_id);
 create index idx_dispute_letters_user on public.dispute_letters (user_id);
 
--- Stripe webhook idempotency backstop.
+-- 008: webhook idempotency backstop.
 create unique index uq_dispute_letters_stripe_payment
   on public.dispute_letters (stripe_payment_id)
   where stripe_payment_id is not null;
 
--- ───────────────────────────────────────────────────────────────
--- DEVICE TOKENS — push notification routing (APNs/FCM)
--- Server reads via admin client; users can only insert/delete their own.
--- No SELECT policy by design.
--- ───────────────────────────────────────────────────────────────
+-- payments.dispute_letter_id FK deferred until dispute_letters exists.
+alter table public.payments
+  add constraint payments_dispute_letter_id_fkey
+  foreign key (dispute_letter_id) references public.dispute_letters(id);
+
+-- ─────────────────────────────────────────────────────────────────────
+-- DEVICE TOKENS — 006 (was never applied on legacy)
+-- ─────────────────────────────────────────────────────────────────────
 create table public.device_tokens (
   id         uuid primary key default gen_random_uuid(),
   user_id    uuid not null references public.profiles(id) on delete cascade,
@@ -526,13 +549,14 @@ create policy "Users delete own tokens"
   on public.device_tokens for delete
   using (auth.uid() = user_id);
 
+-- No SELECT policy — tokens are only read server-side via the admin client.
+
 create trigger set_updated_at before update on public.device_tokens
   for each row execute function public.update_updated_at();
 
--- ───────────────────────────────────────────────────────────────
--- OUTCOME SURVEYS — 14-day follow-up (pipeline 3, roadmapped;
--- no code references yet)
--- ───────────────────────────────────────────────────────────────
+-- ─────────────────────────────────────────────────────────────────────
+-- OUTCOME SURVEYS — 14-day follow-up (pipeline 3, roadmapped)
+-- ─────────────────────────────────────────────────────────────────────
 create table public.outcome_surveys (
   id                     uuid primary key default gen_random_uuid(),
   inspection_id          uuid not null references public.inspections(id) on delete cascade,

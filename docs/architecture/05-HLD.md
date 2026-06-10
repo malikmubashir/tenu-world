@@ -98,7 +98,7 @@ Dispute letter status: `pending` (webhook pre-insert) → `generated` (Sonnet ou
 ## 4. Hosting and runtime topology
 
 - **Vercel**, single region `cdg1`. Pages SSR/ISR; API routes are serverless functions; middleware runs at the edge. No long-running workers, no queues — every pipeline is a synchronous request.
-- **Supabase** hosted Postgres + Auth (EU project `umvcjasalzcgtfwsjbfw`).
+- **Supabase** hosted Postgres + Auth (EU project `dsbzgrjtiklmxjozbdjv` / `tenu-world-eu-central`, eu-central-1 Frankfurt — cutover 2026-06-10; legacy `umvcjasalzcgtfwsjbfw` eu-west-2 abandoned, deletion pending smoke test).
 - **R2** single EU bucket; clients PUT directly via presigned URLs (mobile) or via a Server Action (web).
 - **Capacitor shells** are static clients; all dynamic behaviour is remote.
 

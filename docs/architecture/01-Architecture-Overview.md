@@ -59,7 +59,7 @@ External parties that consume Tenu output (mediators, landlords, the Commission 
 | API layer | Next.js route handlers | `src/app/api/` | Auth-gated JSON endpoints; the only place secrets are used |
 | Edge middleware | `src/middleware.ts` | — | Supabase session check + public-path allow-list redirect to `/auth/login` |
 | Auth | Supabase Auth (`@supabase/ssr`) | `src/lib/supabase/{server,client,admin}.ts` | Magic link (OTP) + PKCE/OAuth; cookie sessions on web, bearer tokens from mobile |
-| Database | Supabase Postgres, RLS everywhere | `supabase/schema.sql`, `supabase/migrations/001–007` | profiles, inspections, rooms, photos, element_ratings, tenants, dispute_letters, outcome_surveys, payments, consents, device_tokens |
+| Database | Supabase Postgres, RLS everywhere — project `tenu-world-eu-central` (`dsbzgrjtiklmxjozbdjv`, **eu-central-1 / Frankfurt**; cutover 2026-06-10, legacy eu-west-2 project abandoned) | `supabase/migrations/0001–0002` (executable truth), `supabase/schema.sql` (documentation mirror) | profiles, inspections, rooms, photos, element_ratings, tenants, dispute_letters, outcome_surveys, payments, consents, device_tokens |
 | Object storage | Cloudflare R2 (EU), S3-compatible API | `src/lib/storage/r2-upload.ts`, `src/app/api/mobile/upload-{intent,commit}/` | Photos (user/room namespaced keys) and rendered PDF reports |
 | Payments | Stripe Checkout (dynamic line items), Stripe webhooks, optional Stripe Tax | `src/lib/payments/stripe.ts`, `src/app/api/checkout/`, `src/app/api/webhooks/stripe/` | 5-tier pricing grid, dispute add-on, exit-only SKU |
 | AI | Anthropic SDK `@anthropic-ai/sdk`, server-only | `src/lib/ai/risk-scan.ts`, `src/lib/ai/dispute-letter.ts` + prompt/type modules | Haiku 4.5 risk scan (Sonnet 4.6 fallback), Sonnet 4.6 dispute letter |
@@ -97,7 +97,7 @@ The Capacitor shell (`capacitor.config.ts`, appId `world.tenu.app`):
 
 Security headers for `/api/*` (`X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`) are set in `vercel.json`.
 
-Data residency: Supabase EU, R2 EU jurisdiction, Vercel CDG. The one non-EU-guaranteed leg is the Anthropic API (see §5).
+Data residency: Supabase **eu-central-1 (Frankfurt)** — improved by the 2026-06-10 cutover from the legacy eu-west-2 (London, post-Brexit UK) project, which removes the UK leg from the RGPD data-transfer map; R2 EU jurisdiction; Vercel CDG. The one non-EU-guaranteed leg is the Anthropic API (see §5).
 
 ## 5. Pending change — AWS Bedrock EU migration (flag)
 

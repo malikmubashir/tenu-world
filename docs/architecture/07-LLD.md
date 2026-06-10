@@ -27,7 +27,7 @@ Scope: key `src/lib` modules, API route contracts, database schema, environment 
 
 - `brevo.ts`: `sendBrevoTransactional(input) → {ok,messageId} | {ok:false,error,status}` — bare `fetch` against `https://api.brevo.com/v3/smtp/email`, sender `noreply@tenu.world`, never throws; `escapeHtml` helper. All sends must pass through this seam.
 - `notify.ts`: `notifyScanComplete({userId, inspectionId, pdfUrl?})`, `notifyDisputeReady({…, letterType})` — load profile via **admin client**, build template (`templates/scan-complete.ts`, `templates/dispute-ready.ts`), fire Brevo + concurrent `sendPushNotification` (void). Callers must not block on results.
-  - ⚠️ `notify.ts` selects `profiles.display_name, locale` while the canonical `schema.sql` defines `full_name, preferred_language` (migration 001 vocabulary vs schema.sql vocabulary). See findings in `04-Security.md` §3 / report.
+  - `notify.ts` selects the canonical `profiles.full_name, preferred_language` (fixed under #T146; the old `display_name/locale` drift is closed by the 2026-06-10 EU baseline).
 - `push.ts`: FCM v1 with hand-rolled RS256 service-account JWT (node `crypto`, no firebase-admin); silently no-ops when `FCM_*` env unset; reads `device_tokens` via admin client.
 
 ### 1.4 `src/lib/payments/stripe.ts`
@@ -71,7 +71,7 @@ Auth callbacks and link manifests: `/auth/callback` (GET, OTP/PKCE — see `02-D
 
 ## 3. Database schema (live shape)
 
-Canonical: `supabase/schema.sql` (annotated "aligned with existing API routes") plus migrations 002–007. Migration 001 is an earlier vocabulary kept for history. All tables RLS-on; policy matrix in `04-Security.md` §3.
+Production database: **`tenu-world-eu-central`** (`dsbzgrjtiklmxjozbdjv`, eu-central-1 / Frankfurt), provisioned from scratch on 2026-06-10. Executable truth: `supabase/migrations/0001_init_eu_baseline.sql` + `0002_revoke_rls_auto_enable_execute.sql`. `supabase/schema.sql` is a documentation mirror of the live base. The legacy chain 001–009 (abandoned project `umvcjasalzcgtfwsjbfw`, eu-west-2) is archived in `supabase/migrations-archive-legacy/`. All tables RLS-on; policy matrix in `04-Security.md` §3. The dead 001 tables `disputes`/`outcomes` do not exist on the EU base.
 
 ```mermaid
 erDiagram
@@ -91,8 +91,8 @@ erDiagram
 Column highlights (beyond the obvious):
 
 - `profiles`: id (FK auth.users, cascade), email, full_name, preferred_language, country + consent cache (`dpa_accepted_at`, `dpa_text_version`, `marketing_optin_at`, `marketing_text_version`; migration 005, cache-only semantics with documented invariants).
-- `inspections`: status (`draft → capturing → submitted → paid/scanned → disputed → closed`), structured Google Places address (line1/2, city, postal_code, region, country_code, place_id, lat/lng), deposit cents+currency, `risk_score jsonb` (entire v2 scan payload + pdfUrl + telemetry), `report_pdf_url`, `dispute_purchased`, plus migration-002 blocks: owner_* (type/name/company/email/phone/address), tenants via table, furnished, lease dates, notice_period_months, rent/charges cents, contract_pdf_r2_key, property_type, surface_m2, main_rooms, zone_tendue, commune_insee, inspection_type (`move_in`/`move_out`), email-sent timestamps.
-- `rooms`: room_type, label, sort_order, notes + per-room scan results (risk_level/risk_score/risk_notes jsonb/estimated_deduction_eur — written by the scan route).
+- `inspections`: CHECK-constrained status machine `draft → capturing → submitted → paid → scanning → scanned → disputed → closed` (`scanning` is the atomic double-spend claim in `/api/ai/scan`); `address` text (create-route insert) plus the structured columns the AI routes read (`address_formatted`, `address_line1`, `city`, `postal_code`, `country_code`, `landlord_name`), deposit cents+currency, `risk_score jsonb` (entire v2 scan payload + pdfUrl + telemetry), `stripe_payment_id`, `dispute_purchased`, plus the legacy-002 blocks: owner_* (type/name/company/email/phone/address), tenants via table, furnished, lease dates, notice_period_months, rent/charges cents, contract_pdf_r2_key, property_type, surface_m2, main_rooms, zone_tendue, commune_insee, inspection_type (`move_in`/`move_out`), email-sent timestamps.
+- `rooms`: room_type, label, sort_order + per-room scan results (risk_level CHECK low/medium/high, risk_score numeric, risk_notes jsonb, estimated_deduction_eur — written by the scan route).
 - `photos`: r2_key, r2_url, mime, size, width/height, sort_order, evidence chain (`sha256_hash`, `exif_timestamp`, `captured_at`, `source` = camera/mobile-camera), optional capture geoloc columns (unused by current code), denormalised inspection_id.
 - `element_ratings`: unique(room_id, element_key), rating ∈ TB/B/M/MV, comment, photo_ids uuid[].
 - `dispute_letters`: status pending→generated, letter_type CDC/TDS/DPS/LANDLORD, letter_language, letter_content, letter_pdf_url (currently never set), deduction_items jsonb, stripe_payment_id (+amount), completed_at.
@@ -101,7 +101,7 @@ Column highlights (beyond the obvious):
 - `outcome_surveys`: outcome, amount_recovered_cents, used_dispute_letter, feedback, nps_score, survey_sent_at/completed_at — **no writer exists in code yet**.
 - `device_tokens`: unique(user_id, token), platform ios/android, no SELECT policy (admin-read only).
 
-Triggers: `handle_new_user` (auth insert → profile, SECURITY DEFINER, search_path pinned, RPC EXECUTE revoked — migration 007), `update_updated_at` on profiles/inspections/payments/element_ratings.
+Triggers: `handle_new_user` (auth insert → profile with canonical `full_name`/`preferred_language`, SECURITY DEFINER, search_path pinned, RPC EXECUTE revoked — 007/009 posture carried by baseline 0001), `update_updated_at` on profiles/inspections/payments/element_ratings/device_tokens. Webhook idempotency: partial unique indexes on `payments.stripe_checkout_session_id` and `dispute_letters.stripe_payment_id`.
 
 ## 4. Environment variable inventory
 

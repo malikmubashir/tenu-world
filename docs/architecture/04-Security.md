@@ -1,7 +1,9 @@
 # 04 — Security & RGPD Posture
 
 Status: verified against `main` @ `2697e1e` (2026-06-10).
-Scope: auth model, middleware allow-list, RLS posture (migrations 001–007), secrets handling, server-only AI rule, RGPD retention posture, known gaps.
+Scope: auth model, middleware allow-list, RLS posture (EU baseline migrations 0001/0002), secrets handling, server-only AI rule, RGPD retention posture, known gaps.
+
+> **Database cutover 2026-06-10:** production database is now the from-scratch EU baseline on `tenu-world-eu-central` (`dsbzgrjtiklmxjozbdjv`, eu-central-1 / Frankfurt). The legacy project `umvcjasalzcgtfwsjbfw` (eu-west-2 / London) is abandoned, deletion pending the cutover smoke test. RGPD residency improves: all Supabase data now in Frankfurt. The old migration chain 001–009 lives in `supabase/migrations-archive-legacy/`.
 
 ---
 
@@ -43,22 +45,22 @@ Observations grounded in the code:
 
 ## 3. Row-Level Security posture
 
-Every table in `supabase/schema.sql` and all migrations enable RLS. Pattern summary:
+Every table on the live EU base (baseline migration `0001_init_eu_baseline`) has RLS enabled — verified against the live project 2026-06-10, security advisor clean. Pattern summary:
 
 | Table | select | insert | update | delete | Notes |
 |---|---|---|---|---|---|
 | profiles | own | trigger-only | own | — | created by `handle_new_user` trigger |
-| inspections | own | own | own | — | |
+| inspections | own | own | own | own | delete needed by `/api/inspection/create` rollback path |
 | rooms / photos / element_ratings / tenants | own via inspection join | own via join | own via join (photos: delete instead) | photos+tenants only | ownership chained through `inspections.user_id = auth.uid()` |
-| dispute_letters | own | own | — (admin client updates) | — | webhook inserts via service role |
+| dispute_letters | own | own | own | — | webhook (service role) pre-inserts the paid row; `/api/ai/dispute` updates it with the user session |
 | outcome_surveys | own | — | own | — | feature not yet wired |
 | payments | own | **none** (service role only) | — | — | |
 | consents | own | user-scoped insert (via authed server client) | **none** | **none** | append-only by construction |
 | device_tokens | **none** | own | — | own | tokens only readable via admin client |
 
-`migrations/007` (RGPD pre-publication audit, 2026-05-26) hardened the helper functions: pinned `search_path` on `update_updated_at` and `handle_new_user`, kept `handle_new_user` SECURITY DEFINER (required for the auth trigger) but revoked EXECUTE from `PUBLIC`/`anon`/`authenticated` so `/rest/v1/rpc/handle_new_user` is no longer callable, and revoked RPC exposure of `rls_auto_enable`. Database linter findings 0011/0028/0029 closed.
+The legacy `migrations/007` lockdown posture (RGPD pre-publication audit, 2026-05-26) is carried in full by the baseline: pinned `search_path` on `update_updated_at` and `handle_new_user`; `handle_new_user` remains SECURITY DEFINER (required for the auth trigger) with EXECUTE revoked from `PUBLIC`/`anon`/`authenticated` so `/rest/v1/rpc/handle_new_user` is not callable; migration `0002` revokes RPC exposure of the platform-provisioned `rls_auto_enable`. Database linter findings 0011/0028/0029 are closed on the EU base (advisor re-run 2026-06-10: zero findings).
 
-**Schema drift warning:** `migrations/001` and `supabase/schema.sql` describe different generations of the schema (e.g. `disputes`/`outcomes` vs `dispute_letters`/`outcome_surveys`; `profiles.display_name/locale` vs `profiles.full_name/preferred_language`). `schema.sql` is annotated as the canonical, API-aligned shape. Code reads both vocabularies in different modules (see §8). Treat `schema.sql` + migrations 002–007 as live truth; do not rebuild from 001 alone.
+**Schema drift — resolved 2026-06-10.** The historical two-generation drift (`migrations/001` vocabulary vs `schema.sql` vocabulary) is closed by the cutover: the baseline creates the canonical `profiles` shape (`full_name`/`preferred_language`/`country`), the code-shape union for `inspections` (both the create-route vocabulary and the structured columns `/api/ai/scan` + `/api/ai/dispute` read), and drops the dead `disputes`/`outcomes` relics. `supabase/schema.sql` is now documentation mirroring the live EU base; `supabase/migrations/0001+0002` are the executable truth.
 
 ## 4. Secrets handling
 
@@ -103,10 +105,10 @@ Open RGPD admin items at time of writing (owners MH, from TASKS): publisher phon
 
 ## 8. Known gaps and accepted risks (code-verified)
 
-1. **Scan endpoint is not payment-gated.** `POST /api/ai/scan` requires only ownership + `status === 'submitted'`. The Stripe webhook sets `status='paid'` — which the scan endpoint would then *reject*. As written, an owner can run a scan (Anthropic cost + PDF + email) without paying, and the documented paid path is inconsistent with the scan's status precondition. The dispute letter, by contrast, is correctly paid-gated.
+1. **Scan endpoint payment gate — fixed (#T145, 2026-06-10).** `POST /api/ai/scan` now verifies a completed `payments` row (service-role-inserted, client-unforgeable), accepts `paid`/`submitted`, and claims the run atomically via the `scanning` status (state machine from legacy migration 008, carried in baseline 0001). `SCAN_PAYMENT_GATE_BYPASS=1` exists for local testing and must never be set in production.
 2. **DPA gate is client-side.** Middleware does not check `profiles.dpa_accepted_at`. Tracked p:1.
 3. **upload-commit trusts the client's sha256 and does not verify the R2 object exists.** Weekly verification sweep described in comments is not implemented. Accepted for soft-launch threat model.
-4. **No idempotency/unique constraint on `dispute_letters.stripe_payment_id`** — webhook does a check-then-insert (race window on Stripe retries). Noted in-code as "tracked for schema v1.1".
+4. **Webhook idempotency — fixed (2026-06-10).** Partial unique indexes on `payments.stripe_checkout_session_id` and `dispute_letters.stripe_payment_id` (baseline 0001, from legacy migration 008) back the webhook's check-then-insert.
 5. **Erasure does not purge R2.** DB cascade only; blob lifecycle relies on the 30-day R2 rule for photos and nothing for PDFs.
 6. **R2 object URLs** are stored as `https://<account>.r2.cloudflarestorage.com/<bucket>/<key>` and handed to clients and to the Anthropic vision API. There is no signed-GET layer in code; access control relies on bucket configuration outside the repo. If the bucket is public, anyone with a URL can fetch a photo (URLs contain a user UUID + timestamp — unguessable but unrevocable).
 7. **No rate limiting** on any route handler (auth, scan, checkout) at the application layer; only Stripe/Supabase/Vercel platform limits apply.
