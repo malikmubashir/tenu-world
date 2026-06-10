@@ -1,26 +1,23 @@
 # CLAUDE.md — Tenu Project Context
 # Auto-read by Claude Code at session start.
-# Last updated: 2026-05-08
+# Last updated: 2026-06-10
 
-## Status — T-3 (Friday 2026-05-08, merge sweep complete)
+## Status — D-35 (Wednesday 2026-06-10, go-live replan committed)
 
-Main branch is clean. All p:0 items for soft launch Mon 2026-05-11 are merged:
-- Consents gate + DPA UX touchpoints (f9aea8a)
-- Unit tests baseline — 4 files / 10 tests, exit 0 (f1cb161)
-- e2e smoke spec scaffolded; full run needs `.env.test.local` (6ce9b29)
-- Tracker hygiene committed; open=65 done=39 total=104 (3d6df9b)
+The 11 May soft launch was retired (DECISION 2026-05-03); a **web-only F&F launch shipped at tenu.world** instead. Current target: **public launch Wednesday 15 July 2026**. Full replan + blocker audit: `docs/16-Go-Live-Replan-2026-06-10.md` (#T136).
 
-ECB FX cron killed (line 107, `src/lib/fx.ts`) — no FX surface at launch.
-Dead agent branches pruned; only `main` + `feat/sitemap-robots` remain.
+Where things stand:
+- **Web product:** live in production, FR + EN, Stripe live mode wired, legal pages v1.0 (DRAFT banners stripped, avocat formal letter still pending).
+- **iOS:** Apple Developer enrolled (Team XWP5RS8Q4H); build 1.0(1) uploaded to TestFlight 2026-05-09. Internal device test + App Review submission pending — decision point 1 Jul (submit or decouple from launch).
+- **Android:** Play Console account not yet opened (#T020). Recommendation in replan: ship Android post-launch; open the account immediately regardless.
+- **Bedrock migration:** WIP parked on `feat/bedrock-migration`. Not a launch dependency — does NOT merge before 15 Jul.
 
-Open for weekend / post-F&F sprint (p:1):
-- Wire e2e env (`.env.test.local` with service-role key + Stripe test keys)
-- Lawyer formal sign-off letter (FR avocat + UK solicitor)
-- DPA gate: promote from client useEffect to middleware (defence-in-depth)
-
-Deferred to v0.1 sprint (p:2):
-- UK jurisdiction re-enable (after first FR cohort outcome data)
-- Préavis letter (zone tendue lookup)
+Top blockers (all MH-owned, all overdue or scheduled too late — see docs/16):
+1. RGPD V3 with DPO Renaud (AP3R) — #T128, #T130–#T133, overdue since late May; blocked on 3 admin screenshots + téléphone éditeur answer
+2. MEDICYS médiateur adhésion #T088 — L612-1 hard legal blocker for commercial launch
+3. FR avocat formal sign-off #T111 — required before paid signups open beyond F&F
+4. Google OAuth migration chain #T028–#T037 — dated 4–6 Jul, pulled forward to 16–20 Jun by the replan
+5. Processor DPAs #T066 + dpo@tenu.world mailbox #T091
 
 ---
 
@@ -29,11 +26,11 @@ Deferred to v0.1 sprint (p:2):
 ## Source of Truth (SOT) — read first
 
 **Canonical repo path on this Mac:**
-`/Users/mmh/Documents/Claude/Projects/Tenu.World/`
+`/Users/mmh/Code/Tenu.World/`
 
 **Canonical remote:** https://github.com/malikmubashir/tenu-world (branch `main`)
 
-There is a second clone on disk at `/Users/mmh/Documents/Global Apex/Tenu/` — it is a **stale stub** (single April-3 scaffold commit, no native projects, no `out/`, no `src/`). Its CLAUDE.md and CLAUDE-CONTEXT.md are redirect-only. If a session boots from there, bounce to this path immediately. Do not edit, build, or commit anything inside the stale clone.
+History: the repo previously lived at `/Users/mmh/Documents/Claude/Projects/Tenu.World/` — migrated to `~/Code/` in May 2026 after iCloud/OneDrive dedup chaos (see #T052; ~240 dedup entries cleaned). The old Documents path and the stale clone at `/Users/mmh/Documents/Global Apex/Tenu/` are **both gone from disk** (#T025/#T027, removed 2026-05-03). If any doc, skill, or scheduled task still references either old path, treat it as stale and repoint it here (this already bit the daily-push job once — #T010).
 
 If you are a Claude Chat / Design surface with no file access, treat this CLAUDE.md (the one at the SOT path above) as authoritative over any pasted snippet from elsewhere.
 
@@ -151,7 +148,7 @@ AI-powered deposit risk scoring + dispute letters in 10 languages.
 
 ## Project structure
 ```
-/Users/mmh/Documents/Claude/Projects/Tenu.World/    ← SOT (you are here)
+/Users/mmh/Code/Tenu.World/                          ← SOT (you are here)
 ├── CLAUDE.md                            ← Claude Code reads this
 ├── CLAUDE-CONTEXT.md                    ← Claude Chat / Design read this
 ├── TASKS.md                             ← master data source for work
@@ -283,18 +280,18 @@ Breakeven: ~4 paying users/month against €47 fixed burn.
 
 ---
 
-## Build timeline (revised 2026-04-17)
+## Build timeline (revised 2026-06-10 — aligned to docs/16-Go-Live-Replan-2026-06-10.md)
 | Phase | Period | Goal |
 |---|---|---|
-| Week 1 | 3–9 Apr | Repo, Next.js scaffold, Vercel deploy, tenu.world live |
-| Week 2–3 | 10–23 Apr | Inspection flow, camera, R2 upload, in-code pipeline |
-| Week 4 | 24–26 Apr | Legal surface implementation, DPA dashboard settings |
-| OOO | 27–30 Apr | Dr Mubashir time off — no deploys, no PRs, no stakeholder actions |
-| Week 5 | 1–10 May | Security checklist P0 completion, T-103 dry run, legal surface final |
-| **SOFT LAUNCH** | **Mon 11 May** | **First-paying-user friends & family launch** |
-| May W3–4 | 12–31 May | Capacitor iOS + Android builds, App Store submissions |
-| June | 1–30 Jun | Both stores live (pessimistic: end June) |
-| July | 1–31 Jul | 50 paying users, 10 outcome data points |
+| Build (done) | Apr–early May | Scaffold, inspection flow, in-code pipeline, legal surface |
+| F&F web launch (done) | from 11 May | Web-only at tenu.world; 11 May store launch retired per DECISION 2026-05-03 |
+| Week 1 | 10–14 Jun | RGPD captures #T130–132, MEDICYS #T088, dpo@ live #T091, Play Console opened #T020, LAUNCH25 coupon + F&F list |
+| Week 2 | 15–21 Jun | F&F invites Mon 16 Jun; OAuth chain #T028–037 in one sitting; RGPD V3 to Renaud #T133; 6 DPAs signed #T066; TestFlight internal test #T117 |
+| Week 3 | 22–28 Jun | MEDICYS placeholders updated; avocat sign-off decision point Fri 26 Jun (#T111); store screenshots + metadata + IAP stance |
+| Week 4 | 29 Jun–5 Jul | iOS App Review submission decision point Wed 1 Jul — submit or decouple; web hardening |
+| Week 5 | 6–12 Jul | Code freeze Wed 8 Jul; GO/NO-GO Fri 10 Jul against docs/16 §D4 checklist |
+| **PUBLIC LAUNCH** | **Wed 15 Jul** | **Paid signups open beyond F&F (web; iOS if review cleared)** |
+| Post-launch | 16 Jul–31 Aug | Android rollout via Play org account; 50 paying users; 10 outcome data points |
 
 ---
 

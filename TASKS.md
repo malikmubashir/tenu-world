@@ -285,3 +285,28 @@ Renaud (AP3R) a renvoyé la V1 du document RGPD avec quatre artefacts annotés (
 - [ ] MH: #T131 RGPD — confirmer plan Supabase actif + durée effective PITR (typiquement 7 jours sur plan Pro), capture datée (p:0, due 2026-05-28)
 - [ ] MH: #T132 RGPD — activer Zero Data Retention sur org Anthropic + capture de l'écran confirmant l'activation contractuelle (p:0, due 2026-05-28)
 - [ ] MH: #T133 RGPD — livrer version définitive (V3 ou V2 validée) à Renaud après intégration du téléphone éditeur + trois confirmations admin Supabase/Anthropic (p:0, due 2026-05-31)
+
+## 2026-06-10 — Project polish sprint (Cowork, parallel agents)
+
+Scope agreed with MH 2026-06-10: visual polish stays inside locked brand (palette + Identity v1 untouched); code work is comments + docs + risk-free refactor only; full redesign and deep refactor explicitly rejected as pre-launch risk. Bedrock WIP parked on feat/bedrock-migration.
+
+- [x] CC: #T134 UI/UX interaction polish pass — Apple HIG patterns (motion, touch targets, focus states, transitions) across src/ within locked brand tokens; no palette, mark, or register changes (p:1, due 2026-06-11) — done 2026-06-10: motion/press/focus tokens added to theme.css block 7b; 44px touch targets, focus-visible rings, skeletons, safe-area insets, aria states across header/auth/pricing/inspection/cookie-banner/Capacitor surfaces; RTL-safe logical properties; prefers-reduced-motion honoured. Load-bearing bug fixed: hooks-order crash in inspection/new (early return above useMemo) — page crashed for every user once DPA check resolved. tsc clean, 10/10 tests pass, build succeeds. Known compromise: rating chips 36px, Shell/TabBar safe-area interplay deferred to device-test sprint.
+- [x] CC: #T135 Documentation set under docs/architecture/ — Architecture, Data Flows, Design, Security, HLD, Wireframes, LLD reflecting current codebase + Bedrock branch status (p:1, due 2026-06-11) — done 2026-06-10: 8 files written under docs/architecture/ (README + 01-Architecture-Overview, 02-Data-Flows, 03-Design-System, 04-Security, 05-HLD, 06-Wireframes, 07-LLD), verified against commit 2697e1e, mermaid sequence diagrams, full RLS matrix incl. migration 007, 15 API route contracts, env inventory. Audit findings spawned new lines below (scan payment gate, profiles schema split, R2 erasure purge).
+- [x] CC: #T136 Go-live replan — audit all open p:0 vs 15 Jul public launch, produce docs/16-Go-Live-Replan-2026-06-10.md with critical path + blocker resolutions, refresh stale CLAUDE.md (wrong SOT path, dead 11 May refs) (p:0, due 2026-06-10) — done 2026-06-10: 22 hard launch blockers + 16 native-store + 14 compliance classified; verdict 15 Jul feasible for web public launch conditional on compliance chain closing by end June; OAuth chain pulled forward to 16-20 Jun (burned credential still live in prod); Play 12-tester rule confirmed N/A for org accounts; 4 decision points + 72h action list in docs/16; CLAUDE.md Status/SOT-path/timeline refreshed, locked sections preserved verbatim.
+
+### Replan output 2026-06-10 — new lines from docs/16 + architecture audit (#T135 findings)
+
+- [ ] MH: #T134 Decide Android scope for 15 Jul — recommend cut to post-launch; open Play Console account regardless this week (p:0, due 2026-06-13)
+- [ ] CC: #T135 Re-date OAuth chain #T028–#T037 from 4–6 Jul to 16–20 Jun and reclassify UK lines #T008/#T090 to p:2 in TASKS.md, rebuild dashboard (p:0, due 2026-06-11)
+- [ ] MH: #T136 Execute full Google OAuth migration #T028–#T037 in one sitting per #T087 runbook, publish consent screen to production same day (p:0, due 2026-06-20)
+- [ ] MH: #T137 Send F&F invites Mon 16 Jun 09:00 Paris — coupon + list must exist first (#T097/#T092) (p:0, due 2026-06-16)
+- [ ] MH: #T138 Chase FR avocat for formal written sign-off letter — hard date, fallback options documented in docs/16 §D2 (p:0, due 2026-06-26)
+- [ ] CC: #T139 Update 5 [MEDIATEUR PENDING] placeholders in legal pages same day MEDICYS certificate arrives (p:0, due 2026-06-27)
+- [ ] MH: #T140 Verify and close stale iOS lines #T113/#T114/#T115/#T116 — TestFlight upload 2026-05-09 implies all four complete (p:1, due 2026-06-13)
+- [ ] MH: #T141 iOS App Review submission decision point — submit by 1 Jul or decouple binary from 15 Jul launch per docs/16 §D3 (p:0, due 2026-07-01)
+- [ ] CC: #T142 Refresh docs/14-Launch-Day-Monitoring.md for the 15 Jul public launch (p:1, due 2026-07-08)
+- [ ] MH: #T143 GO/NO-GO review against docs/16 §D4 checklist — any unchecked compliance item slips launch to 22 Jul (p:0, due 2026-07-10)
+- [ ] CC: #T144 Code freeze 8 Jul — no schema/auth/pricing changes after this date; feat/bedrock-migration stays parked until post-launch (p:0, due 2026-07-08)
+- [ ] CC: #T145 Fix scan/payment state machine — POST /api/ai/scan accepts status='submitted' (unpaid) but rejects status='paid' set by the Stripe webhook; either the paid path or the free path is broken. Audit intent, gate scan on payment, add regression test (p:0, due 2026-06-14) — found by #T135 architecture audit
+- [ ] CC: #T146 Fix profiles schema vocabulary split — email/notify.ts selects display_name/locale (migration 001) while api/ai/dispute + schema.sql use full_name/preferred_language; one path fails silently against live DB. Verify against Supabase, align columns, test notification emails (p:0, due 2026-06-14) — found by #T135 architecture audit
+- [ ] CC: #T147 RGPD Art. 17 gap — erasure cascades DB rows but never purges R2 photo blobs; upload-commit trusts client sha256 without verifying R2 object. Implement R2 purge on erasure + object existence check (p:1, due 2026-06-24) — found by #T135 architecture audit
