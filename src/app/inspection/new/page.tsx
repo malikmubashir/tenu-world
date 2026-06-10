@@ -59,8 +59,33 @@ const emptyTenant = (): TenantInput => ({ fullName: "", email: "", phone: "" });
 
 /* ── Shared input class ── */
 
+/* min-h-11 = HIG 44px touch floor; transition eases the focus ring in. */
 const inputClass =
-  "w-full rounded-lg border border-tenu-cream-dark px-3 py-2 text-sm outline-none focus:border-tenu-forest focus:ring-1 focus:ring-tenu-forest";
+  "min-h-11 w-full rounded-lg border border-tenu-cream-dark px-3 py-2 text-sm outline-none transition-[border-color,box-shadow] duration-150 focus:border-tenu-forest focus:ring-1 focus:ring-tenu-forest";
+
+/* Segmented-control option (two-way pickers: type, country, owner…). */
+const segmentClass = (selected: boolean) =>
+  `hig-press min-h-11 flex-1 rounded-lg border px-4 py-3 text-sm font-medium ${
+    selected
+      ? "border-tenu-forest bg-tenu-forest text-white"
+      : "border-tenu-cream-dark bg-white text-tenu-slate hover:border-tenu-forest/40"
+  }`;
+
+/* Soft variant — selected state is tinted, not filled (sub-choices). */
+const segmentSoftClass = (selected: boolean) =>
+  `hig-press min-h-11 flex-1 rounded-lg border px-3 py-2 text-xs font-medium ${
+    selected
+      ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
+      : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
+  }`;
+
+/* Toggleable room chip. */
+const chipClass = (selected: boolean) =>
+  `hig-press min-h-11 rounded-lg border px-3 py-1.5 text-sm ${
+    selected
+      ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
+      : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
+  }`;
 
 const labelClass = "mb-1 block text-sm font-medium text-tenu-slate";
 
@@ -464,8 +489,6 @@ export default function NewInspectionPage() {
       .catch(() => setDpaChecking(false));
   }, [router]);
 
-  if (dpaChecking) return null;
-
   const currency = jurisdiction === "fr" ? "€" : "£";
 
   /* ── Zone tendue feedback ── */
@@ -480,6 +503,24 @@ export default function NewInspectionPage() {
     if (furnished) return 1;
     return zoneTendueHint ? 1 : 3;
   }, [jurisdiction, furnished, zoneTendueHint]);
+
+  /* DPA gate. IMPORTANT: this early return must sit AFTER every hook —
+     it previously sat above the useMemo block, which changed the hook
+     count between renders and crashed React ("Rendered more hooks…")
+     the moment the consent check resolved. Skeleton instead of null so
+     the gate reads as loading, not a blank page. */
+  if (dpaChecking) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-6">
+        <div className="w-full max-w-lg space-y-4" aria-busy="true">
+          <div className="hig-skeleton h-8 w-2/3 rounded-lg" />
+          <div className="hig-skeleton h-11 w-full rounded-lg" />
+          <div className="hig-skeleton h-11 w-full rounded-lg" />
+          <div className="hig-skeleton h-11 w-1/2 rounded-lg" />
+        </div>
+      </div>
+    );
+  }
 
   /* ── Room toggle ── */
   function toggleRoom(room: RoomOption) {
@@ -567,8 +608,13 @@ export default function NewInspectionPage() {
 
   return (
     <div className="min-h-screen bg-tenu-cream">
-      <header className="flex items-center justify-between border-b border-tenu-cream-dark bg-white px-6 py-4">
-        <Link href="/" className="text-xl font-bold text-tenu-forest">tenu</Link>
+      <header className="flex items-center justify-between border-b border-tenu-cream-dark bg-white px-6 py-2">
+        <Link
+          href="/"
+          className="hig-press inline-flex min-h-11 items-center text-xl font-bold text-tenu-forest"
+        >
+          tenu
+        </Link>
         <ProgressStepper steps={steps} currentStep="details" />
       </header>
 
@@ -593,11 +639,8 @@ export default function NewInspectionPage() {
                   key={opt.value}
                   type="button"
                   onClick={() => setInspectionType(opt.value)}
-                  className={`flex-1 rounded-lg border px-4 py-3 text-sm font-medium transition-colors ${
-                    inspectionType === opt.value
-                      ? "border-tenu-forest bg-tenu-forest text-white"
-                      : "border-tenu-cream-dark bg-white text-tenu-slate hover:border-tenu-forest/40"
-                  }`}
+                  aria-pressed={inspectionType === opt.value}
+                  className={segmentClass(inspectionType === opt.value)}
                 >
                   {opt.label}
                 </button>
@@ -613,11 +656,8 @@ export default function NewInspectionPage() {
                     key={j}
                     type="button"
                     onClick={() => setJurisdiction(j)}
-                    className={`flex-1 rounded-lg border px-4 py-3 text-sm font-medium transition-colors ${
-                      jurisdiction === j
-                        ? "border-tenu-forest bg-tenu-forest text-white"
-                        : "border-tenu-cream-dark bg-white text-tenu-slate hover:border-tenu-forest/40"
-                    }`}
+                    aria-pressed={jurisdiction === j}
+                    className={segmentClass(jurisdiction === j)}
                   >
                     {j === "fr" ? copy.countryFr : copy.countryUk}
                   </button>
@@ -669,11 +709,8 @@ export default function NewInspectionPage() {
                       key={opt.value}
                       type="button"
                       onClick={() => setPropertyType(opt.value)}
-                      className={`flex-1 rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
-                        propertyType === opt.value
-                          ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-                          : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
-                      }`}
+                      aria-pressed={propertyType === opt.value}
+                      className={segmentSoftClass(propertyType === opt.value)}
                     >
                       {opt.label}
                     </button>
@@ -691,11 +728,8 @@ export default function NewInspectionPage() {
                       key={String(opt.value)}
                       type="button"
                       onClick={() => setFurnished(opt.value)}
-                      className={`flex-1 rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
-                        furnished === opt.value
-                          ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-                          : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
-                      }`}
+                      aria-pressed={furnished === opt.value}
+                      className={segmentSoftClass(furnished === opt.value)}
                     >
                       {opt.label}
                     </button>
@@ -751,11 +785,8 @@ export default function NewInspectionPage() {
                   key={opt.value}
                   type="button"
                   onClick={() => setOwnerType(opt.value)}
-                  className={`flex-1 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors ${
-                    ownerType === opt.value
-                      ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-                      : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
-                  }`}
+                  aria-pressed={ownerType === opt.value}
+                  className={segmentSoftClass(ownerType === opt.value)}
                 >
                   {opt.label}
                 </button>
@@ -841,7 +872,7 @@ export default function NewInspectionPage() {
                 <button
                   type="button"
                   onClick={addTenant}
-                  className="text-xs font-medium text-tenu-forest hover:text-tenu-forest-light"
+                  className="hig-press inline-flex min-h-11 items-center rounded-lg px-2 text-xs font-medium text-tenu-forest hover:text-tenu-forest-light"
                 >
                   {copy.addTenant}
                 </button>
@@ -858,7 +889,7 @@ export default function NewInspectionPage() {
                     <button
                       type="button"
                       onClick={() => removeTenant(idx)}
-                      className="text-xs text-tenu-danger hover:text-tenu-danger/80"
+                      className="hig-press inline-flex min-h-11 items-center rounded-lg px-2 text-xs text-tenu-danger hover:text-tenu-danger/80"
                     >
                       {copy.removeTenant}
                     </button>
@@ -990,11 +1021,8 @@ export default function NewInspectionPage() {
                     key={room.type}
                     type="button"
                     onClick={() => toggleRoom(room)}
-                    className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
-                      selectedRooms.find((r) => r.type === room.type)
-                        ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-                        : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
-                    }`}
+                    aria-pressed={!!selectedRooms.find((r) => r.type === room.type)}
+                    className={chipClass(!!selectedRooms.find((r) => r.type === room.type))}
                   >
                     {copy.roomLabels[room.type] ?? room.label}
                   </button>
@@ -1011,11 +1039,8 @@ export default function NewInspectionPage() {
                     key={room.type}
                     type="button"
                     onClick={() => toggleRoom(room)}
-                    className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
-                      selectedRooms.find((r) => r.type === room.type)
-                        ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-                        : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
-                    }`}
+                    aria-pressed={!!selectedRooms.find((r) => r.type === room.type)}
+                    className={chipClass(!!selectedRooms.find((r) => r.type === room.type))}
                   >
                     {copy.roomLabels[room.type] ?? room.label}
                   </button>
@@ -1032,11 +1057,8 @@ export default function NewInspectionPage() {
                     key={room.type}
                     type="button"
                     onClick={() => toggleRoom(room)}
-                    className={`rounded-lg border px-3 py-1.5 text-sm transition-colors ${
-                      selectedRooms.find((r) => r.type === room.type)
-                        ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-                        : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
-                    }`}
+                    aria-pressed={!!selectedRooms.find((r) => r.type === room.type)}
+                    className={chipClass(!!selectedRooms.find((r) => r.type === room.type))}
                   >
                     {copy.roomLabels[room.type] ?? room.label}
                   </button>
@@ -1051,7 +1073,8 @@ export default function NewInspectionPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
+            aria-busy={loading}
+            className="hig-press min-h-11 w-full rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
           >
             {loading ? copy.submitLoading : copy.submitIdle}
           </button>

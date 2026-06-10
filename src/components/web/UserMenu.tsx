@@ -70,9 +70,10 @@ export default function UserMenu({ email, fullName, locale }: UserMenuProps) {
       </button>
 
       {open && (
+        // end-0 keeps the menu on-screen when the chrome mirrors for RTL.
         <div
           role="menu"
-          className="hig-reveal absolute right-0 z-50 mt-2 w-60 overflow-hidden rounded-2xl bg-white p-1"
+          className="hig-reveal absolute end-0 z-50 mt-2 w-60 overflow-hidden rounded-2xl bg-white p-1"
           style={{ boxShadow: "var(--shadow-hig-float)" }}
         >
           <div className="px-3 py-3">
@@ -86,11 +87,12 @@ export default function UserMenu({ email, fullName, locale }: UserMenuProps) {
 
           <div className="h-px bg-tenu-cream-dark" />
 
+          {/* min-h-11 = HIG 44px touch floor for menu rows. */}
           <Link
             href="/account"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="hig-press block rounded-xl px-3 py-2 text-sm text-tenu-slate hover:bg-tenu-cream/70"
+            className="hig-press flex min-h-11 items-center rounded-xl px-3 py-2 text-sm text-tenu-slate hover:bg-tenu-cream/70"
           >
             {t.account}
           </Link>
@@ -99,7 +101,7 @@ export default function UserMenu({ email, fullName, locale }: UserMenuProps) {
             <button
               type="submit"
               role="menuitem"
-              className="hig-press w-full rounded-xl px-3 py-2 text-left text-sm text-tenu-danger hover:bg-red-50"
+              className="hig-press flex min-h-11 w-full items-center rounded-xl px-3 py-2 text-start text-sm text-tenu-danger hover:bg-red-50"
             >
               {t.signout}
             </button>

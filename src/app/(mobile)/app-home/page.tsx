@@ -45,18 +45,23 @@ export default function AppHomePage() {
             Brouillons
           </h3>
           {!loaded ? (
-            <p className="text-sm text-tenu-slate/60">Chargement…</p>
+            /* Skeleton rows sized like draft cells — no spinner, no
+               layout shift when SQLite answers (usually <100ms). */
+            <div className="flex flex-col gap-2" aria-busy="true">
+              <div className="hig-skeleton h-16 rounded-xl" />
+              <div className="hig-skeleton h-16 rounded-xl" />
+            </div>
           ) : drafts.length === 0 ? (
             <p className="rounded-xl bg-white/60 p-4 text-sm text-tenu-slate/70">
               Aucun brouillon. Lancez un constat pour commencer.
             </p>
           ) : (
-            <ul className="flex flex-col gap-2">
+            <ul className="hig-fade-in flex flex-col gap-2">
               {drafts.map((d) => (
                 <li key={d.id}>
                   <Link
                     href={`/app-home/inspection/${d.id}`}
-                    className="block rounded-xl bg-white/70 px-4 py-3 active:bg-white"
+                    className="hig-press block min-h-11 rounded-xl bg-white/70 px-4 py-3 active:bg-white"
                   >
                     <p className="font-medium text-tenu-slate">
                       {draftTitle(d)}

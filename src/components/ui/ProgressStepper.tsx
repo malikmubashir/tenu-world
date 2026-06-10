@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * ProgressStepper — compact horizontal step indicator for the
+ * inspection funnel (Details → Capture → Review → Report). Done steps
+ * fill emerald with a check, the active step is outlined, future steps
+ * stay muted. Colour changes ease with the standard motion tokens;
+ * aria-current marks the active step for assistive tech.
+ */
 import { clsx } from "clsx";
 import { Check } from "lucide-react";
 
@@ -23,11 +30,15 @@ export default function ProgressStepper({ steps, currentStep }: ProgressStepperP
         const active = i === currentIndex;
 
         return (
-          <div key={step.key} className="flex items-center">
+          <div
+            key={step.key}
+            className="flex items-center"
+            aria-current={active ? "step" : undefined}
+          >
             {i > 0 && (
               <div
                 className={clsx(
-                  "mx-1 h-px w-6 sm:w-10",
+                  "mx-1 h-px w-6 transition-colors duration-300 sm:w-10",
                   done ? "bg-tenu-forest" : "bg-tenu-cream-dark",
                 )}
               />
@@ -35,7 +46,7 @@ export default function ProgressStepper({ steps, currentStep }: ProgressStepperP
             <div className="flex items-center gap-1.5">
               <div
                 className={clsx(
-                  "flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium",
+                  "flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium transition-colors duration-300",
                   done && "bg-tenu-forest text-white",
                   active && "border-2 border-tenu-forest text-tenu-forest",
                   !done && !active && "border border-tenu-cream-dark text-tenu-slate/40",

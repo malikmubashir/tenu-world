@@ -27,14 +27,13 @@ html, body {
   color: var(--color-tenu-accent);
 }
 
-/* Focus ring — Apple-ish offset ring. Always visible via keyboard,
-   never shown for mouse (focus-visible gates it). */
+/* Focus ring — BRAND-GUIDELINES §16: 2px accent-hover, offset 2px.
+   Always visible via keyboard, never shown for mouse (focus-visible
+   gates it). Outline (not box-shadow) follows border-radius and reads
+   on both canvas and navy chrome surfaces. */
 :focus-visible {
-  outline: none;
-  box-shadow:
-    0 0 0 2px #fff,
-    0 0 0 4px color-mix(in oklab, var(--color-tenu-accent) 55%, transparent);
-  border-radius: inherit;
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
 }
 
 @layer components {
@@ -51,8 +50,35 @@ html, body {
       box-shadow var(--duration-hig-fast) var(--ease-hig);
   }
   .hig-press:active {
-    transform: scale(0.97);
-    opacity: 0.85;
+    transform: scale(var(--press-scale));
+    opacity: var(--press-opacity);
+  }
+
+  /* Horizontal momentum scroller — chip rows, segmented pickers.
+     iOS momentum + contained overscroll, scrollbar hidden (the row
+     itself communicates scrollability). */
+  .hig-scroll-x {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .hig-scroll-x::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* HIG minimum touch target (44×44pt). Apply to small visual controls
+     so the hit area meets the floor without inflating the layout. */
+  .hig-touch {
+    min-height: var(--touch-target-min);
+    min-width: var(--touch-target-min);
+  }
+
+  /* Safe-area padding for fixed bottom surfaces (cookie banner, sheets)
+     so content clears the iOS home indicator inside the Capacitor shell
+     and PWA. Falls back to 1rem on devices without insets. */
+  .hig-safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 
   /* Card surface — flat-ish, soft shadow, rounded. */
@@ -198,8 +224,19 @@ html, body {
     font-weight: 600;
     box-shadow: var(--shadow-hig-cta);
   }
+  .t-cta-primary {
+    /* Token-driven hover/press transition so every consumer animates
+       consistently, even without the .hig-press helper in markup. */
+    transition:
+      background-color var(--duration-hig-fast) var(--ease-hig),
+      box-shadow var(--duration-hig-fast) var(--ease-hig);
+  }
   .t-cta-primary:hover {
     background: var(--color-tenu-accent-hover);
+  }
+
+  .t-cta-ghost {
+    transition: color var(--duration-hig-fast) var(--ease-hig);
   }
 
   .t-cta-ghost {
@@ -248,11 +285,16 @@ html, body {
 
 /* Reduced motion respect — required, not optional. */
 @media (prefers-reduced-motion: reduce) {
-  .hig-press, .hig-reveal, .hig-fade-in, .hig-skeleton {
+  .hig-press, .hig-reveal, .hig-fade-in, .hig-skeleton,
+  .t-cta-primary, .t-cta-ghost {
     animation: none !important;
     transition: none !important;
   }
   .hig-press:active { transform: none; }
+  /* Programmatic scrollTo / scroll-snap jumps instead of gliding. */
+  html, .hig-scroll-x {
+    scroll-behavior: auto !important;
+  }
 }
 
 /* RTL utilities */

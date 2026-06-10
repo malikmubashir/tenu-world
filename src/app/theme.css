@@ -117,6 +117,19 @@
   --duration-hig-base: 220ms;
   --duration-hig-slow: 320ms;
 
+  /* ---------- 7b. INTERACTION (added 2026-06-10, #T134) ----------
+     Press feedback, focus ring and touch-target tokens. Additive
+     only — palette / type / radii / shadows above are LOCKED.
+     Components must reference these instead of magic numbers. */
+  --ease-out-quad: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* gentle decel — fades, reveals */
+  --press-scale: 0.97;            /* standard active-state scale on tappable surfaces */
+  --press-opacity: 0.85;          /* paired opacity dip on press */
+  --touch-target-min: 44px;       /* Apple HIG minimum tappable area (44×44pt) */
+  /* Focus-visible ring per BRAND-GUIDELINES §16: 2px accent-hover, offset 2px. */
+  --focus-ring-color: var(--palette-accent-hover);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
   /* ---------- 8. SPACING / LAYOUT ---------- */
   --section-padding-y:   clamp(4rem, 6vw + 2rem, 9rem);
   --content-max-width:   64rem; /* 1024px — reading-friendly */

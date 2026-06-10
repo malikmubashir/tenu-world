@@ -67,9 +67,19 @@ export default function CameraButton({
       aria-label="Prendre une photo"
       onClick={handlePress}
       disabled={busy || disabled}
-      className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-tenu-forest text-tenu-cream shadow-lg active:opacity-75 disabled:opacity-40"
+      aria-busy={busy}
+      className="hig-press flex h-[72px] w-[72px] items-center justify-center rounded-full bg-tenu-forest text-tenu-cream shadow-lg active:opacity-75 disabled:opacity-40"
     >
-      <Camera className="h-8 w-8" />
+      {/* Spinner while the native camera / hash / persist round-trip
+          runs, so a second tap is visibly pointless. */}
+      {busy ? (
+        <span
+          className="h-7 w-7 animate-spin rounded-full border-[3px] border-tenu-cream/30 border-t-tenu-cream motion-reduce:animate-none"
+          aria-hidden="true"
+        />
+      ) : (
+        <Camera className="h-8 w-8" />
+      )}
     </button>
   );
 }

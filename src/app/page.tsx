@@ -243,8 +243,10 @@ export default async function Home() {
                 {trustItems.map((key) => {
                   const item = trust.items[key];
                   if (!item) return null;
+                  // Static proof card — deliberately no hig-press: HIG reserves
+                  // press feedback for elements that respond to interaction.
                   return (
-                    <div key={key} className="t-card hig-press">
+                    <div key={key} className="t-card">
                       <h3 className="t-h3 mb-2">{item.title}</h3>
                       <p className="t-small-muted">{item.desc}</p>
                     </div>
@@ -357,17 +359,30 @@ export default async function Home() {
         )}
       </main>
 
-      {/* Footer — separator + muted copy, accent on hover. */}
+      {/* Footer — separator + muted copy, accent on hover. Each link is
+          padded to a 44px touch target; gap shrinks to compensate. */}
       <footer className="border-t t-hairline px-6 py-10 text-center text-sm text-tenu-ink-muted">
         <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
-        <nav className="mt-4 flex flex-wrap justify-center gap-x-5 gap-y-2">
-          <Link href="/legal" className="hover:text-tenu-accent">Legal</Link>
-          <Link href="/legal/privacy/fr" className="hover:text-tenu-accent">Confidentialité</Link>
-          <Link href="/legal/privacy/en" className="hover:text-tenu-accent">Privacy</Link>
-          <Link href="/legal/terms/fr" className="hover:text-tenu-accent">CGU</Link>
-          <Link href="/legal/terms/en" className="hover:text-tenu-accent">Terms</Link>
-          <Link href="/legal/refund/fr" className="hover:text-tenu-accent">Remboursement</Link>
-          <Link href="/legal/refund/en" className="hover:text-tenu-accent">Refund</Link>
+        <nav className="mt-2 flex flex-wrap justify-center gap-x-1 gap-y-0">
+          {(
+            [
+              ["/legal", "Legal"],
+              ["/legal/privacy/fr", "Confidentialité"],
+              ["/legal/privacy/en", "Privacy"],
+              ["/legal/terms/fr", "CGU"],
+              ["/legal/terms/en", "Terms"],
+              ["/legal/refund/fr", "Remboursement"],
+              ["/legal/refund/en", "Refund"],
+            ] as const
+          ).map(([href, label]) => (
+            <Link
+              key={href}
+              href={href}
+              className="inline-flex min-h-11 items-center rounded-lg px-2 transition-colors duration-150 hover:text-tenu-accent"
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
       </footer>
     </div>

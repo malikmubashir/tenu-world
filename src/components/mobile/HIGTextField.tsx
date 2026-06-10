@@ -32,7 +32,8 @@ const HIGTextField = forwardRef<HTMLInputElement, HIGTextFieldProps>(
             "min-h-[44px] rounded-xl bg-white/80 px-4 py-2",
             "text-base text-tenu-slate placeholder:text-tenu-slate/40",
             "outline-none ring-1 ring-transparent",
-            "focus:ring-2 focus:ring-tenu-forest",
+            // Ring eases in rather than snapping (150ms = hover/focus tier).
+            "transition-shadow duration-150 focus:ring-2 focus:ring-tenu-forest",
             error && "ring-2 ring-red-500 focus:ring-red-500",
             className,
           )}

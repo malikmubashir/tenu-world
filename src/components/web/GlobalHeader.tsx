@@ -77,7 +77,7 @@ export default async function GlobalHeader() {
 
           <Link
             href="/pricing"
-            className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
+            className="hig-press hidden h-11 items-center rounded-lg px-3 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
           >
             {nav.pricing ?? (uiLocale === "fr" ? "Tarifs" : "Pricing")}
           </Link>
@@ -88,13 +88,15 @@ export default async function GlobalHeader() {
             <>
               <Link
                 href="/auth/login"
-                className="hig-press hidden rounded-lg px-3 py-2 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
+                className="hig-press hidden h-11 items-center rounded-lg px-3 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
               >
                 {nav.login ?? (uiLocale === "fr" ? "Connexion" : "Log in")}
               </Link>
+              {/* Pill keeps its compact 36px visual; the invisible
+                  before-overlay extends the hit area to the HIG 44px floor. */}
               <Link
                 href="/auth/login"
-                className="hig-press inline-flex h-9 items-center rounded-full bg-tenu-forest px-4 text-sm font-semibold text-white hover:bg-tenu-forest-light"
+                className="hig-press relative inline-flex h-9 items-center rounded-full bg-tenu-forest px-4 text-sm font-semibold text-white before:absolute before:-inset-y-1 before:inset-x-0 before:content-[''] hover:bg-tenu-forest-light"
               >
                 {nav.signup ?? (uiLocale === "fr" ? "S'inscrire" : "Sign up")}
               </Link>

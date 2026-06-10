@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * PhotoGrid (web capture flow) — thumbnails for the active room with a
+ * per-photo remove control and capture timestamp.
+ *
+ * The remove button is always visible on touch viewports (no hover
+ * exists there) and hover/focus-revealed from the sm: breakpoint up.
+ * Logical inset properties keep the overlay corners correct in RTL.
+ */
 import { X } from "lucide-react";
 
 interface Photo {
@@ -29,16 +37,17 @@ export default function PhotoGrid({ photos, onRemove }: PhotoGridProps) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={photo.url}
-            alt={`Photo ${photo.id}`}
+            alt={`Inspection photo, captured ${new Date(photo.capturedAt).toLocaleTimeString()}`}
             className="h-full w-full object-cover"
           />
           <button
             onClick={() => onRemove(photo.id)}
-            className="absolute right-1 top-1 rounded-full bg-black/50 p-1 text-white opacity-0 transition-opacity group-hover:opacity-100"
+            aria-label="Remove photo"
+            className="hig-press absolute end-1 top-1 rounded-full bg-black/50 p-2 text-white opacity-100 transition-opacity duration-150 focus-visible:opacity-100 sm:opacity-0 sm:group-hover:opacity-100"
           >
             <X className="h-3.5 w-3.5" />
           </button>
-          <div className="absolute bottom-0 left-0 right-0 bg-black/40 px-1.5 py-0.5 text-[9px] text-white">
+          <div className="absolute inset-x-0 bottom-0 bg-black/40 px-1.5 py-0.5 text-[9px] text-white">
             {new Date(photo.capturedAt).toLocaleTimeString()}
           </div>
         </div>

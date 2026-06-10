@@ -74,25 +74,33 @@ export default function LanguageToggle({
     window.location.reload();
   }
 
-  // Close dropdown on outside click
+  // Close dropdown on outside click or Escape (keyboard parity).
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setDropdownOpen(false);
       }
     }
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setDropdownOpen(false);
+    }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKey);
+    };
   }, []);
 
   const inactiveLocale = locale === "fr" ? "en" : "fr";
 
   return (
     <div className="flex items-center gap-1" ref={dropdownRef}>
-      {/* Inactive primary language — click to switch */}
+      {/* Inactive primary language — click to switch. h-11 meets the
+          HIG 44px touch floor inside the 56px header. */}
       <button
         onClick={() => switchTo(inactiveLocale)}
-        className={`flex items-center gap-1 rounded-md px-2 py-1 text-sm ${triggerCls}`}
+        className={`hig-press flex h-11 items-center gap-1 rounded-md px-2 text-sm ${triggerCls}`}
         title={`Switch to ${localeNames[inactiveLocale]}`}
       >
         <span className="text-base leading-none">{FLAGS[inactiveLocale]}</span>
@@ -105,8 +113,10 @@ export default function LanguageToggle({
       <div className="relative">
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className={`flex items-center rounded-md px-1.5 py-1 text-sm ${triggerCls}`}
+          className={`hig-press flex h-11 min-w-11 items-center justify-center rounded-md px-1.5 text-sm ${triggerCls}`}
           title="More languages"
+          aria-haspopup="menu"
+          aria-expanded={dropdownOpen}
         >
           <svg className={`h-4 w-4 ${globeCls}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
@@ -114,12 +124,19 @@ export default function LanguageToggle({
         </button>
 
         {dropdownOpen && (
-          <div className="absolute right-0 top-full z-50 mt-1 w-44 rounded-lg border border-tenu-cream-dark bg-white py-1 shadow-lg">
+          /* end-0 (not right-0) so the menu stays inside the viewport
+             when the header is mirrored for AR/UR. */
+          <div
+            role="menu"
+            className="hig-reveal absolute end-0 top-full z-50 mt-1 w-44 rounded-lg border border-tenu-cream-dark bg-white py-1"
+            style={{ boxShadow: "var(--shadow-hig-float)" }}
+          >
             {OTHER.map((l) => (
               <button
                 key={l}
+                role="menuitem"
                 onClick={() => switchTo(l)}
-                className={`flex w-full items-center gap-2 px-3 py-2 text-sm hover:bg-tenu-cream/40 ${
+                className={`flex min-h-11 w-full items-center gap-2 px-3 py-2 text-sm transition-colors duration-150 hover:bg-tenu-cream/40 ${
                   locale === l ? "font-medium text-tenu-forest" : "text-tenu-slate"
                 }`}
               >

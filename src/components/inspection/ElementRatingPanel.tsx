@@ -115,10 +115,15 @@ export default function ElementRatingPanel({
   const ratedCount = elements.filter((el) => ratings[el.key]).length;
   const totalCount = elements.length;
 
+  // Skeleton rows mirror the rated-list layout so the panel does not
+  // jump when real rows replace them.
   if (!loaded) {
     return (
-      <div className="flex items-center justify-center py-8">
-        <p className="text-sm text-tenu-slate/40">Chargement...</p>
+      <div className="space-y-2 py-1" aria-busy="true">
+        <div className="hig-skeleton h-4 w-40 rounded" />
+        <div className="hig-skeleton h-11 w-full rounded-lg" />
+        <div className="hig-skeleton h-11 w-full rounded-lg" />
+        <div className="hig-skeleton h-11 w-full rounded-lg" />
       </div>
     );
   }
@@ -161,7 +166,8 @@ export default function ElementRatingPanel({
                     key={r.value}
                     type="button"
                     onClick={() => handleRating(el.key, r.value)}
-                    className={`rounded px-2 py-1 text-xs font-medium transition-colors ${
+                    aria-pressed={currentRating === r.value}
+                    className={`hig-press min-h-9 min-w-9 rounded px-2 py-1 text-xs font-medium ${
                       currentRating === r.value
                         ? r.value === "TB"
                           ? "bg-tenu-success/10 text-tenu-success ring-1 ring-tenu-success/30"
@@ -183,7 +189,9 @@ export default function ElementRatingPanel({
               <button
                 type="button"
                 onClick={() => setExpandedElement(isExpanded ? null : el.key)}
-                className={`ml-1 text-xs ${
+                aria-expanded={isExpanded}
+                aria-label="Ajouter un commentaire"
+                className={`hig-press ms-1 flex min-h-9 min-w-9 items-center justify-center rounded text-xs transition-colors duration-150 ${
                   comments[el.key]
                     ? "text-tenu-forest"
                     : "text-tenu-slate/30 hover:text-tenu-slate/60"

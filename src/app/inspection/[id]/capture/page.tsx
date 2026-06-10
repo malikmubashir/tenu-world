@@ -138,8 +138,11 @@ export default function CapturePage() {
 
   return (
     <div className="min-h-screen bg-tenu-cream">
-      <header className="flex items-center justify-between border-b border-tenu-cream-dark bg-white px-6 py-4">
-        <Link href="/" className="text-xl font-bold text-tenu-forest">
+      <header className="flex items-center justify-between border-b border-tenu-cream-dark bg-white px-6 py-2">
+        <Link
+          href="/"
+          className="hig-press inline-flex min-h-11 items-center text-xl font-bold text-tenu-forest"
+        >
           tenu
         </Link>
         <ProgressStepper steps={steps} currentStep="capture" />
@@ -168,8 +171,17 @@ export default function CapturePage() {
                 onCapture={handleCapture}
                 onCancel={() => setShowCamera(false)}
               />
+              {/* Upload feedback — spinner + label so slow networks read
+                  as "working" rather than frozen. */}
               {uploading && (
-                <p className="text-center text-sm text-tenu-slate/60">
+                <p
+                  className="flex items-center justify-center gap-2 text-center text-sm text-tenu-slate/60"
+                  role="status"
+                >
+                  <span
+                    className="h-4 w-4 animate-spin rounded-full border-2 border-tenu-forest/30 border-t-tenu-forest motion-reduce:animate-none"
+                    aria-hidden="true"
+                  />
                   Uploading...
                 </p>
               )}
@@ -187,7 +199,7 @@ export default function CapturePage() {
 
               <button
                 onClick={() => setShowCamera(true)}
-                className="w-full rounded-lg border-2 border-dashed border-tenu-forest/30 bg-white px-4 py-6 text-sm font-medium text-tenu-forest hover:border-tenu-forest hover:bg-tenu-cream"
+                className="hig-press w-full rounded-lg border-2 border-dashed border-tenu-forest/30 bg-white px-4 py-6 text-sm font-medium text-tenu-forest hover:border-tenu-forest hover:bg-tenu-cream"
               >
                 + Take photo of{" "}
                 {rooms.find((r) => r.id === activeRoomId)?.label ??
@@ -216,14 +228,14 @@ export default function CapturePage() {
         <div className="mt-8 flex items-center justify-between">
           <Link
             href={`/inspection/new`}
-            className="text-sm text-tenu-slate/60 hover:text-tenu-forest"
+            className="hig-press inline-flex min-h-11 items-center rounded-lg px-2 text-sm text-tenu-slate/60 hover:text-tenu-forest"
           >
             Back to details
           </Link>
           <button
             onClick={() => router.push(`/inspection/${inspectionId}/review`)}
             disabled={totalPhotos === 0}
-            className="rounded-lg bg-tenu-forest px-6 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
+            className="hig-press min-h-11 rounded-lg bg-tenu-forest px-6 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
           >
             Review photos ({totalPhotos})
           </button>

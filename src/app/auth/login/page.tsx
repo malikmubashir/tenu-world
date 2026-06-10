@@ -182,7 +182,7 @@ export default function LoginPage() {
           </p>
           <button
             onClick={() => setSent(false)}
-            className="hig-press mt-6 rounded-lg text-sm text-tenu-forest underline"
+            className="hig-press mt-4 inline-flex min-h-11 items-center rounded-lg text-sm text-tenu-forest underline"
           >
             {ui.useOther}
           </button>
@@ -276,6 +276,7 @@ export default function LoginPage() {
         <button
           onClick={handleGoogleSignIn}
           disabled={googleLoading || !canProceed}
+          aria-busy={googleLoading}
           className="hig-press mb-4 flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-tenu-cream-dark bg-white px-4 text-sm font-semibold text-tenu-slate hover:bg-tenu-cream/60 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -319,7 +320,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={ui.emailPlaceholder}
-              className="w-full rounded-lg border border-tenu-cream-dark px-3 py-2 text-sm outline-none focus:border-tenu-forest focus:ring-1 focus:ring-tenu-forest"
+              className="min-h-11 w-full rounded-lg border border-tenu-cream-dark px-3 py-2 text-sm outline-none transition-[border-color,box-shadow] duration-150 focus:border-tenu-forest focus:ring-1 focus:ring-tenu-forest"
             />
           </div>
 
@@ -330,6 +331,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading || !canProceed}
+            aria-busy={loading}
             className="hig-press flex h-11 w-full items-center justify-center rounded-xl bg-tenu-forest px-4 text-sm font-semibold text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? ui.magicLoading : ui.magicBtn}

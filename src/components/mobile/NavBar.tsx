@@ -43,7 +43,7 @@ export default function NavBar({
             type="button"
             aria-label="Back"
             onClick={handleBack}
-            className="flex h-11 w-11 items-center justify-center rounded-full active:opacity-60"
+            className="hig-press flex h-11 w-11 items-center justify-center rounded-full active:opacity-60"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>

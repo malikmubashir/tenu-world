@@ -256,8 +256,11 @@ export default function PricingPage() {
 
   return (
     <div className="min-h-screen bg-tenu-cream">
-      <header className="border-b border-tenu-cream-dark bg-white px-6 py-4">
-        <Link href="/" className="text-xl font-bold text-tenu-forest">
+      <header className="border-b border-tenu-cream-dark bg-white px-6 py-2">
+        <Link
+          href="/"
+          className="hig-press inline-flex min-h-11 items-center text-xl font-bold text-tenu-forest"
+        >
           tenu
         </Link>
       </header>
@@ -299,8 +302,17 @@ export default function PricingPage() {
               {copy.scanDesc}
             </p>
 
+            {/* Shimmer skeleton while the server computes the tier price —
+                avoids layout shift and reads as "working", not "broken". */}
             <p className="mb-2 text-3xl font-bold text-tenu-forest">
-              {previewLoading ? "…" : priceLabel}
+              {previewLoading ? (
+                <span
+                  className="hig-skeleton inline-block h-9 w-24 rounded-lg align-middle"
+                  aria-hidden="true"
+                />
+              ) : (
+                priceLabel
+              )}
               <span className="text-sm font-normal text-tenu-slate/50">
                 {" "}
                 {copy.vatLabel}
@@ -350,12 +362,13 @@ export default function PricingPage() {
                   setError("");
                 }}
                 disabled={loading || previewLoading || !inspectionId}
-                className="w-full rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white transition-colors hover:bg-tenu-forest-light disabled:opacity-50"
+                className="hig-press min-h-11 w-full rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
               >
                 {copy.runScan(priceLabel)}
               </button>
             ) : (
-              <div className="space-y-3">
+              /* hig-reveal eases the waiver panel in instead of popping. */
+              <div className="hig-reveal space-y-3">
                 <WithdrawalWaiver
                   locale={waiverLocale(locale)}
                   value={waiver}
@@ -364,14 +377,15 @@ export default function PricingPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => setWaiverOpen(false)}
-                    className="flex-1 rounded-lg border border-tenu-cream-dark px-4 py-3 text-sm font-medium text-tenu-slate hover:bg-tenu-cream"
+                    className="hig-press min-h-11 flex-1 rounded-lg border border-tenu-cream-dark px-4 py-3 text-sm font-medium text-tenu-slate hover:bg-tenu-cream"
                   >
                     {copy.cancel}
                   </button>
                   <button
                     onClick={proceedToPayment}
                     disabled={!waiverReady || loading}
-                    className="flex-[2] rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-busy={loading}
+                    className="hig-press min-h-11 flex-[2] rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {loading
                       ? copy.redirecting

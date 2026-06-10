@@ -40,8 +40,10 @@ export default function PhotoGrid({
             sizes="(max-width: 480px) 33vw, 120px"
             className="object-cover"
           />
+          {/* Logical inset (end-*) keeps badges in the visual corner
+              users expect when the app runs RTL (AR/UR). */}
           <span
-            className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-white"
+            className="absolute end-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-white"
             aria-label={statusLabel(photo)}
             title={statusLabel(photo)}
           >
@@ -52,7 +54,7 @@ export default function PhotoGrid({
             )}
           </span>
           {!photo.uploadedAt && (
-            <span className="absolute bottom-1.5 left-1.5 flex items-center gap-0.5 rounded-full bg-black/50 px-1.5 py-0.5 text-[10px] text-white">
+            <span className="absolute bottom-1.5 start-1.5 flex items-center gap-0.5 rounded-full bg-black/50 px-1.5 py-0.5 text-[10px] text-white">
               <Clock className="h-3 w-3" />
               en attente
             </span>

@@ -181,12 +181,14 @@ export default function CookieBanner({ locale }: Props) {
   // Stage 1 — the three-button banner
   // ─────────────────────────────────────────────────────────────
   if (stage === "banner") {
+    // hig-fade-in eases the banner up on first paint; hig-safe-bottom
+    // clears the iOS home indicator in the Capacitor shell / PWA.
     return (
       <div
         role="dialog"
         aria-modal="false"
         aria-label={copy.ariaLabel}
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-tenu-cream-dark bg-white p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] sm:p-5"
+        className="hig-fade-in hig-safe-bottom fixed inset-x-0 bottom-0 z-50 border-t border-tenu-cream-dark bg-white p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] sm:p-5"
         data-cookies-text-version={COOKIES_TEXT_VERSION}
       >
         <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-start sm:gap-6">
@@ -206,24 +208,26 @@ export default function CookieBanner({ locale }: Props) {
           </div>
 
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3 sm:self-center">
+            {/* CNIL parity preserved: identical size and weight for all
+                three actions. min-h-11 = HIG touch floor. */}
             <button
               type="button"
               onClick={onAcceptAll}
-              className="rounded-lg bg-tenu-forest px-4 py-2 text-sm font-medium text-white hover:bg-tenu-forest-light"
+              className="hig-press min-h-11 rounded-lg bg-tenu-forest px-4 py-2 text-sm font-medium text-white hover:bg-tenu-forest-light"
             >
               {copy.acceptAll}
             </button>
             <button
               type="button"
               onClick={onCustomize}
-              className="rounded-lg border border-tenu-forest px-4 py-2 text-sm font-medium text-tenu-forest hover:bg-tenu-cream"
+              className="hig-press min-h-11 rounded-lg border border-tenu-forest px-4 py-2 text-sm font-medium text-tenu-forest hover:bg-tenu-cream"
             >
               {copy.manage}
             </button>
             <button
               type="button"
               onClick={onRefuseAll}
-              className="rounded-lg border border-tenu-forest px-4 py-2 text-sm font-medium text-tenu-forest hover:bg-tenu-cream"
+              className="hig-press min-h-11 rounded-lg border border-tenu-forest px-4 py-2 text-sm font-medium text-tenu-forest hover:bg-tenu-cream"
             >
               {copy.rejectAll}
             </button>
@@ -243,7 +247,12 @@ export default function CookieBanner({ locale }: Props) {
       aria-label={g.title}
       className="fixed inset-0 z-50 flex items-end justify-center bg-black/30 p-0 sm:items-center sm:p-4"
     >
-      <div className="w-full max-w-lg rounded-t-2xl bg-white p-5 shadow-lg sm:rounded-2xl sm:p-6">
+      {/* Sheet rises like an iOS modal; safe-area padding keeps the
+          buttons above the home indicator when docked to the bottom. */}
+      <div
+        className="hig-fade-in hig-safe-bottom w-full max-w-lg rounded-t-2xl bg-white p-5 sm:rounded-2xl sm:p-6"
+        style={{ boxShadow: "var(--shadow-hig-float)" }}
+      >
         <h2 className="mb-1 text-lg font-semibold text-tenu-forest">
           {g.title}
         </h2>
@@ -316,14 +325,14 @@ export default function CookieBanner({ locale }: Props) {
           <button
             type="button"
             onClick={() => setStage("banner")}
-            className="flex-1 rounded-lg border border-tenu-cream-dark px-4 py-2.5 text-sm font-medium text-tenu-slate hover:bg-tenu-cream"
+            className="hig-press min-h-11 flex-1 rounded-lg border border-tenu-cream-dark px-4 py-2.5 text-sm font-medium text-tenu-slate hover:bg-tenu-cream"
           >
             {g.back}
           </button>
           <button
             type="button"
             onClick={onSaveCustom}
-            className="flex-[2] rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light"
+            className="hig-press min-h-11 flex-[2] rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light"
           >
             {g.save}
           </button>

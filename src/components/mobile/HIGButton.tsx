@@ -46,11 +46,13 @@ export default function HIGButton({
       type="button"
       onClick={handleClick}
       disabled={disabled || loading}
+      aria-busy={loading}
       className={clsx(
         "inline-flex items-center justify-center gap-2",
         "min-h-[44px] px-5 text-base font-semibold rounded-xl",
-        "transition-opacity duration-150",
-        "active:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed",
+        // hig-press supplies token-driven transitions + scale; the
+        // opacity dip below matches iOS filled-button convention.
+        "hig-press active:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed",
         fullWidth && "w-full",
         variant === "primary" && "bg-tenu-forest text-tenu-cream",
         variant === "secondary" && "bg-tenu-cream-dark text-tenu-forest",
@@ -70,7 +72,7 @@ export default function HIGButton({
 function Spinner() {
   return (
     <svg
-      className="h-5 w-5 animate-spin"
+      className="h-5 w-5 animate-spin motion-reduce:animate-none"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

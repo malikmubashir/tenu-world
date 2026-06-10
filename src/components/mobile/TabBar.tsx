@@ -32,9 +32,12 @@ export default function TabBar() {
             key={href}
             href={href}
             onClick={() => void hapticLight()}
+            aria-current={active ? "page" : undefined}
             className={clsx(
               "flex flex-col items-center justify-center py-1.5",
-              "active:opacity-60 transition-opacity",
+              // Colour + opacity ease together on tab change. No scale —
+              // iOS tab bars dim, they do not shrink.
+              "active:opacity-60 transition-[color,opacity] duration-150",
               active ? "text-tenu-forest" : "text-tenu-slate/60",
             )}
           >
