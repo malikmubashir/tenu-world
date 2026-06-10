@@ -1,8 +1,10 @@
 "use client";
 
 /**
- * iOS-style navigation bar. Left slot typically Back; right slot
- * typically a context action. Title centered. 56pt tall, follows HIG.
+ * Navigation bar — Éditorial v2 (#T150): flat white surface with a
+ * 1px hairline bottom border, black ink title at weight 500. No fill
+ * change on scroll, no shadow — flat to the canvas. Left slot
+ * typically Back; right slot a context action. 56pt tall.
  */
 import type { ReactNode } from "react";
 import { ChevronLeft } from "lucide-react";
@@ -34,7 +36,7 @@ export default function NavBar({
 
   return (
     <div
-      className="sticky top-0 z-40 flex items-center justify-between bg-tenu-forest text-tenu-cream"
+      className="sticky top-0 z-40 flex items-center justify-between border-b border-tenu-hairline bg-tenu-canvas text-tenu-ink"
       style={{ minHeight: 56 }}
     >
       <div className="flex w-12 items-center justify-start pl-2">
@@ -43,13 +45,13 @@ export default function NavBar({
             type="button"
             aria-label="Back"
             onClick={handleBack}
-            className="hig-press flex h-11 w-11 items-center justify-center rounded-full active:opacity-60"
+            className="hig-press flex h-11 w-11 items-center justify-center rounded-none active:opacity-60"
           >
             <ChevronLeft className="h-6 w-6" />
           </button>
         )}
       </div>
-      <h1 className="flex-1 truncate text-center text-base font-semibold">
+      <h1 className="flex-1 truncate text-center text-base font-medium">
         {title}
       </h1>
       <div className="flex w-12 items-center justify-end pr-2">{right}</div>

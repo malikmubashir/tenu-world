@@ -12,7 +12,7 @@ import { localeNames, locales } from "@/lib/i18n/config";
  * on the next request.
  *
  * `chrome` prop lets the caller match the surrounding surface:
- *   - "light" (default): text-tenu-slate, cream hover — for Apple-crisp
+ *   - "light" (default): ink text on white — Éditorial v2 chrome.
  *     chrome and body surfaces.
  *   - "dark": Paper text, Paper/10 hover — for Identity v1 navy chrome.
  */
@@ -59,13 +59,13 @@ export default function LanguageToggle({
   // static strings so they compile correctly.
   const triggerCls = dark
     ? "hover:bg-white/10"
-    : "hover:bg-tenu-cream/60";
+    : "hover:opacity-70";
   const labelCls = dark
     ? "text-brand-paper/80"
-    : "text-tenu-slate/70";
+    : "text-tenu-ink-muted";
   const globeCls = dark
     ? "text-brand-paper/70"
-    : "text-tenu-slate/60";
+    : "text-tenu-ink-muted";
 
   function switchTo(newLocale: Locale) {
     setLocale(newLocale);
@@ -100,7 +100,7 @@ export default function LanguageToggle({
           HIG 44px touch floor inside the 56px header. */}
       <button
         onClick={() => switchTo(inactiveLocale)}
-        className={`hig-press flex h-11 items-center gap-1 rounded-md px-2 text-sm ${triggerCls}`}
+        className={`hig-press flex h-11 items-center gap-1 px-2 text-sm ${triggerCls}`}
         title={`Switch to ${localeNames[inactiveLocale]}`}
       >
         <span className="text-base leading-none">{FLAGS[inactiveLocale]}</span>
@@ -113,7 +113,7 @@ export default function LanguageToggle({
       <div className="relative">
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
-          className={`hig-press flex h-11 min-w-11 items-center justify-center rounded-md px-1.5 text-sm ${triggerCls}`}
+          className={`hig-press flex h-11 min-w-11 items-center justify-center px-1.5 text-sm ${triggerCls}`}
           title="More languages"
           aria-haspopup="menu"
           aria-expanded={dropdownOpen}
@@ -128,7 +128,7 @@ export default function LanguageToggle({
              when the header is mirrored for AR/UR. */
           <div
             role="menu"
-            className="hig-reveal absolute end-0 top-full z-50 mt-1 w-44 rounded-lg border border-tenu-cream-dark bg-white py-1"
+            className="hig-reveal absolute end-0 top-full z-50 mt-1 w-44 border t-hairline bg-tenu-canvas py-1"
             style={{ boxShadow: "var(--shadow-hig-float)" }}
           >
             {OTHER.map((l) => (
@@ -136,8 +136,8 @@ export default function LanguageToggle({
                 key={l}
                 role="menuitem"
                 onClick={() => switchTo(l)}
-                className={`flex min-h-11 w-full items-center gap-2 px-3 py-2 text-sm transition-colors duration-150 hover:bg-tenu-cream/40 ${
-                  locale === l ? "font-medium text-tenu-forest" : "text-tenu-slate"
+                className={`flex min-h-11 w-full items-center gap-2 px-3 py-2 text-sm transition-colors duration-150 hover:text-tenu-accent ${
+                  locale === l ? "font-medium text-tenu-accent" : "text-tenu-ink"
                 }`}
               >
                 <span className="text-base leading-none">{FLAGS[l]}</span>

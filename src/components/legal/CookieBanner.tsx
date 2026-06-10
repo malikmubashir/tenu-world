@@ -188,20 +188,20 @@ export default function CookieBanner({ locale }: Props) {
         role="dialog"
         aria-modal="false"
         aria-label={copy.ariaLabel}
-        className="hig-fade-in hig-safe-bottom fixed inset-x-0 bottom-0 z-50 border-t border-tenu-cream-dark bg-white p-4 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] sm:p-5"
+        className="hig-fade-in hig-safe-bottom fixed inset-x-0 bottom-0 z-50 border-t t-hairline bg-tenu-canvas p-4 sm:p-5"
         data-cookies-text-version={COOKIES_TEXT_VERSION}
       >
         <div className="mx-auto flex max-w-5xl flex-col gap-3 sm:flex-row sm:items-start sm:gap-6">
           <div className="flex-1">
-            <h2 className="mb-1 text-sm font-semibold text-tenu-forest">
+            <h2 className="mb-1 text-sm font-medium text-tenu-ink">
               {copy.title}
             </h2>
-            <p className="text-xs leading-relaxed text-tenu-slate/80">
+            <p className="text-xs leading-relaxed text-tenu-ink-muted">
               {copy.body}
             </p>
             <Link
               href={locale === "fr" ? "/legal/cookies/fr" : "/legal/cookies/en"}
-              className="mt-1 inline-block text-xs text-tenu-forest underline hover:no-underline"
+              className="ed-link mt-1 inline-block text-xs"
             >
               {locale === "fr" ? "En savoir plus" : "Learn more"}
             </Link>
@@ -213,21 +213,21 @@ export default function CookieBanner({ locale }: Props) {
             <button
               type="button"
               onClick={onAcceptAll}
-              className="hig-press min-h-11 rounded-lg bg-tenu-forest px-4 py-2 text-sm font-medium text-white hover:bg-tenu-forest-light"
+              className="hig-press min-h-11 bg-tenu-cta px-4 py-2 text-sm font-medium text-white"
             >
               {copy.acceptAll}
             </button>
             <button
               type="button"
               onClick={onCustomize}
-              className="hig-press min-h-11 rounded-lg border border-tenu-forest px-4 py-2 text-sm font-medium text-tenu-forest hover:bg-tenu-cream"
+              className="hig-press min-h-11 border border-tenu-ink px-4 py-2 text-sm font-medium text-tenu-ink"
             >
               {copy.manage}
             </button>
             <button
               type="button"
               onClick={onRefuseAll}
-              className="hig-press min-h-11 rounded-lg border border-tenu-forest px-4 py-2 text-sm font-medium text-tenu-forest hover:bg-tenu-cream"
+              className="hig-press min-h-11 border border-tenu-ink px-4 py-2 text-sm font-medium text-tenu-ink"
             >
               {copy.rejectAll}
             </button>
@@ -250,24 +250,24 @@ export default function CookieBanner({ locale }: Props) {
       {/* Sheet rises like an iOS modal; safe-area padding keeps the
           buttons above the home indicator when docked to the bottom. */}
       <div
-        className="hig-fade-in hig-safe-bottom w-full max-w-lg rounded-t-2xl bg-white p-5 sm:rounded-2xl sm:p-6"
+        className="hig-fade-in hig-safe-bottom w-full max-w-lg border t-hairline bg-tenu-canvas p-5 sm:p-6"
         style={{ boxShadow: "var(--shadow-hig-float)" }}
       >
-        <h2 className="mb-1 text-lg font-semibold text-tenu-forest">
+        <h2 className="mb-1 text-lg font-medium text-tenu-ink">
           {g.title}
         </h2>
-        <p className="mb-4 text-xs leading-relaxed text-tenu-slate/70">
+        <p className="mb-4 text-xs leading-relaxed text-tenu-ink-muted">
           {copy.body}
         </p>
 
         {/* Essential — always on, disabled toggle to make invariant obvious */}
-        <div className="mb-3 rounded-lg border border-tenu-cream-dark bg-tenu-cream/50 p-3">
+        <div className="mb-3 border t-hairline p-3">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm font-medium text-tenu-slate">
+              <p className="text-sm font-medium text-tenu-ink">
                 {g.essentialLabel}
               </p>
-              <p className="mt-0.5 text-xs text-tenu-slate/70">
+              <p className="mt-0.5 text-xs text-tenu-ink-muted">
                 {g.essentialHint}
               </p>
             </div>
@@ -276,19 +276,19 @@ export default function CookieBanner({ locale }: Props) {
               checked
               disabled
               aria-label={g.essentialLabel}
-              className="mt-1 h-4 w-4 accent-tenu-forest opacity-60"
+              className="mt-1 h-4 w-4 accent-tenu-ink opacity-60"
             />
           </div>
         </div>
 
         {/* Analytics — first-party */}
-        <label className="mb-3 block cursor-pointer rounded-lg border border-tenu-cream-dark p-3 hover:bg-tenu-cream/40">
+        <label className="mb-3 block cursor-pointer border t-hairline p-3">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm font-medium text-tenu-slate">
+              <p className="text-sm font-medium text-tenu-ink">
                 {g.analyticsLabel}
               </p>
-              <p className="mt-0.5 text-xs text-tenu-slate/70">
+              <p className="mt-0.5 text-xs text-tenu-ink-muted">
                 {g.analyticsHint}
               </p>
             </div>
@@ -296,19 +296,19 @@ export default function CookieBanner({ locale }: Props) {
               type="checkbox"
               checked={analytics}
               onChange={(e) => setAnalytics(e.target.checked)}
-              className="mt-1 h-4 w-4 accent-tenu-forest"
+              className="mt-1 h-4 w-4 accent-tenu-ink"
             />
           </div>
         </label>
 
         {/* Marketing — third-party. Kept separate from analytics on purpose. */}
-        <label className="mb-5 block cursor-pointer rounded-lg border border-tenu-cream-dark p-3 hover:bg-tenu-cream/40">
+        <label className="mb-5 block cursor-pointer border t-hairline p-3">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-sm font-medium text-tenu-slate">
+              <p className="text-sm font-medium text-tenu-ink">
                 {g.marketingLabel}
               </p>
-              <p className="mt-0.5 text-xs text-tenu-slate/70">
+              <p className="mt-0.5 text-xs text-tenu-ink-muted">
                 {g.marketingHint}
               </p>
             </div>
@@ -316,7 +316,7 @@ export default function CookieBanner({ locale }: Props) {
               type="checkbox"
               checked={marketing}
               onChange={(e) => setMarketing(e.target.checked)}
-              className="mt-1 h-4 w-4 accent-tenu-forest"
+              className="mt-1 h-4 w-4 accent-tenu-ink"
             />
           </div>
         </label>
@@ -325,14 +325,14 @@ export default function CookieBanner({ locale }: Props) {
           <button
             type="button"
             onClick={() => setStage("banner")}
-            className="hig-press min-h-11 flex-1 rounded-lg border border-tenu-cream-dark px-4 py-2.5 text-sm font-medium text-tenu-slate hover:bg-tenu-cream"
+            className="hig-press min-h-11 flex-1 border border-tenu-ink px-4 py-2.5 text-sm font-medium text-tenu-ink"
           >
             {g.back}
           </button>
           <button
             type="button"
             onClick={onSaveCustom}
-            className="hig-press min-h-11 flex-[2] rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light"
+            className="hig-press min-h-11 flex-[2] bg-tenu-cta px-4 py-2.5 text-sm font-medium text-white"
           >
             {g.save}
           </button>

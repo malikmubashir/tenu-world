@@ -45,7 +45,7 @@ export default function WithdrawalWaiver({
 
   return (
     <div
-      className="rounded-xl border border-tenu-cream-dark bg-tenu-cream/40 p-4 text-sm text-tenu-slate"
+      className="border t-hairline p-4 text-sm text-tenu-ink"
       data-waiver-version={WAIVER_TEXT_VERSION}
     >
       <p className="mb-3 leading-relaxed">{copy.intro}</p>
@@ -53,7 +53,7 @@ export default function WithdrawalWaiver({
       <label className="mb-3 flex cursor-pointer items-start gap-3">
         <input
           type="checkbox"
-          className="mt-0.5 h-4 w-4 accent-tenu-forest"
+          className="mt-0.5 h-4 w-4 accent-tenu-ink"
           checked={value.priorConsent}
           onChange={(e) =>
             onChange({ ...value, priorConsent: e.target.checked })
@@ -66,7 +66,7 @@ export default function WithdrawalWaiver({
       <label className="mb-3 flex cursor-pointer items-start gap-3">
         <input
           type="checkbox"
-          className="mt-0.5 h-4 w-4 accent-tenu-forest"
+          className="mt-0.5 h-4 w-4 accent-tenu-ink"
           checked={value.waiver}
           onChange={(e) => onChange({ ...value, waiver: e.target.checked })}
           required
@@ -77,14 +77,14 @@ export default function WithdrawalWaiver({
       <div className="flex items-center justify-between pt-1">
         <Link
           href={refundHref}
-          className="text-xs text-tenu-forest underline hover:no-underline"
+          className="ed-link text-xs"
           target="_blank"
           rel="noopener"
         >
           {copy.refundLinkLabel}
         </Link>
         {showHint && !bothChecked && (
-          <span className="text-xs text-tenu-slate/60">{copy.hint}</span>
+          <span className="text-xs text-tenu-ink-muted">{copy.hint}</span>
         )}
       </div>
     </div>

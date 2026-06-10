@@ -310,6 +310,7 @@ Breakeven: ~4 paying users/month against €47 fixed burn.
 - Hosting: Vercel
 - Languages: 10 total, legal output FR/EN only
 - Pricing: €15 flat launch
+- Design system: Éditorial v2 (2026-06-10) — supersedes Identity v1; wordmark unchanged
 
 ---
 
@@ -325,14 +326,15 @@ Breakeven: ~4 paying users/month against €47 fixed burn.
 
 ## Brand (canonical)
 Single source of truth for every Tenu surface (web, app, email, PDF, letterhead, deck, social):
-- **Brand guidelines:** `docs/brand/BRAND-GUIDELINES.md`
-- **Design tokens:** `src/app/theme.css` (palette + semantic + legacy aliases)
+- **Design spec (the law):** `docs/brand/DESIGN-EDITORIAL-2026-06-10.md` — Éditorial v2, adopted 2026-06-10 by MH decision
+- **Brand guidelines:** `docs/brand/BRAND-GUIDELINES.md` (v2.0)
+- **Design tokens:** `src/app/theme.css` (palette + semantic + legacy aliases, rewritten 2026-06-10)
 - **Theming preset doc:** `docs/THEMING.md`
-- **Official marks:** `public/brand/mark-disc.svg` (primary), `public/brand/mark-portal.svg` (secondary)
+- **Official marks:** `public/brand/mark-disc.svg` (primary), `public/brand/mark-portal.svg` (secondary) — geometry unchanged, grounds recoloured black/white
 - **Parametric mark component:** `src/components/brand/TenuMark.tsx` (11 containers)
-- **Email templates:** `docs/email-templates/` (six Supabase + one Brevo, stacked FR/EN/ZH/AR)
+- **Email templates:** `docs/email-templates/` (six Supabase + one Brevo, stacked FR/EN/ZH/AR, restyled to v2)
 
-Principle: full professional services register throughout, calibrated to a cabinet d'avocats or audit practice. Every surface must read as a credible business deliverable to both the tenant and the counterparty. No casual register, no marketing buzzwords, no stock imagery, no artisanal touches. Palette is Apple-crisp body (#059669 emerald CTA, #1D1D1F ink, #FFFFFF canvas) + Identity v1 chrome (#0B1F3A navy, #F4F1EA paper). Wordmark is lowercase `tenu`, Inter Tight 500, tracking −0.04em.
+Principle: full professional services register throughout, calibrated to a cabinet d'avocats or audit practice. Every surface must read as a credible business deliverable to both the tenant and the counterparty. No casual register, no marketing buzzwords, no stock imagery, no artisanal touches. System is **Éditorial v2** (supersedes Apple-crisp + Identity v1 navy/paper, 2026-06-10): pure white canvas, absolute black ink, 1px #e5e7eb hairline structure, Inter (300 display / 400 body / 500 labels, negative tracking zeroed for AR/UR), signal blue #2563eb for links/focus ONLY, 0px radii, shadowless — depth via black inversion bands. Sole approved exception: filled #000 button for paid actions. All colour lives in warm editorial photography. Wordmark UNCHANGED: lowercase `tenu`, Inter Tight 500, tracking −0.04em.
 
 ---
 

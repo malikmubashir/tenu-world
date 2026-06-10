@@ -1,9 +1,11 @@
 "use client";
 
 /**
- * Bottom tab bar — three destinations: Inspections, Reports, Settings.
- * Follows Apple HIG: icon + label stacked, safe-area padding handled
- * by the parent Shell.
+ * Bottom tab bar — Éditorial v2 (#T150): flat white surface, 1px
+ * hairline top border, no translucency or blur. Active tab = black
+ * label at weight 500 (signal blue is reserved for links, not tabs);
+ * inactive tabs sit in stone gray. Icon + label stacked, safe-area
+ * padding handled by the parent Shell. 44px targets kept (#T134).
  */
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -21,7 +23,7 @@ export default function TabBar() {
   const pathname = usePathname() ?? "/app-home";
   return (
     <nav
-      className="sticky bottom-0 z-40 grid grid-cols-3 border-t border-tenu-cream-dark bg-tenu-cream/95 backdrop-blur"
+      className="sticky bottom-0 z-40 grid grid-cols-3 border-t border-tenu-hairline bg-tenu-canvas"
       style={{ minHeight: 52 }}
       aria-label="Navigation principale"
     >
@@ -36,13 +38,20 @@ export default function TabBar() {
             className={clsx(
               "flex flex-col items-center justify-center py-1.5",
               // Colour + opacity ease together on tab change. No scale —
-              // iOS tab bars dim, they do not shrink.
+              // tab bars dim, they do not shrink.
               "active:opacity-60 transition-[color,opacity] duration-150",
-              active ? "text-tenu-forest" : "text-tenu-slate/60",
+              active ? "text-tenu-ink" : "text-tenu-ink-muted",
             )}
           >
             <Icon className="h-6 w-6" aria-hidden />
-            <span className="mt-0.5 text-[11px] font-medium">{label}</span>
+            <span
+              className={clsx(
+                "mt-0.5 text-[11px]",
+                active ? "font-medium" : "font-normal",
+              )}
+            >
+              {label}
+            </span>
           </Link>
         );
       })}

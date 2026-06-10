@@ -29,10 +29,11 @@
  *     persist consents rows once user_id is known.
  *
  * Brand:
- *   - Identity v1: paper #F4F1EA, ink #0B1F3A, paper-2 #EDE8DC layered
- *     surface for the consent panel, brand-rule hairline divider,
- *     brand-muted hint text. Emerald #059669 for the CTA only —
- *     brand-red is reserved for rights accents and never used as CTA.
+ *   - Éditorial v2 (#T150): white canvas, black ink, hairline #e5e7eb
+ *     frame around the consent panel, 0px radius, no shadows. The
+ *     magic-link send is the primary action — APPROVED EXCEPTION
+ *     filled black button (--color-tenu-cta). Inputs: 1px stone-gray
+ *     border, 2px radius, border darkens to black on focus.
  */
 
 import { useEffect, useState } from "react";
@@ -53,17 +54,6 @@ import {
   type Locale,
 } from "@/lib/legal/consents";
 
-// Inline brand tokens — same pattern as /intro page. Self-contained so
-// the screen renders correctly even if Tailwind v4 hasn't picked up
-// the new --color-brand-* vars yet.
-const PAPER = "#F4F1EA";
-const PAPER_2 = "#EDE8DC";
-const INK = "#0B1F3A";
-const INK_55 = "rgba(11, 31, 58, 0.55)";
-const INK_12 = "rgba(11, 31, 58, 0.12)";
-const EMERALD = "#059669";
-const EMERALD_PRESSED = "#047857";
-const DANGER = "#DC2626";
 
 async function lightHaptic() {
   if (!isNative()) return;
@@ -167,31 +157,27 @@ export default function MobileLoginPage() {
   // Confirmation state.
   if (sent) {
     return (
-      <div
-        className="flex flex-1 flex-col"
-        style={{ backgroundColor: PAPER, color: INK }}
-      >
+      <div className="flex flex-1 flex-col bg-tenu-canvas text-tenu-ink">
         <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 text-center">
-          <TenuMark container="portal" size={72} />
+          <TenuMark
+            container="portal"
+            size={72}
+            fill="var(--color-tenu-ink)"
+            carve="var(--color-tenu-canvas)"
+          />
 
           <div className="space-y-3">
-            <h1
-              className="text-[28px] font-medium leading-tight"
-              style={{
-                fontFamily: "var(--font-brand)",
-                letterSpacing: "-0.04em",
-              }}
-            >
+            <h1 className="text-3xl font-light leading-tight tracking-[-0.025em] text-tenu-ink">
               Vérifiez votre e-mail
             </h1>
-            <p className="text-[15px] leading-relaxed" style={{ color: INK_55 }}>
+            <p className="text-[15px] leading-relaxed text-tenu-ink-muted">
               Nous avons envoyé un lien de connexion à
               <br />
-              <span className="font-medium" style={{ color: INK }}>
+              <span className="font-medium text-tenu-ink">
                 {email.trim()}
               </span>
             </p>
-            <p className="text-[13px] leading-relaxed" style={{ color: INK_55 }}>
+            <p className="text-[13px] leading-relaxed text-tenu-ink-muted">
               Ouvrez l&apos;e-mail sur cet appareil et touchez le lien. Si vous
               ne le voyez pas, vérifiez vos courriers indésirables.
             </p>
@@ -203,8 +189,7 @@ export default function MobileLoginPage() {
               setSent(false);
               setEmail("");
             }}
-            className="rounded-xl px-4 py-2 text-[14px] font-medium underline-offset-4 hover:underline"
-            style={{ color: INK }}
+            className="hig-press min-h-11 rounded-none px-4 py-2 text-[14px] font-medium text-tenu-ink underline decoration-1 underline-offset-4"
           >
             Utiliser une autre adresse
           </button>
@@ -214,20 +199,22 @@ export default function MobileLoginPage() {
   }
 
   return (
-    <div
-      className="flex flex-1 flex-col"
-      style={{ backgroundColor: PAPER, color: INK }}
-    >
-      {/* Top brand stack — Portal mark + wordmark, mirrors /intro screen 1. */}
+    <div className="flex flex-1 flex-col bg-tenu-canvas text-tenu-ink">
+      {/* Top brand stack — Portal mark + wordmark, mirrors /intro screen 1.
+          Wordmark itself unchanged per MH (Inter Tight 500, -0.04em). */}
       <div className="flex flex-col items-center gap-3 px-6 pt-12">
-        <TenuMark container="portal" size={56} />
+        <TenuMark
+          container="portal"
+          size={56}
+          fill="var(--color-tenu-ink)"
+          carve="var(--color-tenu-canvas)"
+        />
         <div className="flex items-baseline gap-2">
           <span
-            className="text-[22px] font-medium lowercase"
+            className="text-[22px] font-medium lowercase text-tenu-ink"
             style={{
               fontFamily: "var(--font-brand)",
               letterSpacing: "-0.04em",
-              color: INK,
             }}
           >
             tenu
@@ -235,22 +222,12 @@ export default function MobileLoginPage() {
         </div>
       </div>
 
-      {/* Heading + subhead. */}
+      {/* Heading + subhead — editorial display register. */}
       <div className="px-6 pt-10 text-center">
-        <h1
-          className="text-[28px] font-medium leading-tight"
-          style={{
-            fontFamily: "var(--font-brand)",
-            letterSpacing: "-0.04em",
-            color: INK,
-          }}
-        >
+        <h1 className="text-3xl font-light leading-tight tracking-[-0.025em] text-tenu-ink">
           Connexion
         </h1>
-        <p
-          className="mt-2 text-[15px] leading-relaxed"
-          style={{ color: INK_55 }}
-        >
+        <p className="mt-2 text-[15px] leading-relaxed text-tenu-ink-muted">
           Recevez un lien de connexion à usage unique par e-mail. Aucun mot de
           passe à mémoriser.
         </p>
@@ -263,10 +240,7 @@ export default function MobileLoginPage() {
         noValidate
       >
         <label className="block">
-          <span
-            className="mb-2 block text-[13px] font-medium"
-            style={{ color: INK }}
-          >
+          <span className="mb-2 block text-[13px] font-medium text-tenu-ink">
             Adresse e-mail
           </span>
           <input
@@ -280,37 +254,18 @@ export default function MobileLoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="vous@exemple.com"
-            className="block h-[52px] w-full rounded-2xl px-4 text-[16px] outline-none transition-colors"
-            style={{
-              backgroundColor: PAPER_2,
-              color: INK,
-              border: `1px solid ${INK_12}`,
-            }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = INK;
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = INK_12;
-            }}
+            className="block h-[52px] w-full rounded-[2px] border border-tenu-ink-muted bg-tenu-canvas px-4 text-[16px] text-tenu-ink placeholder:text-tenu-ash outline-none focus-visible:outline-none transition-colors duration-150 focus:border-tenu-ink"
           />
         </label>
 
         {/* Consent panel — required DPA + optional marketing.
             Sits between input and CTA per HIG: required attestations live
             with the form they gate, not above the heading. */}
-        <div
-          className="rounded-2xl p-4 text-[13px]"
-          style={{
-            backgroundColor: PAPER_2,
-            border: `1px solid ${INK_12}`,
-            color: INK,
-          }}
-        >
+        <div className="border border-tenu-hairline bg-tenu-canvas p-4 text-[13px] text-tenu-ink">
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
-              className="mt-[3px] h-[18px] w-[18px] flex-shrink-0"
-              style={{ accentColor: EMERALD }}
+              className="mt-[3px] h-[18px] w-[18px] flex-shrink-0 accent-tenu-ink"
               checked={dpaAccepted}
               onChange={(e) => setDpaAccepted(e.target.checked)}
               required
@@ -334,8 +289,7 @@ export default function MobileLoginPage() {
                         }
                         target="_blank"
                         rel="noopener"
-                        className="underline underline-offset-2"
-                        style={{ color: INK }}
+                        className="text-tenu-ink underline decoration-1 underline-offset-2"
                       >
                         {part}
                       </Link>
@@ -355,8 +309,7 @@ export default function MobileLoginPage() {
                         }
                         target="_blank"
                         rel="noopener"
-                        className="underline underline-offset-2"
-                        style={{ color: INK }}
+                        className="text-tenu-ink underline decoration-1 underline-offset-2"
                       >
                         {part}
                       </Link>
@@ -364,35 +317,25 @@ export default function MobileLoginPage() {
                   }
                   return <span key={i}>{part}</span>;
                 })}
-              <span
-                className="mt-1 block text-[12px]"
-                style={{ color: INK_55 }}
-              >
+              <span className="mt-1 block text-[12px] text-tenu-ink-muted">
                 {dpaCopy.required}
               </span>
             </span>
           </label>
 
-          <div
-            className="my-3 h-px w-full"
-            style={{ backgroundColor: INK_12 }}
-          />
+          <div className="my-3 h-px w-full bg-tenu-hairline" />
 
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
-              className="mt-[3px] h-[18px] w-[18px] flex-shrink-0"
-              style={{ accentColor: EMERALD }}
+              className="mt-[3px] h-[18px] w-[18px] flex-shrink-0 accent-tenu-ink"
               checked={marketingOptin}
               onChange={(e) => setMarketingOptin(e.target.checked)}
               data-marketing-version={MARKETING_TEXT_VERSION}
             />
             <span className="leading-snug">
               {marketingCopy.label}
-              <span
-                className="mt-1 block text-[12px]"
-                style={{ color: INK_55 }}
-              >
+              <span className="mt-1 block text-[12px] text-tenu-ink-muted">
                 {marketingCopy.hint}
               </span>
             </span>
@@ -400,14 +343,7 @@ export default function MobileLoginPage() {
         </div>
 
         {error && (
-          <p
-            className="rounded-xl px-3 py-2 text-[13px]"
-            style={{
-              color: DANGER,
-              backgroundColor: "rgba(220, 38, 38, 0.06)",
-              border: `1px solid rgba(220, 38, 38, 0.20)`,
-            }}
-          >
+          <p className="border border-tenu-danger px-3 py-2 text-[13px] text-tenu-danger">
             {error}
           </p>
         )}
@@ -418,36 +354,13 @@ export default function MobileLoginPage() {
         <button
           type="submit"
           disabled={!canProceed}
-          className="flex h-[52px] w-full items-center justify-center rounded-2xl text-[16px] font-semibold transition-all"
-          style={{
-            backgroundColor: canProceed ? EMERALD : "rgba(5, 150, 105, 0.40)",
-            color: "#FFFFFF",
-            cursor: canProceed ? "pointer" : "not-allowed",
-          }}
-          onPointerDown={(e) => {
-            if (canProceed) {
-              e.currentTarget.style.backgroundColor = EMERALD_PRESSED;
-            }
-          }}
-          onPointerUp={(e) => {
-            if (canProceed) {
-              e.currentTarget.style.backgroundColor = EMERALD;
-            }
-          }}
-          onPointerLeave={(e) => {
-            if (canProceed) {
-              e.currentTarget.style.backgroundColor = EMERALD;
-            }
-          }}
+          className="hig-press flex h-[52px] w-full items-center justify-center rounded-none bg-tenu-cta text-[16px] font-medium text-tenu-cta-text disabled:cursor-not-allowed disabled:opacity-40"
         >
           {loading ? "Envoi…" : "Envoyer le lien magique"}
         </button>
 
         {!dpaAccepted && (
-          <p
-            className="text-center text-[12px] leading-snug"
-            style={{ color: INK_55 }}
-          >
+          <p className="text-center text-[12px] leading-snug text-tenu-ink-muted">
             Cochez l&apos;acceptation des CGU et de la Politique de
             confidentialité pour continuer.
           </p>

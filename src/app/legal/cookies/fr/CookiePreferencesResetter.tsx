@@ -39,7 +39,7 @@ export default function CookiePreferencesResetter({ locale }: Props) {
       type="button"
       onClick={reset}
       disabled={cleared}
-      className="mt-2 rounded-lg border border-tenu-forest px-4 py-2 text-sm font-medium text-tenu-forest hover:bg-tenu-cream disabled:cursor-not-allowed disabled:opacity-60"
+      className="hig-press mt-2 border border-tenu-ink px-4 py-2 text-sm font-medium text-tenu-ink disabled:cursor-not-allowed disabled:opacity-60"
     >
       {label}
     </button>

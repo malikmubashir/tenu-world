@@ -135,7 +135,7 @@ export default function TranslatePreview() {
   // Already translating — render a thin dismiss bar.
   if (active === target) {
     return (
-      <div className="border-b border-tenu-cream-dark bg-tenu-cream/70 px-4 py-1.5 text-center text-xs text-tenu-slate/80">
+      <div className="border-b t-hairline bg-tenu-canvas px-4 py-1.5 text-center text-xs text-tenu-ink-muted">
         <span translate="no">
           Preview machine translation ({langLabel}) — unofficial.{" "}
         </span>
@@ -144,7 +144,7 @@ export default function TranslatePreview() {
             setTranslatePref(null);
             window.location.reload();
           }}
-          className="underline hover:no-underline"
+          className="ed-link"
           translate="no"
         >
           Show original (Français)
@@ -155,10 +155,10 @@ export default function TranslatePreview() {
 
   return (
     <div
-      className="border-b border-tenu-cream-dark bg-tenu-cream/70 px-4 py-2 text-center text-xs text-tenu-slate/80"
+      className="border-b t-hairline bg-tenu-canvas px-4 py-2 text-center text-xs text-tenu-ink-muted"
       translate="no"
     >
-      <span className="mr-2">
+      <span className="me-2">
         Showing original Français. Preview in {langLabel}?
       </span>
       <button
@@ -166,11 +166,11 @@ export default function TranslatePreview() {
           setTranslatePref(target);
           injectGoogleTranslate(target);
         }}
-        className="inline-flex items-center rounded-md bg-tenu-forest px-2.5 py-1 text-xs font-medium text-white hover:bg-tenu-forest-light"
+        className="ed-link-strong text-xs"
       >
         Translate (preview)
       </button>
-      <span className="ml-2 text-tenu-slate/60">
+      <span className="ms-2 text-tenu-ash">
         Machine output — legal pages excluded.
       </span>
     </div>

@@ -4,16 +4,24 @@
 /* ============================================================
    globals.css — reset, utility component classes, motion primitives.
 
+   THEME: "Éditorial" v2 (2026-06-10, #T149 — see
+   docs/brand/DESIGN-EDITORIAL-2026-06-10.md). Swiss-grid editorial
+   system: white canvas, 1px hairline structure, absolute black ink,
+   whisper-weight display type, signal-blue links, inverted black
+   bands. Actions are underlined typographic links — the ONLY filled
+   button in the system is .t-cta-primary (approved MH exception for
+   primary commercial actions: Pay / Run scan / Start).
+
    This file deliberately carries NO colour values or type scale.
    All of that lives in theme.css so a single token swap repaints
    the entire site. Component classes here only reference the
-   semantic tokens (`--color-tenu-*`, `--radius-hig-*`, etc.).
+   semantic tokens (`--color-tenu-*`, `--radius-*`, etc.).
 
    If you find yourself hard-coding a hex value in this file,
    stop — it belongs in theme.css.
    ============================================================ */
 
-/* Global smoothing. SF-like rendering without the font swap flicker. */
+/* Global smoothing. Crisp editorial rendering. */
 html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -21,23 +29,23 @@ html, body {
   font-feature-settings: "cv11", "ss01", "ss02";
 }
 
-/* Selection color — match brand. */
+/* Selection — quiet, achromatic-leaning. Blue stays reserved for
+   links/active/focus; a 20% wash on selection reads as state, not fill. */
 ::selection {
-  background: color-mix(in oklab, var(--color-tenu-accent) 30%, transparent);
-  color: var(--color-tenu-accent);
+  background: color-mix(in oklab, var(--color-tenu-accent) 20%, transparent);
+  color: var(--color-tenu-ink);
 }
 
-/* Focus ring — BRAND-GUIDELINES §16: 2px accent-hover, offset 2px.
-   Always visible via keyboard, never shown for mouse (focus-visible
-   gates it). Outline (not box-shadow) follows border-radius and reads
-   on both canvas and navy chrome surfaces. */
+/* Focus ring — Signal Blue (one of blue's two permitted jobs).
+   Visible via keyboard only (focus-visible gates it). Inputs opt out
+   via .ed-input: their border darkens to ink instead — no ring glow. */
 :focus-visible {
   outline: var(--focus-ring-width) solid var(--focus-ring-color);
   outline-offset: var(--focus-ring-offset);
 }
 
 @layer components {
-  /* ---------- MOTION PRIMITIVES ---------- */
+  /* ---------- MOTION / INTERACTION PRIMITIVES (#T134, kept) ---------- */
 
   /* Base press feedback — scale + opacity on active. Touch-optimised
      (works without hover). Use on any interactive surface. */
@@ -47,16 +55,15 @@ html, body {
       opacity var(--duration-hig-fast) var(--ease-hig),
       background-color var(--duration-hig-fast) var(--ease-hig),
       color var(--duration-hig-fast) var(--ease-hig),
-      box-shadow var(--duration-hig-fast) var(--ease-hig);
+      border-color var(--duration-hig-fast) var(--ease-hig),
+      text-decoration-color var(--duration-hig-fast) var(--ease-hig);
   }
   .hig-press:active {
     transform: scale(var(--press-scale));
     opacity: var(--press-opacity);
   }
 
-  /* Horizontal momentum scroller — chip rows, segmented pickers.
-     iOS momentum + contained overscroll, scrollbar hidden (the row
-     itself communicates scrollability). */
+  /* Horizontal momentum scroller — chip rows, segmented pickers. */
   .hig-scroll-x {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -67,43 +74,23 @@ html, body {
     display: none;
   }
 
-  /* HIG minimum touch target (44×44pt). Apply to small visual controls
-     so the hit area meets the floor without inflating the layout. */
+  /* HIG minimum touch target (44×44pt). */
   .hig-touch {
     min-height: var(--touch-target-min);
     min-width: var(--touch-target-min);
   }
 
-  /* Safe-area padding for fixed bottom surfaces (cookie banner, sheets)
-     so content clears the iOS home indicator inside the Capacitor shell
-     and PWA. Falls back to 1rem on devices without insets. */
+  /* Safe-area padding for fixed bottom surfaces (cookie banner, sheets). */
   .hig-safe-bottom {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 
-  /* Card surface — flat-ish, soft shadow, rounded. */
+  /* Card surface — editorial: a 1px hairline frame on white. No fill,
+     no shadow, no radius. The frame IS the card. */
   .hig-card {
     background: var(--color-tenu-canvas);
+    border: var(--hairline) solid var(--color-tenu-hairline);
     border-radius: var(--radius-hig-card);
-    box-shadow: var(--shadow-hig-card);
-  }
-
-  /* Translucent header — macOS Sonoma / iOS 17 toolbar feel.
-     Kept for any surface that still wants the light chrome. */
-  .hig-header-blur {
-    background: color-mix(in oklab, var(--color-tenu-canvas) 80%, transparent);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-  }
-
-  /* Identity v1 navy chrome — solid Tenu Ink with Paper text.
-     Use on the global header and any surface that carries the
-     brand mark. Body surfaces stay on Apple-crisp canvas. */
-  .hig-header-ink {
-    background: var(--color-brand-ink);
-    color: var(--color-brand-paper);
-    border-bottom: 1px solid
-      color-mix(in oklab, var(--color-brand-paper) 10%, transparent);
   }
 
   .hig-reveal {
@@ -125,9 +112,9 @@ html, body {
   .hig-skeleton {
     background: linear-gradient(
       90deg,
-      var(--color-tenu-band) 0%,
-      color-mix(in oklab, var(--color-tenu-band) 50%, #fff) 50%,
-      var(--color-tenu-band) 100%
+      var(--color-tenu-hairline) 0%,
+      color-mix(in oklab, var(--color-tenu-hairline) 40%, #fff) 50%,
+      var(--color-tenu-hairline) 100%
     );
     background-size: 200% 100%;
     animation: hig-shimmer 1.4s linear infinite;
@@ -141,157 +128,293 @@ html, body {
      T-COMPONENTS — semantic design system classes.
 
      Markup references these (`<h1 class="t-display">`) instead of
-     raw Tailwind utility chains. This means a token change in
-     theme.css repaints the whole site without touching JSX.
+     raw Tailwind utility chains. A token change in theme.css
+     repaints the whole site without touching JSX.
      ============================================================ */
 
   /* ---------- TYPOGRAPHY ---------- */
 
-  .t-display {
+  /* Editorial Display Headline — the signature element. 100px Inter
+     weight 300, line-height 1.0, tracking -0.05em. Whisper-weight
+     giant; always ink on white or white on black. */
+  .t-display, .ed-display {
     font-size: var(--font-size-display);
-    line-height: 1.05;
+    line-height: var(--leading-display);
     letter-spacing: var(--tracking-display);
-    font-weight: 600;
+    font-weight: var(--font-weight-display);
     color: var(--color-tenu-ink);
   }
 
   .t-section-heading {
     font-size: var(--font-size-section);
-    line-height: 1.1;
+    line-height: var(--leading-section);
     letter-spacing: var(--tracking-section);
-    font-weight: 600;
+    font-weight: var(--font-weight-display);
     color: var(--color-tenu-ink);
   }
 
   .t-h3 {
     font-size: var(--font-size-h3);
-    line-height: 1.3;
+    line-height: 1.25;
     letter-spacing: var(--tracking-tight);
-    font-weight: 600;
+    font-weight: var(--font-weight-body);
     color: var(--color-tenu-ink);
   }
 
   .t-body {
     font-size: var(--font-size-body);
-    line-height: 1.6;
+    line-height: var(--leading-body);
     color: var(--color-tenu-ink);
   }
 
+  /* Muted reading copy — Stone Gray. (Ash is reserved for captions
+     and placeholders via .t-caption; it is too light for paragraphs.) */
   .t-body-muted {
     font-size: var(--font-size-body);
-    line-height: 1.6;
-    color: color-mix(in oklab, var(--color-tenu-ink) 60%, transparent);
-  }
-
-  .t-small-muted {
-    font-size: var(--font-size-small);
-    line-height: 1.55;
-    color: color-mix(in oklab, var(--color-tenu-ink) 60%, transparent);
-  }
-
-  .t-label {
-    font-size: var(--font-size-label);
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    font-weight: 600;
+    line-height: var(--leading-body);
     color: var(--color-tenu-ink-muted);
   }
 
-  /* Identity v1 wordmark. Inter Tight Medium, lowercase,
-     tracking -0.04em per designer spec. Paper colour by default
-     because it lives on the navy chrome; override `color` inline
-     when used on Paper surfaces (PDF cover, etc). */
+  /* Fine print only (legal micro-copy) — the one size below the 16px
+     editorial floor. */
+  .t-small-muted {
+    font-size: var(--font-size-small);
+    line-height: 1.55;
+    color: var(--color-tenu-ink-muted);
+  }
+
+  /* Captions, placeholders, de-emphasized helper text — Ash. */
+  .t-caption {
+    font-size: var(--font-size-small);
+    line-height: 1.55;
+    color: var(--color-tenu-ash);
+  }
+
+  /* Section Label — magazine kicker above a headline. Editorial spec:
+     16px weight 500, ink, tight tracking, NO uppercase, no decoration. */
+  .t-label, .ed-label {
+    font-size: var(--font-size-label);
+    letter-spacing: var(--tracking-tight);
+    font-weight: var(--font-weight-label);
+    color: var(--color-tenu-ink);
+  }
+
+  /* Wordmark — UNCHANGED per MH. Inter Tight Medium, lowercase,
+     tracking -0.04em. Default colour is now chrome ink (the header
+     is white); override inline on inverted surfaces. */
   .t-wordmark {
     font-family: var(--font-brand);
     font-weight: 500;
     letter-spacing: -0.04em;
     text-transform: lowercase;
-    color: var(--color-brand-paper);
+    color: var(--color-brand-ink);
     line-height: 1;
+  }
+
+  /* ---------- LINKS — the system is typographic ---------- */
+
+  /* Underlined Inline Link — ink with a hairline underline; hover and
+     active shift to Signal Blue. No button chrome, ever. */
+  .ed-link {
+    color: var(--color-tenu-ink);
+    font-weight: var(--font-weight-body);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-tenu-hairline);
+    text-underline-offset: 4px;
+    transition:
+      color var(--duration-hig-fast) var(--ease-hig),
+      text-decoration-color var(--duration-hig-fast) var(--ease-hig);
+  }
+  .ed-link:hover, .ed-link:active {
+    color: var(--color-tenu-accent);
+    text-decoration-color: var(--color-tenu-accent);
+  }
+
+  /* Ghost CTA Link — 'Show more', 'View all'. Weight 500, ink
+     underline. Flush-left, no padding chrome. */
+  .ed-link-strong {
+    color: var(--color-tenu-ink);
+    font-weight: var(--font-weight-label);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-tenu-ink);
+    text-underline-offset: 4px;
+    transition:
+      color var(--duration-hig-fast) var(--ease-hig),
+      text-decoration-color var(--duration-hig-fast) var(--ease-hig);
+  }
+  .ed-link-strong:hover, .ed-link-strong:active {
+    color: var(--color-tenu-accent);
+    text-decoration-color: var(--color-tenu-accent);
+  }
+
+  /* Underlined link on an inverted black band. White underline; hover
+     softens to Ash (blue stays off the black ground). */
+  .ed-link-inverted {
+    color: var(--color-tenu-cta-text);
+    font-weight: var(--font-weight-label);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-tenu-cta-text);
+    text-underline-offset: 4px;
+    transition:
+      color var(--duration-hig-fast) var(--ease-hig),
+      text-decoration-color var(--duration-hig-fast) var(--ease-hig);
+  }
+  .ed-link-inverted:hover, .ed-link-inverted:active {
+    color: var(--color-tenu-ash);
+    text-decoration-color: var(--color-tenu-ash);
   }
 
   /* ---------- CTAs ---------- */
 
+  /* APPROVED EXCEPTION (MH 2026-06-10): primary commercial actions
+     (Pay, Run scan, Start) are a filled #000 rectangle, 0px radius,
+     white text. Everything else on the site is a typographic link. */
   .t-cta-primary {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     height: 3rem;
     padding: 0 1.75rem;
-    border-radius: var(--radius-hig-pill);
-    background: var(--color-tenu-accent);
-    color: #fff;
+    border-radius: var(--radius-hig-button);
+    background: var(--color-tenu-cta);
+    color: var(--color-tenu-cta-text);
     font-size: var(--font-size-body);
-    font-weight: 600;
-    box-shadow: var(--shadow-hig-cta);
-  }
-  .t-cta-primary {
-    /* Token-driven hover/press transition so every consumer animates
-       consistently, even without the .hig-press helper in markup. */
+    font-weight: var(--font-weight-label);
     transition:
       background-color var(--duration-hig-fast) var(--ease-hig),
-      box-shadow var(--duration-hig-fast) var(--ease-hig);
+      opacity var(--duration-hig-fast) var(--ease-hig);
   }
   .t-cta-primary:hover {
-    background: var(--color-tenu-accent-hover);
+    background: color-mix(in oklab, var(--color-tenu-cta) 82%, white);
   }
 
-  .t-cta-ghost {
-    transition: color var(--duration-hig-fast) var(--ease-hig);
-  }
-
+  /* Secondary action — retired as a button; now a Ghost CTA link.
+     Class name kept so existing markup compiles. min-height keeps the
+     44px touch floor without visual chrome. */
   .t-cta-ghost {
     display: inline-flex;
     align-items: center;
-    height: 3rem;
-    padding: 0 1.75rem;
-    border-radius: var(--radius-hig-pill);
-    color: var(--color-tenu-accent);
+    min-height: var(--touch-target-min);
+    color: var(--color-tenu-ink);
     font-size: var(--font-size-body);
-    font-weight: 600;
+    font-weight: var(--font-weight-label);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--color-tenu-ink);
+    text-underline-offset: 4px;
+    transition:
+      color var(--duration-hig-fast) var(--ease-hig),
+      text-decoration-color var(--duration-hig-fast) var(--ease-hig);
   }
-  .t-cta-ghost:hover {
-    color: var(--color-tenu-accent-hover);
+  .t-cta-ghost:hover, .t-cta-ghost:active {
+    color: var(--color-tenu-accent);
+    text-decoration-color: var(--color-tenu-accent);
   }
 
-  /* ---------- SURFACES ---------- */
+  /* ---------- SURFACES & STRUCTURE ---------- */
 
   .t-section-canvas {
     background: var(--color-tenu-canvas);
     padding-block: var(--section-padding-y);
   }
 
+  /* Legacy off-white band — the editorial system has no second light
+     surface. Resolves to canvas; structure comes from hairlines. */
   .t-section-band {
     background: var(--color-tenu-band);
     padding-block: var(--section-padding-y);
   }
 
+  /* Inverted Black Band — the sole elevation shift in the system.
+     Full-width #000 ground, white text, 64–80px vertical padding. */
+  .ed-band {
+    background: var(--color-tenu-band-inverted);
+    color: var(--color-tenu-cta-text);
+    padding-block: var(--section-padding-y);
+  }
+  .ed-band .t-display, .ed-band .ed-display,
+  .ed-band .t-section-heading, .ed-band .t-h3,
+  .ed-band .t-label, .ed-band .ed-label {
+    color: var(--color-tenu-cta-text);
+  }
+  .ed-band .t-body { color: var(--color-tenu-cta-text); }
+  .ed-band .t-body-muted, .ed-band .t-small-muted, .ed-band .t-caption {
+    color: var(--color-tenu-ash);
+  }
+
+  /* Reading measure inside the page frame. */
   .t-content {
     width: 100%;
     max-width: var(--content-max-width);
     margin-inline: auto;
   }
 
+  /* Page frame — 1440px editorial grid with wide gutters. Bands run
+     full-bleed; content sits inside the frame. */
+  .ed-frame {
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .ed-frame { padding-inline: 3rem; }
+  }
+
+  /* Editorial card — 1px hairline frame, 0 radius, white, no shadow. */
   .t-card {
     background: var(--color-tenu-canvas);
+    border: var(--hairline) solid var(--color-tenu-hairline);
     border-radius: var(--radius-hig-card);
-    box-shadow: var(--shadow-hig-card);
     padding: 1.75rem;
   }
 
+  /* Hairline helpers. `.t-hairline` colours a Tailwind border-* ;
+     `.ed-hairline` is a self-contained full-width 1px bottom rule. */
   .t-hairline {
     border-color: var(--color-tenu-hairline);
+  }
+  .ed-hairline {
+    border-bottom: var(--hairline) solid var(--color-tenu-hairline);
+  }
+
+  /* ---------- FORMS ---------- */
+
+  /* Text Input — 1px stone border, 2px radius (the only radius in the
+     system), white ground, ink text, ash placeholder. NO focus ring
+     glow: the border simply darkens to ink. */
+  .ed-input {
+    appearance: none;
+    width: 100%;
+    background: var(--color-tenu-canvas);
+    color: var(--color-tenu-ink);
+    border: var(--hairline) solid var(--color-tenu-ink-muted);
+    border-radius: var(--radius-input);
+    padding: 8px 12px;
+    font-size: var(--font-size-body);
+    line-height: 1.5;
+    transition: border-color var(--duration-hig-fast) var(--ease-hig);
+  }
+  .ed-input::placeholder {
+    color: var(--color-tenu-ash);
+  }
+  .ed-input:focus, .ed-input:focus-visible {
+    outline: none;
+    border-color: var(--color-tenu-ink);
   }
 }
 
 /* Reduced motion respect — required, not optional. */
 @media (prefers-reduced-motion: reduce) {
   .hig-press, .hig-reveal, .hig-fade-in, .hig-skeleton,
-  .t-cta-primary, .t-cta-ghost {
+  .t-cta-primary, .t-cta-ghost, .ed-link, .ed-link-strong, .ed-link-inverted {
     animation: none !important;
     transition: none !important;
   }
   .hig-press:active { transform: none; }
-  /* Programmatic scrollTo / scroll-snap jumps instead of gliding. */
   html, .hig-scroll-x {
     scroll-behavior: auto !important;
   }

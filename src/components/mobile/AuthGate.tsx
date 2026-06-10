@@ -9,7 +9,7 @@
  *
  * Web pre-render emits the gated children in the static export so the
  * JS chunk is shipped; the actual gate fires client-side after hydration.
- * A short paper-coloured veil masks the flicker.
+ * A short white-canvas veil masks the flicker.
  *
  * On the web (non-native), the gate is a passthrough — the web auth
  * flow already lives behind the middleware redirect to /auth/login.
@@ -59,8 +59,7 @@ export default function AuthGate({ children }: { children: ReactNode }) {
   if (state !== "authed") {
     return (
       <div
-        className="flex flex-1 items-center justify-center"
-        style={{ backgroundColor: "#F4F1EA" }}
+        className="flex flex-1 items-center justify-center bg-tenu-canvas"
         aria-hidden="true"
       />
     );

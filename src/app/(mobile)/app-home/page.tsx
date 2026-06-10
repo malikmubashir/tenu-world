@@ -27,8 +27,8 @@ export default function AppHomePage() {
     <>
       <NavBar title="Tenu" showBack={false} />
       <div className="flex flex-1 flex-col px-4 pb-6 pt-4">
-        <h2 className="text-2xl font-bold text-tenu-slate">Bonjour.</h2>
-        <p className="mt-1 text-sm text-tenu-slate/70">
+        <h2 className="text-3xl font-light tracking-[-0.025em] text-tenu-ink">Bonjour.</h2>
+        <p className="mt-1 text-sm text-tenu-ink-muted">
           Commencez un nouveau constat ou reprenez un brouillon.
         </p>
 
@@ -41,32 +41,32 @@ export default function AppHomePage() {
         </div>
 
         <section className="mt-8 flex-1">
-          <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-tenu-slate/60">
+          <h3 className="mb-3 border-b border-tenu-hairline pb-2 text-sm font-medium text-tenu-ink">
             Brouillons
           </h3>
           {!loaded ? (
             /* Skeleton rows sized like draft cells — no spinner, no
                layout shift when SQLite answers (usually <100ms). */
             <div className="flex flex-col gap-2" aria-busy="true">
-              <div className="hig-skeleton h-16 rounded-xl" />
-              <div className="hig-skeleton h-16 rounded-xl" />
+              <div className="h-16 animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
+              <div className="h-16 animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
             </div>
           ) : drafts.length === 0 ? (
-            <p className="rounded-xl bg-white/60 p-4 text-sm text-tenu-slate/70">
+            <p className="border border-dashed border-tenu-hairline p-4 text-sm text-tenu-ink-muted">
               Aucun brouillon. Lancez un constat pour commencer.
             </p>
           ) : (
-            <ul className="hig-fade-in flex flex-col gap-2">
+            <ul className="hig-fade-in flex flex-col border border-tenu-hairline">
               {drafts.map((d) => (
-                <li key={d.id}>
+                <li key={d.id} className="border-b border-tenu-hairline last:border-b-0">
                   <Link
                     href={`/app-home/inspection/${d.id}`}
-                    className="hig-press block min-h-11 rounded-xl bg-white/70 px-4 py-3 active:bg-white"
+                    className="hig-press block min-h-11 bg-tenu-canvas px-4 py-3 active:bg-tenu-hairline/40"
                   >
-                    <p className="font-medium text-tenu-slate">
+                    <p className="font-medium text-tenu-ink">
                       {draftTitle(d)}
                     </p>
-                    <p className="text-xs text-tenu-slate/60">
+                    <p className="text-xs text-tenu-ink-muted">
                       {formatRelative(d.updatedAt)}
                       {d.syncedAt ? " · synchronisé" : " · local"}
                     </p>
@@ -77,7 +77,7 @@ export default function AppHomePage() {
           )}
         </section>
 
-        <footer className="mt-6 text-center text-[11px] text-tenu-slate/40">
+        <footer className="mt-6 text-center text-[11px] text-tenu-ash">
           Plateforme: {platformName()}
         </footer>
       </div>

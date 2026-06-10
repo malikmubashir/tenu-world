@@ -1,9 +1,10 @@
 <!-- Tenu Mark 01 — Disc (primary).
-     Figure carved from a Tenu Ink disc on Paper. Use this version
-     wherever the brand needs a formal, seal-like presence: app
-     icons, favicons, PDF headers, social share cards. -->
+     Figure carved from an Absolute Black disc on Pure White
+     (Éditorial v2 grounds, 2026-06-10 — geometry unchanged).
+     Use this version wherever the brand needs a formal, seal-like
+     presence: app icons, favicons, PDF headers, social share cards. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Tenu — Mark 01 Disc">
-  <rect width="48" height="48" fill="#F4F1EA"/>
+  <rect width="48" height="48" fill="#ffffff"/>
   <defs>
     <mask id="tenu-cut-disc">
       <rect width="48" height="48" fill="white"/>
@@ -12,6 +13,6 @@
       <rect x="22.9" y="23.5" width="2.2" height="18" rx="1.1" fill="black"/>
     </mask>
   </defs>
-  <circle cx="24" cy="24" r="22" fill="#0B1F3A" mask="url(#tenu-cut-disc)"/>
-  <circle cx="24" cy="13" r="4" fill="#F4F1EA"/>
+  <circle cx="24" cy="24" r="22" fill="#000000" mask="url(#tenu-cut-disc)"/>
+  <circle cx="24" cy="13" r="4" fill="#ffffff"/>
 </svg>

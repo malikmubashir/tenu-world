@@ -1,14 +1,15 @@
 "use client";
 
 /**
- * ProgressStepper — compact horizontal step indicator for the
- * inspection funnel (Details → Capture → Review → Report). Done steps
- * fill emerald with a check, the active step is outlined, future steps
- * stay muted. Colour changes ease with the standard motion tokens;
- * aria-current marks the active step for assistive tech.
+ * ProgressStepper — typographic step indicator for the inspection
+ * funnel (Details → Capture → Review → Report). Éditorial v2 (#T150):
+ * no discs, no fills — each step is set as "01 Label" text joined by
+ * a 1px hairline connector. Done + active steps read in black ink
+ * (active at weight 500), future steps in ash. Colour changes ease
+ * with the standard motion tokens; aria-current marks the active
+ * step for assistive tech.
  */
 import { clsx } from "clsx";
-import { Check } from "lucide-react";
 
 interface Step {
   key: string;
@@ -24,7 +25,7 @@ export default function ProgressStepper({ steps, currentStep }: ProgressStepperP
   const currentIndex = steps.findIndex((s) => s.key === currentStep);
 
   return (
-    <nav className="flex items-center gap-1">
+    <nav className="flex items-center gap-1" aria-label="Progression">
       {steps.map((step, i) => {
         const done = i < currentIndex;
         const active = i === currentIndex;
@@ -38,26 +39,29 @@ export default function ProgressStepper({ steps, currentStep }: ProgressStepperP
             {i > 0 && (
               <div
                 className={clsx(
-                  "mx-1 h-px w-6 transition-colors duration-300 sm:w-10",
-                  done ? "bg-tenu-forest" : "bg-tenu-cream-dark",
+                  "mx-1.5 h-px w-5 transition-colors duration-300 sm:w-8",
+                  done ? "bg-tenu-ink" : "bg-tenu-hairline",
                 )}
+                aria-hidden="true"
               />
             )}
-            <div className="flex items-center gap-1.5">
-              <div
-                className={clsx(
-                  "flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium transition-colors duration-300",
-                  done && "bg-tenu-forest text-white",
-                  active && "border-2 border-tenu-forest text-tenu-forest",
-                  !done && !active && "border border-tenu-cream-dark text-tenu-slate/40",
-                )}
-              >
-                {done ? <Check className="h-3.5 w-3.5" /> : i + 1}
-              </div>
+            <div className="flex items-baseline gap-1.5">
               <span
                 className={clsx(
-                  "hidden text-xs sm:inline",
-                  active ? "font-medium text-tenu-forest" : "text-tenu-slate/50",
+                  "text-xs tabular-nums transition-colors duration-300",
+                  active && "font-medium text-tenu-ink",
+                  done && "font-normal text-tenu-ink",
+                  !done && !active && "font-normal text-tenu-ash",
+                )}
+              >
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span
+                className={clsx(
+                  "hidden text-xs transition-colors duration-300 sm:inline",
+                  active && "font-medium text-tenu-ink underline decoration-1 underline-offset-4",
+                  done && "text-tenu-ink",
+                  !done && !active && "text-tenu-ash",
                 )}
               >
                 {step.label}

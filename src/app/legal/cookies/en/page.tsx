@@ -15,15 +15,15 @@ export const metadata: Metadata = {
  */
 export default function CookiePolicyEnPage() {
   return (
-    <main className="mx-auto max-w-2xl px-4 py-12 text-tenu-slate">
+    <main className="mx-auto max-w-2xl px-4 py-12 text-tenu-ink">
       <header className="mb-8">
-        <Link href="/" className="text-xl font-bold text-tenu-forest">
+        <Link href="/" className="t-wordmark text-xl">
           tenu
         </Link>
-        <h1 className="mt-6 text-3xl font-bold text-tenu-forest">
+        <h1 className="t-section-heading mt-6">
           Cookie policy
         </h1>
-        <p className="mt-1 text-sm text-tenu-slate/60">
+        <p className="mt-1 text-sm text-tenu-ink-muted">
           Last updated: 17 April 2026 · version v1.0-2026-04-17
         </p>
       </header>
@@ -35,7 +35,7 @@ export default function CookiePolicyEnPage() {
           lists the categories used and how to control them.
         </p>
 
-        <h2 className="mt-6 text-lg font-semibold text-tenu-forest">
+        <h2 className="mt-6 text-lg font-medium text-tenu-ink">
           1. Strictly necessary cookies
         </h2>
         <p>
@@ -44,7 +44,7 @@ export default function CookiePolicyEnPage() {
           (art. 82 LIL exemption, ePrivacy Directive).
         </p>
 
-        <h2 className="mt-6 text-lg font-semibold text-tenu-forest">
+        <h2 className="mt-6 text-lg font-medium text-tenu-ink">
           2. Analytics cookies
         </h2>
         <p>
@@ -52,7 +52,7 @@ export default function CookiePolicyEnPage() {
           and fix bugs. Set only after your explicit consent.
         </p>
 
-        <h2 className="mt-6 text-lg font-semibold text-tenu-forest">
+        <h2 className="mt-6 text-lg font-medium text-tenu-ink">
           3. Marketing and third-party cookies
         </h2>
         <p>
@@ -61,7 +61,7 @@ export default function CookiePolicyEnPage() {
           all&raquo; in the banner.
         </p>
 
-        <h2 className="mt-6 text-lg font-semibold text-tenu-forest">
+        <h2 className="mt-6 text-lg font-medium text-tenu-ink">
           4. Change your preferences
         </h2>
         <p>
@@ -71,7 +71,7 @@ export default function CookiePolicyEnPage() {
 
         <CookiePreferencesResetter locale="en" />
 
-        <h2 className="mt-6 text-lg font-semibold text-tenu-forest">
+        <h2 className="mt-6 text-lg font-medium text-tenu-ink">
           5. Legal basis and retention
         </h2>
         <p>
@@ -81,19 +81,19 @@ export default function CookiePolicyEnPage() {
           Maximum retention: 13 months (CNIL recommendation).
         </p>
 
-        <h2 className="mt-6 text-lg font-semibold text-tenu-forest">
+        <h2 className="mt-6 text-lg font-medium text-tenu-ink">
           6. Contact
         </h2>
         <p>
           Questions about cookies:{" "}
-          <a href="mailto:dpo@tenu.world" className="text-tenu-forest underline">
+          <a href="mailto:dpo@tenu.world" className="ed-link">
             dpo@tenu.world
           </a>
           .
         </p>
       </section>
 
-      <footer className="mt-10 border-t border-tenu-cream-dark pt-6 text-xs text-tenu-slate/60">
+      <footer className="mt-10 border-t t-hairline pt-6 text-xs text-tenu-ink-muted">
         <Link href="/legal/privacy/en" className="underline hover:no-underline">
           Privacy policy
         </Link>

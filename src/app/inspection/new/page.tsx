@@ -59,35 +59,40 @@ const emptyTenant = (): TenantInput => ({ fullName: "", email: "", phone: "" });
 
 /* ── Shared input class ── */
 
-/* min-h-11 = HIG 44px touch floor; transition eases the focus ring in. */
+/* min-h-11 = HIG 44px touch floor. Éditorial v2 input: 1px stone-gray
+   border, 2px radius (the only radius in the system), border darkens
+   to black on focus — no glow ring. */
 const inputClass =
-  "min-h-11 w-full rounded-lg border border-tenu-cream-dark px-3 py-2 text-sm outline-none transition-[border-color,box-shadow] duration-150 focus:border-tenu-forest focus:ring-1 focus:ring-tenu-forest";
+  "min-h-11 w-full rounded-[2px] border border-tenu-ink-muted bg-tenu-canvas px-3 py-2 text-sm text-tenu-ink placeholder:text-tenu-ash outline-none focus-visible:outline-none transition-colors duration-150 focus:border-tenu-ink";
 
-/* Segmented-control option (two-way pickers: type, country, owner…). */
+/* Segmented-control option (two-way pickers: type, country, owner…).
+   Hairline-framed rectangle, 0px radius; selected cell inverts to
+   black (blueprint feel — Éditorial v2 #T150). */
 const segmentClass = (selected: boolean) =>
-  `hig-press min-h-11 flex-1 rounded-lg border px-4 py-3 text-sm font-medium ${
+  `hig-press min-h-11 flex-1 rounded-none border px-4 py-3 text-sm font-medium ${
     selected
-      ? "border-tenu-forest bg-tenu-forest text-white"
-      : "border-tenu-cream-dark bg-white text-tenu-slate hover:border-tenu-forest/40"
+      ? "border-tenu-ink bg-tenu-band-inverted text-tenu-canvas"
+      : "border-tenu-hairline bg-tenu-canvas text-tenu-ink hover:border-tenu-ink"
   }`;
 
-/* Soft variant — selected state is tinted, not filled (sub-choices). */
+/* Soft variant — sub-choices share the same flat grammar, selected
+   frame + label darken to ink instead of inverting. */
 const segmentSoftClass = (selected: boolean) =>
-  `hig-press min-h-11 flex-1 rounded-lg border px-3 py-2 text-xs font-medium ${
+  `hig-press min-h-11 flex-1 rounded-none border px-3 py-2 text-xs font-medium ${
     selected
-      ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-      : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
+      ? "border-tenu-ink bg-tenu-canvas text-tenu-ink"
+      : "border-tenu-hairline text-tenu-ink-muted hover:border-tenu-ink hover:text-tenu-ink"
   }`;
 
-/* Toggleable room chip. */
+/* Toggleable room chip — hairline rectangle, selected inverts. */
 const chipClass = (selected: boolean) =>
-  `hig-press min-h-11 rounded-lg border px-3 py-1.5 text-sm ${
+  `hig-press min-h-11 rounded-none border px-3 py-1.5 text-sm ${
     selected
-      ? "border-tenu-forest bg-tenu-forest/10 text-tenu-forest"
-      : "border-tenu-cream-dark text-tenu-slate/60 hover:border-tenu-forest/40"
+      ? "border-tenu-ink bg-tenu-band-inverted text-tenu-canvas"
+      : "border-tenu-hairline text-tenu-ink-muted hover:border-tenu-ink hover:text-tenu-ink"
   }`;
 
-const labelClass = "mb-1 block text-sm font-medium text-tenu-slate";
+const labelClass = "mb-1 block text-sm font-medium text-tenu-ink";
 
 /* ── Zone tendue client-side check (lightweight, matches server) ── */
 
@@ -511,12 +516,12 @@ export default function NewInspectionPage() {
      the gate reads as loading, not a blank page. */
   if (dpaChecking) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-6">
+      <div className="flex min-h-screen items-center justify-center bg-tenu-canvas px-6">
         <div className="w-full max-w-lg space-y-4" aria-busy="true">
-          <div className="hig-skeleton h-8 w-2/3 rounded-lg" />
-          <div className="hig-skeleton h-11 w-full rounded-lg" />
-          <div className="hig-skeleton h-11 w-full rounded-lg" />
-          <div className="hig-skeleton h-11 w-1/2 rounded-lg" />
+          <div className="h-8 w-2/3 animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
+          <div className="h-11 w-full animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
+          <div className="h-11 w-full animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
+          <div className="h-11 w-1/2 animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
         </div>
       </div>
     );
@@ -607,11 +612,12 @@ export default function NewInspectionPage() {
       : "";
 
   return (
-    <div className="min-h-screen bg-tenu-cream">
-      <header className="flex items-center justify-between border-b border-tenu-cream-dark bg-white px-6 py-2">
+    <div className="min-h-screen bg-tenu-canvas">
+      <header className="flex items-center justify-between border-b border-tenu-hairline bg-tenu-canvas px-6 py-2">
         <Link
           href="/"
-          className="hig-press inline-flex min-h-11 items-center text-xl font-bold text-tenu-forest"
+          className="hig-press inline-flex min-h-11 items-center text-xl font-medium lowercase tracking-[-0.04em] text-tenu-ink"
+          style={{ fontFamily: "var(--font-brand)" }}
         >
           tenu
         </Link>
@@ -619,13 +625,13 @@ export default function NewInspectionPage() {
       </header>
 
       <main className="mx-auto max-w-lg px-6 py-8">
-        <h1 className="mb-6 text-2xl font-bold text-tenu-forest">{copy.pageTitle}</h1>
+        <h1 className="mb-6 text-3xl font-light tracking-[-0.025em] text-tenu-ink">{copy.pageTitle}</h1>
 
         <form onSubmit={handleSubmit} className="space-y-8">
 
           {/* ═══ SECTION 1: Type & Juridiction ═══ */}
           <section className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-tenu-slate/70">
+            <h2 className="border-b border-tenu-hairline pb-2 text-sm font-medium text-tenu-ink">
               {copy.sectionTypeTitle}
             </h2>
 
@@ -668,7 +674,7 @@ export default function NewInspectionPage() {
 
           {/* ═══ SECTION 2: Bien immobilier ═══ */}
           <section className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-tenu-slate/70">
+            <h2 className="border-b border-tenu-hairline pb-2 text-sm font-medium text-tenu-ink">
               {copy.sectionPropertyTitle}
             </h2>
 
@@ -688,7 +694,7 @@ export default function NewInspectionPage() {
               />
               {/* Zone tendue feedback */}
               {jurisdiction === "fr" && postalCode && (
-                <p className={`mt-1 text-xs ${zoneTendueHint ? "text-tenu-warning" : "text-tenu-slate/50"}`}>
+                <p className={`mt-1 text-xs ${zoneTendueHint ? "text-tenu-warning" : "text-tenu-ink-muted"}`}>
                   {zoneTendueHint
                     ? copy.zoneTendue(postalCode, noticePeriod)
                     : copy.zoneNonTendue(postalCode, noticePeriod)}
@@ -771,7 +777,7 @@ export default function NewInspectionPage() {
 
           {/* ═══ SECTION 3: Propriétaire / Bailleur ═══ */}
           <section className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-tenu-slate/70">
+            <h2 className="border-b border-tenu-hairline pb-2 text-sm font-medium text-tenu-ink">
               {copy.sectionOwnerTitle}
             </h2>
 
@@ -865,14 +871,14 @@ export default function NewInspectionPage() {
           {/* ═══ SECTION 4: Locataire(s) ═══ */}
           <section className="space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-tenu-slate/70">
+              <h2 className="border-b border-tenu-hairline pb-2 text-sm font-medium text-tenu-ink">
                 {tenants.length > 1 ? copy.tenantTitlePlural : copy.tenantTitleSingular}
               </h2>
               {tenants.length < 3 && (
                 <button
                   type="button"
                   onClick={addTenant}
-                  className="hig-press inline-flex min-h-11 items-center rounded-lg px-2 text-xs font-medium text-tenu-forest hover:text-tenu-forest-light"
+                  className="hig-press inline-flex min-h-11 items-center rounded-none px-2 text-xs font-medium text-tenu-ink underline decoration-1 underline-offset-4 hover:text-tenu-accent"
                 >
                   {copy.addTenant}
                 </button>
@@ -880,16 +886,16 @@ export default function NewInspectionPage() {
             </div>
 
             {tenants.map((tenant, idx) => (
-              <div key={idx} className="space-y-3 rounded-lg border border-tenu-cream-dark bg-white p-4">
+              <div key={idx} className="space-y-3 border border-tenu-hairline bg-tenu-canvas p-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-tenu-slate/50">
+                  <span className="text-xs font-medium text-tenu-ink-muted">
                     {copy.tenantNumber(idx + 1)}
                   </span>
                   {tenants.length > 1 && (
                     <button
                       type="button"
                       onClick={() => removeTenant(idx)}
-                      className="hig-press inline-flex min-h-11 items-center rounded-lg px-2 text-xs text-tenu-danger hover:text-tenu-danger/80"
+                      className="hig-press inline-flex min-h-11 items-center rounded-none px-2 text-xs text-tenu-danger underline decoration-1 underline-offset-4 hover:text-tenu-danger/80"
                     >
                       {copy.removeTenant}
                     </button>
@@ -931,13 +937,13 @@ export default function NewInspectionPage() {
               </div>
             ))}
             {tenants.length >= 3 && (
-              <p className="text-xs text-tenu-slate/40">{copy.tenantMaxNote}</p>
+              <p className="text-xs text-tenu-ash">{copy.tenantMaxNote}</p>
             )}
           </section>
 
           {/* ═══ SECTION 5: Contrat ═══ */}
           <section className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-tenu-slate/70">
+            <h2 className="border-b border-tenu-hairline pb-2 text-sm font-medium text-tenu-ink">
               {copy.sectionLeaseTitle}
             </h2>
 
@@ -961,7 +967,7 @@ export default function NewInspectionPage() {
                   onChange={(e) => setLeaseEndDate(e.target.value)}
                   className={inputClass}
                 />
-                <p className="mt-0.5 text-[10px] text-tenu-slate/40">{copy.leaseEndHint}</p>
+                <p className="mt-0.5 text-[10px] text-tenu-ash">{copy.leaseEndHint}</p>
               </div>
             </div>
 
@@ -1000,7 +1006,7 @@ export default function NewInspectionPage() {
 
             {/* Notice period display */}
             {jurisdiction === "fr" && (
-              <p className="text-xs text-tenu-slate/60">
+              <p className="text-xs text-tenu-ink-muted">
                 {copy.noticePeriod(noticePeriod, noticeSuffix)}
               </p>
             )}
@@ -1008,13 +1014,13 @@ export default function NewInspectionPage() {
 
           {/* ═══ SECTION 6: Pièces à inspecter ═══ */}
           <section className="space-y-4">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-tenu-slate/70">
+            <h2 className="border-b border-tenu-hairline pb-2 text-sm font-medium text-tenu-ink">
               {copy.sectionRoomsTitle}
             </h2>
 
             {/* Base rooms */}
             <div>
-              <p className="mb-2 text-xs text-tenu-slate/50">{copy.roomsBaseHeader}</p>
+              <p className="mb-2 text-xs text-tenu-ink-muted">{copy.roomsBaseHeader}</p>
               <div className="flex flex-wrap gap-2">
                 {ROOM_OPTIONS.filter((r) => r.category === "base").map((room) => (
                   <button
@@ -1032,7 +1038,7 @@ export default function NewInspectionPage() {
 
             {/* Extra rooms */}
             <div>
-              <p className="mb-2 text-xs text-tenu-slate/50">{copy.roomsExtraHeader(currency)}</p>
+              <p className="mb-2 text-xs text-tenu-ink-muted">{copy.roomsExtraHeader(currency)}</p>
               <div className="flex flex-wrap gap-2">
                 {ROOM_OPTIONS.filter((r) => r.category === "extra").map((room) => (
                   <button
@@ -1050,7 +1056,7 @@ export default function NewInspectionPage() {
 
             {/* Parties privatives */}
             <div>
-              <p className="mb-2 text-xs text-tenu-slate/50">{copy.roomsPrivativeHeader(currency)}</p>
+              <p className="mb-2 text-xs text-tenu-ink-muted">{copy.roomsPrivativeHeader(currency)}</p>
               <div className="flex flex-wrap gap-2">
                 {ROOM_OPTIONS.filter((r) => r.category === "privative").map((room) => (
                   <button
@@ -1074,7 +1080,7 @@ export default function NewInspectionPage() {
             type="submit"
             disabled={loading}
             aria-busy={loading}
-            className="hig-press min-h-11 w-full rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
+            className="hig-press min-h-11 w-full rounded-none bg-tenu-cta px-4 py-3 text-sm font-medium text-tenu-cta-text hover:opacity-90 disabled:opacity-50"
           >
             {loading ? copy.submitLoading : copy.submitIdle}
           </button>

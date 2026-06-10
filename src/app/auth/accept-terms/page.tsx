@@ -114,20 +114,20 @@ export default function AcceptTermsPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-tenu-cream px-4 py-10">
-      <div className="w-full max-w-sm rounded-xl bg-white p-8 shadow-sm">
-        <h1 className="mb-2 text-xl font-bold text-tenu-forest">
+    <div className="flex min-h-screen items-center justify-center bg-tenu-canvas px-4 py-10">
+      <div className="w-full max-w-sm border border-tenu-hairline bg-tenu-canvas p-8">
+        <h1 className="mb-2 text-2xl font-light tracking-[-0.025em] text-tenu-ink">
           {ui.heading}
         </h1>
-        <p className="mb-6 text-sm text-tenu-slate/70">
+        <p className="mb-6 text-sm text-tenu-ink-muted">
           {ui.body}
         </p>
 
-        <div className="mb-4 rounded-lg border border-tenu-cream-dark bg-tenu-cream/40 p-3 text-sm text-tenu-slate">
+        <div className="mb-4 border border-tenu-hairline bg-tenu-canvas p-3 text-sm text-tenu-ink">
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
-              className="mt-0.5 h-4 w-4 accent-tenu-forest"
+              className="mt-0.5 h-4 w-4 accent-tenu-ink"
               checked={dpa}
               onChange={(e) => setDpa(e.target.checked)}
               required
@@ -147,7 +147,7 @@ export default function AcceptTermsPage() {
                         href={termsHref}
                         target="_blank"
                         rel="noopener"
-                        className="text-tenu-forest underline hover:no-underline"
+                        className="text-tenu-ink underline decoration-1 underline-offset-2 hover:text-tenu-accent"
                       >
                         {part}
                       </Link>
@@ -163,7 +163,7 @@ export default function AcceptTermsPage() {
                         href={privacyHref}
                         target="_blank"
                         rel="noopener"
-                        className="text-tenu-forest underline hover:no-underline"
+                        className="text-tenu-ink underline decoration-1 underline-offset-2 hover:text-tenu-accent"
                       >
                         {part}
                       </Link>
@@ -171,23 +171,23 @@ export default function AcceptTermsPage() {
                   }
                   return <span key={i}>{part}</span>;
                 })}
-              <span className="mt-0.5 block text-xs text-tenu-slate/60">
+              <span className="mt-0.5 block text-xs text-tenu-ink-muted">
                 {dpaCopy.required}
               </span>
             </span>
           </label>
 
-          <label className="mt-3 flex cursor-pointer items-start gap-3 border-t border-tenu-cream-dark pt-3">
+          <label className="mt-3 flex cursor-pointer items-start gap-3 border-t border-tenu-hairline pt-3">
             <input
               type="checkbox"
-              className="mt-0.5 h-4 w-4 accent-tenu-forest"
+              className="mt-0.5 h-4 w-4 accent-tenu-ink"
               checked={marketing}
               onChange={(e) => setMarketing(e.target.checked)}
               data-marketing-version={MARKETING_TEXT_VERSION}
             />
             <span className="leading-snug">
               {marketingCopy.label}
-              <span className="mt-0.5 block text-xs text-tenu-slate/60">
+              <span className="mt-0.5 block text-xs text-tenu-ink-muted">
                 {marketingCopy.hint}
               </span>
             </span>
@@ -199,7 +199,7 @@ export default function AcceptTermsPage() {
         <button
           onClick={submit}
           disabled={!dpa || loading}
-          className="w-full rounded-lg bg-tenu-forest px-4 py-2.5 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
+          className="hig-press min-h-11 w-full rounded-none bg-tenu-cta px-4 py-2.5 text-sm font-medium text-tenu-cta-text hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? ui.continuingBtn : ui.continueBtn}
         </button>

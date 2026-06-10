@@ -4,10 +4,11 @@
      background). Use the Disc mark per BRAND-GUIDELINES.md §5.1.
 
      The figure geometry is the same 48-canvas geometry as TenuMark.tsx,
-     scaled 21.33× to fit 1024. Container is the disc fill #0B1F3A on a
-     paper #F4F1EA backdrop so the Apple-rounded mask carves cleanly. -->
+     scaled 21.33× to fit 1024. Éditorial v2 (2026-06-10): disc fill is
+     Absolute Black #000000 on a Pure White #ffffff backdrop so the
+     Apple-rounded mask carves cleanly. Geometry unchanged from v1. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Tenu">
-  <rect width="1024" height="1024" fill="#F4F1EA"/>
+  <rect width="1024" height="1024" fill="#ffffff"/>
   <defs>
     <mask id="tenu-cut">
       <rect width="1024" height="1024" fill="white"/>
@@ -20,7 +21,7 @@
     </mask>
   </defs>
   <!-- Disc container, ink fill -->
-  <circle cx="512" cy="512" r="469.3" fill="#0B1F3A" mask="url(#tenu-cut)"/>
+  <circle cx="512" cy="512" r="469.3" fill="#000000" mask="url(#tenu-cut)"/>
   <!-- Head overlay so the silhouette reads on the dark disc -->
-  <circle cx="512" cy="277.3" r="85.3" fill="#F4F1EA"/>
+  <circle cx="512" cy="277.3" r="85.3" fill="#ffffff"/>
 </svg>

@@ -1,9 +1,11 @@
 "use client";
 
 /**
- * Circular camera CTA — iOS 26 camera-app style. 72pt diameter, centered
- * on the photo screen. Calls through to the mobile camera wrapper and
- * hashes + persists the result.
+ * Camera shutter — primary capture action. Éditorial v2 (#T150):
+ * APPROVED EXCEPTION surface — filled black (--color-tenu-cta), white
+ * glyph, 0px radius, no shadow. 72pt square keeps the large HIG
+ * target. Calls through to the mobile camera wrapper and hashes +
+ * persists the result.
  */
 import { useState } from "react";
 import { Camera } from "lucide-react";
@@ -68,13 +70,13 @@ export default function CameraButton({
       onClick={handlePress}
       disabled={busy || disabled}
       aria-busy={busy}
-      className="hig-press flex h-[72px] w-[72px] items-center justify-center rounded-full bg-tenu-forest text-tenu-cream shadow-lg active:opacity-75 disabled:opacity-40"
+      className="hig-press flex h-[72px] w-[72px] items-center justify-center rounded-none bg-tenu-cta text-tenu-cta-text active:opacity-75 disabled:opacity-40"
     >
       {/* Spinner while the native camera / hash / persist round-trip
           runs, so a second tap is visibly pointless. */}
       {busy ? (
         <span
-          className="h-7 w-7 animate-spin rounded-full border-[3px] border-tenu-cream/30 border-t-tenu-cream motion-reduce:animate-none"
+          className="h-7 w-7 animate-spin rounded-full border-[3px] border-tenu-cta-text/30 border-t-tenu-cta-text motion-reduce:animate-none"
           aria-hidden="true"
         />
       ) : (

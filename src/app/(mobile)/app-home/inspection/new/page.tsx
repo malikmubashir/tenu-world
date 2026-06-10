@@ -91,7 +91,7 @@ export default function NewInspectionPage() {
         </section>
 
         <section className="flex flex-col gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wide text-tenu-slate/70">
+          <span className="text-sm font-medium text-tenu-ink">
             Type de constat
           </span>
           <div className="grid grid-cols-2 gap-2">
@@ -111,7 +111,7 @@ export default function NewInspectionPage() {
         </section>
 
         <section className="flex flex-col gap-2">
-          <span className="text-xs font-semibold uppercase tracking-wide text-tenu-slate/70">
+          <span className="text-sm font-medium text-tenu-ink">
             Pièces à inspecter
           </span>
           <div className="grid grid-cols-2 gap-2">
@@ -134,7 +134,7 @@ export default function NewInspectionPage() {
           >
             Commencer le constat
           </HIGButton>
-          <p className="mt-2 text-center text-[11px] text-tenu-slate/50">
+          <p className="mt-2 text-center text-[11px] text-tenu-ink-muted">
             Le brouillon est enregistré localement. Rien n'est envoyé tant que
             vous n'appuyez pas sur « Terminer ».
           </p>
@@ -159,15 +159,16 @@ function SegmentedOption({
     <button
       type="button"
       onClick={onSelect}
+      aria-pressed={active}
       className={
-        "flex min-h-[56px] flex-col items-start justify-center rounded-xl px-4 text-left " +
+        "hig-press flex min-h-[56px] flex-col items-start justify-center rounded-none border px-4 text-left " +
         (active
-          ? "bg-tenu-forest text-tenu-cream"
-          : "bg-white/70 text-tenu-slate active:bg-white")
+          ? "border-tenu-ink bg-tenu-band-inverted text-tenu-canvas"
+          : "border-tenu-hairline bg-tenu-canvas text-tenu-ink active:bg-tenu-hairline/40")
       }
     >
-      <span className="text-base font-semibold">{label}</span>
-      <span className={active ? "text-xs text-tenu-cream/80" : "text-xs text-tenu-slate/60"}>
+      <span className="text-base font-medium">{label}</span>
+      <span className={active ? "text-xs text-tenu-canvas/70" : "text-xs text-tenu-ink-muted"}>
         {hint}
       </span>
     </button>
@@ -187,11 +188,12 @@ function RoomChip({
     <button
       type="button"
       onClick={onToggle}
+      aria-pressed={active}
       className={
-        "min-h-[44px] rounded-xl px-4 text-sm font-medium " +
+        "hig-press min-h-[44px] rounded-none border px-4 text-sm font-medium " +
         (active
-          ? "bg-tenu-forest text-tenu-cream"
-          : "bg-white/70 text-tenu-slate active:bg-white")
+          ? "border-tenu-ink bg-tenu-band-inverted text-tenu-canvas"
+          : "border-tenu-hairline bg-tenu-canvas text-tenu-ink active:bg-tenu-hairline/40")
       }
     >
       {label}

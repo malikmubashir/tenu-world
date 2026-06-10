@@ -11,11 +11,13 @@ import UserMenu from "./UserMenu";
 /**
  * Global site header — rendered once in the root layout.
  *
- * Identity v1 chrome (decided 2026-04-18, Option C): solid Tenu Ink
- * background, Paper link text, Disc mark + Inter Tight wordmark. The
- * primary CTA keeps the Apple-crisp emerald because task #59 locked
- * it — green reads well on navy and we don't want to retest CTA lift
- * before the 11 May soft launch.
+ * Éditorial v2 chrome (#T149, 2026-06-10): white ground, 1px hairline
+ * bottom border, ink nav links set as underlined typographic links.
+ * Flat to the canvas — no scroll effects, no fill change, no shadow.
+ * The disc mark + Inter Tight wordmark are UNCHANGED per MH; only the
+ * mark's container colour follows the achromatic chrome (ink on white).
+ * The sign-up action is a primary commercial action and therefore uses
+ * the approved filled-black exception (.t-cta-primary).
  *
  * Not a client component: auth state lives server-side. The avatar
  * menu (UserMenu) is the only client island and only mounts when a
@@ -61,23 +63,23 @@ export default async function GlobalHeader() {
   const isAuthed = !!email;
 
   return (
-    <header className="hig-header-ink sticky top-0 z-40">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:px-8">
+    <header className="border-b t-hairline bg-tenu-canvas">
+      <div className="ed-frame flex h-16 items-center justify-between">
         <Link
           href="/"
           className="hig-press flex items-center gap-2"
           aria-label="Tenu — home"
         >
-          <TenuMark container="disc" size={28} title="Tenu" />
+          <TenuMark container="disc" size={28} title="Tenu" fill="#000000" carve="#ffffff" />
           <span className="t-wordmark text-xl">tenu</span>
         </Link>
 
-        <nav className="flex items-center gap-2 md:gap-3">
-          <LanguageToggle currentLocale={locale} chrome="dark" />
+        <nav className="flex items-center gap-4 md:gap-6">
+          <LanguageToggle currentLocale={locale} chrome="light" />
 
           <Link
             href="/pricing"
-            className="hig-press hidden h-11 items-center rounded-lg px-3 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
+            className="ed-link hidden min-h-11 items-center text-base sm:inline-flex"
           >
             {nav.pricing ?? (uiLocale === "fr" ? "Tarifs" : "Pricing")}
           </Link>
@@ -88,15 +90,17 @@ export default async function GlobalHeader() {
             <>
               <Link
                 href="/auth/login"
-                className="hig-press hidden h-11 items-center rounded-lg px-3 text-sm font-medium text-brand-paper/80 hover:bg-white/10 hover:text-brand-paper sm:inline-flex"
+                className="ed-link hidden min-h-11 items-center text-base sm:inline-flex"
               >
                 {nav.login ?? (uiLocale === "fr" ? "Connexion" : "Log in")}
               </Link>
-              {/* Pill keeps its compact 36px visual; the invisible
-                  before-overlay extends the hit area to the HIG 44px floor. */}
+              {/* Approved exception: sign-up is a primary commercial
+                  action — filled black rectangle, 0px radius. h-9 visual
+                  inside the 64px chrome; before-overlay keeps the 44px
+                  touch floor. */}
               <Link
                 href="/auth/login"
-                className="hig-press relative inline-flex h-9 items-center rounded-full bg-tenu-forest px-4 text-sm font-semibold text-white before:absolute before:-inset-y-1 before:inset-x-0 before:content-[''] hover:bg-tenu-forest-light"
+                className="hig-press relative inline-flex h-9 items-center bg-tenu-cta px-4 text-sm font-medium text-white before:absolute before:-inset-y-1 before:inset-x-0 before:content-['']"
               >
                 {nav.signup ?? (uiLocale === "fr" ? "S'inscrire" : "Sign up")}
               </Link>

@@ -30,6 +30,12 @@ const baseConfig: NextConfig = {
         protocol: "https",
         hostname: "tenu.world",
       },
+      // Éditorial v2 (#T149): full-bleed photographic plates on the
+      // marketing surfaces are hot-linked from the Unsplash CDN.
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+      },
     ],
     // Static export cannot use the Next image optimizer — disable it
     // when building for mobile so <Image /> emits plain <img>.

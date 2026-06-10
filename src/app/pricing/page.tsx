@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Shield, Check } from "lucide-react";
-import { clsx } from "clsx";
 import WithdrawalWaiver, {
   type WaiverState,
 } from "@/components/legal/WithdrawalWaiver";
@@ -255,72 +253,58 @@ export default function PricingPage() {
   const disputeLabel = formatPrice(activePreview.disputeLetterPrice, activePreview.currency);
 
   return (
-    <div className="min-h-screen bg-tenu-cream">
-      <header className="border-b border-tenu-cream-dark bg-white px-6 py-2">
-        <Link
-          href="/"
-          className="hig-press inline-flex min-h-11 items-center text-xl font-bold text-tenu-forest"
-        >
-          tenu
-        </Link>
-      </header>
-
-      <main className="mx-auto max-w-xl px-4 py-12">
-        <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold text-tenu-forest">
+    <div className="min-h-screen bg-tenu-canvas">
+      <main className="mx-auto max-w-xl px-4 py-12 md:py-16">
+        <div className="mb-10 text-start">
+          <h1 className="t-section-heading">
             {copy.heading}
           </h1>
-          <p className="mt-2 text-tenu-slate/70">
+          <p className="t-body-muted mt-4">
             {copy.subheading}
           </p>
-          <p className="mt-3 text-xs text-tenu-slate/60">
+          <p className="t-small-muted mt-3">
             {copy.disputeNote(disputeLabel)}
           </p>
         </div>
 
         <div className="grid gap-6">
-          <div
-            className={clsx(
-              "relative flex flex-col rounded-2xl border border-tenu-forest bg-white p-6 shadow-lg",
-            )}
-          >
-            <div className="mb-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Shield className="h-6 w-6 text-tenu-forest" />
-                <h2 className="text-lg font-semibold text-tenu-forest">
-                  {copy.scanTitle}
-                </h2>
-              </div>
+          {/* Éditorial v2: the hairline frame IS the card — no fill,
+              no shadow, no radius. */}
+          <div className="relative flex flex-col border t-hairline bg-tenu-canvas p-6 md:p-8">
+            <div className="mb-4 flex items-center justify-between gap-3">
+              <h2 className="t-h3">
+                {copy.scanTitle}
+              </h2>
               {!previewLoading && (
-                <span className="rounded-full border border-tenu-forest/30 bg-tenu-cream px-3 py-1 text-xs font-medium text-tenu-forest">
+                <span className="border t-hairline px-3 py-1 text-xs font-medium text-tenu-ink-muted">
                   {activePreview.tierLabel}
                 </span>
               )}
             </div>
 
-            <p className="mb-4 text-sm text-tenu-slate/70">
+            <p className="t-body-muted mb-6 text-sm">
               {copy.scanDesc}
             </p>
 
             {/* Shimmer skeleton while the server computes the tier price —
                 avoids layout shift and reads as "working", not "broken". */}
-            <p className="mb-2 text-3xl font-bold text-tenu-forest">
+            <p className="mb-2 text-5xl font-light tracking-tight text-tenu-ink">
               {previewLoading ? (
                 <span
-                  className="hig-skeleton inline-block h-9 w-24 rounded-lg align-middle"
+                  className="hig-skeleton inline-block h-10 w-28 align-middle"
                   aria-hidden="true"
                 />
               ) : (
                 priceLabel
               )}
-              <span className="text-sm font-normal text-tenu-slate/50">
+              <span className="text-sm font-normal text-tenu-ink-muted">
                 {" "}
                 {copy.vatLabel}
               </span>
             </p>
 
             {!previewLoading && (
-              <p className="mb-6 text-xs text-tenu-slate/60">
+              <p className="t-small-muted mb-6">
                 {copy.principalUnit(activePreview.principalRoomCount)}
                 {activePreview.serviceRoomCount > 0 && (
                   <>
@@ -338,19 +322,19 @@ export default function PricingPage() {
               </p>
             )}
 
-            <ul className="mb-6 flex-1 space-y-2">
+            {/* No icons in the editorial system — hairline-divided rows. */}
+            <ul className="mb-6 flex-1 divide-y divide-tenu-hairline border-y t-hairline">
               {copy.features.map((feature) => (
                 <li
                   key={feature}
-                  className="flex items-start gap-2 text-sm text-tenu-slate"
+                  className="py-2.5 text-sm text-tenu-ink"
                 >
-                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-tenu-forest" />
-                  <span>{feature}</span>
+                  {feature}
                 </li>
               ))}
             </ul>
 
-            <p className="mb-4 text-xs text-tenu-slate/60">
+            <p className="t-small-muted mb-4">
               {copy.colocNote}
             </p>
 
@@ -362,7 +346,7 @@ export default function PricingPage() {
                   setError("");
                 }}
                 disabled={loading || previewLoading || !inspectionId}
-                className="hig-press min-h-11 w-full rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
+                className="t-cta-primary hig-press w-full disabled:opacity-50"
               >
                 {copy.runScan(priceLabel)}
               </button>
@@ -375,17 +359,19 @@ export default function PricingPage() {
                   onChange={setWaiver}
                 />
                 <div className="flex gap-2">
+                  {/* Cancel stays buttonless — typographic link. */}
                   <button
                     onClick={() => setWaiverOpen(false)}
-                    className="hig-press min-h-11 flex-1 rounded-lg border border-tenu-cream-dark px-4 py-3 text-sm font-medium text-tenu-slate hover:bg-tenu-cream"
+                    className="ed-link-strong hig-press min-h-11 flex-1 text-sm"
                   >
                     {copy.cancel}
                   </button>
+                  {/* Pay = approved filled-black exception. */}
                   <button
                     onClick={proceedToPayment}
                     disabled={!waiverReady || loading}
                     aria-busy={loading}
-                    className="hig-press min-h-11 flex-[2] rounded-lg bg-tenu-forest px-4 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
+                    className="t-cta-primary hig-press flex-[2] disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {loading
                       ? copy.redirecting
@@ -409,10 +395,7 @@ export default function PricingPage() {
 
         {!inspectionId && (
           <div className="mt-8 text-center">
-            <Link
-              href="/inspection/new"
-              className="text-sm text-tenu-forest underline hover:no-underline"
-            >
+            <Link href="/inspection/new" className="ed-link text-sm">
               {copy.startLink}
             </Link>
           </div>

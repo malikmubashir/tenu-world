@@ -15,9 +15,12 @@
  *   - Status bar already configured by Shell. Safe-area handled by Shell.
  *
  * Brand:
- *   - Background paper #F4F1EA, ink #0B1F3A, emerald #059669 CTA.
+ *   - Éditorial v2 (#T150): pure white canvas, black ink, hairline
+ *     #e5e7eb structure, 0px radius, no shadows. CTA is the APPROVED
+ *     EXCEPTION filled-black button; pagination is typographic
+ *     ("01 02 03"), not dots.
  *   - Wordmark Inter Tight 500, lowercase, tracking -0.04em (per
- *     BRAND-GUIDELINES.md §4.1).
+ *     BRAND-GUIDELINES.md §4.1) — unchanged.
  *   - Portal mark on screen 1 (per §5.1: "threshold metaphors").
  *
  * Copy:
@@ -37,14 +40,12 @@ import TenuMark from "@/components/brand/TenuMark";
 import { isNative } from "@/lib/mobile/platform";
 import { prefSetBool, PrefKey } from "@/lib/mobile/preferences";
 
-// Brand tokens. Inlined here so the intro is self-contained even before
-// Tailwind theme tokens are aligned to Identity v1.
-const PAPER = "#F4F1EA";
-const INK = "#0B1F3A";
-const EMERALD = "#059669";
-const EMERALD_PRESSED = "#047857";
-const INK_60 = "rgba(11, 31, 58, 0.60)";
-const INK_15 = "rgba(11, 31, 58, 0.15)";
+// Editorial tokens — resolved through theme.css so a token swap
+// repaints this screen too. CSS custom properties work in inline
+// style and SVG attributes alike.
+const CANVAS = "var(--color-tenu-canvas)";
+const INK = "var(--color-tenu-ink)";
+const HAIRLINE = "var(--color-tenu-hairline)";
 
 interface Slide {
   /** Headline. Two lines max on a 375pt-wide device. */
@@ -185,15 +186,12 @@ export default function IntroPage() {
   );
 
   return (
-    <div
-      className="relative flex h-full flex-1 flex-col"
-      style={{ backgroundColor: PAPER, color: INK }}
-    >
+    <div className="relative flex h-full flex-1 flex-col bg-tenu-canvas text-tenu-ink">
       {/* Top bar: wordmark + skip. Sticky to top inside the safe area. */}
       <header className="relative z-10 flex items-center justify-between px-5 pt-3 pb-2">
         <span
-          className="font-[var(--font-inter-tight)] text-[20px] font-medium lowercase"
-          style={{ letterSpacing: "-0.04em", color: INK }}
+          className="font-[var(--font-inter-tight)] text-[20px] font-medium lowercase text-tenu-ink"
+          style={{ letterSpacing: "-0.04em" }}
         >
           tenu
         </span>
@@ -201,8 +199,7 @@ export default function IntroPage() {
           <button
             type="button"
             onClick={handleSkip}
-            className="-mr-2 inline-flex h-11 min-w-11 items-center justify-center rounded-full px-3 text-[15px] font-medium"
-            style={{ color: INK_60 }}
+            className="-mr-2 inline-flex h-11 min-w-11 items-center justify-center rounded-none px-3 text-[15px] font-medium text-tenu-ink underline decoration-1 underline-offset-4"
             aria-label="Passer l'introduction"
           >
             Passer
@@ -235,16 +232,10 @@ export default function IntroPage() {
             >
               <SlideVisual kind={slide.visual} />
               <div className="flex flex-col items-center text-center">
-                <h1
-                  className="font-[var(--font-inter-tight)] text-[28px] font-medium leading-[1.15]"
-                  style={{ letterSpacing: "-0.02em", color: INK }}
-                >
+                <h1 className="text-3xl font-light leading-[1.1] tracking-[-0.025em] text-tenu-ink">
                   {slide.title}
                 </h1>
-                <p
-                  className="mt-4 max-w-[28ch] text-[15px] leading-[1.5]"
-                  style={{ color: INK_60 }}
-                >
+                <p className="mt-4 max-w-[28ch] text-[15px] leading-[1.5] text-tenu-ink-muted">
                   {slide.body}
                 </p>
               </div>
@@ -258,8 +249,10 @@ export default function IntroPage() {
 
       {/* Bottom block: dots + CTA. */}
       <div className="px-7 pb-6 pt-3">
+        {/* Typographic pagination — "01 02 03", active step in black at
+            weight 500 with a 1px underline, inactive in ash. */}
         <div
-          className="mb-5 flex items-center justify-center gap-2"
+          className="mb-5 flex items-center justify-center gap-1"
           role="tablist"
           aria-label="Étape de l'introduction"
         >
@@ -273,16 +266,14 @@ export default function IntroPage() {
                 aria-selected={active}
                 aria-label={`Aller à l'étape ${i + 1}`}
                 onClick={() => scrollToIndex(i)}
-                className="inline-flex h-11 w-7 items-center justify-center"
+                className={
+                  "inline-flex h-11 min-w-11 items-center justify-center text-[13px] tabular-nums transition-colors duration-200 " +
+                  (active
+                    ? "font-medium text-tenu-ink underline decoration-1 underline-offset-4"
+                    : "font-normal text-tenu-ash")
+                }
               >
-                <span
-                  className="block rounded-full transition-all duration-200"
-                  style={{
-                    width: active ? 22 : 7,
-                    height: 7,
-                    backgroundColor: active ? INK : INK_15,
-                  }}
-                />
+                {String(i + 1).padStart(2, "0")}
               </button>
             );
           })}
@@ -291,33 +282,14 @@ export default function IntroPage() {
         <button
           type="button"
           onClick={handleAdvance}
-          className="block w-full rounded-full text-[17px] font-medium text-white"
-          style={{
-            backgroundColor: EMERALD,
-            minHeight: 52,
-            boxShadow: "0 1px 2px rgba(11, 31, 58, 0.08)",
-          }}
-          onPointerDown={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              EMERALD_PRESSED;
-          }}
-          onPointerUp={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              EMERALD;
-          }}
-          onPointerCancel={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.backgroundColor =
-              EMERALD;
-          }}
+          className="hig-press block w-full rounded-none bg-tenu-cta text-[17px] font-medium text-tenu-cta-text"
+          style={{ minHeight: 52 }}
         >
           {ctaLabel}
         </button>
 
         {isLast && (
-          <p
-            className="mt-3 text-center text-[12px] leading-[1.4]"
-            style={{ color: INK_60 }}
-          >
+          <p className="mt-3 text-center text-[12px] leading-[1.4] text-tenu-ink-muted">
             En continuant vous acceptez nos conditions d'utilisation et notre
             politique de confidentialité. Données hébergées en Europe.
           </p>
@@ -340,7 +312,7 @@ function SlideVisual({ kind }: { kind: Slide["visual"] }) {
           container="portal"
           size={184}
           fill={INK}
-          carve={PAPER}
+          carve={CANVAS}
           title="Tenu"
         />
       </div>
@@ -378,7 +350,6 @@ function SlideVisual({ kind }: { kind: Slide["visual"] }) {
             y="22"
             width="108"
             height="140"
-            rx="6"
             fill="none"
             stroke={INK}
             strokeWidth="2"
@@ -391,23 +362,16 @@ function SlideVisual({ kind }: { kind: Slide["visual"] }) {
               y={42 + i * 16}
               width={i === 4 ? 56 : 80}
               height="3"
-              rx="1.5"
               fill={INK}
               opacity={0.35}
             />
           ))}
-          {/* Seal */}
-          <circle
-            cx="132"
-            cy="138"
-            r="22"
-            fill={EMERALD}
-            opacity="0.95"
-          />
+          {/* Seal — inverted black disc, white check (achromatic system). */}
+          <circle cx="132" cy="138" r="22" fill={INK} />
           <path
             d="M 122 138 L 130 146 L 144 132"
             fill="none"
-            stroke="#FFFFFF"
+            stroke={CANVAS}
             strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -436,31 +400,27 @@ function Card({
         width: 132,
         height: 168,
         transform: `translate(-50%, -50%) translate(${offsetX}px, ${offsetY}px) rotate(${rotate}deg)`,
-        backgroundColor: "#FFFFFF",
-        border: `1px solid ${INK_15}`,
-        borderRadius: 10,
-        boxShadow: "0 6px 18px rgba(11, 31, 58, 0.10)",
+        backgroundColor: CANVAS,
+        border: `1px solid ${HAIRLINE}`,
         opacity,
       }}
     >
-      {/* Pretend image area */}
+      {/* Pretend image area — hairline-framed plate, 0px radius. */}
       <div
         style={{
           margin: 10,
           height: 100,
-          borderRadius: 6,
-          backgroundColor: PAPER,
-          border: `1px solid ${INK_15}`,
+          backgroundColor: CANVAS,
+          border: `1px solid ${HAIRLINE}`,
         }}
       />
-      {/* Pretend caption */}
+      {/* Pretend caption rules */}
       <div
         style={{
           margin: "0 10px",
           height: 6,
           width: 70,
-          borderRadius: 3,
-          backgroundColor: INK_15,
+          backgroundColor: HAIRLINE,
         }}
       />
       <div
@@ -468,8 +428,7 @@ function Card({
           margin: "8px 10px 0",
           height: 6,
           width: 50,
-          borderRadius: 3,
-          backgroundColor: INK_15,
+          backgroundColor: HAIRLINE,
         }}
       />
     </div>

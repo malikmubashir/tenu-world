@@ -56,28 +56,42 @@ export async function POST(request: Request) {
     // Earlier drafts used stripe_session_id / stripe_payment_intent / product;
     // the canonical schema exposes stripe_checkout_session_id /
     // stripe_payment_intent_id / type. Renamed 2026-04-17.
-    const { error: paymentInsertError } = await supabase.from("payments").insert({
-      user_id: metadata.userId,
-      inspection_id: metadata.inspectionId,
-      stripe_checkout_session_id: session.id,
-      stripe_payment_intent_id: session.payment_intent as string,
-      type: metadata.product,
-      amount_cents: amountTotal,
-      currency: session.currency ?? "eur",
-      status: "completed",
-      waiver_consent_id: metadata.waiverConsentId ?? null,
-      tax_amount_cents: amountTax,
-      tax_rate_bps: taxRateBps,
-      tax_country: taxCountry,
-    });
-    if (paymentInsertError) {
-      // Return 500 so Stripe retries. Silent failure is the anti-pattern
-      // we burned weeks on (consents, 2026-04-18). Never repeat.
-      console.error("[stripe-webhook] payments insert failed:", paymentInsertError);
-      return NextResponse.json(
-        { error: "payments_insert_failed", details: paymentInsertError.message },
-        { status: 500 },
-      );
+    //
+    // Idempotency (#T145): Stripe delivers at-least-once. Check by
+    // stripe_checkout_session_id before inserting so a retry never
+    // duplicates the payment row (the scan paid-gate counts on exactly
+    // one row per session). Migration 008 adds a unique index as the
+    // database-level backstop.
+    const { data: existingPayment } = await supabase
+      .from("payments")
+      .select("id")
+      .eq("stripe_checkout_session_id", session.id)
+      .maybeSingle();
+
+    if (!existingPayment) {
+      const { error: paymentInsertError } = await supabase.from("payments").insert({
+        user_id: metadata.userId,
+        inspection_id: metadata.inspectionId,
+        stripe_checkout_session_id: session.id,
+        stripe_payment_intent_id: session.payment_intent as string,
+        type: metadata.product,
+        amount_cents: amountTotal,
+        currency: session.currency ?? "eur",
+        status: "completed",
+        waiver_consent_id: metadata.waiverConsentId ?? null,
+        tax_amount_cents: amountTax,
+        tax_rate_bps: taxRateBps,
+        tax_country: taxCountry,
+      });
+      if (paymentInsertError) {
+        // Return 500 so Stripe retries. Silent failure is the anti-pattern
+        // we burned weeks on (consents, 2026-04-18). Never repeat.
+        console.error("[stripe-webhook] payments insert failed:", paymentInsertError);
+        return NextResponse.json(
+          { error: "payments_insert_failed", details: paymentInsertError.message },
+          { status: 500 },
+        );
+      }
     }
 
     if (
@@ -85,9 +99,16 @@ export async function POST(request: Request) {
       metadata.product === "report_and_dispute" ||
       metadata.product === "exit_only"
     ) {
-      // Unlock the report: mark as paid, trigger AI pipeline.
+      // Unlock the report: mark as paid. The client then triggers
+      // POST /api/ai/scan, which requires this 'paid' status plus the
+      // completed payments row above (#T145 paid-gate).
       // exit_only follows the same "paid → scan" path; the scan handler
       // branches on whether an entry-EDL record exists.
+      //
+      // Forward-only transition: Stripe retries must never knock an
+      // inspection that already advanced (scanning/scanned/disputed)
+      // back to 'paid', so the update is conditional on pre-payment
+      // states. A replay that matches zero rows is a harmless no-op.
       const { error: paidUpdateError } = await supabase
         .from("inspections")
         .update({
@@ -95,7 +116,8 @@ export async function POST(request: Request) {
           stripe_payment_id: session.id,
           updated_at: new Date().toISOString(),
         })
-        .eq("id", metadata.inspectionId);
+        .eq("id", metadata.inspectionId)
+        .in("status", ["draft", "capturing", "submitted"]);
       if (paidUpdateError) {
         console.error("[stripe-webhook] inspections paid update failed:", paidUpdateError);
         return NextResponse.json(

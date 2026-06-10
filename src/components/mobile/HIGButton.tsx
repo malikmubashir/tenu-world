@@ -1,12 +1,18 @@
 "use client";
 
 /**
- * HIG-compliant button. Minimum 44pt tap target (Apple HIG 8.2 —
- * "The minimum tappable area for any UI element is 44x44 points").
+ * Primary action button — Éditorial v2 (#T150).
+ * Minimum 44pt tap target kept from the HIG pass (#T134).
  * Medium haptic on primary, light on secondary, heavy on destructive.
  *
- * No shadow, no gradient. iOS filled buttons are flat with a rounded
- * rect and active-state opacity change; we follow that convention.
+ * Variants follow the editorial spec (docs/brand/DESIGN-EDITORIAL-2026-06-10.md):
+ *   primary     — APPROVED EXCEPTION: filled #000 (--color-tenu-cta),
+ *                 white text, 0px radius. Reserved for primary paid /
+ *                 commit actions (Pay, Run scan, submit).
+ *   secondary   — typographic: black underlined text, no fill, no border.
+ *   destructive — functional danger text, underlined, no fill (danger
+ *                 is a form state, never chrome).
+ *   plain       — quiet typographic action, no underline.
  */
 import { type ButtonHTMLAttributes, type ReactNode } from "react";
 import { clsx } from "clsx";
@@ -49,15 +55,17 @@ export default function HIGButton({
       aria-busy={loading}
       className={clsx(
         "inline-flex items-center justify-center gap-2",
-        "min-h-[44px] px-5 text-base font-semibold rounded-xl",
+        "min-h-[44px] px-5 text-base font-medium rounded-none",
         // hig-press supplies token-driven transitions + scale; the
-        // opacity dip below matches iOS filled-button convention.
+        // opacity dip is the only pressed-state effect — no shadows.
         "hig-press active:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed",
         fullWidth && "w-full",
-        variant === "primary" && "bg-tenu-forest text-tenu-cream",
-        variant === "secondary" && "bg-tenu-cream-dark text-tenu-forest",
-        variant === "destructive" && "bg-red-600 text-white",
-        variant === "plain" && "bg-transparent text-tenu-forest",
+        variant === "primary" && "bg-tenu-cta text-tenu-cta-text",
+        variant === "secondary" &&
+          "bg-transparent text-tenu-ink underline decoration-1 underline-offset-4",
+        variant === "destructive" &&
+          "bg-transparent text-tenu-danger underline decoration-1 underline-offset-4",
+        variant === "plain" && "bg-transparent text-tenu-ink",
         className,
       )}
       {...rest}

@@ -5,9 +5,14 @@
  * link listener) and wraps children with safe-area padding.
  *
  * Uses env(safe-area-inset-*) so the layout respects the notch on iOS
- * and the gesture bar on Android. The default color behind the content
- * matches capacitor.config.ts background to avoid the "white flash"
- * on app launch.
+ * and the gesture bar on Android.
+ *
+ * Éditorial v2 (#T150): pure white canvas, black ink. The status bar
+ * uses dark content (Style.Light) over the white surface. Hex values
+ * below are intentional: the StatusBar plugin and the splash → first
+ * paint colour match cannot read CSS custom properties, so the
+ * editorial canvas/ink values are pinned here (and must stay in sync
+ * with --palette-canvas / --palette-ink in theme.css).
  */
 import { useEffect, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
@@ -37,8 +42,9 @@ export default function Shell({ children }: ShellProps) {
       SplashScreen.hide({ fadeOutDuration: 200 }).catch(() => { /* ignore */ });
     }, 300);
 
+    // Style.Light = dark status-bar content for a light surface.
     StatusBar.setStyle({ style: StatusBarStyle.Light }).catch(() => { /* ignore */ });
-    StatusBar.setBackgroundColor({ color: "#0B1F3A" }).catch(() => { /* ignore */ });
+    StatusBar.setBackgroundColor({ color: "#ffffff" }).catch(() => { /* ignore */ });
 
     initDeepLinks();
 
@@ -54,11 +60,11 @@ export default function Shell({ children }: ShellProps) {
     <div
       className="flex min-h-screen flex-col"
       style={{
-        // Identity v1 paper + ink. Inline so the splash → first paint
-        // colour match is bulletproof regardless of how the legacy
-        // `tenu-cream` Tailwind alias resolves.
-        backgroundColor: "#F4F1EA",
-        color: "#0B1F3A",
+        // Editorial canvas + ink. Inline so the splash → first paint
+        // colour match is bulletproof regardless of how the Tailwind
+        // tokens resolve. Keep in sync with theme.css palette.
+        backgroundColor: "#ffffff",
+        color: "#000000",
         paddingTop: "env(safe-area-inset-top)",
         paddingBottom: "env(safe-area-inset-bottom)",
         paddingLeft: "env(safe-area-inset-left)",

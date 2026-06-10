@@ -53,7 +53,7 @@ export default function SettingsPage() {
           </HIGButton>
         )}
 
-        <p className="mt-auto pb-4 text-center text-[11px] text-tenu-slate/40">
+        <p className="mt-auto pb-4 text-center text-[11px] text-tenu-ash">
           Tenu · version pré-lancement
         </p>
       </div>
@@ -70,10 +70,10 @@ function Section({
 }) {
   return (
     <section>
-      <h3 className="mb-2 px-2 text-xs font-semibold uppercase tracking-wide text-tenu-slate/60">
+      <h3 className="mb-2 text-sm font-medium text-tenu-ink">
         {title}
       </h3>
-      <div className="flex flex-col overflow-hidden rounded-xl bg-white/70">
+      <div className="flex flex-col border border-tenu-hairline bg-tenu-canvas">
         {children}
       </div>
     </section>
@@ -82,9 +82,9 @@ function Section({
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-tenu-cream-dark/40 px-4 py-3 last:border-b-0">
-      <span className="text-sm text-tenu-slate">{label}</span>
-      <span className="text-sm text-tenu-slate/60">{value}</span>
+    <div className="flex items-center justify-between border-b border-tenu-hairline px-4 py-3 last:border-b-0">
+      <span className="text-sm text-tenu-ink">{label}</span>
+      <span className="text-sm text-tenu-ink-muted">{value}</span>
     </div>
   );
 }
@@ -94,10 +94,10 @@ function LinkRow({ label, onClick }: { label: string; onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center justify-between border-b border-tenu-cream-dark/40 px-4 py-3 text-left last:border-b-0 active:bg-white"
+      className="flex items-center justify-between border-b border-tenu-hairline px-4 py-3 text-left last:border-b-0 active:bg-tenu-hairline/40"
     >
-      <span className="text-sm text-tenu-slate">{label}</span>
-      <span className="text-sm text-tenu-slate/40">›</span>
+      <span className="text-sm text-tenu-ink underline decoration-tenu-hairline underline-offset-4">{label}</span>
+      <span className="text-sm text-tenu-ash">›</span>
     </button>
   );
 }

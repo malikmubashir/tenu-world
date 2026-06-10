@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Inter_Tight } from "next/font/google";
+import { Inter, Inter_Tight } from "next/font/google";
 import { getDirection } from "@/lib/i18n/config";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import CookieBanner from "@/components/legal/CookieBanner";
@@ -9,9 +9,21 @@ import TranslatePreview from "@/components/web/TranslatePreview";
 import MobileGate from "@/components/mobile/MobileGate";
 import "./globals.css";
 
-// Identity v1 brand font. Only carried on the chrome (header
-// wordmark, PDF cover, social share cards). Body type stays on
-// `--font-sans` (SF Pro / system). Medium is the only weight used.
+// Éditorial v2 body type (#T149, 2026-06-10): Inter is the sole
+// typeface — the closest free substitute for Plain per the design
+// spec. Weight 300 carries the 100px display headlines, 400 is the
+// body/nav workhorse, 500–600 are micro-labels and emphasis only.
+// theme.css picks this up via --font-inter → --font-sans.
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
+  variable: "--font-inter",
+});
+
+// Brand font for the wordmark only — UNCHANGED per MH (lowercase
+// `tenu`, Inter Tight 500, tracking -0.04em). Carried on the chrome
+// (header wordmark, PDF cover, social share cards).
 const interTight = Inter_Tight({
   subsets: ["latin"],
   weight: ["500", "600"],
@@ -195,7 +207,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       dir={dir}
-      className={interTight.variable}
+      className={`${inter.variable} ${interTight.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -212,7 +224,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-tenu-cream text-tenu-slate antialiased">
+      <body className="min-h-screen bg-tenu-canvas text-tenu-ink antialiased">
         <MobileGate />
         {/* Web-only chrome: GlobalHeader pulls in UserMenu → server
             actions, which are unsupported under output: 'export'.

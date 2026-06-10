@@ -136,8 +136,8 @@ export default function AddressAutocomplete({
       ref={inputRef}
       type="text"
       placeholder={placeholder}
-      className={`w-full rounded-lg border border-gray-300 px-4 py-3 text-base
-        focus:border-emerald-600 focus:outline-none focus:ring-1 focus:ring-emerald-600
+      className={`w-full rounded-[2px] border border-tenu-ink-muted px-4 py-3 text-base
+        placeholder:text-tenu-ash focus:border-tenu-ink focus:outline-none
         ${className}`}
       autoComplete="off"
     />

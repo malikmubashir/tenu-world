@@ -12,8 +12,8 @@ export default function ReportsPage() {
     <>
       <NavBar title="Rapports" showBack={false} />
       <div className="flex flex-1 flex-col items-center justify-center px-6 py-12 text-center">
-        <p className="text-base font-semibold text-tenu-slate">Aucun rapport</p>
-        <p className="mt-2 text-sm text-tenu-slate/60">
+        <p className="text-base font-medium text-tenu-ink">Aucun rapport</p>
+        <p className="mt-2 text-sm text-tenu-ink-muted">
           Vos rapports d'analyse apparaîtront ici après le traitement
           d'un constat.
         </p>

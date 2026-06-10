@@ -1,9 +1,11 @@
 "use client";
 
 /**
- * Photo grid for one room. Three columns, square cells, light lift
- * border. Tap-to-expand is deferred to post-scaffold. Upload status
- * is rendered as a small badge in the top-right of each tile.
+ * Photo grid for one room — Éditorial v2 (#T150). Three columns,
+ * square 0-radius tiles separated by hairline-width gaps on a
+ * hairline ground (blueprint feel — the gaps read as 1px rules).
+ * Upload status renders as a small inverted-black badge in the
+ * top-end corner of each tile.
  */
 import Image from "next/image";
 import { Check, Clock, CloudUpload } from "lucide-react";
@@ -20,18 +22,18 @@ export default function PhotoGrid({
 }: PhotoGridProps) {
   if (photos.length === 0) {
     return (
-      <div className="flex min-h-[96px] items-center justify-center rounded-xl border border-dashed border-tenu-cream-dark bg-white/50 px-4 py-6 text-center text-sm text-tenu-slate/60">
+      <div className="flex min-h-[96px] items-center justify-center border border-dashed border-tenu-hairline bg-tenu-canvas px-4 py-6 text-center text-sm text-tenu-ink-muted">
         {emptyLabel}
       </div>
     );
   }
 
   return (
-    <ul className="grid grid-cols-3 gap-2">
+    <ul className="grid grid-cols-3 gap-px border border-tenu-hairline bg-tenu-hairline">
       {photos.map((photo) => (
         <li
           key={photo.id}
-          className="relative aspect-square overflow-hidden rounded-xl bg-tenu-cream-dark"
+          className="relative aspect-square overflow-hidden bg-tenu-canvas"
         >
           <Image
             src={photo.localPath}
@@ -43,7 +45,7 @@ export default function PhotoGrid({
           {/* Logical inset (end-*) keeps badges in the visual corner
               users expect when the app runs RTL (AR/UR). */}
           <span
-            className="absolute end-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/50 text-white"
+            className="absolute end-1.5 top-1.5 flex h-6 w-6 items-center justify-center bg-tenu-band-inverted/70 text-tenu-canvas"
             aria-label={statusLabel(photo)}
             title={statusLabel(photo)}
           >
@@ -54,7 +56,7 @@ export default function PhotoGrid({
             )}
           </span>
           {!photo.uploadedAt && (
-            <span className="absolute bottom-1.5 start-1.5 flex items-center gap-0.5 rounded-full bg-black/50 px-1.5 py-0.5 text-[10px] text-white">
+            <span className="absolute bottom-1.5 start-1.5 flex items-center gap-0.5 bg-tenu-band-inverted/70 px-1.5 py-0.5 text-[10px] text-tenu-canvas">
               <Clock className="h-3 w-3" />
               en attente
             </span>

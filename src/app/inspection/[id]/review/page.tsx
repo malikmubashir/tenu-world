@@ -98,19 +98,23 @@ export default function ReviewPage() {
   );
 
   return (
-    <div className="min-h-screen bg-tenu-cream">
-      <header className="flex items-center justify-between border-b border-tenu-cream-dark bg-white px-6 py-4">
-        <Link href="/" className="text-xl font-bold text-tenu-forest">
+    <div className="min-h-screen bg-tenu-canvas">
+      <header className="flex items-center justify-between border-b border-tenu-hairline bg-tenu-canvas px-6 py-4">
+        <Link
+          href="/"
+          className="hig-press inline-flex min-h-11 items-center text-xl font-medium lowercase tracking-[-0.04em] text-tenu-ink"
+          style={{ fontFamily: "var(--font-brand)" }}
+        >
           tenu
         </Link>
         <ProgressStepper steps={steps} currentStep="review" />
       </header>
 
       <main className="mx-auto max-w-2xl px-4 py-6">
-        <h1 className="mb-2 text-2xl font-bold text-tenu-forest">
+        <h1 className="mb-2 text-3xl font-light tracking-[-0.025em] text-tenu-ink">
           Review your photos
         </h1>
-        <p className="mb-6 text-sm text-tenu-slate/70">
+        <p className="mb-6 text-sm text-tenu-ink-muted">
           {totalPhotos} photo{totalPhotos !== 1 ? "s" : ""} across{" "}
           {rooms.length} room{rooms.length !== 1 ? "s" : ""}. Remove any you
           don&apos;t want included.
@@ -122,7 +126,7 @@ export default function ReviewPage() {
 
           return (
             <div key={room.id} className="mb-6">
-              <h2 className="mb-2 text-sm font-semibold text-tenu-forest">
+              <h2 className="mb-2 text-sm font-medium text-tenu-ink">
                 {room.label ?? room.room_type} ({roomPhotos.length})
               </h2>
               <PhotoGrid
@@ -138,8 +142,8 @@ export default function ReviewPage() {
         })}
 
         {totalPhotos === 0 && (
-          <div className="flex h-40 items-center justify-center rounded-xl border border-dashed border-tenu-cream-dark">
-            <p className="text-sm text-tenu-slate/50">
+          <div className="flex h-40 items-center justify-center border border-dashed border-tenu-hairline">
+            <p className="text-sm text-tenu-ink-muted">
               No photos captured yet.
             </p>
           </div>
@@ -152,14 +156,14 @@ export default function ReviewPage() {
         <div className="mt-8 flex items-center justify-between">
           <Link
             href={`/inspection/${inspectionId}/capture`}
-            className="text-sm text-tenu-slate/60 hover:text-tenu-forest"
+            className="hig-press inline-flex min-h-11 items-center text-sm text-tenu-ink-muted underline decoration-1 underline-offset-4 hover:text-tenu-accent"
           >
             Back to capture
           </Link>
           <button
             onClick={handleSubmit}
             disabled={submitting || totalPhotos === 0}
-            className="rounded-lg bg-tenu-forest px-6 py-3 text-sm font-medium text-white hover:bg-tenu-forest-light disabled:opacity-50"
+            className="hig-press min-h-11 rounded-none bg-tenu-cta px-6 py-3 text-sm font-medium text-tenu-cta-text hover:opacity-90 disabled:opacity-50"
           >
             {submitting ? "Submitting..." : "Submit for AI scan"}
           </button>

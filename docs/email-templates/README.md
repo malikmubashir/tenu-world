@@ -5,10 +5,13 @@ because at sign-in time we don't yet know the user's native language, and
 Supabase only allows one template per auth event. One email, four languages,
 reader picks the block that speaks to them.
 
-Palette matches the live tenu.world site: Apple ink `#1D1D1F`, band `#EEEEF1`,
-canvas `#FFFFFF`, hairline `#D2D2D7`, emerald CTA `#059669`, navy chrome
-`#0B1F3A`, muted `#6E6E73`. Table layout, inline styles, 560 px max width,
-system-font stack (SF Arabic / PingFang SC / Geeza Pro / Segoe UI / Arial).
+Palette matches the live tenu.world site (Éditorial v2, 2026-06-10): absolute
+black ink `#000000`, pure white canvas `#ffffff`, hairline `#e5e7eb`, black
+header strip and black CTA `#000000`, blue links `#2563eb`, muted `#6b7280`.
+Flat and square throughout — hairline-framed card, no border-radius, no
+box-shadow. Table layout, inline styles, 560 px max width, Inter-first
+system-font stack (Inter / SF Arabic / PingFang SC / Geeza Pro / Segoe UI /
+Arial — no webfont loaded).
 
 ## Supabase auth templates (six)
 
@@ -84,7 +87,7 @@ Each block inside a file is identical in structure:
 1. Locale label (`Français`, `English`, `简体中文`, `العربية`) — small, muted
 2. Headline — 20 px, 600 weight
 3. One-line instruction — 15 px body
-4. CTA button — emerald pill, one label per language (or the code block for reauth)
+4. CTA button — filled black, square corners (Éditorial paid-action exception), one label per language (or the code block for reauth)
 5. One-line expiry / security caveat — 13 px muted
 
 Blocks are separated by 1-px hairlines. The AR block carries `dir="rtl"` scoped
@@ -101,8 +104,9 @@ serves all four languages, so there's no reason to repeat it per block.
 - Wordmark is type-only — no web font. Falls back to SF Pro → Segoe UI → Arial.
 - Disc mark served from `https://tenu.world/apple-icon` (180 × 180 PNG via
   Next's icon route). Gmail image proxy handles it.
-- Button CTAs use `bgcolor` + inline `background` + `border-radius: 9999px` on
-  the `<td>` so Outlook renders a rounded pill rather than a square.
+- Button CTAs use `bgcolor` + inline `background` on the `<td>` (Outlook-safe).
+  Corners are square by design — 0px radius per the Éditorial system, so no
+  VML or radius hacks are needed.
 
 ## Testing
 

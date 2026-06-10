@@ -21,10 +21,10 @@
  * every server call. Cookies do not flow across the Capacitor /
  * tenu.world origin boundary.
  *
- * Brand: Identity v1 — paper #F4F1EA canvas, ink type, paper-2 #EDE8DC
- * for layered cards (room summary, progress card), brand-rule hairline,
- * brand-muted secondary text. Emerald CTA stays the only call-to-action
- * colour.
+ * Brand: Éditorial v2 (#T150) — white canvas, black ink, hairline
+ * #e5e7eb frames as the only structure, 0px radius, no shadows. The
+ * primary submit action is the APPROVED EXCEPTION: filled black
+ * (--color-tenu-cta), white text.
  *
  * Network failures: a single retry pass at the photo level (one
  * upload-intent → PUT → commit cycle, max two attempts). Inspection
@@ -50,14 +50,6 @@ import {
   type LocalPhotoRecord,
 } from "@/lib/mobile/storage/photos";
 
-const PAPER = "#F4F1EA";
-const PAPER_2 = "#EDE8DC";
-const INK = "#0B1F3A";
-const INK_55 = "rgba(11, 31, 58, 0.55)";
-const INK_12 = "rgba(11, 31, 58, 0.12)";
-const EMERALD = "#059669";
-const EMERALD_PRESSED = "#047857";
-const DANGER = "#DC2626";
 
 type Stage = "idle" | "creating" | "uploading" | "scanning" | "done" | "error";
 
@@ -249,10 +241,7 @@ export default function SubmitFlow() {
     return (
       <>
         <NavBar title="Envoyer" />
-        <div
-          className="flex flex-1 items-center justify-center px-6"
-          style={{ backgroundColor: PAPER, color: INK_55 }}
-        >
+        <div className="flex flex-1 items-center justify-center bg-tenu-canvas px-6 text-tenu-ink-muted">
           Chargement…
         </div>
       </>
@@ -263,22 +252,13 @@ export default function SubmitFlow() {
     return (
       <>
         <NavBar title="Analyse en cours" showBack={false} />
-        <div
-          className="flex flex-1 flex-col items-center justify-center gap-6 px-6 text-center"
-          style={{ backgroundColor: PAPER, color: INK }}
-        >
+        <div className="flex flex-1 flex-col items-center justify-center gap-6 bg-tenu-canvas px-6 text-center text-tenu-ink">
           <SuccessGlyph />
           <div className="space-y-3">
-            <h1
-              className="text-[26px] font-medium leading-tight"
-              style={{
-                fontFamily: "var(--font-brand)",
-                letterSpacing: "-0.04em",
-              }}
-            >
+            <h1 className="text-3xl font-light leading-tight tracking-[-0.025em] text-tenu-ink">
               Constat envoyé.
             </h1>
-            <p className="text-[15px] leading-relaxed" style={{ color: INK_55 }}>
+            <p className="text-[15px] leading-relaxed text-tenu-ink-muted">
               Notre analyse tourne. Vous recevrez un e-mail de confirmation
               dès que le rapport sera prêt — généralement en moins de deux
               minutes.
@@ -295,16 +275,14 @@ export default function SubmitFlow() {
                     : "/app-home/reports",
                 )
               }
-              className="flex h-[52px] w-full items-center justify-center rounded-2xl text-[16px] font-semibold"
-              style={{ backgroundColor: EMERALD, color: "#FFFFFF" }}
+              className="hig-press flex h-[52px] w-full items-center justify-center rounded-none bg-tenu-cta text-[16px] font-medium text-tenu-cta-text"
             >
               Voir mes rapports
             </button>
             <button
               type="button"
               onClick={() => router.replace("/app-home/")}
-              className="flex h-[44px] w-full items-center justify-center rounded-2xl text-[14px] font-medium"
-              style={{ color: INK }}
+              className="hig-press flex h-[44px] w-full items-center justify-center rounded-none text-[14px] font-medium text-tenu-ink underline decoration-1 underline-offset-4"
             >
               Retour à l&apos;accueil
             </button>
@@ -325,31 +303,16 @@ export default function SubmitFlow() {
         }
         showBack={stage === "idle" || stage === "error"}
       />
-      <div
-        className="flex flex-1 flex-col px-6 pb-8 pt-6"
-        style={{ backgroundColor: PAPER, color: INK }}
-      >
+      <div className="flex flex-1 flex-col bg-tenu-canvas px-6 pb-8 pt-6 text-tenu-ink">
         {/* Review summary card. */}
-        <div
-          className="rounded-2xl p-4"
-          style={{
-            backgroundColor: PAPER_2,
-            border: `1px solid ${INK_12}`,
-          }}
-        >
-          <p
-            className="text-[12px] font-semibold uppercase tracking-wide"
-            style={{ color: INK_55 }}
-          >
+        <div className="border border-tenu-hairline bg-tenu-canvas p-4">
+          <p className="text-[12px] font-medium text-tenu-ink-muted">
             {draft.payload.type === "sortie" ? "Sortie" : "Entrée"}
           </p>
-          <p className="mt-1 text-[15px] font-medium" style={{ color: INK }}>
+          <p className="mt-1 text-[15px] font-medium text-tenu-ink">
             {(draft.payload.address as string) ?? "Adresse non renseignée"}
           </p>
-          <div
-            className="my-3 h-px w-full"
-            style={{ backgroundColor: INK_12 }}
-          />
+          <div className="my-3 h-px w-full bg-tenu-hairline" />
           <ul className="flex flex-col gap-2">
             {rooms.map((r) => {
               const count = perRoom[r] ?? 0;
@@ -358,21 +321,18 @@ export default function SubmitFlow() {
                   key={r}
                   className="flex items-center justify-between text-[14px]"
                 >
-                  <span style={{ color: INK }}>{labelForRoom(r)}</span>
-                  <span style={{ color: count > 0 ? INK : DANGER }}>
+                  <span className="text-tenu-ink">{labelForRoom(r)}</span>
+                  <span className={count > 0 ? "text-tenu-ink" : "text-tenu-danger"}>
                     {count} photo{count > 1 ? "s" : ""}
                   </span>
                 </li>
               );
             })}
           </ul>
-          <div
-            className="my-3 h-px w-full"
-            style={{ backgroundColor: INK_12 }}
-          />
+          <div className="my-3 h-px w-full bg-tenu-hairline" />
           <div className="flex items-center justify-between text-[14px] font-medium">
-            <span style={{ color: INK }}>Total</span>
-            <span style={{ color: INK }}>
+            <span className="text-tenu-ink">Total</span>
+            <span className="text-tenu-ink">
               {totalPhotos} photo{totalPhotos > 1 ? "s" : ""}
             </span>
           </div>
@@ -404,27 +364,13 @@ export default function SubmitFlow() {
             />
           )}
           {stage === "error" && (
-            <div
-              className="rounded-2xl p-4 text-[14px]"
-              style={{
-                backgroundColor: "rgba(220, 38, 38, 0.06)",
-                border: `1px solid rgba(220, 38, 38, 0.20)`,
-                color: DANGER,
-              }}
-            >
+            <div className="border border-tenu-danger p-4 text-[14px] text-tenu-danger">
               <p className="font-medium">Erreur</p>
               <p className="mt-1">{error}</p>
             </div>
           )}
           {stage === "idle" && !minimumOk && (
-            <p
-              className="rounded-2xl p-4 text-[13px]"
-              style={{
-                backgroundColor: PAPER_2,
-                border: `1px solid ${INK_12}`,
-                color: INK_55,
-              }}
-            >
+            <p className="border border-tenu-hairline p-4 text-[13px] text-tenu-ink-muted">
               Ajoutez au moins {4 - totalPhotos} photo
               {4 - totalPhotos > 1 ? "s" : ""} supplémentaire
               {4 - totalPhotos > 1 ? "s" : ""} avant d&apos;envoyer.
@@ -439,25 +385,7 @@ export default function SubmitFlow() {
               type="button"
               onClick={handleSubmit}
               disabled={!minimumOk}
-              className="flex h-[52px] w-full items-center justify-center rounded-2xl text-[16px] font-semibold transition-all"
-              style={{
-                backgroundColor: minimumOk
-                  ? EMERALD
-                  : "rgba(5, 150, 105, 0.40)",
-                color: "#FFFFFF",
-                cursor: minimumOk ? "pointer" : "not-allowed",
-              }}
-              onPointerDown={(e) => {
-                if (minimumOk) {
-                  e.currentTarget.style.backgroundColor = EMERALD_PRESSED;
-                }
-              }}
-              onPointerUp={(e) => {
-                if (minimumOk) e.currentTarget.style.backgroundColor = EMERALD;
-              }}
-              onPointerLeave={(e) => {
-                if (minimumOk) e.currentTarget.style.backgroundColor = EMERALD;
-              }}
+              className="hig-press flex h-[52px] w-full items-center justify-center rounded-none bg-tenu-cta text-[16px] font-medium text-tenu-cta-text disabled:cursor-not-allowed disabled:opacity-40"
             >
               {stage === "error" ? "Réessayer l'envoi" : "Envoyer pour analyse"}
             </button>
@@ -468,20 +396,12 @@ export default function SubmitFlow() {
             <button
               type="button"
               disabled
-              className="flex h-[52px] w-full items-center justify-center rounded-2xl text-[16px] font-semibold"
-              style={{
-                backgroundColor: "rgba(5, 150, 105, 0.40)",
-                color: "#FFFFFF",
-                cursor: "wait",
-              }}
+              className="flex h-[52px] w-full cursor-wait items-center justify-center rounded-none bg-tenu-cta text-[16px] font-medium text-tenu-cta-text opacity-40"
             >
               Envoi en cours…
             </button>
           )}
-          <p
-            className="mt-3 text-center text-[12px] leading-snug"
-            style={{ color: INK_55 }}
-          >
+          <p className="mt-3 text-center text-[12px] leading-snug text-tenu-ink-muted">
             Vos photos sont chiffrées en transit (HTTPS) et stockées en Union
             européenne. Vous pouvez demander leur suppression depuis
             l&apos;application.
@@ -570,34 +490,22 @@ function ProgressBlock({
   indeterminate?: boolean;
 }) {
   return (
-    <div
-      className="rounded-2xl p-4"
-      style={{
-        backgroundColor: PAPER_2,
-        border: `1px solid ${INK_12}`,
-      }}
-    >
-      <p className="text-[15px] font-medium" style={{ color: INK }}>
+    <div className="border border-tenu-hairline bg-tenu-canvas p-4">
+      <p className="text-[15px] font-medium text-tenu-ink">
         {title}
       </p>
-      <p className="mt-1 text-[13px]" style={{ color: INK_55 }}>
+      <p className="mt-1 text-[13px] text-tenu-ink-muted">
         {detail}
       </p>
-      <div
-        className="mt-3 h-1.5 w-full overflow-hidden rounded-full"
-        style={{ backgroundColor: INK_12 }}
-      >
+      {/* Progress rule — hairline track, black fill, 0px radius. */}
+      <div className="mt-3 h-1 w-full overflow-hidden bg-tenu-hairline">
         {indeterminate ? (
-          <div
-            className="h-full w-1/3 animate-pulse rounded-full"
-            style={{ backgroundColor: EMERALD }}
-          />
+          <div className="h-full w-1/3 animate-pulse bg-tenu-ink motion-reduce:animate-none" />
         ) : (
           <div
-            className="h-full rounded-full transition-[width] duration-300"
+            className="h-full bg-tenu-ink transition-[width] duration-300"
             style={{
               width: `${Math.min(100, Math.max(0, (ratio ?? 0) * 100))}%`,
-              backgroundColor: EMERALD,
             }}
           />
         )}
@@ -607,15 +515,18 @@ function ProgressBlock({
 }
 
 function SuccessGlyph() {
-  // Plain ink-on-paper checkmark in a Portal-shaped container, sized to
+  // Black-on-white checkmark in a Portal-shaped container, sized to
   // mirror the brand mark stack used elsewhere on the welcome screens.
   return (
     <svg width="72" height="72" viewBox="0 0 48 48" aria-hidden="true">
-      <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill={INK} />
+      <path
+        d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z"
+        fill="var(--color-tenu-ink)"
+      />
       <path
         d="M 16 25 L 22 31 L 33 19"
         fill="none"
-        stroke={PAPER}
+        stroke="var(--color-tenu-canvas)"
         strokeWidth="3"
         strokeLinecap="round"
         strokeLinejoin="round"

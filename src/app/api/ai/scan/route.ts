@@ -32,11 +32,67 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }
 
-  if (inspection.status !== "submitted") {
+  // ── #T145 payment + state gate ──────────────────────────────────────
+  // Business rule (CLAUDE.md pricing): entry scan is PAY AT UPLOAD. The
+  // scan must never run on an unpaid inspection — every run costs real
+  // Anthropic spend plus PDF render and email.
+  //
+  // Status machine (migration 008):
+  //   draft → capturing → submitted → paid → scanning → scanned → …
+  //
+  // Terminal/late states are idempotency rejections, not generic 400s.
+  if (
+    inspection.status === "scanned" ||
+    inspection.status === "disputed" ||
+    inspection.status === "closed"
+  ) {
+    return NextResponse.json(
+      { error: "Inspection already scanned", code: "ALREADY_SCANNED" },
+      { status: 409 },
+    );
+  }
+  if (inspection.status === "scanning") {
+    return NextResponse.json(
+      { error: "Scan already in progress", code: "SCAN_IN_PROGRESS" },
+      { status: 409 },
+    );
+  }
+  if (inspection.status !== "paid" && inspection.status !== "submitted") {
     return NextResponse.json(
       { error: "Inspection must be submitted before scanning" },
       { status: 400 },
     );
+  }
+
+  // Payment verification against the payments table, NOT just the status
+  // column: RLS lets the owner UPDATE their own inspections row (including
+  // status), so status='paid' alone is forgeable from the client. payments
+  // rows are inserted exclusively by the Stripe webhook via the service
+  // role — users only hold a SELECT policy — so a completed scan-product
+  // payment row is server truth. We also accept status='submitted' here
+  // (rather than requiring 'paid') so a webhook that recorded the payment
+  // but failed the status flip does not strand a paying user.
+  //
+  // SCAN_PAYMENT_GATE_BYPASS mirrors DISPUTE_PAYMENT_GATE_BYPASS: local
+  // testing only, defaults OFF, must never be set in production.
+  const scanGateBypass = process.env.SCAN_PAYMENT_GATE_BYPASS === "1";
+  if (!scanGateBypass) {
+    const { data: payment } = await supabase
+      .from("payments")
+      .select("id")
+      .eq("inspection_id", inspectionId)
+      .eq("user_id", user.id)
+      .eq("status", "completed")
+      .in("type", ["report", "report_and_dispute", "exit_only"])
+      .limit(1)
+      .maybeSingle();
+
+    if (!payment) {
+      return NextResponse.json(
+        { error: "Payment required before scanning", code: "PAYMENT_REQUIRED" },
+        { status: 402 },
+      );
+    }
   }
 
   // fetch rooms with photos
@@ -87,11 +143,40 @@ export async function POST(request: Request) {
     tenantNotes,
   };
 
+  // ── #T145 atomic claim ──────────────────────────────────────────────
+  // Flip paid/submitted → scanning in a single conditional UPDATE so two
+  // concurrent POSTs cannot both reach the Anthropic call (double spend).
+  // Exactly one request wins the claim; the loser sees zero rows updated.
+  const priorStatus = inspection.status;
+  const { data: claimed } = await supabase
+    .from("inspections")
+    .update({ status: "scanning", updated_at: new Date().toISOString() })
+    .eq("id", inspectionId)
+    .in("status", ["paid", "submitted"])
+    .select("id");
+
+  if (!claimed || claimed.length === 0) {
+    return NextResponse.json(
+      { error: "Scan already in progress", code: "SCAN_IN_PROGRESS" },
+      { status: 409 },
+    );
+  }
+
+  // Best-effort release of the claim on failure so the user can retry.
+  const releaseClaim = async () => {
+    await supabase
+      .from("inspections")
+      .update({ status: priorStatus, updated_at: new Date().toISOString() })
+      .eq("id", inspectionId)
+      .eq("status", "scanning");
+  };
+
   // run AI scan with typed error handling
   let scanResult;
   try {
     scanResult = await scanAllRooms(scanInput);
   } catch (err) {
+    await releaseClaim();
     if (err instanceof ScanError) {
       const status =
         err.code === "INSUFFICIENT_PHOTOS" || err.code === "INVALID_INPUT"

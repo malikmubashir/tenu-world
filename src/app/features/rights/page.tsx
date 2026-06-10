@@ -4,6 +4,7 @@
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
+import SiteFooter from "@/components/web/SiteFooter";
 
 type Row = { item: string; wear: string; tenant: string };
 type Copy = {
@@ -209,22 +210,15 @@ export default async function RightsFeature() {
   const c = await resolveCopy();
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4 md:px-12">
-        <Link href="/" className="text-2xl font-bold text-tenu-forest">tenu</Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/" className="text-tenu-slate hover:text-tenu-forest">{c.home}</Link>
-          <Link href="/pricing" className="text-tenu-slate hover:text-tenu-forest">{c.pricing}</Link>
-        </nav>
-      </header>
 
       <main className="flex flex-1 flex-col">
-        <section className="t-section-canvas px-6 text-center">
-          <span className="t-label mb-5 inline-block text-tenu-accent">{c.eyebrow}</span>
-          <h1 className="t-display mx-auto max-w-4xl">{c.title}</h1>
-          <p className="t-body-muted mx-auto mt-6 max-w-2xl">{c.lede}</p>
+        <section className="t-section-canvas ed-frame text-start">
+          <span className="ed-label mb-8 inline-block">{c.eyebrow}</span>
+          <h1 className="t-display max-w-6xl">{c.title}</h1>
+          <p className="t-body-muted mt-8 max-w-2xl">{c.lede}</p>
         </section>
 
-        <section className="t-section-band px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             <h2 className="t-section-heading mb-8">{c.categoriesHeading}</h2>
             <div className="grid gap-6">
@@ -238,13 +232,13 @@ export default async function RightsFeature() {
           </div>
         </section>
 
-        <section className="t-section-canvas px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-4xl">
             <h2 className="t-section-heading mb-3">{c.tableHeading}</h2>
             <p className="t-body-muted mb-8">{c.tableIntro}</p>
-            <div className="overflow-x-auto rounded-xl border border-tenu-cream-dark bg-white">
-              <table className="w-full text-left text-sm">
-                <thead className="bg-tenu-cream/60 text-tenu-forest">
+            <div className="overflow-x-auto border t-hairline bg-tenu-canvas">
+              <table className="w-full text-start text-sm">
+                <thead className="border-b t-hairline text-tenu-ink">
                   <tr>
                     <th className="px-4 py-3 font-semibold">{c.tableHeaders.item}</th>
                     <th className="px-4 py-3 font-semibold">{c.tableHeaders.wear}</th>
@@ -253,10 +247,10 @@ export default async function RightsFeature() {
                 </thead>
                 <tbody>
                   {c.rows.map((r) => (
-                    <tr key={r.item} className="border-t border-tenu-cream-dark align-top">
+                    <tr key={r.item} className="border-t t-hairline align-top">
                       <td className="px-4 py-3 font-medium">{r.item}</td>
-                      <td className="px-4 py-3 text-tenu-slate">{r.wear}</td>
-                      <td className="px-4 py-3 text-tenu-slate">{r.tenant}</td>
+                      <td className="px-4 py-3 text-tenu-ink">{r.wear}</td>
+                      <td className="px-4 py-3 text-tenu-ink">{r.tenant}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -265,26 +259,24 @@ export default async function RightsFeature() {
           </div>
         </section>
 
-        <section className="t-section-band px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             <h2 className="t-section-heading mb-4">{c.residualHeading}</h2>
             <p className="t-body">{c.residualBody}</p>
           </div>
         </section>
 
-        <section className="t-section-canvas px-6 md:px-12">
-          <div className="t-content max-w-2xl text-center">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
+          <div className="t-content max-w-2xl text-start">
             <h2 className="t-section-heading mb-5">{c.closingHeading}</h2>
             <p className="t-body-muted mb-10">{c.closingBody}</p>
             <Link href="/inspection/new" className="t-cta-primary hig-press">{c.cta}</Link>
-            <p className="mt-6 text-xs text-tenu-ink-muted">{c.disclaimer}</p>
+            <p className="t-caption mt-6">{c.disclaimer}</p>
           </div>
         </section>
       </main>
 
-      <footer className="border-t t-hairline px-6 py-10 text-center text-sm text-tenu-ink-muted">
-        <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

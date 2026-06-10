@@ -1,9 +1,12 @@
 "use client";
 
 /**
- * HIG-style text field. Floating label on focus, clear error surface,
- * 44pt minimum tap height. No chrome borders — follows iOS 15+ grouped
- * inset style with a light background fill.
+ * Text field — Éditorial v2 (#T150). 44pt minimum tap height kept.
+ *
+ * Spec: 1px stone-gray border (--color-tenu-ink-muted), 2px radius
+ * (the only radius in the system), white background, black text,
+ * ash placeholder. No focus ring glow — the border darkens to black
+ * on focus.
  */
 import { forwardRef, type InputHTMLAttributes } from "react";
 import { clsx } from "clsx";
@@ -21,7 +24,7 @@ const HIGTextField = forwardRef<HTMLInputElement, HIGTextFieldProps>(
       <div className="flex flex-col gap-1">
         <label
           htmlFor={fieldId}
-          className="text-xs font-semibold uppercase tracking-wide text-tenu-slate/70"
+          className="text-sm font-medium text-tenu-ink"
         >
           {label}
         </label>
@@ -29,22 +32,24 @@ const HIGTextField = forwardRef<HTMLInputElement, HIGTextFieldProps>(
           id={fieldId}
           ref={ref}
           className={clsx(
-            "min-h-[44px] rounded-xl bg-white/80 px-4 py-2",
-            "text-base text-tenu-slate placeholder:text-tenu-slate/40",
-            "outline-none ring-1 ring-transparent",
-            // Ring eases in rather than snapping (150ms = hover/focus tier).
-            "transition-shadow duration-150 focus:ring-2 focus:ring-tenu-forest",
-            error && "ring-2 ring-red-500 focus:ring-red-500",
+            "min-h-[44px] rounded-[2px] border bg-tenu-canvas px-3 py-2",
+            "text-base text-tenu-ink placeholder:text-tenu-ash",
+            "outline-none focus-visible:outline-none",
+            // Border darkens to ink on focus — no glow (150ms tier).
+            "transition-colors duration-150 focus:border-tenu-ink",
+            error
+              ? "border-tenu-danger focus:border-tenu-danger"
+              : "border-tenu-ink-muted",
             className,
           )}
           {...rest}
         />
         {error ? (
-          <p className="text-xs text-red-600" role="alert">
+          <p className="text-sm text-tenu-danger" role="alert">
             {error}
           </p>
         ) : hint ? (
-          <p className="text-xs text-tenu-slate/60">{hint}</p>
+          <p className="text-sm text-tenu-ink-muted">{hint}</p>
         ) : null}
       </div>
     );

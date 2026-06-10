@@ -14,11 +14,18 @@
 // Bilingual EN/FR inline. Non-en/fr locales fall back to EN.
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
+import Image from "next/image";
 import {
   parseLocaleFromCookie,
   parseLocaleFromHeader,
 } from "@/lib/i18n/server";
 import { getStoriesByCategory } from "@/lib/stories";
+import SiteFooter from "@/components/web/SiteFooter";
+
+// Éditorial v2 (#T149) — full-bleed photographic plate; the image
+// carries the warmth the achromatic chrome refuses.
+const INDEX_PLATE =
+  "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=2400&q=80";
 
 type Chrome = {
   metaTitle: string;
@@ -108,36 +115,30 @@ export default async function StoriesIndex() {
   const success = getStoriesByCategory("success");
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4 md:px-12">
-        <Link href="/" className="text-2xl font-bold text-tenu-forest">
-          tenu
-        </Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/" className="text-tenu-slate hover:text-tenu-forest">
-            {c.home}
-          </Link>
-          <Link
-            href="/pricing"
-            className="text-tenu-slate hover:text-tenu-forest"
-          >
-            {c.pricing}
-          </Link>
-        </nav>
-      </header>
-
+    <div className="flex min-h-screen flex-col bg-tenu-canvas">
       <main className="flex flex-1 flex-col">
+        {/* Plate — image leads alone, no overlay */}
+        <section className="relative h-[36vh] min-h-[260px] w-full md:h-[55vh]">
+          <Image
+            src={INDEX_PLATE}
+            alt="Bright Parisian living room with tall windows and soft natural light"
+            fill
+            priority
+            loading="eager"
+            sizes="100vw"
+            className="object-cover"
+          />
+        </section>
+
         {/* Lede */}
-        <section className="t-section-canvas px-6 text-center">
-          <span className="t-label mb-5 inline-block text-tenu-accent">
-            {c.eyebrow}
-          </span>
-          <h1 className="t-display mx-auto max-w-4xl">{c.title}</h1>
-          <p className="t-body-muted mx-auto mt-6 max-w-2xl">{c.lede}</p>
+        <section className="t-section-canvas ed-frame text-start">
+          <span className="ed-label mb-8 inline-block">{c.eyebrow}</span>
+          <h1 className="t-display max-w-6xl">{c.title}</h1>
+          <p className="t-body-muted mt-8 max-w-2xl">{c.lede}</p>
         </section>
 
         {/* Cautionary */}
-        <section className="t-section-band px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-5xl">
             <div className="mb-10 max-w-2xl">
               <h2 className="t-section-heading mb-4">{c.cautionaryHeading}</h2>
@@ -145,18 +146,18 @@ export default async function StoriesIndex() {
             </div>
 
             {cautionary.length > 0 && (
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-px border t-hairline bg-tenu-hairline md:grid-cols-2">
                 {cautionary.map((s) => (
                   <Link
                     key={s.slug}
                     href={s.href}
-                    className="t-card hig-press block transition hover:-translate-y-0.5 hover:border-tenu-accent/40"
+                    className="hig-press group block bg-tenu-canvas p-6"
                   >
-                    <div className="t-label mb-3 text-tenu-accent">
-                      {s.eyebrow[lang]}
-                    </div>
-                    <h3 className="t-h3 mb-2">{s.title[lang]}</h3>
-                    <p className="t-small-muted">{s.hook[lang]}</p>
+                    <div className="ed-label mb-3">{s.eyebrow[lang]}</div>
+                    <h3 className="t-h3 mb-2 group-hover:text-tenu-accent">
+                      {s.title[lang]}
+                    </h3>
+                    <p className="t-body-muted">{s.hook[lang]}</p>
                   </Link>
                 ))}
               </div>
@@ -165,7 +166,7 @@ export default async function StoriesIndex() {
         </section>
 
         {/* Success */}
-        <section className="t-section-canvas px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-5xl">
             <div className="mb-10 max-w-2xl">
               <h2 className="t-section-heading mb-4">{c.successHeading}</h2>
@@ -173,32 +174,32 @@ export default async function StoriesIndex() {
             </div>
 
             {success.length > 0 ? (
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-px border t-hairline bg-tenu-hairline md:grid-cols-2">
                 {success.map((s) => (
                   <Link
                     key={s.slug}
                     href={s.href}
-                    className="t-card hig-press block transition hover:-translate-y-0.5 hover:border-tenu-accent/40"
+                    className="hig-press group block bg-tenu-canvas p-6"
                   >
-                    <div className="t-label mb-3 text-tenu-accent">
-                      {s.eyebrow[lang]}
-                    </div>
-                    <h3 className="t-h3 mb-2">{s.title[lang]}</h3>
-                    <p className="t-small-muted">{s.hook[lang]}</p>
+                    <div className="ed-label mb-3">{s.eyebrow[lang]}</div>
+                    <h3 className="t-h3 mb-2 group-hover:text-tenu-accent">
+                      {s.title[lang]}
+                    </h3>
+                    <p className="t-body-muted">{s.hook[lang]}</p>
                   </Link>
                 ))}
               </div>
             ) : (
-              <div className="rounded-2xl border border-dashed border-tenu-cream-dark bg-transparent p-8 text-center">
-                <p className="t-small-muted">{c.successEmpty}</p>
+              <div className="border t-hairline p-8">
+                <p className="t-body-muted">{c.successEmpty}</p>
               </div>
             )}
           </div>
         </section>
 
         {/* Closing CTA */}
-        <section className="t-section-band px-6 md:px-12">
-          <div className="t-content max-w-2xl text-center">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
+          <div className="t-content max-w-2xl text-start">
             <h2 className="t-section-heading mb-5">{c.closingHeading}</h2>
             <p className="t-body-muted mb-10">{c.closingBody}</p>
             <Link href="/inspection/new" className="t-cta-primary hig-press">
@@ -208,12 +209,7 @@ export default async function StoriesIndex() {
         </section>
       </main>
 
-      <footer className="border-t t-hairline px-6 py-10 text-center text-sm text-tenu-ink-muted">
-        <p>
-          &copy; {new Date().getFullYear()} Global Apex NET (SAS, France).
-          tenu.world
-        </p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

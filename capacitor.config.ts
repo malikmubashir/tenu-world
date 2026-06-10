@@ -40,13 +40,13 @@ const config: CapacitorConfig = {
   ios: {
     contentInset: "always",
     scheme: "Tenu",
-    // Background color shown during webview load — matches iOS splash.
-    backgroundColor: "#F4F1EA",
+    // Background color shown during webview load — matches iOS splash. Éditorial v2 white (2026-06-10).
+    backgroundColor: "#ffffff",
     limitsNavigationsToAppBoundDomains: true,
   },
 
   android: {
-    backgroundColor: "#F4F1EA",
+    backgroundColor: "#ffffff",
     allowMixedContent: false,
     captureInput: true,
   },
@@ -55,7 +55,7 @@ const config: CapacitorConfig = {
     SplashScreen: {
       launchShowDuration: 600,
       launchAutoHide: true,
-      backgroundColor: "#F4F1EA",
+      backgroundColor: "#ffffff",
       androidSplashResourceName: "splash",
       androidScaleType: "CENTER_CROP",
       showSpinner: false,
@@ -64,7 +64,7 @@ const config: CapacitorConfig = {
     },
     StatusBar: {
       style: "LIGHT",
-      backgroundColor: "#0B1F3A",
+      backgroundColor: "#ffffff",
       overlaysWebView: false,
     },
     Camera: {

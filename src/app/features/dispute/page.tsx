@@ -4,6 +4,7 @@
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
+import SiteFooter from "@/components/web/SiteFooter";
 
 type Copy = {
   metaTitle: string;
@@ -164,22 +165,15 @@ export default async function DisputeFeature() {
   const c = await resolveCopy();
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4 md:px-12">
-        <Link href="/" className="text-2xl font-bold text-tenu-forest">tenu</Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/" className="text-tenu-slate hover:text-tenu-forest">{c.home}</Link>
-          <Link href="/pricing" className="text-tenu-slate hover:text-tenu-forest">{c.pricing}</Link>
-        </nav>
-      </header>
 
       <main className="flex flex-1 flex-col">
-        <section className="t-section-canvas px-6 text-center">
-          <span className="t-label mb-5 inline-block text-tenu-accent">{c.eyebrow}</span>
-          <h1 className="t-display mx-auto max-w-4xl">{c.title}</h1>
-          <p className="t-body-muted mx-auto mt-6 max-w-2xl">{c.lede}</p>
+        <section className="t-section-canvas ed-frame text-start">
+          <span className="ed-label mb-8 inline-block">{c.eyebrow}</span>
+          <h1 className="t-display max-w-6xl">{c.title}</h1>
+          <p className="t-body-muted mt-8 max-w-2xl">{c.lede}</p>
         </section>
 
-        <section className="t-section-band px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             <h2 className="t-section-heading mb-10">{c.containsHeading}</h2>
             <div className="grid gap-6 md:grid-cols-2">
@@ -193,14 +187,14 @@ export default async function DisputeFeature() {
           </div>
         </section>
 
-        <section className="t-section-canvas px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             <h2 className="t-section-heading mb-4">{c.craftHeading}</h2>
             <p className="t-body">{c.craftBody}</p>
           </div>
         </section>
 
-        <section className="t-section-band px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             <h2 className="t-section-heading mb-8">{c.useHeading}</h2>
             <ol className="space-y-4 list-decimal pl-6">
@@ -211,26 +205,24 @@ export default async function DisputeFeature() {
           </div>
         </section>
 
-        <section className="t-section-canvas px-6 md:px-12">
-          <div className="t-content max-w-2xl text-center">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
+          <div className="t-content max-w-2xl text-start">
             <h2 className="t-section-heading mb-4">{c.priceHeading}</h2>
             <p className="t-body">{c.priceBody}</p>
           </div>
         </section>
 
-        <section className="t-section-band px-6 md:px-12">
-          <div className="t-content max-w-2xl text-center">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
+          <div className="t-content max-w-2xl text-start">
             <h2 className="t-section-heading mb-5">{c.closingHeading}</h2>
             <p className="t-body-muted mb-10">{c.closingBody}</p>
             <Link href="/inspection/new" className="t-cta-primary hig-press">{c.cta}</Link>
-            <p className="mt-6 text-xs text-tenu-ink-muted">{c.disclaimer}</p>
+            <p className="t-caption mt-6">{c.disclaimer}</p>
           </div>
         </section>
       </main>
 
-      <footer className="border-t t-hairline px-6 py-10 text-center text-sm text-tenu-ink-muted">
-        <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

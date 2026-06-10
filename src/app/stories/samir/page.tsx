@@ -5,7 +5,9 @@
 // link across. Professional services register. Not a testimonial.
 import { cookies, headers } from "next/headers";
 import Link from "next/link";
+import Image from "next/image";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
+import SiteFooter from "@/components/web/SiteFooter";
 import OtherCases from "@/components/stories/OtherCases";
 
 type Mapping = { moment: string; pain: string; remedy: string; href: string; remedyLabel: string };
@@ -232,23 +234,29 @@ export default async function SamirStory() {
   const c = await resolveCopy();
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4 md:px-12">
-        <Link href="/" className="text-2xl font-bold text-tenu-forest">tenu</Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/" className="text-tenu-slate hover:text-tenu-forest">{c.home}</Link>
-          <Link href="/pricing" className="text-tenu-slate hover:text-tenu-forest">{c.pricing}</Link>
-        </nav>
-      </header>
 
       <main className="flex flex-1 flex-col">
-        <section className="t-section-canvas px-6 text-center">
-          <span className="t-label mb-5 inline-block text-tenu-accent">{c.eyebrow}</span>
-          <h1 className="t-display mx-auto max-w-4xl">{c.title}</h1>
-          <p className="t-body-muted mx-auto mt-6 max-w-2xl">{c.lede}</p>
-          <p className="mx-auto mt-4 max-w-2xl text-xs text-tenu-ink-muted">{c.disclaimer}</p>
+        {/* Plate — image leads alone (Éditorial v2, #T149) */}
+        <section className="relative h-[36vh] min-h-[260px] w-full md:h-[55vh]">
+          <Image
+            src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=2400&q=80"
+            alt="Family home interior in warm light — open kitchen and wooden floor"
+            fill
+            priority
+            loading="eager"
+            sizes="100vw"
+            className="object-cover"
+          />
         </section>
 
-        <section className="t-section-band px-6 md:px-12">
+        <section className="t-section-canvas ed-frame text-start">
+          <span className="ed-label mb-8 inline-block">{c.eyebrow}</span>
+          <h1 className="t-display max-w-6xl">{c.title}</h1>
+          <p className="t-body-muted mt-8 max-w-2xl">{c.lede}</p>
+          <p className="t-caption mt-4 max-w-2xl">{c.disclaimer}</p>
+        </section>
+
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             {c.acts.map((act) => (
               <article key={act.heading} className="mb-12 last:mb-0">
@@ -263,7 +271,7 @@ export default async function SamirStory() {
           </div>
         </section>
 
-        <section className="t-section-canvas px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             <h2 className="t-section-heading mb-4">{c.mappingHeading}</h2>
             <p className="t-body-muted mb-10">{c.mappingIntro}</p>
@@ -271,12 +279,12 @@ export default async function SamirStory() {
               {c.mappings.map((m) => (
                 <article
                   key={m.moment}
-                  className="rounded-2xl border border-tenu-cream-dark bg-white p-6"
+                  className="t-card"
                 >
-                  <div className="t-label text-tenu-accent mb-2">{m.moment}</div>
-                  <p className="t-body mb-3"><strong className="text-tenu-forest">What went wrong / Ce qui a basculé :</strong> {m.pain}</p>
-                  <p className="t-body mb-4"><strong className="text-tenu-forest">What Tenu does :</strong> {m.remedy}</p>
-                  <Link href={m.href} className="text-sm font-medium text-tenu-accent hover:underline">
+                  <div className="ed-label mb-2">{m.moment}</div>
+                  <p className="t-body mb-3"><strong className="text-tenu-ink">What went wrong / Ce qui a basculé :</strong> {m.pain}</p>
+                  <p className="t-body mb-4"><strong className="text-tenu-ink">What Tenu does :</strong> {m.remedy}</p>
+                  <Link href={m.href} className="ed-link">
                     {m.remedyLabel} →
                   </Link>
                 </article>
@@ -285,15 +293,15 @@ export default async function SamirStory() {
           </div>
         </section>
 
-        <section className="t-section-band px-6 md:px-12">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
           <div className="t-content max-w-3xl">
             <h2 className="t-section-heading mb-4">{c.verdictHeading}</h2>
             <p className="t-body">{c.verdictBody}</p>
           </div>
         </section>
 
-        <section className="t-section-canvas px-6 md:px-12">
-          <div className="t-content max-w-2xl text-center">
+        <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
+          <div className="t-content max-w-2xl text-start">
             <h2 className="t-section-heading mb-5">{c.closingHeading}</h2>
             <p className="t-body-muted mb-10">{c.closingBody}</p>
             <Link href="/inspection/new" className="t-cta-primary hig-press">{c.cta}</Link>
@@ -303,9 +311,7 @@ export default async function SamirStory() {
         <OtherCases currentSlug="samir" />
       </main>
 
-      <footer className="border-t t-hairline px-6 py-10 text-center text-sm text-tenu-ink-muted">
-        <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

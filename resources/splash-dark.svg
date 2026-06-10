@@ -1,8 +1,9 @@
-<!-- Dark-mode splash. Same composition, inverted palette.
-     iOS + Android both pick this up automatically when the device is
-     in dark mode at app launch. -->
+<!-- Dark-mode splash. Same composition, inverted: Pure White mark on an
+     Absolute Black band (Éditorial v2, 2026-06-10 — inversion is the only
+     elevation in the system). iOS + Android both pick this up automatically
+     when the device is in dark mode at app launch. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2732 2732" width="2732" height="2732" role="img" aria-label="Tenu">
-  <rect width="2732" height="2732" fill="#0B1F3A"/>
+  <rect width="2732" height="2732" fill="#000000"/>
 
   <g transform="translate(1006, 956) scale(15)">
     <defs>
@@ -13,8 +14,8 @@
         <rect x="22.9" y="23.5" width="2.2" height="18" rx="1.1" fill="black"/>
       </mask>
     </defs>
-    <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill="#F4F1EA" mask="url(#splash-cut-dark)"/>
-    <circle cx="24" cy="13" r="4" fill="#0B1F3A"/>
+    <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill="#ffffff" mask="url(#splash-cut-dark)"/>
+    <circle cx="24" cy="13" r="4" fill="#000000"/>
   </g>
 
   <text
@@ -25,6 +26,6 @@
     font-weight="500"
     text-anchor="middle"
     letter-spacing="-7.2"
-    fill="#F4F1EA"
+    fill="#ffffff"
   >tenu</text>
 </svg>

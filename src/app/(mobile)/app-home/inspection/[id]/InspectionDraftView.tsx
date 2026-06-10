@@ -60,7 +60,7 @@ export default function InspectionDraftView() {
     return (
       <>
         <NavBar title="Constat" />
-        <div className="p-4 text-sm text-tenu-slate/60">Chargement…</div>
+        <div className="p-4 text-sm text-tenu-ink-muted">Chargement…</div>
       </>
     );
   }
@@ -77,7 +77,7 @@ export default function InspectionDraftView() {
           onBack={() => setActiveRoom(null)}
         />
         <div className="flex flex-1 flex-col px-4 pb-8 pt-4">
-          <div className="mb-4 rounded-xl bg-white/70 p-3 text-sm text-tenu-slate">
+          <div className="mb-4 border border-tenu-hairline p-3 text-sm text-tenu-ink">
             Cadrez l'angle de la pièce. Minimum 4 photos. Les photos
             restent sur votre téléphone jusqu'à l'envoi final.
           </div>
@@ -98,25 +98,25 @@ export default function InspectionDraftView() {
     <>
       <NavBar title="Constat en cours" />
       <div className="flex flex-1 flex-col px-4 pb-8 pt-4">
-        <p className="text-sm text-tenu-slate/70">
+        <p className="text-sm text-tenu-ink-muted">
           {(draft.payload.address as string) ?? "Adresse non renseignée"}
         </p>
-        <p className="mb-4 text-xs uppercase tracking-wide text-tenu-slate/50">
+        <p className="mb-4 text-xs font-medium text-tenu-ink-muted">
           {draft.payload.type === "sortie" ? "Sortie" : "Entrée"}
         </p>
 
-        <ul className="flex flex-col gap-2">
+        <ul className="flex flex-col border border-tenu-hairline">
           {rooms.map((r) => (
-            <li key={r}>
+            <li key={r} className="border-b border-tenu-hairline last:border-b-0">
               <button
                 type="button"
                 onClick={() => setActiveRoom(r)}
-                className="flex w-full items-center justify-between rounded-xl bg-white/70 px-4 py-3 text-left active:bg-white"
+                className="hig-press flex w-full items-center justify-between bg-tenu-canvas px-4 py-3 text-left active:bg-tenu-hairline/40"
               >
-                <span className="font-medium text-tenu-slate">
+                <span className="font-medium text-tenu-ink">
                   {labelForRoom(r)}
                 </span>
-                <span className="text-sm text-tenu-slate/60">
+                <span className="text-sm text-tenu-ink-muted">
                   {countFor(r)} photo{countFor(r) > 1 ? "s" : ""}
                 </span>
               </button>
@@ -131,7 +131,7 @@ export default function InspectionDraftView() {
           >
             Vérifier et envoyer
           </HIGButton>
-          <p className="mt-2 text-center text-[11px] text-tenu-slate/50">
+          <p className="mt-2 text-center text-[11px] text-tenu-ink-muted">
             {allPhotos.length < 4
               ? `Ajoutez encore ${4 - allPhotos.length} photo(s) avant de continuer.`
               : "Toutes les photos seront envoyées au serveur Tenu."}

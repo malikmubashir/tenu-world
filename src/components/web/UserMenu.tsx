@@ -1,9 +1,10 @@
 "use client";
 
 /**
- * Avatar dropdown — Apple-style rounded menu with press feedback.
+ * Avatar dropdown — Éditorial v2: hairline-framed flat menu, 0px
+ * radius, no shadow (#T149).
  *
- * Shows the user's initial inside a circular chip. Click to reveal
+ * Shows the user's initial inside a square ink chip. Click to reveal
  * a menu with Account + Sign out. Click-outside and Escape close it.
  * Sign out uses a server action so the cookie is cleared server-side
  * and the session is revalidated before we redirect.
@@ -64,7 +65,7 @@ export default function UserMenu({ email, fullName, locale }: UserMenuProps) {
         aria-haspopup="menu"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="hig-press flex h-10 w-10 items-center justify-center rounded-full bg-tenu-forest text-sm font-semibold text-tenu-cream hover:bg-tenu-forest-light"
+        className="hig-press flex h-10 w-10 items-center justify-center bg-tenu-cta text-sm font-medium text-white"
       >
         {initial}
       </button>
@@ -73,26 +74,26 @@ export default function UserMenu({ email, fullName, locale }: UserMenuProps) {
         // end-0 keeps the menu on-screen when the chrome mirrors for RTL.
         <div
           role="menu"
-          className="hig-reveal absolute end-0 z-50 mt-2 w-60 overflow-hidden rounded-2xl bg-white p-1"
+          className="hig-reveal absolute end-0 z-50 mt-2 w-60 overflow-hidden border t-hairline bg-tenu-canvas p-1"
           style={{ boxShadow: "var(--shadow-hig-float)" }}
         >
           <div className="px-3 py-3">
-            <p className="truncate text-sm font-semibold text-tenu-slate">
+            <p className="truncate text-sm font-medium text-tenu-ink">
               {displayName}
             </p>
             {displayName !== email && (
-              <p className="truncate text-xs text-tenu-slate/60">{email}</p>
+              <p className="truncate text-xs text-tenu-ink-muted">{email}</p>
             )}
           </div>
 
-          <div className="h-px bg-tenu-cream-dark" />
+          <div className="h-px bg-tenu-hairline" />
 
           {/* min-h-11 = HIG 44px touch floor for menu rows. */}
           <Link
             href="/account"
             role="menuitem"
             onClick={() => setOpen(false)}
-            className="hig-press flex min-h-11 items-center rounded-xl px-3 py-2 text-sm text-tenu-slate hover:bg-tenu-cream/70"
+            className="hig-press flex min-h-11 items-center px-3 py-2 text-sm text-tenu-ink hover:text-tenu-accent"
           >
             {t.account}
           </Link>
@@ -101,7 +102,7 @@ export default function UserMenu({ email, fullName, locale }: UserMenuProps) {
             <button
               type="submit"
               role="menuitem"
-              className="hig-press flex min-h-11 w-full items-center rounded-xl px-3 py-2 text-start text-sm text-tenu-danger hover:bg-red-50"
+              className="hig-press flex min-h-11 w-full items-center px-3 py-2 text-start text-sm text-tenu-danger"
             >
               {t.signout}
             </button>

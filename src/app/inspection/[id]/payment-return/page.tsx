@@ -105,11 +105,11 @@ export default function PaymentReturnPage() {
   }, [state, params.id, router]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-[var(--color-canvas)] text-[var(--color-ink)]">
+    <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-tenu-canvas text-tenu-ink">
       {state === "loading" && (
         <>
           <svg
-            className="animate-spin h-8 w-8 text-[var(--color-emerald)]"
+            className="animate-spin h-8 w-8 text-tenu-ink motion-reduce:animate-none"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -129,7 +129,7 @@ export default function PaymentReturnPage() {
               d="M4 12a8 8 0 018-8v8H4z"
             />
           </svg>
-          <p className="text-sm text-[var(--color-ink-secondary)]">
+          <p className="text-sm text-tenu-ink-muted">
             Verifying payment…
           </p>
         </>
@@ -138,12 +138,12 @@ export default function PaymentReturnPage() {
       {state === "error" && (
         <div className="text-center space-y-3 px-6">
           <p className="font-medium">Could not verify payment status.</p>
-          <p className="text-sm text-[var(--color-ink-secondary)]">
+          <p className="text-sm text-tenu-ink-muted">
             If your payment was successful you can view your report directly.
           </p>
           <a
             href={`/inspection/${params.id}/report`}
-            className="inline-block mt-2 text-sm font-medium text-[var(--color-emerald)] underline underline-offset-2"
+            className="inline-block mt-2 text-sm font-medium text-tenu-accent underline decoration-1 underline-offset-2"
           >
             Go to report →
           </a>

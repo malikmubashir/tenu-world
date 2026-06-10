@@ -41,54 +41,34 @@ const docs: Doc[] = [
 
 export default function LegalIndex() {
   return (
-    <div className="flex min-h-screen flex-col">
-      <header className="flex items-center justify-between px-6 py-4 md:px-12">
-        <Link href="/" className="text-2xl font-bold text-tenu-forest">
-          tenu
-        </Link>
-        <nav className="flex items-center gap-4 text-sm">
-          <Link href="/" className="text-tenu-slate hover:text-tenu-forest">
-            Home
-          </Link>
-        </nav>
-      </header>
-
-      <div className="border-y border-tenu-warning/40 bg-tenu-warning/10 px-6 py-3 md:px-12">
-        <p className="mx-auto max-w-3xl text-sm text-tenu-slate">
-          <span className="mr-2 rounded bg-tenu-warning px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-white">
+    <div className="flex min-h-screen flex-col bg-tenu-canvas">
+      <div className="border-b t-hairline px-6 py-3 md:px-12">
+        <p className="mx-auto max-w-3xl text-sm text-tenu-ink">
+          <span className="me-2 border border-tenu-ink px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-tenu-ink">
             Draft
           </span>
           These documents are v1.0-draft pending counsel review. They are published for transparency and review, not yet binding.
         </p>
       </div>
 
-      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10 md:px-0">
-        <h1 className="text-3xl font-bold text-tenu-forest md:text-4xl">Legal documents</h1>
-        <p className="mt-4 text-sm text-tenu-slate/80">
+      <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10 md:px-0 md:py-14">
+        <h1 className="t-section-heading">Legal documents</h1>
+        <p className="mt-4 text-sm text-tenu-ink-muted">
           Version v1.0-draft &middot; dated 2026-04-17 &middot; published for legal review.
           Each document is available in French and English. The French version governs;
           the English version is provided for convenience.
         </p>
 
-        <div className="mt-10 grid gap-6">
+        <div className="mt-10 divide-y divide-tenu-hairline border-y t-hairline">
           {docs.map((doc) => (
-            <article
-              key={doc.slug}
-              className="rounded-xl border border-tenu-cream-dark bg-white p-6"
-            >
-              <h2 className="text-xl font-semibold text-tenu-forest">{doc.titleFr}</h2>
-              <p className="mt-1 text-sm text-tenu-slate/80">{doc.descFr}</p>
-              <div className="mt-3 flex flex-wrap gap-3 text-sm">
-                <Link
-                  href={`/legal/${doc.slug}/fr`}
-                  className="rounded-lg bg-tenu-forest px-4 py-2 font-medium text-white hover:bg-tenu-forest-light"
-                >
+            <article key={doc.slug} className="py-6">
+              <h2 className="text-xl font-normal tracking-tight text-tenu-ink">{doc.titleFr}</h2>
+              <p className="mt-1 text-sm text-tenu-ink-muted">{doc.descFr}</p>
+              <div className="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                <Link href={`/legal/${doc.slug}/fr`} className="ed-link-strong">
                   Lire en français
                 </Link>
-                <Link
-                  href={`/legal/${doc.slug}/en`}
-                  className="rounded-lg border border-tenu-forest/20 px-4 py-2 font-medium text-tenu-forest hover:bg-tenu-forest/5"
-                >
+                <Link href={`/legal/${doc.slug}/en`} className="ed-link-strong">
                   Read in English
                 </Link>
               </div>
@@ -96,27 +76,27 @@ export default function LegalIndex() {
           ))}
         </div>
 
-        <section className="mt-12 rounded-lg border border-tenu-cream-dark bg-tenu-cream p-6 text-sm text-tenu-slate">
-          <h2 className="text-base font-semibold text-tenu-forest">Outstanding placeholders</h2>
+        <section className="mt-12 border t-hairline p-6 text-sm text-tenu-ink">
+          <h2 className="text-base font-medium text-tenu-ink">Outstanding placeholders</h2>
           <p className="mt-2">
             One placeholder remains visible and is expected to be resolved before commercial launch:
           </p>
-          <ul className="mt-3 list-disc space-y-1 pl-5">
+          <ul className="mt-3 list-disc space-y-1 ps-5">
             <li>
-              <code className="rounded bg-white px-1 py-0.5">[MEDIATEUR]</code> /{" "}
-              <code className="rounded bg-white px-1 py-0.5">[À VÉRIFIER PAR AVOCAT]</code> &mdash; consumer mediator (pending shortlist evaluation).
+              <code className="border border-tenu-hairline px-1 py-0.5">[MEDIATEUR]</code> /{" "}
+              <code className="border border-tenu-hairline px-1 py-0.5">[À VÉRIFIER PAR AVOCAT]</code> &mdash; consumer mediator (pending shortlist evaluation).
             </li>
           </ul>
-          <p className="mt-3 text-xs text-tenu-slate/70">
+          <p className="mt-3 text-xs text-tenu-ink-muted">
             Resolved 2026-04-17: share capital set at <strong>EUR 100</strong> per the statuts of Global Apex.Net SAS.
           </p>
           <p className="mt-3">
             For questions on any of these documents, write to{" "}
-            <a className="underline hover:text-tenu-forest" href="mailto:support@tenu.world">
+            <a className="ed-link" href="mailto:support@tenu.world">
               support@tenu.world
             </a>{" "}
             or, for data protection,{" "}
-            <a className="underline hover:text-tenu-forest" href="mailto:dpo@tenu.world">
+            <a className="ed-link" href="mailto:dpo@tenu.world">
               dpo@tenu.world
             </a>
             .
@@ -124,7 +104,7 @@ export default function LegalIndex() {
         </section>
       </main>
 
-      <footer className="border-t border-tenu-cream-dark px-6 py-8 text-center text-sm text-tenu-slate/60">
+      <footer className="border-t t-hairline px-6 py-8 text-center text-sm text-tenu-ink-muted">
         &copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world
       </footer>
     </div>

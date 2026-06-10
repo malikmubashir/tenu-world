@@ -40,16 +40,21 @@ async function loadProfile(userId: string): Promise<{
   locale: Locale;
 } | null> {
   const supabase = createAdminClient();
+  // #T146: canonical column names per supabase/schema.sql + migration 009
+  // (full_name / preferred_language). This module previously selected the
+  // retired migration-001 vocabulary (display_name / locale).
   const { data, error } = await supabase
     .from("profiles")
-    .select("email, display_name, locale")
+    .select("email, full_name, preferred_language")
     .eq("id", userId)
     .maybeSingle();
   if (error || !data?.email) return null;
   return {
     email: data.email,
-    displayName: data.display_name ?? null,
-    locale: coerceLocale(data.locale),
+    // handle_new_user defaults full_name to '' — coerce blank to null so
+    // templates fall back to their generic greeting.
+    displayName: data.full_name || null,
+    locale: coerceLocale(data.preferred_language),
   };
 }
 

@@ -6,6 +6,11 @@
  * Shows all elements for the current room type (10 standard + extras
  * for kitchen/bathroom). Each element has a TB/B/M/MV selector and
  * an optional comment field. Ratings auto-save on change.
+ *
+ * Éditorial v2 (#T150): each element row is a hairline-framed cell
+ * (0px radius). Rating chips are flat hairline cells; the selected
+ * chip inverts to black. The progress rule is a 1px hairline track
+ * with a black fill — no rounded pills, no tinted fills.
  */
 
 import { useState, useEffect, useCallback } from "react";
@@ -116,31 +121,33 @@ export default function ElementRatingPanel({
   const totalCount = elements.length;
 
   // Skeleton rows mirror the rated-list layout so the panel does not
-  // jump when real rows replace them.
+  // jump when real rows replace them. (Hairline-toned pulse — the
+  // shimmer helper went invisible on the all-white editorial canvas.)
   if (!loaded) {
     return (
       <div className="space-y-2 py-1" aria-busy="true">
-        <div className="hig-skeleton h-4 w-40 rounded" />
-        <div className="hig-skeleton h-11 w-full rounded-lg" />
-        <div className="hig-skeleton h-11 w-full rounded-lg" />
-        <div className="hig-skeleton h-11 w-full rounded-lg" />
+        <div className="h-4 w-40 animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
+        <div className="h-11 w-full animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
+        <div className="h-11 w-full animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
+        <div className="h-11 w-full animate-pulse bg-tenu-hairline motion-reduce:animate-none" />
       </div>
     );
   }
 
   return (
     <div className="space-y-2">
-      {/* Progress bar */}
-      <div className="flex items-center justify-between text-xs text-tenu-slate/50">
+      {/* Progress label */}
+      <div className="flex items-center justify-between text-xs text-tenu-ink-muted">
         <span>Évaluation des éléments</span>
         <span>
           {ratedCount}/{totalCount}
           {saving && " · Enregistrement..."}
         </span>
       </div>
-      <div className="mb-3 h-1.5 w-full overflow-hidden rounded-full bg-tenu-cream-dark">
+      {/* Progress rule — hairline track, black fill, 0px radius. */}
+      <div className="mb-3 h-px w-full bg-tenu-hairline">
         <div
-          className="h-full rounded-full bg-tenu-forest transition-all duration-300"
+          className="h-px bg-tenu-ink transition-all duration-300"
           style={{ width: `${totalCount > 0 ? (ratedCount / totalCount) * 100 : 0}%` }}
         />
       </div>
@@ -153,13 +160,13 @@ export default function ElementRatingPanel({
         return (
           <div
             key={el.key}
-            className="rounded-lg border border-tenu-cream-dark bg-white"
+            className="border border-tenu-hairline bg-tenu-canvas"
           >
             {/* Element header with rating buttons */}
             <div className="flex items-center gap-2 px-3 py-2.5">
-              <span className="flex-1 text-sm text-tenu-slate">{el.labelFr}</span>
+              <span className="flex-1 text-sm text-tenu-ink">{el.labelFr}</span>
 
-              {/* Rating chips */}
+              {/* Rating chips — flat hairline cells, selected inverts. */}
               <div className="flex gap-1">
                 {RATINGS.map((r) => (
                   <button
@@ -167,16 +174,10 @@ export default function ElementRatingPanel({
                     type="button"
                     onClick={() => handleRating(el.key, r.value)}
                     aria-pressed={currentRating === r.value}
-                    className={`hig-press min-h-9 min-w-9 rounded px-2 py-1 text-xs font-medium ${
+                    className={`hig-press min-h-9 min-w-9 rounded-none border px-2 py-1 text-xs font-medium ${
                       currentRating === r.value
-                        ? r.value === "TB"
-                          ? "bg-tenu-success/10 text-tenu-success ring-1 ring-tenu-success/30"
-                          : r.value === "B"
-                            ? "bg-tenu-forest/10 text-tenu-forest ring-1 ring-tenu-forest/30"
-                            : r.value === "M"
-                              ? "bg-tenu-warning/10 text-tenu-warning ring-1 ring-tenu-warning/30"
-                              : "bg-tenu-danger/10 text-tenu-danger ring-1 ring-tenu-danger/30"
-                        : "text-tenu-slate/30 hover:text-tenu-slate/60"
+                        ? "border-tenu-ink bg-tenu-band-inverted text-tenu-canvas"
+                        : "border-tenu-hairline text-tenu-ink-muted hover:border-tenu-ink hover:text-tenu-ink"
                     }`}
                     title={r.labelFr}
                   >
@@ -191,10 +192,10 @@ export default function ElementRatingPanel({
                 onClick={() => setExpandedElement(isExpanded ? null : el.key)}
                 aria-expanded={isExpanded}
                 aria-label="Ajouter un commentaire"
-                className={`hig-press ms-1 flex min-h-9 min-w-9 items-center justify-center rounded text-xs transition-colors duration-150 ${
+                className={`hig-press ms-1 flex min-h-9 min-w-9 items-center justify-center rounded-none text-xs transition-colors duration-150 ${
                   comments[el.key]
-                    ? "text-tenu-forest"
-                    : "text-tenu-slate/30 hover:text-tenu-slate/60"
+                    ? "text-tenu-ink"
+                    : "text-tenu-ash hover:text-tenu-ink"
                 }`}
                 title="Ajouter un commentaire"
               >
@@ -204,7 +205,7 @@ export default function ElementRatingPanel({
 
             {/* Comment field (collapsed by default) */}
             {isExpanded && (
-              <div className="border-t border-tenu-cream-dark px-3 py-2">
+              <div className="border-t border-tenu-hairline px-3 py-2">
                 <textarea
                   value={comments[el.key] || ""}
                   onChange={(e) =>
@@ -213,7 +214,7 @@ export default function ElementRatingPanel({
                   onBlur={() => handleCommentBlur(el.key)}
                   placeholder="Remarque (ex: rayure sur le mur côté fenêtre)"
                   rows={2}
-                  className="w-full resize-none rounded border border-tenu-cream-dark px-2 py-1.5 text-xs outline-none focus:border-tenu-forest"
+                  className="w-full resize-none rounded-[2px] border border-tenu-ink-muted px-2 py-1.5 text-xs text-tenu-ink placeholder:text-tenu-ash outline-none focus-visible:outline-none transition-colors duration-150 focus:border-tenu-ink"
                 />
               </div>
             )}

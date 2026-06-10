@@ -1,9 +1,10 @@
 <!-- Splash screen source — 2732×2732 (iPad Pro 12.9" landscape).
      @capacitor/assets crops this to every iOS + Android splash size.
-     Centred Portal mark on paper, with the lowercase wordmark below.
-     Same background as the intro page → no flash on first paint. -->
+     Éditorial v2 (2026-06-10): centred Portal mark in Absolute Black on
+     a Pure White canvas, lowercase wordmark below. Same background as
+     the intro page → no flash on first paint. Geometry unchanged. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2732 2732" width="2732" height="2732" role="img" aria-label="Tenu">
-  <rect width="2732" height="2732" fill="#F4F1EA"/>
+  <rect width="2732" height="2732" fill="#ffffff"/>
 
   <!-- Portal mark, ~720px tall, centred slightly above optical centre.
        Geometry is the 48-canvas Portal path scaled by 15. -->
@@ -17,12 +18,12 @@
       </mask>
     </defs>
     <!-- Portal container: M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z -->
-    <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill="#0B1F3A" mask="url(#splash-cut)"/>
-    <circle cx="24" cy="13" r="4" fill="#F4F1EA"/>
+    <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill="#000000" mask="url(#splash-cut)"/>
+    <circle cx="24" cy="13" r="4" fill="#ffffff"/>
   </g>
 
-  <!-- Wordmark "tenu", Inter Tight 500, lowercase, tracking -0.04em.
-       96px font ≈ wordmark width 240px. We use a generic sans-serif
+  <!-- Wordmark "tenu", Inter Tight 500, lowercase, tracking -0.04em
+       (UNCHANGED per MH, 2026-06-10). We use a generic sans-serif
        fallback so the SVG renders even if Inter Tight isn't present
        at asset-generation time. The platform splash never re-renders
        this SVG; it's rasterised once per size. -->
@@ -34,6 +35,6 @@
     font-weight="500"
     text-anchor="middle"
     letter-spacing="-7.2"
-    fill="#0B1F3A"
+    fill="#000000"
   >tenu</text>
 </svg>

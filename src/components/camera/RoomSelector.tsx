@@ -1,10 +1,12 @@
 "use client";
 
 /**
- * RoomSelector — horizontal chip row to switch the active room during
- * photo capture. Momentum scroll (hig-scroll-x), 44px touch targets,
- * press feedback, aria-pressed for screen readers. The trailing
- * "+ Add room" chip is a placeholder until custom rooms ship.
+ * RoomSelector — horizontal row of hairline-framed rectangles to
+ * switch the active room during photo capture (Éditorial v2, #T150:
+ * blueprint feel — 1px frames, 0px radius, selected cell inverts to
+ * black). Momentum scroll (hig-scroll-x), 44px touch targets, press
+ * feedback, aria-pressed for screen readers. The trailing "+ Add
+ * room" cell is a placeholder until custom rooms ship.
  */
 import { clsx } from "clsx";
 
@@ -27,10 +29,10 @@ export default function RoomSelector({ rooms, activeRoomId, onSelect, onAdd, lab
           onClick={() => onSelect(room.id)}
           aria-pressed={activeRoomId === room.id}
           className={clsx(
-            "hig-press flex min-h-11 shrink-0 flex-col items-center justify-center rounded-lg border px-4 py-2 text-xs font-medium",
+            "hig-press flex min-h-11 shrink-0 flex-col items-center justify-center rounded-none border px-4 py-2 text-xs font-medium",
             activeRoomId === room.id
-              ? "border-tenu-forest bg-tenu-forest text-white"
-              : "border-tenu-cream-dark bg-white text-tenu-slate hover:border-tenu-forest/40",
+              ? "border-tenu-ink bg-tenu-band-inverted text-tenu-canvas"
+              : "border-tenu-hairline bg-tenu-canvas text-tenu-ink hover:border-tenu-ink",
           )}
         >
           <span>{labels[room.type] ?? room.type}</span>
@@ -41,7 +43,7 @@ export default function RoomSelector({ rooms, activeRoomId, onSelect, onAdd, lab
       ))}
       <button
         onClick={onAdd}
-        className="hig-press flex min-h-11 shrink-0 items-center rounded-lg border border-dashed border-tenu-cream-dark px-4 py-2 text-xs text-tenu-slate/60 hover:border-tenu-forest/40 hover:text-tenu-forest"
+        className="hig-press flex min-h-11 shrink-0 items-center rounded-none border border-dashed border-tenu-hairline px-4 py-2 text-xs text-tenu-ink-muted hover:border-tenu-ink hover:text-tenu-ink"
       >
         + Add room
       </button>

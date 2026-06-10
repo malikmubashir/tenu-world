@@ -47,7 +47,7 @@ export default async function OtherCases({ currentSlug }: Props) {
   const lang: "en" | "fr" = isEn ? "en" : "fr";
 
   return (
-    <section className="t-section-band px-6 md:px-12">
+    <section className="t-section-canvas border-t t-hairline px-6 md:px-12">
       <div className="t-content max-w-5xl">
         <div className="mb-10 max-w-2xl">
           <h2 className="t-section-heading mb-4">{c.heading}</h2>
@@ -59,9 +59,9 @@ export default async function OtherCases({ currentSlug }: Props) {
             <Link
               key={s.slug}
               href={s.href}
-              className="t-card hig-press block transition hover:-translate-y-0.5 hover:border-tenu-accent/40"
+              className="t-card hig-press block transition hover:border-tenu-ink"
             >
-              <div className="t-label mb-3 text-tenu-accent">
+              <div className="ed-label mb-3">
                 {s.eyebrow[lang]}
               </div>
               <h3 className="t-h3 mb-2">{s.title[lang]}</h3>

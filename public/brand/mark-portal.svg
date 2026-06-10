@@ -1,10 +1,11 @@
 <!-- Tenu Mark 03 — Portal (alternate).
-     Same figure carved from a doorway-arch container. Use this
-     version wherever the brand wants to read as "threshold" or
-     "passage" rather than "seal": onboarding flows, hero art,
-     print covers. -->
+     Same figure carved from a doorway-arch container, Absolute Black
+     on Pure White (Éditorial v2 grounds, 2026-06-10 — geometry
+     unchanged). Use this version wherever the brand wants to read as
+     "threshold" or "passage" rather than "seal": onboarding flows,
+     hero art, print covers. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Tenu — Mark 03 Portal">
-  <rect width="48" height="48" fill="#F4F1EA"/>
+  <rect width="48" height="48" fill="#ffffff"/>
   <defs>
     <mask id="tenu-cut-portal">
       <rect width="48" height="48" fill="white"/>
@@ -13,6 +14,6 @@
       <rect x="22.9" y="23.5" width="2.2" height="18" rx="1.1" fill="black"/>
     </mask>
   </defs>
-  <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill="#0B1F3A" mask="url(#tenu-cut-portal)"/>
-  <circle cx="24" cy="13" r="4" fill="#F4F1EA"/>
+  <path d="M 4 46 V 24 A 20 20 0 0 1 44 24 V 46 Z" fill="#000000" mask="url(#tenu-cut-portal)"/>
+  <circle cx="24" cy="13" r="4" fill="#ffffff"/>
 </svg>

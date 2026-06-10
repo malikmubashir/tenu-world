@@ -175,14 +175,14 @@ export default function LoginPage() {
   if (sent) {
     return (
       <div className="hig-fade-in flex min-h-[calc(100vh-56px)] items-center justify-center px-4">
-        <div className="hig-card w-full max-w-sm p-8">
-          <h1 className="mb-2 text-xl font-semibold text-tenu-forest">{ui.magicSent}</h1>
-          <p className="text-sm text-tenu-slate/70">
+        <div className="w-full max-w-sm border border-tenu-hairline bg-tenu-canvas p-8">
+          <h1 className="mb-2 text-2xl font-light tracking-[-0.025em] text-tenu-ink">{ui.magicSent}</h1>
+          <p className="text-sm text-tenu-ink-muted">
             {ui.magicSentBody(email)}
           </p>
           <button
             onClick={() => setSent(false)}
-            className="hig-press mt-4 inline-flex min-h-11 items-center rounded-lg text-sm text-tenu-forest underline"
+            className="hig-press mt-4 inline-flex min-h-11 items-center rounded-none text-sm font-medium text-tenu-ink underline decoration-1 underline-offset-4"
           >
             {ui.useOther}
           </button>
@@ -196,16 +196,16 @@ export default function LoginPage() {
 
   return (
     <div className="hig-fade-in flex min-h-[calc(100vh-56px)] items-center justify-center px-4 py-10">
-      <div className="hig-card w-full max-w-sm p-8">
-        <h1 className="mb-1 text-xl font-semibold text-tenu-forest">{ui.title}</h1>
-        <p className="mb-6 text-sm text-tenu-slate/70">{ui.subtitle}</p>
+      <div className="w-full max-w-sm border border-tenu-hairline bg-tenu-canvas p-8">
+        <h1 className="mb-1 text-2xl font-light tracking-[-0.025em] text-tenu-ink">{ui.title}</h1>
+        <p className="mb-6 text-sm text-tenu-ink-muted">{ui.subtitle}</p>
 
         {/* DPA acceptance — required. Blocks both buttons until ticked. */}
-        <div className="mb-4 rounded-lg border border-tenu-cream-dark bg-tenu-cream/40 p-3 text-sm text-tenu-slate">
+        <div className="mb-4 border border-tenu-hairline bg-tenu-canvas p-3 text-sm text-tenu-ink">
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
-              className="mt-0.5 h-4 w-4 accent-tenu-forest"
+              className="mt-0.5 h-4 w-4 accent-tenu-ink"
               checked={dpaAccepted}
               onChange={(e) => setDpaAccepted(e.target.checked)}
               required
@@ -225,7 +225,7 @@ export default function LoginPage() {
                         href={termsHref}
                         target="_blank"
                         rel="noopener"
-                        className="text-tenu-forest underline hover:no-underline"
+                        className="text-tenu-ink underline decoration-1 underline-offset-2 hover:text-tenu-accent"
                       >
                         {part}
                       </Link>
@@ -241,7 +241,7 @@ export default function LoginPage() {
                         href={privacyHref}
                         target="_blank"
                         rel="noopener"
-                        className="text-tenu-forest underline hover:no-underline"
+                        className="text-tenu-ink underline decoration-1 underline-offset-2 hover:text-tenu-accent"
                       >
                         {part}
                       </Link>
@@ -249,23 +249,23 @@ export default function LoginPage() {
                   }
                   return <span key={i}>{part}</span>;
                 })}
-              <span className="mt-0.5 block text-xs text-tenu-slate/60">
+              <span className="mt-0.5 block text-xs text-tenu-ink-muted">
                 {dpaCopy.required}
               </span>
             </span>
           </label>
 
-          <label className="mt-3 flex cursor-pointer items-start gap-3 border-t border-tenu-cream-dark pt-3">
+          <label className="mt-3 flex cursor-pointer items-start gap-3 border-t border-tenu-hairline pt-3">
             <input
               type="checkbox"
-              className="mt-0.5 h-4 w-4 accent-tenu-forest"
+              className="mt-0.5 h-4 w-4 accent-tenu-ink"
               checked={marketingOptin}
               onChange={(e) => setMarketingOptin(e.target.checked)}
               data-marketing-version={MARKETING_TEXT_VERSION}
             />
             <span className="leading-snug">
               {marketingCopy.label}
-              <span className="mt-0.5 block text-xs text-tenu-slate/60">
+              <span className="mt-0.5 block text-xs text-tenu-ink-muted">
                 {marketingCopy.hint}
               </span>
             </span>
@@ -277,7 +277,7 @@ export default function LoginPage() {
           onClick={handleGoogleSignIn}
           disabled={googleLoading || !canProceed}
           aria-busy={googleLoading}
-          className="hig-press mb-4 flex h-11 w-full items-center justify-center gap-3 rounded-xl border border-tenu-cream-dark bg-white px-4 text-sm font-semibold text-tenu-slate hover:bg-tenu-cream/60 disabled:cursor-not-allowed disabled:opacity-50"
+          className="hig-press mb-4 flex h-11 w-full items-center justify-center gap-3 rounded-none border border-tenu-hairline bg-tenu-canvas px-4 text-sm font-medium text-tenu-ink hover:border-tenu-ink disabled:cursor-not-allowed disabled:opacity-50"
         >
           <svg className="h-5 w-5" viewBox="0 0 24 24">
             <path
@@ -302,15 +302,15 @@ export default function LoginPage() {
 
         {/* Divider */}
         <div className="mb-4 flex items-center gap-3">
-          <div className="h-px flex-1 bg-tenu-cream-dark" />
-          <span className="text-xs text-tenu-slate/50">{ui.or}</span>
-          <div className="h-px flex-1 bg-tenu-cream-dark" />
+          <div className="h-px flex-1 bg-tenu-hairline" />
+          <span className="text-xs text-tenu-ink-muted">{ui.or}</span>
+          <div className="h-px flex-1 bg-tenu-hairline" />
         </div>
 
         {/* Magic link — fallback */}
         <form onSubmit={handleMagicLink} className="space-y-4">
           <div>
-            <label htmlFor="email" className="mb-1 block text-sm font-medium text-tenu-slate">
+            <label htmlFor="email" className="mb-1 block text-sm font-medium text-tenu-ink">
               {ui.emailLabel}
             </label>
             <input
@@ -320,7 +320,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={ui.emailPlaceholder}
-              className="min-h-11 w-full rounded-lg border border-tenu-cream-dark px-3 py-2 text-sm outline-none transition-[border-color,box-shadow] duration-150 focus:border-tenu-forest focus:ring-1 focus:ring-tenu-forest"
+              className="min-h-11 w-full rounded-[2px] border border-tenu-ink-muted bg-tenu-canvas px-3 py-2 text-sm text-tenu-ink placeholder:text-tenu-ash outline-none focus-visible:outline-none transition-colors duration-150 focus:border-tenu-ink"
             />
           </div>
 
@@ -332,13 +332,13 @@ export default function LoginPage() {
             type="submit"
             disabled={loading || !canProceed}
             aria-busy={loading}
-            className="hig-press flex h-11 w-full items-center justify-center rounded-xl bg-tenu-forest px-4 text-sm font-semibold text-white hover:bg-tenu-forest-light disabled:cursor-not-allowed disabled:opacity-50"
+            className="hig-press flex h-11 w-full items-center justify-center rounded-none bg-tenu-cta px-4 text-sm font-medium text-tenu-cta-text hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? ui.magicLoading : ui.magicBtn}
           </button>
 
           {!canProceed && (
-            <p className="text-xs text-tenu-slate/60">
+            <p className="text-xs text-tenu-ink-muted">
               {ui.gateHint}
             </p>
           )}

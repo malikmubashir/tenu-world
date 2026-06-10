@@ -1,5 +1,13 @@
 "use client";
 
+/**
+ * CameraCapture — web getUserMedia capture surface. Éditorial v2
+ * (#T150): the viewfinder is an inverted black plate (0px radius, no
+ * shadow); controls on it are white — filled white shutter square,
+ * hairline-framed white icon buttons, underlined typographic
+ * secondary actions. The shutter is the primary capture action.
+ */
+
 import { useRef, useState, useCallback, useEffect } from "react";
 import { Camera, RotateCcw, Check, X } from "lucide-react";
 
@@ -96,12 +104,12 @@ export default function CameraCapture({ onCapture, onCancel }: CameraCaptureProp
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center gap-4 rounded-xl bg-white p-8 text-center">
-        <Camera className="h-12 w-12 text-tenu-slate/40" />
+      <div className="flex flex-col items-center justify-center gap-4 border border-tenu-hairline bg-tenu-canvas p-8 text-center">
+        <Camera className="h-12 w-12 text-tenu-ash" />
         <p className="text-sm text-tenu-danger">{error}</p>
         <button
           onClick={startCamera}
-          className="rounded-lg bg-tenu-forest px-4 py-2 text-sm text-white"
+          className="hig-press min-h-11 bg-tenu-cta px-5 text-sm font-medium text-tenu-cta-text"
         >
           Retry
         </button>
@@ -110,21 +118,21 @@ export default function CameraCapture({ onCapture, onCancel }: CameraCaptureProp
   }
 
   return (
-    <div className="relative w-full overflow-hidden rounded-xl bg-black">
+    <div className="relative w-full overflow-hidden bg-tenu-band-inverted">
       {preview ? (
         <>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={preview} alt="Captured" className="w-full" />
-          <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-4">
+          <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-6">
             <button
               onClick={retake}
-              className="flex items-center gap-2 rounded-full bg-white/90 px-5 py-3 text-sm font-medium text-tenu-slate"
+              className="hig-press flex min-h-11 items-center gap-2 px-3 text-sm font-medium text-white underline decoration-1 underline-offset-4"
             >
               <RotateCcw className="h-4 w-4" /> Retake
             </button>
             <button
               onClick={confirm}
-              className="flex items-center gap-2 rounded-full bg-tenu-forest px-5 py-3 text-sm font-medium text-white"
+              className="hig-press flex min-h-11 items-center gap-2 bg-white px-5 py-3 text-sm font-medium text-tenu-ink"
             >
               <Check className="h-4 w-4" /> Use photo
             </button>
@@ -143,20 +151,23 @@ export default function CameraCapture({ onCapture, onCancel }: CameraCaptureProp
             {onCancel && (
               <button
                 onClick={onCancel}
-                className="rounded-full bg-white/20 p-3 text-white backdrop-blur"
+                aria-label="Cancel"
+                className="hig-press flex h-11 w-11 items-center justify-center border border-white/60 text-white"
               >
                 <X className="h-5 w-5" />
               </button>
             )}
             <button
               onClick={capture}
-              className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-white/20 backdrop-blur"
+              aria-label="Take photo"
+              className="hig-press flex h-16 w-16 items-center justify-center border border-white bg-transparent"
             >
-              <div className="h-12 w-12 rounded-full bg-white" />
+              <div className="h-12 w-12 bg-white" />
             </button>
             <button
               onClick={flipCamera}
-              className="rounded-full bg-white/20 p-3 text-white backdrop-blur"
+              aria-label="Flip camera"
+              className="hig-press flex h-11 w-11 items-center justify-center border border-white/60 text-white"
             >
               <RotateCcw className="h-5 w-5" />
             </button>

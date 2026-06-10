@@ -1,12 +1,22 @@
 import Link from "next/link";
+import Image from "next/image";
 import Script from "next/script";
-import { Shield, Camera, BookOpen, Brain, FileText, Bell } from "lucide-react";
 import { getDictionary } from "@/lib/i18n/server";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
 import type { Locale } from "@/lib/i18n/config";
 import { getFeaturedStories } from "@/lib/stories";
+import SiteFooter from "@/components/web/SiteFooter";
 
 const SITE_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://tenu.world";
+
+// Éditorial v2 (#T149) — photographic plates carry all the warmth and
+// colour the achromatic chrome refuses. Hot-linked from the Unsplash
+// CDN (whitelisted in next.config.ts). Warm-toned, high-key Parisian
+// interiors: parquet, tall windows, panelled walls.
+const HERO_PLATE =
+  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=2400&q=80";
+const MID_PLATE =
+  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=2400&q=80";
 
 // Service schema — tells search and answer engines what Tenu does, for whom,
 // and at what price. Feeds the "Service" card in AI overviews.
@@ -113,6 +123,28 @@ async function getLocale(): Promise<Locale> {
     : parseLocaleFromHeader(headerStore.get("accept-language") ?? undefined);
 }
 
+// Thin-stroke circular line motif — the only decorative graphic the
+// editorial system permits (spec §Key Value Cell). 1px hairline
+// stroke, no fill; the cell text breaks across the circle's edge.
+function BlueprintCircle() {
+  return (
+    <svg
+      viewBox="0 0 200 200"
+      aria-hidden="true"
+      className="pointer-events-none absolute start-1/2 top-1/2 h-44 w-44 -translate-y-1/2 ltr:-translate-x-1/2 rtl:translate-x-1/2 md:h-52 md:w-52"
+    >
+      <circle
+        cx="100"
+        cy="100"
+        r="99"
+        fill="none"
+        stroke="var(--color-tenu-hairline)"
+        strokeWidth="1"
+      />
+    </svg>
+  );
+}
+
 export default async function Home() {
   const locale = await getLocale();
   const t = (await getDictionary(locale)) as Record<
@@ -133,19 +165,21 @@ export default async function Home() {
   const featured = getFeaturedStories(2);
   const storyLang: "en" | "fr" = locale === "en" ? "en" : "fr";
 
-  const featureList = [
-    { key: "onboarding", icon: Shield },
-    { key: "evidence", icon: Camera },
-    { key: "rights", icon: BookOpen },
-    { key: "scan", icon: Brain },
-    { key: "dispute", icon: FileText },
-    { key: "followup", icon: Bell },
-  ];
+  // Éditorial v2: no icons. Features are set as a numbered hairline
+  // grid — the index figure is the only ornament.
+  const featureKeys = [
+    "onboarding",
+    "evidence",
+    "rights",
+    "scan",
+    "dispute",
+    "followup",
+  ] as const;
 
   const trustItems = ["data", "law", "honesty"] as const;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col bg-tenu-canvas">
       <Script
         id="ld-service"
         type="application/ld+json"
@@ -160,95 +194,83 @@ export default async function Home() {
       />
 
       {/*
-        Conversion psychology sequence (top to bottom):
-          1. Hero  — name the pain, mechanism, time, price. Above the fold.
-          2. Trust — three proofs. Removes the "can I trust a €15 site" block.
-          3. Example — one concrete scenario with numbers. Makes outcome vivid.
-          4. Features — reframed process → outcome, not feature-first marketing.
-          5. Closing — low-risk CTA, price repeated, legal micro-copy.
-        All visual decisions live in theme.css. Markup uses .t-* semantic classes.
+        Éditorial v2 scroll (top to bottom):
+          1. Hero plate    — full-bleed photograph, no text overlay. The image leads alone.
+          2. Headline      — 100px display, flush-left, short body, CTA pair.
+          3. Key values    — 4-up hairline blueprint grid (trust proofs).
+          4. Cases         — hairline-divided editorial rows from the story manifest.
+          5. Mid plate     — second full-bleed photograph.
+          6. Features      — numbered 6-up hairline grid, no icons.
+          7. App band      — inverted black band (download section).
+          8. Closing       — flush-left CTA, legal micro-copy.
+        All visual decisions live in theme.css / globals.css. Markup uses
+        .t-* / .ed-* semantic classes and logical properties (RTL-safe).
       */}
       <main className="flex flex-1 flex-col">
 
-        {/* ---------- 1. HERO ---------- */}
-        <section className="hig-fade-in t-section-canvas flex flex-col items-center px-6 text-center">
-          {hero.eyebrow && (
-            <span className="t-label mb-5 text-tenu-accent">{hero.eyebrow}</span>
-          )}
-          <h1 className="t-display max-w-4xl">{hero.title}</h1>
-          <p className="t-body-muted mt-6 max-w-2xl">{hero.subtitle}</p>
-          {hero.pricePromise && (
-            <p className="mt-3 max-w-2xl text-sm font-medium text-tenu-ink">
-              {hero.pricePromise}
-            </p>
-          )}
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href="/inspection/new" className="t-cta-primary hig-press">
-              {hero.cta}
-            </Link>
-            <Link href="#example" className="t-cta-ghost hig-press">
-              {hero.ctaSecondary} →
-            </Link>
-          </div>
-
-          {/* App Store + Play Store badges — coming soon */}
-          {app?.heading && (
-            <div className="mt-12 flex flex-col items-center gap-4">
-              <p className="t-label text-tenu-ink-muted">{app.heading}</p>
-              <div className="flex flex-wrap justify-center gap-3">
-                {/* Apple App Store badge */}
-                <a
-                  href="#"
-                  aria-label={app.appStore}
-                  className="hig-press group relative inline-flex h-12 items-center gap-3 rounded-xl border border-tenu-hairline bg-tenu-ink px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2c2c2e] focus-visible:ring-2 focus-visible:ring-tenu-accent"
-                  title={app.comingSoon}
-                >
-                  {/* Apple logo SVG */}
-                  <svg viewBox="0 0 814 1000" className="h-5 w-4 shrink-0 fill-white" aria-hidden="true">
-                    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-43.1-150.3-110.2c-52.1-76.3-93.1-193.9-93.1-307.5 0-177.3 115.6-271.2 229.6-271.2 58 0 106.2 40.2 142.2 40.2 34 0 87.2-42.6 152.7-42.6 24.8 0 108.2 2.6 168.6 81.3zm-119.2-146.8c-28.2 35-74.2 62.8-116.2 62.8-5.2 0-10.5-.6-15.8-1.9C540.8 206 606.4 113 606.4 33c0-4.5-.3-9.1-.7-13.6-58.6 2.3-131.9 40.2-170.6 88.5-35.1 43.3-67.5 111.2-67.5 183.7 0 6.5.7 13 1.3 15.2 4.5.7 9.1 1 13.7 1 56.8 0 124.2-37.7 159.5-85.1 18.8-25.6 37.1-67.1 37.1-109.1 0-5.2-.3-10.3-.7-15.4z"/>
-                  </svg>
-                  <span className="flex flex-col items-start leading-tight">
-                    <span className="text-[10px] font-normal opacity-80">{app.comingSoon}</span>
-                    <span>{app.appStore}</span>
-                  </span>
-                </a>
-
-                {/* Google Play badge */}
-                <a
-                  href="#"
-                  aria-label={app.playStore}
-                  className="hig-press group relative inline-flex h-12 items-center gap-3 rounded-xl border border-tenu-hairline bg-tenu-ink px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2c2c2e] focus-visible:ring-2 focus-visible:ring-tenu-accent"
-                  title={app.comingSoon}
-                >
-                  {/* Google Play logo SVG */}
-                  <svg viewBox="0 0 512 512" className="h-5 w-5 shrink-0" aria-hidden="true">
-                    <path d="M325.3 234.3L104.6 13l280.8 161.2-60.1 60.1zm-116.6 217L325.3 277.7l60.1 60.1L104.6 499l104.1-47.7zM7.2 44.6C4.1 47.5 2 52 2 57.4V454.7c0 5.3 2.1 9.7 5.2 12.7l.7.6 226.5-226.5v-3.4L7.9 44.1l-.7.5zm466.5 161.5l-54.4-31.4-60.5 60.5 60.5 60.5 54.8-31.6c15.7-9.1 15.7-23.8 0-32.8l-.4-.2z" fill="#fff"/>
-                  </svg>
-                  <span className="flex flex-col items-start leading-tight">
-                    <span className="text-[10px] font-normal opacity-80">{app.comingSoon}</span>
-                    <span>{app.playStore}</span>
-                  </span>
-                </a>
-              </div>
-            </div>
-          )}
+        {/* ---------- 1. HERO PLATE — image leads alone ---------- */}
+        <section className="relative h-[48vh] min-h-[320px] w-full md:h-[70vh]">
+          <Image
+            src={HERO_PLATE}
+            alt="Sunlit Haussmannian apartment with herringbone parquet, white panelled walls and tall windows"
+            fill
+            priority
+            loading="eager"
+            sizes="100vw"
+            className="object-cover"
+          />
         </section>
 
-        {/* ---------- 2. TRUST LADDER ---------- */}
+        {/* ---------- 2. DISPLAY HEADLINE ---------- */}
+        <section className="hig-fade-in border-b t-hairline">
+          <div className="ed-frame py-16 text-start md:py-24">
+            {hero.eyebrow && (
+              <p className="ed-label mb-8">{hero.eyebrow}</p>
+            )}
+            <h1 className="t-display max-w-6xl">{hero.title}</h1>
+            <p className="t-body-muted mt-8 max-w-2xl text-lg">{hero.subtitle}</p>
+            {hero.pricePromise && (
+              <p className="t-body mt-3 max-w-2xl font-medium">
+                {hero.pricePromise}
+              </p>
+            )}
+            <div className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-4">
+              <Link href="/inspection/new" className="t-cta-primary hig-press">
+                {hero.cta}
+              </Link>
+              <Link href="#example" className="t-cta-ghost hig-press">
+                {hero.ctaSecondary} →
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* ---------- 3. KEY VALUES — 4-up blueprint grid ---------- */}
         {trust?.heading && trust?.items && (
-          <section className="t-section-band px-6 md:px-12">
-            <div className="t-content">
-              <h2 className="t-section-heading mb-12 text-center">{trust.heading}</h2>
-              <div className="grid gap-6 md:grid-cols-3">
+          <section className="border-b t-hairline">
+            <div className="ed-frame py-16 md:py-20">
+              {/* gap-px over a hairline ground draws perfect 1px rules
+                  between cells; the outer border closes the frame. */}
+              <div className="grid grid-cols-1 gap-px border t-hairline bg-tenu-hairline sm:grid-cols-2 lg:grid-cols-4">
+                <div className="relative min-h-64 bg-tenu-canvas p-5 md:min-h-80">
+                  <BlueprintCircle />
+                  <h2 className="t-section-heading relative max-w-full">
+                    {trust.heading}
+                  </h2>
+                </div>
                 {trustItems.map((key) => {
                   const item = trust.items[key];
                   if (!item) return null;
-                  // Static proof card — deliberately no hig-press: HIG reserves
-                  // press feedback for elements that respond to interaction.
                   return (
-                    <div key={key} className="t-card">
-                      <h3 className="t-h3 mb-2">{item.title}</h3>
-                      <p className="t-small-muted">{item.desc}</p>
+                    <div
+                      key={key}
+                      className="relative flex min-h-64 flex-col justify-between bg-tenu-canvas p-5 md:min-h-80"
+                    >
+                      <BlueprintCircle />
+                      <h3 className="t-h3 relative text-balance text-3xl font-light tracking-tight">
+                        {item.title}
+                      </h3>
+                      <p className="t-body-muted relative mt-6">{item.desc}</p>
                     </div>
                   );
                 })}
@@ -257,84 +279,99 @@ export default async function Home() {
           </section>
         )}
 
-        {/* ---------- 3. CASES (dual-card, manifest-driven) ---------- */}
+        {/* ---------- 4. CASES — editorial rows (manifest-driven) ---------- */}
         {/* Reads from getFeaturedStories(). Adding a new case = one append to
-            src/lib/stories.ts with featured: true. Nothing else changes here.
-            Success stories slot into the same grid once they land in May 2026. */}
+            src/lib/stories.ts with featured: true. Nothing else changes here. */}
         {example?.heading && featured.length > 0 && (
-          <section id="example" className="t-section-canvas px-6 md:px-12">
-            <div className="t-content max-w-5xl">
-              <div className="mx-auto mb-12 max-w-2xl text-center">
-                {example.label && (
-                  <span className="t-label mb-4 inline-block text-tenu-accent">
-                    {example.label}
-                  </span>
-                )}
-                <h2 className="t-section-heading mb-5">{example.heading}</h2>
-                {example.intro && (
-                  <p className="t-body-muted">{example.intro}</p>
-                )}
-              </div>
+          <section id="example" className="border-b t-hairline">
+            <div className="ed-frame py-16 md:py-20">
+              {example.label && (
+                <p className="ed-label mb-6">{example.label}</p>
+              )}
+              <h2 className="t-section-heading max-w-4xl">{example.heading}</h2>
+              {example.intro && (
+                <p className="t-body-muted mt-6 max-w-2xl">{example.intro}</p>
+              )}
 
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="mt-12">
                 {featured.map((s) => (
                   <Link
                     key={s.slug}
                     href={s.href}
-                    className="t-card hig-press block transition hover:-translate-y-0.5 hover:border-tenu-accent/40"
+                    className="group block border-t t-hairline py-8 last:border-b"
                   >
-                    <div className="t-label mb-3 text-tenu-accent">
-                      {s.eyebrow[storyLang]}
+                    <div className="grid gap-3 md:grid-cols-12 md:gap-8">
+                      <p className="t-label md:col-span-3">
+                        {s.eyebrow[storyLang]}
+                      </p>
+                      <div className="md:col-span-7">
+                        <h3 className="text-2xl font-light tracking-tight text-tenu-ink md:text-3xl">
+                          {s.title[storyLang]}
+                        </h3>
+                        <p className="t-body-muted mt-2">{s.hook[storyLang]}</p>
+                      </div>
+                      <p className="ed-link-strong self-start md:col-span-2 md:justify-self-end">
+                        →
+                      </p>
                     </div>
-                    <h3 className="t-h3 mb-2">{s.title[storyLang]}</h3>
-                    <p className="t-small-muted">{s.hook[storyLang]}</p>
                   </Link>
                 ))}
               </div>
 
               {example.seeAll && (
-                <div className="mt-10 text-center">
-                  <Link href="/stories" className="t-cta-ghost hig-press">
+                <div className="mt-10">
+                  <Link href="/stories" className="ed-link-strong">
                     {example.seeAll} →
                   </Link>
                 </div>
               )}
 
               {example.disclaimer && (
-                <p className="mt-8 text-center text-xs text-tenu-ink-muted">
-                  {example.disclaimer}
-                </p>
+                <p className="t-caption mt-8 max-w-2xl">{example.disclaimer}</p>
               )}
             </div>
           </section>
         )}
 
-        {/* ---------- 4. FEATURES, REFRAMED AS OUTCOMES ---------- */}
-        <section id="features" className="t-section-band px-6 md:px-12">
-          <div className="t-content">
+        {/* ---------- 5. MID PLATE ---------- */}
+        <section className="relative h-[36vh] min-h-[260px] w-full md:h-[55vh]">
+          <Image
+            src={MID_PLATE}
+            alt="Warm-toned Parisian living room with oak parquet floor and natural light"
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </section>
+
+        {/* ---------- 6. FEATURES — numbered hairline grid, no icons ---------- */}
+        <section id="features" className="border-y t-hairline">
+          <div className="ed-frame py-16 md:py-20">
             {(features.eyebrow as string) && (
-              <span className="t-label mb-3 block text-center text-tenu-accent">
-                {features.eyebrow as string}
-              </span>
+              <p className="ed-label mb-6">{features.eyebrow as string}</p>
             )}
-            <h2 className="t-section-heading mb-14 text-center">
+            <h2 className="t-section-heading max-w-4xl">
               {features.heading as string}
             </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {featureList.map(({ key, icon: Icon }) => {
+            <div className="mt-12 grid grid-cols-1 gap-px border t-hairline bg-tenu-hairline md:grid-cols-2 lg:grid-cols-3">
+              {featureKeys.map((key, i) => {
                 const feat = features[key] as Record<string, string>;
                 return (
                   <Link
                     key={key}
                     href={`/features/${key}`}
                     aria-label={feat.title}
-                    className="t-card hig-press block transition hover:-translate-y-0.5 hover:border-tenu-accent/40"
+                    className="group flex min-h-56 flex-col justify-between bg-tenu-canvas p-6 transition-colors duration-150"
                   >
-                    <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-2xl bg-tenu-accent/10">
-                      <Icon className="h-5 w-5 text-tenu-accent" strokeWidth={2.25} />
+                    <span className="t-caption tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <div className="mt-10">
+                      <h3 className="t-h3 group-hover:text-tenu-accent">
+                        {feat.title}
+                      </h3>
+                      <p className="t-body-muted mt-2">{feat.desc}</p>
                     </div>
-                    <h3 className="t-h3 mb-1.5">{feat.title}</h3>
-                    <p className="t-small-muted">{feat.desc}</p>
                   </Link>
                 );
               })}
@@ -342,49 +379,56 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ---------- 5. CLOSING CTA ---------- */}
+        {/* ---------- 7. APP BAND — inverted black ---------- */}
+        {app?.heading && (
+          <section className="ed-band">
+            <div className="ed-frame grid gap-10 md:grid-cols-2 md:gap-16">
+              <div>
+                <h2 className="t-section-heading">{app.heading}</h2>
+                {app.subtext && (
+                  <p className="t-body-muted mt-6 max-w-md">{app.subtext}</p>
+                )}
+              </div>
+              <div className="flex flex-col items-start justify-center gap-6">
+                <p className="text-lg">
+                  <a href="#" className="ed-link-inverted" title={app.comingSoon}>
+                    {app.appStore}
+                  </a>
+                  <span className="t-caption ms-3">{app.comingSoon}</span>
+                </p>
+                <p className="text-lg">
+                  <a href="#" className="ed-link-inverted" title={app.comingSoon}>
+                    {app.playStore}
+                  </a>
+                  <span className="t-caption ms-3">{app.comingSoon}</span>
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ---------- 8. CLOSING ---------- */}
         {closing?.heading && (
-          <section className="t-section-canvas px-6 md:px-12">
-            <div className="t-content max-w-2xl text-center">
-              <h2 className="t-section-heading mb-5">{closing.heading}</h2>
-              {closing.body && <p className="t-body-muted mb-10">{closing.body}</p>}
-              <Link href="/inspection/new" className="t-cta-primary hig-press">
-                {closing.cta ?? hero.cta}
-              </Link>
+          <section>
+            <div className="ed-frame py-16 text-start md:py-24">
+              <h2 className="t-section-heading max-w-4xl">{closing.heading}</h2>
+              {closing.body && (
+                <p className="t-body-muted mt-6 max-w-2xl">{closing.body}</p>
+              )}
+              <div className="mt-10">
+                <Link href="/inspection/new" className="t-cta-primary hig-press">
+                  {closing.cta ?? hero.cta}
+                </Link>
+              </div>
               {closing.subnote && (
-                <p className="mt-6 text-xs text-tenu-ink-muted">{closing.subnote}</p>
+                <p className="t-caption mt-6 max-w-2xl">{closing.subnote}</p>
               )}
             </div>
           </section>
         )}
       </main>
 
-      {/* Footer — separator + muted copy, accent on hover. Each link is
-          padded to a 44px touch target; gap shrinks to compensate. */}
-      <footer className="border-t t-hairline px-6 py-10 text-center text-sm text-tenu-ink-muted">
-        <p>&copy; {new Date().getFullYear()} Global Apex NET (SAS, France). tenu.world</p>
-        <nav className="mt-2 flex flex-wrap justify-center gap-x-1 gap-y-0">
-          {(
-            [
-              ["/legal", "Legal"],
-              ["/legal/privacy/fr", "Confidentialité"],
-              ["/legal/privacy/en", "Privacy"],
-              ["/legal/terms/fr", "CGU"],
-              ["/legal/terms/en", "Terms"],
-              ["/legal/refund/fr", "Remboursement"],
-              ["/legal/refund/en", "Refund"],
-            ] as const
-          ).map(([href, label]) => (
-            <Link
-              key={href}
-              href={href}
-              className="inline-flex min-h-11 items-center rounded-lg px-2 transition-colors duration-150 hover:text-tenu-accent"
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
