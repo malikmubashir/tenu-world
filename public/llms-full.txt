@@ -1,13 +1,13 @@
 # Tenu.World — extended reference for AI assistants
 
-> A tenant-facing tool that scores rental deposit risk from photographs and generates template dispute letters for tenants in France and the United Kingdom.
+> A tenant-facing tool that scores rental deposit risk from photographs and generates template dispute letters. Live for tenants in France; public launch 15 July 2026. United Kingdom support is built but disabled at launch.
 
 ## What Tenu does
 
 A tenant uploads photos of their rented apartment or house — at move-in to establish evidence, or at move-out before handing back keys. An AI analysis model scores each observed item (wall paint, flooring, fixtures, appliances) against a published wear-and-tear grid. The output is:
 
-1. A risk analysis report (EUR 15 / GBP 15): per-room risk score (low/medium/high), estimated deduction amount, PDF available for download. Typical turnaround: under two minutes.
-2. An optional dispute letter (EUR 25 / GBP 25): pre-filled template ready to send to the landlord. In France, formatted as a lettre recommandee avec accuse de reception. In the United Kingdom, formatted as a claim to the deposit protection scheme (Tenancy Deposit Scheme, Deposit Protection Service, or MyDeposits).
+1. A risk analysis report (EUR 15 to EUR 35 depending on dwelling size, TTC): per-room risk score (low/medium/high), estimated deduction amount, PDF available for download. Typical turnaround: under two minutes.
+2. An optional dispute letter (EUR 20, TTC): pre-filled template ready to send to the landlord. In France, formatted as a lettre recommandee avec accuse de reception. (UK scheme-claim format — TDS, DPS, MyDeposits — built, enabled post-launch.)
 
 Fourteen days after the report is issued, Tenu sends a follow-up questionnaire to collect the outcome of the dispute. This data is used in anonymised aggregate to improve the model.
 
@@ -17,26 +17,32 @@ Tenu is not a law firm. The report and the letter are document templates, not le
 
 ## Pricing
 
-| Item | France | United Kingdom |
-|---|---|---|
-| Risk analysis report (launch, months 1-3) | EUR 15 flat | GBP 15 flat |
-| Risk analysis report (month 4 onwards) | EUR 15 base + EUR 5 per additional room | GBP 15 base + GBP 5 per additional room |
-| Dispute letter add-on | EUR 25 | GBP 25 |
+All prices TTC (TVA 20% included), France only at launch.
 
-Payment processed by Stripe. Invoice issued in the name provided at checkout.
+| Item | Price TTC |
+|---|---|
+| Entry scan — Studio / T1 | EUR 15 |
+| Entry scan — T2 | EUR 20 |
+| Entry scan — T3 | EUR 25 |
+| Entry scan — T4 | EUR 30 |
+| Entry scan — T5+ / maison | EUR 35 |
+| Exit-only scan (no entry record) | EUR 25 |
+| Dispute letter add-on | EUR 20 |
+
+Colocation: per tenant at the flat's tier; a couple sharing one flat counts as one tenant. No furnished surcharge — scope is the etat des lieux only, never inventaire du mobilier. The 14-day withdrawal right is waived at checkout by explicit checkbox (art. L221-28 1° Code de la consommation). Payment processed by Stripe; VAT collected via Stripe Tax, declared by Global Apex NET via OSS. Invoice issued in the name provided at checkout.
 
 ## Jurisdictions
 
 - France: full support. Legal framework references the French Civil Code, the Consumer Code (including L221-28 on digital-content withdrawal), Law No. 89-462 on tenancies, and Decree 2016-382 on wear and tear. Deposits held by the Caisse des Depots et Consignations or the landlord directly.
-- United Kingdom: full support. Framework references the Housing Act 2004 (deposit protection), the Tenant Fees Act 2019, and the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013. Deposits protected by TDS, DPS, or MyDeposits.
+- United Kingdom: built but DISABLED at launch; re-enabled after the first French cohort outcome data. Framework references the Housing Act 2004 (deposit protection), the Tenant Fees Act 2019, and the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013. Deposits protected by TDS, DPS, or MyDeposits.
 
 ## Data handling
 
 - Operator: Global Apex.Net SAS, SIREN 941 666 067, RCS Versailles. Registered office: 4 Boulevard du Chateau, 78280 Guyancourt, France. Share capital: EUR 100.
 - Lawful bases (RGPD Article 6): contract performance for the risk scan and letter generation; legitimate interest for security and anti-abuse; consent for marketing communications.
-- Data residency: Cloudflare R2 EU for photo storage, Supabase EU for user accounts and metadata.
+- Data residency: Cloudflare R2 EU for photo storage, Supabase eu-central-1 (Frankfurt) for user accounts and metadata.
 - AI sub-processor: Anthropic. All API calls set the training opt-out header. Photos and derived analyses are never used to train AI models.
-- Retention: uploaded photos retained twelve months from the inspection date, then deleted. Generated reports and letters retained five years from issue (tax and liability). Account data retained until account closure plus one year.
+- Retention (RGPD V2, 2026-05): uploaded photos 30 days (R2 auto-purge); generated PDF reports and letters 24 months; account data 12 months after last activity; invoicing records 10 years (art. L 123-22 Code de commerce); technical logs 6 months; consent traceability 12 months.
 - User rights: access, rectification, erasure, portability, opposition, restriction. Requests to dpo@tenu.world. Right to lodge a complaint with the CNIL (France) or the ICO (United Kingdom).
 
 ## AI models
@@ -52,8 +58,8 @@ Payment processed by Stripe. Invoice issued in the name provided at checkout.
 
 ## Status
 
-- Service status: pre-launch. Soft launch scheduled for 11 May 2026 with friends and family. Commercial launch follows mobile app-store approvals, expected June 2026.
-- Current content disclosures labelled DRAFT v1.0 are pending counsel review and are not yet binding.
+- Service status: live on the web at tenu.world with the friends-and-family cohort since May 2026. Public commercial launch: 15 July 2026. iOS and Android apps follow the web launch.
+- Legal documents are published at v1.0.
 
 ## Contact
 

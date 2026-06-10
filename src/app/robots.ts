@@ -16,11 +16,13 @@ const disallow = [
   "/api/",
   "/auth/",
   "/inspection/",
-  // DRAFT legal pages: excluded until v1.0-final. Flip when counsel-signed.
-  "/legal/",
+  "/app-home/",
+  // 2026-06-10: /legal/ unblocked — v1.0 shipped (DRAFT stripped), pages are
+  // public, in the sitemap, and referenced by llms.txt. Blocking them while
+  // llms.txt linked AI crawlers to them was self-contradictory.
 ];
 
-const allow = ["/", "/pricing", "/llms.txt", "/llms-full.txt"];
+const allow = ["/", "/pricing", "/stories", "/features", "/legal", "/llms.txt", "/llms-full.txt"];
 
 const aiBots = [
   "GPTBot",            // OpenAI

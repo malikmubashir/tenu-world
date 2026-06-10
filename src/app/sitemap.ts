@@ -12,7 +12,9 @@ const SITE = "https://tenu.world";
 // at the route level. Reason: we don't want Google caching draft content that
 // will be revised before commercial launch. Flip these on once v1.0-final
 // is signed off by counsel.
-const INCLUDE_DRAFT_LEGAL = false;
+// 2026-06-10: flipped to true — legal v1.0 shipped (DRAFT banners stripped),
+// pages are public and referenced by llms.txt; they belong in the index.
+const INCLUDE_DRAFT_LEGAL = true;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const today = new Date();
@@ -31,6 +33,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
   ];
+
+  // Content surface (added 2026-06-10): the ranking pages for tenant-rights
+  // queries. Stories = case studies, features = product explainers.
+  const content: MetadataRoute.Sitemap = [
+    { url: `${SITE}/stories`, lastModified: today, changeFrequency: "weekly", priority: 0.8 },
+    { url: `${SITE}/stories/suzi`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/stories/samir`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/features/onboarding`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/features/evidence`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/features/rights`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/features/scan`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/features/dispute`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${SITE}/features/followup`, lastModified: today, changeFrequency: "monthly", priority: 0.7 },
+  ];
+  core.push(...content);
 
   if (!INCLUDE_DRAFT_LEGAL) {
     return core;

@@ -1,34 +1,40 @@
 # Tenu.World
 
-> Tenu is a tenant-facing tool that scores rental deposit risk from photos and generates ready-to-send dispute letters, for tenants in France and the United Kingdom. Operated by Global Apex.Net (SAS, France). Soft launch May 2026.
+> Tenu is a tenant-facing tool that scores rental deposit risk from photos and generates ready-to-send dispute letters. Live on the web at tenu.world for tenants in France; public launch 15 July 2026. United Kingdom support is built but disabled at launch. Operated by Global Apex.Net (SAS, France).
 
-Tenu.World turns a batch of move-in or move-out photos into two deliverables: a **risk analysis report** estimating how much of the deposit a landlord could reasonably withhold based on observed wear, and an optional **template dispute letter** pre-formatted for the jurisdiction (recorded-delivery letter in France, TDS/DPS/MyDeposits scheme claim in the UK). The service is document generation, not legal advice. French and English legal output only; user interface in 10 languages.
+Tenu.World turns a batch of move-in or move-out photos into two deliverables: a **risk analysis report** estimating how much of the deposit a landlord could reasonably withhold based on observed wear, and an optional **template dispute letter** pre-formatted for the jurisdiction (lettre recommandée avec accusé de réception in France). The service is document generation, not legal advice. Legal output in French and English only; user interface in 10 languages including Arabic and Urdu.
 
 ## Core
 
 - [Homepage](https://tenu.world/): product overview, three-step flow, pricing summary
-- [Pricing](https://tenu.world/pricing): EUR 15 / GBP 15 risk scan, EUR 25 / GBP 25 dispute letter, flat-rate launch pricing
+- [Pricing](https://tenu.world/pricing): entry scan from EUR 15 (studio) to EUR 35 (house), dispute letter EUR 20 — all prices TTC, VAT included
+- [Stories](https://tenu.world/stories): real deposit-dispute case studies
+- [Features](https://tenu.world/features/evidence): photo evidence builder, AI risk scan, dispute letters, rights explainers
 - [Legal documents](https://tenu.world/legal): privacy, terms, refund policy — French and English
+
+## Pricing (France, TTC)
+
+- Entry scan at move-in: Studio/T1 EUR 15 · T2 EUR 20 · T3 EUR 25 · T4 EUR 30 · T5+/maison EUR 35
+- Exit-only scan (no entry record): EUR 25 flat
+- Dispute letter add-on: EUR 20
+- Colocation: per tenant at the flat's tier; a couple sharing one flat counts as one tenant
+- 14-day withdrawal right waived at checkout via explicit consent (art. L221-28 1° Code de la consommation)
 
 ## Legal
 
-- [Privacy Policy (EN)](https://tenu.world/legal/privacy/en): who processes data, retention, sub-processors, RGPD rights
-- [Privacy Policy (FR)](https://tenu.world/legal/privacy/fr): politique de confidentialite, conforme RGPD
-- [Terms of Service (EN)](https://tenu.world/legal/terms/en): template-not-advice clause, mediation path, French law
-- [Terms of Service (FR)](https://tenu.world/legal/terms/fr): conditions generales d'utilisation
-- [Refund Policy (EN)](https://tenu.world/legal/refund/en): L221-28 / UK CCR 2013 Reg 37 digital-goods waiver, three refund scenarios
-- [Refund Policy (FR)](https://tenu.world/legal/refund/fr): politique de remboursement
+- [Privacy Policy (FR)](https://tenu.world/legal/privacy/fr) · [(EN)](https://tenu.world/legal/privacy/en): processing, retention, sub-processors, RGPD rights
+- [Terms of Service (FR)](https://tenu.world/legal/terms/fr) · [(EN)](https://tenu.world/legal/terms/en): template-not-advice clause, mediation path, French law
+- [Refund Policy (FR)](https://tenu.world/legal/refund/fr) · [(EN)](https://tenu.world/legal/refund/en): L221-28 digital-goods waiver, refund scenarios
 
 ## Key facts
 
 - Operator: Global Apex.Net SAS, SIREN 941 666 067, RCS Versailles, registered office 4 Boulevard du Chateau, 78280 Guyancourt, France
-- Share capital: EUR 100
-- Jurisdictions supported: France, United Kingdom
-- AI provider: Anthropic (Claude Haiku for photo analysis, Claude Sonnet for letter drafting)
-- Training opt-out: all AI calls set the training opt-out flag; user photos are never used to train models
-- Data residency: EU (Cloudflare R2 EU, Supabase EU)
+- Status: live on the web (friends-and-family cohort); public launch 15 July 2026; iOS and Android apps to follow
+- Jurisdiction at launch: France only. UK (TDS/DPS/MyDeposits) built, enabled post-launch
+- AI provider: Anthropic Claude (Haiku for photo analysis, Sonnet for letter drafting); user photos are never used to train models
+- Data residency: EU (Cloudflare R2 EU, Supabase eu-central-1 Frankfurt)
 - Contact: support@tenu.world (general), dpo@tenu.world (data protection)
 
 ## Optional
 
-- [GitHub](https://github.com/malikmubashir/tenu-world): public repository
+- [GitHub](https://github.com/malikmubashir/tenu-world): repository
