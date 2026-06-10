@@ -29,9 +29,18 @@ import { type Locale, locales } from "@/lib/i18n/config";
  * Legal copy stays FR/EN only per consents.ts (avocat-reviewed text).
  */
 
+// Google OAuth gate (2026-06-10): the new Supabase project has no Google
+// provider yet — the legacy OAuth client is a burned credential, replaced
+// by the Workspace-owned client in the #T028–#T037 migration. Until that
+// lands, showing the button means showing a 400 to every user. Flip
+// NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=1 in Vercel the day the provider is live.
+const GOOGLE_AUTH_ENABLED =
+  process.env.NEXT_PUBLIC_GOOGLE_AUTH_ENABLED === "1";
+
 interface LoginCopy {
   title: string;
   subtitle: string;
+  subtitleMagicOnly: string;
   emailLabel: string;
   emailPlaceholder: string;
   googleBtn: string;
@@ -49,6 +58,7 @@ const UI_COPY: Record<"fr" | "en", LoginCopy> = {
   fr: {
     title: "Connexion",
     subtitle: "Continuez avec Google ou utilisez votre e-mail.",
+    subtitleMagicOnly: "Recevez un lien de connexion par e-mail. Sans mot de passe.",
     emailLabel: "Adresse e-mail",
     emailPlaceholder: "vous@exemple.com",
     googleBtn: "Continuer avec Google",
@@ -64,6 +74,7 @@ const UI_COPY: Record<"fr" | "en", LoginCopy> = {
   en: {
     title: "Sign in",
     subtitle: "Continue with Google or use your email.",
+    subtitleMagicOnly: "Get a sign-in link by email. No password needed.",
     emailLabel: "Email address",
     emailPlaceholder: "you@example.com",
     googleBtn: "Continue with Google",
@@ -198,7 +209,9 @@ export default function LoginPage() {
     <div className="hig-fade-in flex min-h-[calc(100vh-56px)] items-center justify-center px-4 py-10">
       <div className="w-full max-w-sm border border-tenu-hairline bg-tenu-canvas p-8">
         <h1 className="mb-1 text-2xl font-light tracking-[-0.025em] text-tenu-ink">{ui.title}</h1>
-        <p className="mb-6 text-sm text-tenu-ink-muted">{ui.subtitle}</p>
+        <p className="mb-6 text-sm text-tenu-ink-muted">
+          {GOOGLE_AUTH_ENABLED ? ui.subtitle : ui.subtitleMagicOnly}
+        </p>
 
         {/* DPA acceptance — required. Blocks both buttons until ticked. */}
         <div className="mb-4 border border-tenu-hairline bg-tenu-canvas p-3 text-sm text-tenu-ink">
@@ -272,7 +285,10 @@ export default function LoginPage() {
           </label>
         </div>
 
-        {/* Google OAuth — primary login method */}
+        {/* Google OAuth — gated until the #T028–#T037 Workspace OAuth
+            client is live on the new Supabase project. */}
+        {GOOGLE_AUTH_ENABLED && (
+        <>
         <button
           onClick={handleGoogleSignIn}
           disabled={googleLoading || !canProceed}
@@ -306,8 +322,10 @@ export default function LoginPage() {
           <span className="text-xs text-tenu-ink-muted">{ui.or}</span>
           <div className="h-px flex-1 bg-tenu-hairline" />
         </div>
+        </>
+        )}
 
-        {/* Magic link — fallback */}
+        {/* Magic link — primary while Google is gated, fallback after */}
         <form onSubmit={handleMagicLink} className="space-y-4">
           <div>
             <label htmlFor="email" className="mb-1 block text-sm font-medium text-tenu-ink">

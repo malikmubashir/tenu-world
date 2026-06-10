@@ -347,3 +347,7 @@ MH decision: new production base = tenu-world-eu-central (dsbzgrjtiklmxjozbdjv, 
 - [ ] CC: #T169 AEO follow-up — hreflang/locale URL strategy + Article/BreadcrumbList schema on stories, HowTo schema on features pages (p:1, due 2026-06-18)
 - [ ] MH: #T170 Add www.tenu.world DNS record in Vercel Domains (redirect to apex) — currently NXDOMAIN (p:1, due 2026-06-13)
 - [ ] MH: #T171 Google Search Console — verify property (TXT record already planned in #T030), submit sitemap.xml after this deploy (p:1, due 2026-06-20)
+- [x] CC: #T172 Gate Google login button behind NEXT_PUBLIC_GOOGLE_AUTH_ENABLED (default off) — new Supabase project has no Google provider until #T028-#T037 lands; button was 400ing on every click (auth logs 2026-06-10 16:54). Magic-link-only UI with adjusted FR/EN subtitle meanwhile (p:0, due 2026-06-10) — done 2026-06-10
+- [ ] MH: #T162 REMINDER — login stays broken until Supabase auth config done on new project: Site URL https://tenu.world, redirect URLs (tenu.world + localhost /auth/callback), Brevo SMTP, OTP 3600s. Auth log evidence: Site URL still defaults to localhost:3000 (p:0, due 2026-06-11)
+- [ ] MH: #T173 Flip NEXT_PUBLIC_GOOGLE_AUTH_ENABLED=1 in Vercel env the day #T034 OAuth smoke test passes (p:0, due 2026-06-20)
+- [ ] CC: #T174 Rebuild mobile static export + cap sync after #T156 payment handoff ships — current TestFlight 1.0(1) carries old design + old DB, must not go to App Review (p:1, due 2026-06-29)
