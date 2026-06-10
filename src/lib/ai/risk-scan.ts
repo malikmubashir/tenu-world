@@ -2,10 +2,16 @@
 // because this file exports non-function symbols — ScanError class,
 // const budgets, types — which Server Actions ("use server") forbid.
 // The `server-only` import guarantees any accidental client-bundle
-// reference fails the build instead of leaking ANTHROPIC_API_KEY.
+// reference fails the build instead of leaking AWS credentials.
+//
+// IA calls go through AWS Bedrock EU (Frankfurt by default) for data
+// residency. Direct Anthropic API was retired 2026-05-26 — see RGPD V5
+// for legal context. The `@anthropic-ai/sdk` type-only import gives us
+// the Messages.* type namespace; the actual client is AnthropicBedrock.
 import "server-only";
 
-import Anthropic from "@anthropic-ai/sdk";
+import AnthropicBedrock from "@anthropic-ai/bedrock-sdk";
+import type Anthropic from "@anthropic-ai/sdk";
 import { ZodError } from "zod";
 import {
   RiskScanOutputV2Schema,
@@ -23,16 +29,20 @@ import {
 // Re-export legacy names so existing consumers keep working.
 export type { RoomRiskV1 as RoomRisk, ScanResultV1 as ScanResult } from "./types/risk-scan";
 
-const PRIMARY_MODEL = "claude-haiku-4-5-20251001";
-const FALLBACK_MODEL = "claude-sonnet-4-6";
+// Bedrock EU inference-profile IDs. Verify on AWS Console > Bedrock > Models
+// (Frankfurt eu-central-1) before first deploy — Anthropic occasionally
+// publishes versioned profile names (v1:0 → v1:1) that we must track.
+const PRIMARY_MODEL = "eu.anthropic.claude-haiku-4-5-20251001-v1:0";
+const FALLBACK_MODEL = "eu.anthropic.claude-sonnet-4-6-v1:0";
 const MAX_TOKENS = 2048;
 const TEMPERATURE = 0.2;
 
-// Cost per million tokens in USD (Haiku 4.5 pricing as of 2026-04-17).
-// Update here when Anthropic repricing hits.
+// Cost per million tokens in USD. AWS Bedrock list price for Claude tracks
+// Anthropic direct pricing within rounding — verify against
+// https://aws.amazon.com/bedrock/pricing/ at each Anthropic repricing.
 const PRICING = {
-  "claude-haiku-4-5-20251001": { input: 0.8, output: 4.0 },
-  "claude-sonnet-4-6": { input: 3.0, output: 15.0 },
+  "eu.anthropic.claude-haiku-4-5-20251001-v1:0": { input: 0.8, output: 4.0 },
+  "eu.anthropic.claude-sonnet-4-6-v1:0": { input: 3.0, output: 15.0 },
 } as const;
 
 // Kill switch: a single scan exceeding this budget is rejected.
@@ -183,12 +193,26 @@ async function callAnthropic(
   model: string,
   input: ScanInput,
 ): Promise<{ output: RiskScanOutputV2; costEur: number }> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    throw new ScanError("INVALID_INPUT", "ANTHROPIC_API_KEY missing from environment");
+  const awsRegion = process.env.AWS_REGION;
+  const awsAccessKey = process.env.AWS_ACCESS_KEY_ID;
+  const awsSecretKey = process.env.AWS_SECRET_ACCESS_KEY;
+  if (!awsRegion || !awsAccessKey || !awsSecretKey) {
+    throw new ScanError(
+      "INVALID_INPUT",
+      "AWS_REGION / AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY missing from environment",
+    );
+  }
+  // Fail-closed EU residency guard. If anyone ever sets AWS_REGION to a
+  // non-EU region, refuse to ship user data abroad. The RGPD policy
+  // promises EU residency, so this enforces it at runtime.
+  if (!awsRegion.startsWith("eu-")) {
+    throw new ScanError(
+      "INVALID_INPUT",
+      `AWS_REGION must be an EU region for data residency; got "${awsRegion}"`,
+    );
   }
 
-  const client = new Anthropic({ apiKey });
+  const client = new AnthropicBedrock({ awsRegion, awsAccessKey, awsSecretKey });
   const system = buildSystemPrompt();
   const userPrompt: BuildPromptInput = {
     inspectionId: input.inspectionId,

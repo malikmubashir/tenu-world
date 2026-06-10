@@ -2,7 +2,12 @@
 // because this file exports non-function symbols — DisputeError class,
 // const budgets, types — which Server Actions ("use server") forbid.
 // The `server-only` import guarantees any accidental client-bundle
-// reference fails the build instead of leaking ANTHROPIC_API_KEY.
+// reference fails the build instead of leaking AWS credentials.
+//
+// IA calls go through AWS Bedrock EU (Frankfurt by default) for data
+// residency. Direct Anthropic API was retired 2026-05-26 — see RGPD V5
+// for legal context. The `@anthropic-ai/sdk` type-only import gives us
+// the Messages.* type namespace; the actual client is AnthropicBedrock.
 import "server-only";
 
 // Dispute-letter v2 client. Mirrors the risk-scan v2 pattern:
@@ -15,7 +20,8 @@ import "server-only";
 // A backward-compat shim preserves the legacy generateDisputeLetter signature
 // so existing /api/ai/dispute consumers keep compiling until the route is ported.
 
-import Anthropic from "@anthropic-ai/sdk";
+import AnthropicBedrock from "@anthropic-ai/bedrock-sdk";
+import type Anthropic from "@anthropic-ai/sdk";
 import { ZodError } from "zod";
 import {
   DisputeLetterOutputSchema,
@@ -36,13 +42,17 @@ import type { ScanResult } from "./risk-scan";
 // Legacy alias: consumers that imported the old name still compile.
 export type DisputeLetterResult = DisputeLetterResultV1;
 
-const MODEL = "claude-sonnet-4-6";
+// Bedrock EU inference-profile ID for Sonnet 4.6. Verify on AWS Console
+// > Bedrock > Models (Frankfurt eu-central-1) before first deploy.
+const MODEL = "eu.anthropic.claude-sonnet-4-6-v1:0";
 const MAX_TOKENS = 3000;
 const TEMPERATURE = 0.4;
 
-// Sonnet 4.6 pricing (USD per million tokens), official April 2026.
+// Sonnet 4.6 pricing (USD per million tokens). AWS Bedrock list price for
+// Claude tracks Anthropic direct pricing within rounding — verify against
+// https://aws.amazon.com/bedrock/pricing/ at each Anthropic repricing.
 const PRICING = {
-  "claude-sonnet-4-6": { input: 3.0, output: 15.0 },
+  "eu.anthropic.claude-sonnet-4-6-v1:0": { input: 3.0, output: 15.0 },
 } as const;
 
 const MAX_COST_EUR_PER_LETTER = 0.5; // spec section 9 hard cap
@@ -161,15 +171,25 @@ async function callAnthropic(
   input: DisputeLetterInput,
   isRetry: boolean,
 ): Promise<{ output: DisputeLetterOutput; costEur: number }> {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
+  const awsRegion = process.env.AWS_REGION;
+  const awsAccessKey = process.env.AWS_ACCESS_KEY_ID;
+  const awsSecretKey = process.env.AWS_SECRET_ACCESS_KEY;
+  if (!awsRegion || !awsAccessKey || !awsSecretKey) {
     throw new DisputeError(
       "INVALID_INPUT",
-      "ANTHROPIC_API_KEY missing from environment",
+      "AWS_REGION / AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY missing from environment",
+    );
+  }
+  // Fail-closed EU residency guard. The RGPD policy promises EU residency,
+  // so we refuse to ship user data outside the eu-* regions at runtime.
+  if (!awsRegion.startsWith("eu-")) {
+    throw new DisputeError(
+      "INVALID_INPUT",
+      `AWS_REGION must be an EU region for data residency; got "${awsRegion}"`,
     );
   }
 
-  const client = new Anthropic({ apiKey });
+  const client = new AnthropicBedrock({ awsRegion, awsAccessKey, awsSecretKey });
   const system = buildSystemPrompt(input.jurisdiction);
   const baseUser = buildUserPrompt(input);
   const userText = isRetry ? `${RETRY_PREAMBLE}\n\n${baseUser}` : baseUser;
