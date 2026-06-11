@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * Inspection submit pipeline — orchestrates the full upload + scan from
- * the device.
+ * Inspection submit pipeline — orchestrates upload, payment handoff and
+ * scan from the device.
  *
  * Stages (state machine):
  *   1. idle        — render review summary + "Envoyer pour analyse" CTA
@@ -13,30 +13,45 @@
  *                    - PUT photo bytes directly to R2
  *                    - POST /api/mobile/upload-commit (records DB row)
  *                    Progress shown as "x / N photos".
- *   4. scanning    — POST /api/ai/scan (Haiku risk scan)
- *   5. done        — success screen, "Voir le rapport" CTA → /app-home/reports
- *   6. error       — error message + retry button
+ *   4. payment     — #T156: the scan is payment-gated (#T145). Price
+ *                    preview (GET /api/checkout) + L221-28 1° waiver
+ *                    checkboxes (same constants as web — never
+ *                    paraphrased), then POST /api/checkout with the
+ *                    Bearer token. The returned Stripe URL is opened in
+ *                    the system browser surface (@capacitor/browser —
+ *                    SFSafariViewController / Chrome Custom Tab, never
+ *                    an in-app webview, per the DMA external-purchase
+ *                    strategy). Stripe Checkout needs no Tenu session.
+ *   5. awaiting    — poll inspections.status via the authenticated
+ *                    Supabase client (the Stripe webhook flips it to
+ *                    'paid'), 5s base with backoff + manual check.
+ *   6. scanning    — POST /api/ai/scan (Haiku risk scan)
+ *   7. done        — success screen, "Voir le rapport" CTA → /app-home/reports
+ *   8. error       — error message + retry button
  *
  * Auth: Supabase access token sent as Authorization: Bearer header on
  * every server call. Cookies do not flow across the Capacitor /
- * tenu.world origin boundary.
+ * tenu.world origin boundary — which is also why the external browser
+ * is anonymous: the Stripe success_url lands on the public
+ * payment-return page (?from=app) telling the user to come back here.
  *
  * Brand: Éditorial v2 (#T150) — white canvas, black ink, hairline
  * #e5e7eb frames as the only structure, 0px radius, no shadows. The
- * primary submit action is the APPROVED EXCEPTION: filled black
- * (--color-tenu-cta), white text.
+ * primary submit action is the APPROVED EXCEPTION: filled
+ * (--color-tenu-cta) with white text.
  *
  * Network failures: a single retry pass at the photo level (one
  * upload-intent → PUT → commit cycle, max two attempts). Inspection
- * creation and scan are single-shot — if either fails, surface error
- * and let the user retry the whole submit.
+ * creation is single-shot — if it fails, surface error and let the user
+ * retry the whole submit. After payment, a failed scan never auto-loops
+ * (each run costs real Anthropic spend): the user retries via the
+ * manual check button.
  */
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import NavBar from "@/components/mobile/NavBar";
 import { createClient } from "@/lib/supabase/client";
-import { isNative } from "@/lib/mobile/platform";
 import {
   loadDraft,
   saveDraft,
@@ -49,9 +64,28 @@ import {
   readPhotoBytes,
   type LocalPhotoRecord,
 } from "@/lib/mobile/storage/photos";
+import { openStripeCheckout } from "@/lib/mobile/checkout";
+import {
+  appPaymentReturnUrls,
+  classifyPolledStatus,
+  nextPollDelayMs,
+  scanProductForDraftType,
+} from "@/lib/mobile/payment";
+import WithdrawalWaiver, {
+  type WaiverState,
+} from "@/components/legal/WithdrawalWaiver";
+import { WAIVER_TEXT_VERSION } from "@/lib/legal/withdrawal-waiver";
 
 
-type Stage = "idle" | "creating" | "uploading" | "scanning" | "done" | "error";
+type Stage =
+  | "idle"
+  | "creating"
+  | "uploading"
+  | "payment"
+  | "awaiting"
+  | "scanning"
+  | "done"
+  | "error";
 
 interface CreateResp {
   inspectionId: string;
@@ -68,6 +102,36 @@ interface IntentResp {
 interface ProgressState {
   uploaded: number;
   total: number;
+}
+
+/** Slice of the /api/checkout GET price preview the screen needs. */
+interface PricePreview {
+  tierLabel: string;
+  totalReportPrice: number; // cents
+  exitOnlyPrice: number; // cents
+}
+
+/**
+ * Fresh Bearer headers for every server call. Fetched per-call (not
+ * cached) because the payment detour can take minutes and the Supabase
+ * client refreshes the access token in the background.
+ */
+async function getAuthHeaders(): Promise<Record<string, string>> {
+  const supabase = createClient();
+  const { data: sessionData } = await supabase.auth.getSession();
+  const accessToken = sessionData.session?.access_token;
+  if (!accessToken) {
+    throw new Error("Session expirée. Reconnectez-vous.");
+  }
+  return {
+    Authorization: `Bearer ${accessToken}`,
+    "Content-Type": "application/json",
+  };
+}
+
+/** Cents → "15,00 €" (FR display, TTC). */
+function formatEur(cents: number): string {
+  return `${(cents / 100).toFixed(2).replace(".", ",")} €`;
 }
 
 const ROOM_LABELS: Record<string, string> = {
@@ -101,6 +165,23 @@ export default function SubmitFlow() {
   const [error, setError] = useState<string>("");
   const [resultInspectionId, setResultInspectionId] = useState<string>("");
 
+  // ── #T156 payment handoff state ──────────────────────────────────
+  const [inspectionId, setInspectionId] = useState<string>("");
+  const [waiver, setWaiver] = useState<WaiverState>({
+    priorConsent: false,
+    waiver: false,
+  });
+  const [pricing, setPricing] = useState<PricePreview | null>(null);
+  const [payNotice, setPayNotice] = useState<string>("");
+  const [payBusy, setPayBusy] = useState(false);
+  const [stripeUrl, setStripeUrl] = useState<string>("");
+  // Bumping this restarts the awaiting-payment poll loop (manual check).
+  const [pollTick, setPollTick] = useState(0);
+  // Guards: never two concurrent scan POSTs; never auto-retry a failed
+  // scan from the poll loop (each run costs real Anthropic spend).
+  const scanInFlightRef = useRef(false);
+  const autoScanBlockedRef = useRef(false);
+
   useEffect(() => {
     if (!draftId) return;
     void (async () => {
@@ -128,16 +209,7 @@ export default function SubmitFlow() {
     setStage("creating");
 
     try {
-      const supabase = createClient();
-      const { data: sessionData } = await supabase.auth.getSession();
-      const accessToken = sessionData.session?.access_token;
-      if (!accessToken) {
-        throw new Error("Session expirée. Reconnectez-vous.");
-      }
-      const authHeaders: Record<string, string> = {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      };
+      const authHeaders = await getAuthHeaders();
 
       // Step 1 — create the server inspection + rooms.
       const createRes = await fetch("https://tenu.world/api/inspection/create", {
@@ -216,25 +288,203 @@ export default function SubmitFlow() {
         throw new Error(j.error ?? `Soumission échouée (${submitRes.status}).`);
       }
 
-      // Step 4 — kick off Haiku scan.
-      setStage("scanning");
-      const scanRes = await fetch("https://tenu.world/api/ai/scan", {
-        method: "POST",
-        headers: authHeaders,
-        body: JSON.stringify({ inspectionId }),
-      });
-      if (!scanRes.ok) {
-        const j = (await scanRes.json().catch(() => ({}))) as { error?: string };
-        throw new Error(j.error ?? `Analyse échouée (${scanRes.status}).`);
-      }
-
-      setResultInspectionId(inspectionId);
-      setStage("done");
+      // Step 4 — #T156 payment handoff. The scan endpoint rejects unpaid
+      // inspections with 402 (#T145), so instead of POSTing /api/ai/scan
+      // directly we move to the consent + payment screen.
+      setInspectionId(inspectionId);
+      setWaiver({ priorConsent: false, waiver: false });
+      setPayNotice("");
+      setStage("payment");
+      void loadPricing(inspectionId);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Erreur inconnue.";
       setError(msg);
       setStage("error");
     }
+  }
+
+  /**
+   * Best-effort price preview (GET /api/checkout). The CTA falls back to
+   * neutral copy if this fails — the authoritative price is computed
+   * server-side at session creation either way.
+   */
+  async function loadPricing(id: string) {
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch(
+        `https://tenu.world/api/checkout?inspectionId=${encodeURIComponent(id)}`,
+        { headers },
+      );
+      if (!res.ok) return;
+      const j = (await res.json()) as { pricing?: PricePreview };
+      if (j.pricing) setPricing(j.pricing);
+    } catch {
+      // Preview only — ignore.
+    }
+  }
+
+  const product = scanProductForDraftType(
+    draft?.payload.type as string | undefined,
+  );
+  const priceCents = pricing
+    ? product === "exit_only"
+      ? pricing.exitOnlyPrice
+      : pricing.totalReportPrice
+    : null;
+
+  /**
+   * Creates the Stripe Checkout session via the app's authenticated API
+   * call, then opens the session URL in the system browser surface.
+   * Stripe Checkout needs no Tenu session — only the URL — and the
+   * success_url returns to the public payment-return page on tenu.world.
+   */
+  async function startPayment() {
+    if (!inspectionId || !waiver.priorConsent || !waiver.waiver || payBusy) {
+      return;
+    }
+    setPayBusy(true);
+    setPayNotice("");
+    try {
+      const headers = await getAuthHeaders();
+      const { successUrl, cancelUrl } = appPaymentReturnUrls(inspectionId);
+      const res = await fetch("https://tenu.world/api/checkout", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          product,
+          inspectionId,
+          successUrl,
+          cancelUrl,
+          // EXACT legal constants from src/lib/legal/withdrawal-waiver.ts —
+          // the server refuses session creation without both booleans and
+          // the current text version (art. L221-28 1° CConso).
+          waiverConsent: {
+            priorConsent: waiver.priorConsent,
+            waiver: waiver.waiver,
+            locale: "fr" as const,
+            textVersion: WAIVER_TEXT_VERSION,
+          },
+        }),
+      });
+      const j = (await res.json().catch(() => ({}))) as {
+        url?: string;
+        error?: string;
+      };
+      if (!res.ok || !j.url) {
+        throw new Error(j.error ?? `Paiement indisponible (${res.status}).`);
+      }
+      setStripeUrl(j.url);
+      setStage("awaiting");
+      await openStripeCheckout(j.url, {
+        inspectionId,
+        // Browser dismissed → check the payment immediately.
+        onClose: () => setPollTick((t) => t + 1),
+      });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Erreur inconnue.";
+      setPayNotice(msg);
+    } finally {
+      setPayBusy(false);
+    }
+  }
+
+  /**
+   * Fires the Haiku scan once payment is confirmed. 409 means another
+   * surface beat us to it (web report page, double-poll): ALREADY_SCANNED
+   * is success, SCAN_IN_PROGRESS goes back to polling. Any other failure
+   * returns to the awaiting screen — the payment is already made, so the
+   * user retries via the manual check button, never the full submit.
+   */
+  const runScan = useCallback(async (id: string) => {
+    if (scanInFlightRef.current) return;
+    scanInFlightRef.current = true;
+    setStage("scanning");
+    try {
+      const headers = await getAuthHeaders();
+      const res = await fetch("https://tenu.world/api/ai/scan", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ inspectionId: id }),
+      });
+      if (res.ok) {
+        setResultInspectionId(id);
+        setStage("done");
+        return;
+      }
+      const j = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        code?: string;
+      };
+      if (res.status === 409 && j.code === "ALREADY_SCANNED") {
+        setResultInspectionId(id);
+        setStage("done");
+        return;
+      }
+      if (res.status === 409) {
+        // SCAN_IN_PROGRESS — keep polling until it lands.
+        setStage("awaiting");
+        return;
+      }
+      throw new Error(j.error ?? `Analyse échouée (${res.status}).`);
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Erreur inconnue.";
+      autoScanBlockedRef.current = true; // no auto-retry loop on paid spend
+      setPayNotice(msg);
+      setStage("awaiting");
+    } finally {
+      scanInFlightRef.current = false;
+    }
+  }, []);
+
+  // ── Awaiting-payment poll loop ────────────────────────────────────
+  // The Stripe webhook flips inspections.status to 'paid'; we read it
+  // through the authenticated Supabase client (RLS: owner-only). Backoff
+  // 5s → 30s; pollTick restarts the loop (manual check / browser close).
+  useEffect(() => {
+    if (stage !== "awaiting" || !inspectionId) return;
+
+    let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let attempt = 0;
+    const supabase = createClient();
+
+    async function check() {
+      if (cancelled) return;
+      const { data } = await supabase
+        .from("inspections")
+        .select("status")
+        .eq("id", inspectionId)
+        .maybeSingle();
+      if (cancelled) return;
+
+      const outcome = classifyPolledStatus(
+        (data as { status?: string } | null)?.status,
+      );
+      if (outcome === "scan_done") {
+        setResultInspectionId(inspectionId);
+        setStage("done");
+        return;
+      }
+      if (outcome === "run_scan" && !autoScanBlockedRef.current) {
+        void runScan(inspectionId);
+        return;
+      }
+      // keep_waiting / scan_in_progress / blocked auto-scan → poll again.
+      timer = setTimeout(() => void check(), nextPollDelayMs(attempt++));
+    }
+
+    void check();
+    return () => {
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+    };
+  }, [stage, inspectionId, pollTick, runScan]);
+
+  /** Manual check: clears the auto-scan block and restarts the loop. */
+  function checkPaymentNow() {
+    autoScanBlockedRef.current = false;
+    setPayNotice("");
+    setPollTick((t) => t + 1);
   }
 
   if (!draft) {
@@ -363,6 +613,79 @@ export default function SubmitFlow() {
               indeterminate
             />
           )}
+          {stage === "payment" && (
+            <div className="flex flex-col gap-4">
+              {/* Price line — server-computed preview, TTC. */}
+              <div className="border border-tenu-hairline bg-tenu-canvas p-4">
+                <p className="text-[12px] font-medium text-tenu-ink-muted">
+                  Paiement
+                </p>
+                <div className="mt-1 flex items-baseline justify-between gap-3">
+                  <p className="text-[15px] text-tenu-ink">
+                    {product === "exit_only"
+                      ? "Constat de sortie — analyse"
+                      : pricing
+                        ? `Rapport d'analyse — ${pricing.tierLabel}`
+                        : "Rapport d'analyse"}
+                  </p>
+                  <p className="text-[15px] font-medium text-tenu-ink">
+                    {priceCents != null ? formatEur(priceCents) : "—"}
+                  </p>
+                </div>
+                <p className="mt-1 text-[12px] text-tenu-ink-muted">
+                  TVA incluse.
+                </p>
+              </div>
+
+              {/* L221-28 1° waiver — same component + legal constants as
+                  the web checkout. Both boxes gate the CTA below. */}
+              <WithdrawalWaiver locale="fr" value={waiver} onChange={setWaiver} />
+
+              <div className="space-y-2">
+                <p className="text-[13px] leading-relaxed text-tenu-ink-muted">
+                  Le paiement s&apos;effectue sur tenu.world, dans le
+                  navigateur sécurisé de votre appareil. Revenez ensuite dans
+                  l&apos;application — l&apos;analyse démarre automatiquement
+                  une fois le paiement confirmé.
+                </p>
+                <p className="text-[12px] leading-relaxed text-tenu-ink-muted">
+                  Payment takes place on tenu.world in your device&apos;s
+                  secure browser. Return to the app afterwards — the analysis
+                  starts automatically once payment is confirmed.
+                </p>
+              </div>
+
+              {payNotice && (
+                <p
+                  role="alert"
+                  className="border border-tenu-danger p-3 text-[13px] text-tenu-danger"
+                >
+                  {payNotice}
+                </p>
+              )}
+            </div>
+          )}
+          {stage === "awaiting" && (
+            <div className="flex flex-col gap-4">
+              <ProgressBlock
+                title="En attente du paiement"
+                detail="Terminez le paiement dans le navigateur, puis revenez ici. Cet écran se met à jour automatiquement."
+                indeterminate
+              />
+              <p className="text-[12px] leading-relaxed text-tenu-ink-muted">
+                Complete the payment in the browser, then return here. This
+                screen updates automatically.
+              </p>
+              {payNotice && (
+                <p
+                  role="alert"
+                  className="border border-tenu-danger p-3 text-[13px] text-tenu-danger"
+                >
+                  {payNotice}
+                </p>
+              )}
+            </div>
+          )}
           {stage === "error" && (
             <div className="border border-tenu-danger p-4 text-[14px] text-tenu-danger">
               <p className="font-medium">Erreur</p>
@@ -390,6 +713,45 @@ export default function SubmitFlow() {
               {stage === "error" ? "Réessayer l'envoi" : "Envoyer pour analyse"}
             </button>
           )}
+          {stage === "payment" && (
+            <button
+              type="button"
+              onClick={() => void startPayment()}
+              disabled={!waiver.priorConsent || !waiver.waiver || payBusy}
+              className="hig-press flex h-[52px] w-full items-center justify-center rounded-none bg-tenu-cta text-[16px] font-medium text-tenu-cta-text disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              {payBusy
+                ? "Ouverture du paiement…"
+                : priceCents != null
+                  ? `Payer ${formatEur(priceCents)} sur tenu.world`
+                  : "Continuer vers le paiement"}
+            </button>
+          )}
+          {stage === "awaiting" && (
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={checkPaymentNow}
+                className="hig-press flex h-[52px] w-full items-center justify-center rounded-none border border-tenu-ink text-[16px] font-medium text-tenu-ink"
+              >
+                Vérifier le paiement
+              </button>
+              {stripeUrl && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    void openStripeCheckout(stripeUrl, {
+                      inspectionId,
+                      onClose: () => setPollTick((t) => t + 1),
+                    })
+                  }
+                  className="hig-press flex h-[44px] w-full items-center justify-center rounded-none text-[14px] font-medium text-tenu-ink underline decoration-1 underline-offset-4"
+                >
+                  Rouvrir la page de paiement
+                </button>
+              )}
+            </div>
+          )}
           {(stage === "creating" ||
             stage === "uploading" ||
             stage === "scanning") && (
@@ -398,7 +760,7 @@ export default function SubmitFlow() {
               disabled
               className="flex h-[52px] w-full cursor-wait items-center justify-center rounded-none bg-tenu-cta text-[16px] font-medium text-tenu-cta-text opacity-40"
             >
-              Envoi en cours…
+              {stage === "scanning" ? "Analyse en cours…" : "Envoi en cours…"}
             </button>
           )}
           <p className="mt-3 text-center text-[12px] leading-snug text-tenu-ink-muted">

@@ -22,13 +22,26 @@
  *   cancelled / not yet paid   → redirect back to /inspection/[id]/review
  *                                 with a ?payment=cancelled query param
  *   error (DB unreachable)     → show retry link; do not 500
+ *
+ * ?from=app (#T156): checkout initiated from the Capacitor app. The
+ * EXTERNAL browser holds no Tenu session (cookies do not cross the app /
+ * web boundary), so the DB check above would see nothing and the report
+ * page would dead-end at login. Instead we render a static panel telling
+ * the user to return to the app, which is itself polling the inspection
+ * status over its authenticated session and drives the scan from there.
  */
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-type VerifyState = "loading" | "paid" | "cancelled" | "error";
+type VerifyState =
+  | "loading"
+  | "paid"
+  | "cancelled"
+  | "error"
+  | "app-paid"
+  | "app-cancelled";
 
 export default function PaymentReturnPage() {
   const params = useParams<{ id: string }>();
@@ -38,6 +51,18 @@ export default function PaymentReturnPage() {
 
   useEffect(() => {
     let cancelled = false;
+
+    // App-initiated checkout: no session here, no DB poll, no redirect.
+    // The URL param is display-only guidance — the app verifies the real
+    // payment state against Supabase before triggering the scan.
+    if (searchParams.get("from") === "app") {
+      setState(
+        searchParams.get("status") === "cancelled" ? "app-cancelled" : "app-paid",
+      );
+      return () => {
+        cancelled = true;
+      };
+    }
 
     async function verify() {
       const supabase = createClient();
@@ -133,6 +158,36 @@ export default function PaymentReturnPage() {
             Verifying payment…
           </p>
         </>
+      )}
+
+      {state === "app-paid" && (
+        <div className="max-w-sm space-y-3 px-6 text-center">
+          <p className="text-lg font-medium">Paiement enregistré.</p>
+          <p className="text-sm leading-relaxed text-tenu-ink-muted">
+            Revenez à l&apos;application Tenu — l&apos;analyse démarre
+            automatiquement une fois le paiement confirmé. Vous pouvez fermer
+            cette page.
+          </p>
+          <p className="text-xs leading-relaxed text-tenu-ink-muted">
+            Payment recorded. Return to the Tenu app — the analysis starts
+            automatically once the payment is confirmed. You can close this
+            page.
+          </p>
+        </div>
+      )}
+
+      {state === "app-cancelled" && (
+        <div className="max-w-sm space-y-3 px-6 text-center">
+          <p className="text-lg font-medium">Paiement annulé.</p>
+          <p className="text-sm leading-relaxed text-tenu-ink-muted">
+            Aucun montant n&apos;a été débité. Revenez à l&apos;application
+            Tenu pour relancer le paiement.
+          </p>
+          <p className="text-xs leading-relaxed text-tenu-ink-muted">
+            Payment cancelled. Nothing was charged. Return to the Tenu app to
+            restart the payment.
+          </p>
+        </div>
       )}
 
       {state === "error" && (

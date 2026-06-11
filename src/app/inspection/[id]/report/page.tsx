@@ -198,22 +198,18 @@ export default function ReportPage() {
     }
   }
 
-  async function downloadReport() {
-    const res = await fetch(`/api/ai/scan`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ inspectionId, format: "html" }),
-    });
-    if (res.ok) {
-      // Open print dialog for PDF export
-      const w = window.open("", "_blank");
-      if (w) {
-        const html = await generateReportLocally();
-        w.document.write(html);
-        w.document.close();
-        setTimeout(() => w.print(), 500);
-      }
-    }
+  function downloadReport() {
+    // #T158: never POST /api/ai/scan here. The button only renders once
+    // the inspection is scanned, and re-POSTing a scanned inspection now
+    // 409s (ALREADY_SCANNED, #T145) — which used to skip the print dialog
+    // entirely. The report HTML is built from data already loaded on this
+    // page, so we render and print locally with no server round-trip.
+    const w = window.open("", "_blank");
+    if (!w) return;
+    const html = generateReportLocally();
+    w.document.write(html);
+    w.document.close();
+    setTimeout(() => w.print(), 500);
   }
 
   function generateReportLocally(): string {

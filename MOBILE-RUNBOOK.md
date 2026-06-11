@@ -348,3 +348,40 @@ git push origin main
 Vercel will redeploy automatically. The `/api/mobile/*` endpoints go
 live. The mobile build doesn't auto-deploy — it's a separate Xcode
 / Android Studio run.
+
+---
+
+## Payment handoff in the submit flow (#T156, 2026-06-11)
+
+The scan endpoint is payment-gated (#T145), so the app no longer POSTs
+`/api/ai/scan` straight after submit. The flow is now:
+
+1. create → upload → submit (unchanged, Bearer-authenticated).
+2. **payment** screen: price preview (`GET /api/checkout`), the two
+   L221-28 1° waiver checkboxes (same `WithdrawalWaiver` component and
+   frozen `WAIVER_TEXT_VERSION` constants as the web — never paraphrase),
+   then `POST /api/checkout` with the Bearer token. `/api/checkout` is
+   now Bearer-aware (token forwarded to PostgREST so RLS runs as the
+   user), and the middleware no longer bounces Bearer `/api/*` calls to
+   the login page.
+3. The returned Stripe URL opens via `@capacitor/browser`
+   (SFSafariViewController / Chrome Custom Tab — system browser surface,
+   never an in-app webview; DMA external-purchase strategy, no IAP).
+   Stripe Checkout needs no Tenu session. `success_url`/`cancel_url`
+   point at `https://tenu.world/inspection/{id}/payment-return?from=app`,
+   which renders a static "return to the app" panel because the external
+   browser holds no Tenu session.
+4. **awaiting** screen: the app polls `inspections.status` over its own
+   authenticated Supabase client (5s base, ×1.5 backoff, 30s cap) plus a
+   manual "Vérifier le paiement" button and a "Rouvrir la page de
+   paiement" fallback. The Stripe webhook flips the status to `paid`.
+5. On `paid` the app fires the existing `POST /api/ai/scan` and proceeds
+   to the scanning/done UI. A failed scan never auto-retries (Anthropic
+   spend) — the manual check button retries it. 409 ALREADY_SCANNED is
+   treated as success.
+
+Helpers live in `src/lib/mobile/payment.ts` (SKU mapping: entrée →
+`report`, sortie → `exit_only`; return URLs; poll backoff) with tests in
+`payment.test.ts`. After pulling these changes run `npx cap sync` on the
+Mac — no new plugin was added (`@capacitor/browser` was already a
+dependency), but the web bundle in `out/` must be rebuilt and copied.

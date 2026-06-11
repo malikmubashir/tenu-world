@@ -25,12 +25,27 @@ import { recordFunnelEvent } from "@/lib/analytics/funnel";
  *   cancelUrl: string
  *
  * Rooms and jurisdiction are fetched from the inspection record in Supabase.
+ *
+ * Auth: Supabase session cookie OR Authorization: Bearer <access_token>.
+ * The Capacitor shell (#T156) sends the bearer token — cookies don't flow
+ * across the app / tenu.world origin boundary. The waiver consent is
+ * collected in-app before this call (same WAIVER_TEXT_VERSION constants),
+ * and the returned Stripe URL is opened in the system browser; the Stripe
+ * session itself needs no Tenu session.
  */
+
+/** Extracts the bearer token from the request, if present. */
+function bearerToken(request: Request): string | undefined {
+  const header = request.headers.get("authorization");
+  return header?.startsWith("Bearer ") ? header.slice(7) : undefined;
+}
+
 export async function POST(request: Request) {
-  const supabase = await createClient();
+  const token = bearerToken(request);
+  const supabase = await createClient(token ? { bearerToken: token } : undefined);
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = token ? await supabase.auth.getUser(token) : await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -181,10 +196,11 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Missing inspectionId" }, { status: 400 });
   }
 
-  const supabase = await createClient();
+  const token = bearerToken(request);
+  const supabase = await createClient(token ? { bearerToken: token } : undefined);
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = token ? await supabase.auth.getUser(token) : await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

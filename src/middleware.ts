@@ -141,8 +141,17 @@ export async function middleware(request: NextRequest, event: NextFetchEvent) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  // #T156: the Capacitor shell authenticates API calls with an
+  // Authorization: Bearer header — it has no session cookies, so the
+  // cookie check above sees no user. Never bounce such a request to the
+  // login HTML page; every /api route enforces its own auth and returns
+  // a proper 401 JSON if the token is invalid.
+  const isBearerApiCall =
+    request.nextUrl.pathname.startsWith("/api/") &&
+    (request.headers.get("authorization")?.startsWith("Bearer ") ?? false);
+
   // redirect unauthenticated users away from protected routes
-  if (!user && !isPublicPath(request.nextUrl.pathname)) {
+  if (!user && !isPublicPath(request.nextUrl.pathname) && !isBearerApiCall) {
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("redirect", request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
