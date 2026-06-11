@@ -98,8 +98,9 @@ export default function PrivacyEN() {
       </P>
 
       <H2>5. Where your data is hosted</H2>
+      {/* amended 2026-06-11 per docs/17 — pending DPO review with V3 (#T133) */}
       <P>
-        All data is hosted within the European Union or the United Kingdom. No transfer outside this area takes place in the normal course of the service.
+        Your data is hosted within the European Union: the database and authentication with Supabase (Frankfurt, Germany), photographs and PDF reports with Cloudflare R2 (EU region). During AI analysis, photographs and tenancy details are processed by Anthropic (United States), acting as a sub-processor, under a Zero Data Retention commitment (no storage once processing is complete, no use for model training) and the European Commission&apos;s standard contractual clauses governing this transfer. This processing will move to AWS Bedrock (Frankfurt, Germany) after the service launches.
       </P>
       <UL>
         <LI>Database and authentication: Supabase, European region (Frankfurt, Germany).</LI>
@@ -107,10 +108,10 @@ export default function PrivacyEN() {
         <LI>Web hosting platform: Vercel, CDG region (Paris).</LI>
         <LI>Transactional email delivery: Brevo (formerly Sendinblue), France.</LI>
         <LI>Payment: Stripe, PCI-DSS compliant, European entity Stripe Technology Europe Ltd., Dublin.</LI>
-        <LI>AI analysis: Anthropic via API, processing in the EU regions of Anthropic infrastructure.</LI>
+        <LI>AI analysis: Anthropic via API (United States), under Zero Data Retention and standard contractual clauses (see above).</LI>
       </UL>
       <Callout>
-        <Placeholder>[TO VERIFY WITH COUNSEL]</Placeholder> confirm Anthropic processing region at the time the DPA is signed. Anthropic states EU-only processing but this must be audited.
+        <Placeholder>[TO VERIFY WITH COUNSEL]</Placeholder> when signing the Anthropic DPA, confirm Zero Data Retention is active on the account and that the standard contractual clauses are incorporated.
       </Callout>
 
       <H2>6. Sub-processors</H2>

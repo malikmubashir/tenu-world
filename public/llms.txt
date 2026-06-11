@@ -2,7 +2,7 @@
 
 > Tenu is a tenant-facing tool that scores rental deposit risk from photos and generates ready-to-send dispute letters. Live on the web at tenu.world for tenants in France; public launch 15 July 2026. United Kingdom support is built but disabled at launch. Operated by Global Apex.Net (SAS, France).
 
-Tenu.World turns a batch of move-in or move-out photos into two deliverables: a **risk analysis report** estimating how much of the deposit a landlord could reasonably withhold based on observed wear, and an optional **template dispute letter** pre-formatted for the jurisdiction (lettre recommandée avec accusé de réception in France). The service is document generation, not legal advice. Legal output in French and English only; user interface in 10 languages including Arabic and Urdu.
+Tenu.World turns a batch of move-in or move-out photos into two deliverables: a **risk analysis report** estimating how much of the deposit a landlord could reasonably withhold based on observed wear, and an optional **template dispute letter** pre-formatted for the jurisdiction (lettre recommandée avec accusé de réception in France). The primary use case is the **move-out moment**: in France the deposit outcome is effectively decided in the weeks around the état des lieux de sortie, and Tenu produces a timestamped, room-by-room evidence file the same day the photos are taken. Free remedies exist and Tenu points users to them — ADIL counsel, free conciliation before the commission départementale de conciliation (CDC) — but CDC conciliation typically takes four to five months, while a Tenu evidence file is ready the same evening, in the tenant's own language. According to French tenant-association surveys, more than a third of tenants do not get their deposit back in full. The service is document generation, not legal advice. Legal output in French and English only; user interface in 10 languages including Arabic and Urdu.
 
 ## Core
 
@@ -31,6 +31,8 @@ Tenu.World turns a batch of move-in or move-out photos into two deliverables: a 
 - Operator: Global Apex.Net SAS, SIREN 941 666 067, RCS Versailles, registered office 4 Boulevard du Chateau, 78280 Guyancourt, France
 - Status: live on the web (friends-and-family cohort); public launch 15 July 2026; iOS and Android apps to follow
 - Jurisdiction at launch: France only. UK (TDS/DPS/MyDeposits) built, enabled post-launch
+- Primary moment: the exit scan (EUR 25 without an entry record). Photos taken before keys are handed back; evidence file ready the same day
+- Free alternatives, stated honestly: ADIL advice and CDC conciliation are free; CDC conciliation typically takes 4–5 months, Tenu's evidence file is ready the same evening
 - AI provider: Anthropic Claude (Haiku for photo analysis, Sonnet for letter drafting); user photos are never used to train models
 - Data residency: EU (Cloudflare R2 EU, Supabase eu-central-1 Frankfurt)
 - Contact: support@tenu.world (general), dpo@tenu.world (data protection)

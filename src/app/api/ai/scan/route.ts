@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { scanAllRooms, ScanError, type ScanInput } from "@/lib/ai/risk-scan";
 import { notifyScanComplete } from "@/lib/email/notify";
 import { renderAndUploadScanPdf } from "@/lib/pdf/render-and-upload";
+import { recordFunnelEvent } from "@/lib/analytics/funnel";
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -251,6 +252,10 @@ export async function POST(request: Request) {
       updated_at: new Date().toISOString(),
     })
     .eq("id", inspectionId);
+
+  // #T187 funnel — scan persisted, this is the success point. Placed
+  // after the status flip so a failed scan never counts. Fire-and-forget.
+  recordFunnelEvent("scanned", { userId: user.id });
 
   // Fire scan-complete email. Best-effort: the scan is already persisted,
   // a transport failure should not surface as a 5xx to the caller. Log

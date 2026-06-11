@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "Tenu — A sua caução, verificada em dois minutos.",
+    "description": "Envie-nos as fotografias da saída do imóvel. A nossa IA diz-lhe o que o senhorio pode reter legalmente e o que tem de lhe ser devolvido. A partir de 15 €."
+  },
+  "nav": {
+    "home": "Início",
+    "pricing": "Preços",
+    "login": "Iniciar sessão",
+    "signup": "Começar",
+    "dashboard": "Painel",
+    "settings": "Definições",
+    "logout": "Terminar sessão"
+  },
+  "hero": {
+    "eyebrow": "Cauções de arrendamento — França",
+    "title": "O seu senhorio quer ficar com parte da sua caução?",
+    "subtitle": "Envie as fotografias da saída do imóvel. A nossa IA lê-as em dois minutos. Diz-lhe o que pode ser legalmente retido e o que não pode.",
+    "pricePromise": "A partir de 15 €. Só paga se lançar a análise.",
+    "cta": "Analisar as minhas fotografias",
+    "ctaSecondary": "Ver um exemplo"
+  },
+  "trust": {
+    "heading": "Porque pode confiar em nós",
+    "items": {
+      "data": {
+        "title": "As suas fotografias nunca saem da Europa",
+        "desc": "Armazenamento encriptado na Cloudflare UE. Eliminadas ao fim de doze meses. Nunca utilizadas para treinar IA."
+      },
+      "law": {
+        "title": "Assente no direito da habitação francês",
+        "desc": "A nossa tabela de desgaste pelo uso baseia-se no decreto oficial (arrêté du 19 mars 2020) e foi revista com um advogado especializado em direito da habitação."
+      },
+      "honesty": {
+        "title": "Não somos um escritório de advogados",
+        "desc": "A Tenu produz uma minuta de carta. É você quem a assina. É você quem a envia. Os inquilinos que a utilizam recuperam parte ou a totalidade da caução."
+      }
+    }
+  },
+  "example": {
+    "label": "Casos",
+    "heading": "Dois inquilinos. Duas cidades. O mesmo mecanismo.",
+    "intro": "Cada caso é um compósito construído a partir de processos de inquilinos que analisámos. A partir de maio de 2026, publicaremos dados de resultados de litígios reais encerrados, anonimizados e com consentimento escrito.",
+    "seeAll": "Ver todos os casos",
+    "disclaimer": "Casos compósitos. Nomes fictícios, montantes ilustrativos, referências jurídicas exatas a 18 de abril de 2026."
+  },
+  "features": {
+    "eyebrow": "O que recebe",
+    "heading": "Da fotografia à caução devolvida",
+    "onboarding": {
+      "title": "Conheça os seus direitos antes de entrar",
+      "desc": "Dez factos jurídicos essenciais sobre o seu contrato de arrendamento francês, na sua língua, desde o primeiro dia."
+    },
+    "evidence": {
+      "title": "Provas que resistem em mediação",
+      "desc": "Fotografias divisão a divisão, com data e hora e cadeia de custódia verificável. Aceites pela comissão de conciliação francesa."
+    },
+    "rights": {
+      "title": "Saiba o que é dedutível",
+      "desc": "A lista exata do que o seu senhorio pode e não pode reter da sua caução ao abrigo do direito francês."
+    },
+    "scan": {
+      "title": "Dois minutos para ficar esclarecido",
+      "desc": "A IA lê as suas fotografias e diz-lhe, divisão a divisão, o que é desgaste normal e o que não é."
+    },
+    "dispute": {
+      "title": "Uma carta que se defende sozinha",
+      "desc": "Carta em francês, no formato exigido pela CDC, explicada na sua língua. Assina e envia."
+    },
+    "followup": {
+      "title": "Acompanhamento até ao reembolso",
+      "desc": "Ao fim de catorze dias, perguntamos-lhe se a caução foi devolvida. A sua resposta ajuda o inquilino seguinte."
+    }
+  },
+  "closing": {
+    "heading": "Dois minutos para saber em que ponto está.",
+    "body": "Carregue as suas fotografias. Veja a pré-visualização. Pague 15 € apenas se decidir lançar a análise completa.",
+    "cta": "Começar agora",
+    "subnote": "Pagamento seguro através da Stripe. Direito de livre resolução renunciado no momento da compra (art. L221-28 1.º do Código do Consumo francês)."
+  },
+  "pricing": {
+    "heading": "Um preço simples, apresentado à partida",
+    "scan": {
+      "title": "Análise de risco",
+      "price": "15 €",
+      "desc": "Relatório de inspeção por IA com avaliação de risco divisão a divisão.",
+      "cta": "Obter o meu relatório"
+    },
+    "dispute": {
+      "title": "Carta de contestação",
+      "price": "20 €",
+      "desc": "Carta formal de contestação em francês ou inglês.",
+      "cta": "Adicionar a carta de contestação",
+      "addon": "Complemento da análise de risco"
+    }
+  },
+  "inspection": {
+    "new": "Nova inspeção",
+    "property": "Dados do imóvel",
+    "capture": "Tirar fotografias",
+    "review": "Revisão",
+    "report": "Relatório",
+    "rooms": {
+      "kitchen": "Cozinha",
+      "bathroom": "Casa de banho",
+      "bedroom": "Quarto",
+      "living": "Sala de estar",
+      "hallway": "Corredor",
+      "balcony": "Varanda",
+      "other": "Outro"
+    },
+    "jurisdiction": {
+      "label": "Onde se situa o seu imóvel?",
+      "fr": "França",
+      "uk": "Reino Unido"
+    }
+  },
+  "auth": {
+    "login": "Iniciar sessão",
+    "signup": "Criar conta",
+    "email": "Endereço de e-mail",
+    "magicLink": "Iremos enviar-lhe um link mágico",
+    "checkEmail": "Verifique o seu e-mail: enviámos-lhe um link de acesso.",
+    "error": "Ocorreu um erro. Tente novamente."
+  },
+  "common": {
+    "next": "Seguinte",
+    "back": "Voltar",
+    "submit": "Submeter",
+    "cancel": "Cancelar",
+    "loading": "A carregar...",
+    "error": "Ocorreu um erro",
+    "retry": "Tentar novamente"
+  },
+  "app": {
+    "heading": "Brevemente no iOS e no Android",
+    "subtext": "A aplicação Tenu está a caminho. Utilize tenu.world no seu navegador já hoje — sem necessidade de descarregar.",
+    "appStore": "App Store",
+    "playStore": "Google Play",
+    "comingSoon": "Brevemente disponível"
+  }
+}

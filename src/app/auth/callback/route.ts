@@ -8,6 +8,11 @@ import {
   SIGNUP_CONSENT_COOKIE,
   decodeSignupConsent,
 } from "@/lib/legal/consents";
+import {
+  ATTRIBUTION_COOKIE,
+  decodeAttribution,
+  recordFunnelEvent,
+} from "@/lib/analytics/funnel";
 
 /**
  * Auth callback — handles BOTH flows Supabase may use:
@@ -79,6 +84,26 @@ export async function GET(request: Request) {
   const cookieStore = await cookies();
   const consentCookie = cookieStore.get(SIGNUP_CONSENT_COOKIE)?.value;
   const intent = decodeSignupConsent(consentCookie);
+
+  // ── #T187 funnel: 'signup' with first-touch attribution ──────────
+  // The tenu_attr cookie is stamped by middleware on the first visit
+  // carrying ?src= or utm_* params. Recorded once per user: the
+  // created_at window keeps returning-user logins out of the signup
+  // count (magic-link callback fires on every login, not just the
+  // first). Fire-and-forget — never blocks or fails the auth flow.
+  const createdAtMs = user.created_at ? Date.parse(user.created_at) : NaN;
+  const isNewSignup =
+    Number.isFinite(createdAtMs) && Date.now() - createdAtMs < 10 * 60 * 1000;
+  if (isNewSignup) {
+    const attr = decodeAttribution(cookieStore.get(ATTRIBUTION_COOKIE)?.value);
+    recordFunnelEvent("signup", {
+      userId: user.id,
+      source: attr?.source ?? null,
+      utm: attr?.utm ?? null,
+      locale: intent?.locale ?? null,
+      path: attr?.path ?? null,
+    });
+  }
 
   // Clear the cookie in every branch so a stale intent never lingers.
   cookieStore.set(SIGNUP_CONSENT_COOKIE, "", {

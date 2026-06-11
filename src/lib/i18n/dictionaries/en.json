@@ -15,8 +15,8 @@
   "hero": {
     "eyebrow": "Rental deposits — France",
     "title": "Your landlord wants to keep part of your deposit?",
-    "subtitle": "Send your move-out photos. Our AI reads them in two minutes. It tells you what can legally be kept, and what cannot.",
-    "pricePromise": "From €15. You only pay if you run the scan.",
+    "subtitle": "You are moving out. Your deposit is decided in the next two weeks — on the strength of your photos. Our AI reads them in two minutes and tells you what can legally be withheld, and what cannot.",
+    "pricePromise": "From €15, ready before you hand back the keys. You only pay if you run the scan.",
     "cta": "Scan my photos",
     "ctaSecondary": "See an example"
   },
@@ -74,7 +74,7 @@
   },
   "closing": {
     "heading": "Two minutes to know where you stand.",
-    "body": "Upload your photos. Look at the preview. Pay €15 only if you choose to run the full scan.",
+    "body": "Free conciliation through the CDC takes four to five months. Your evidence file is ready this evening — upload your photos, look at the preview, and pay €15 only if you choose to run the full scan.",
     "cta": "Start now",
     "subnote": "Secure Stripe checkout. Withdrawal right waived at purchase (art. L221-28 1° French Consumer Code)."
   },

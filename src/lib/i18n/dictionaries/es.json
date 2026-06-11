@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "Tenu — Su fianza, comprobada en dos minutos.",
+    "description": "Envíenos sus fotos de salida de la vivienda. Nuestra IA le dice lo que su arrendador puede retener legalmente y lo que debe devolverle. Desde 15 €."
+  },
+  "nav": {
+    "home": "Inicio",
+    "pricing": "Precios",
+    "login": "Iniciar sesión",
+    "signup": "Empezar",
+    "dashboard": "Panel",
+    "settings": "Ajustes",
+    "logout": "Cerrar sesión"
+  },
+  "hero": {
+    "eyebrow": "Fianzas de alquiler — Francia",
+    "title": "¿Su arrendador quiere quedarse con parte de su fianza?",
+    "subtitle": "Envíe sus fotos de salida de la vivienda. Nuestra IA las lee en dos minutos. Le dice qué puede retenerse legalmente y qué no.",
+    "pricePromise": "Desde 15 €. Solo paga si lanza el análisis.",
+    "cta": "Analizar mis fotos",
+    "ctaSecondary": "Ver un ejemplo"
+  },
+  "trust": {
+    "heading": "Por qué puede confiar en nosotros",
+    "items": {
+      "data": {
+        "title": "Sus fotos nunca salen de Europa",
+        "desc": "Almacenamiento cifrado en Cloudflare UE. Eliminadas a los doce meses. Nunca se utilizan para entrenar IA."
+      },
+      "law": {
+        "title": "Fundamentado en el derecho de la vivienda francés",
+        "desc": "Nuestra tabla de desgaste por uso se basa en el decreto oficial (arrêté du 19 mars 2020) y ha sido revisada con un abogado especializado en derecho de la vivienda."
+      },
+      "honesty": {
+        "title": "No somos un despacho de abogados",
+        "desc": "Tenu genera un modelo de carta. Usted la firma. Usted la envía. Los inquilinos que la utilizan recuperan una parte o la totalidad de su fianza."
+      }
+    }
+  },
+  "example": {
+    "label": "Casos",
+    "heading": "Dos inquilinos. Dos ciudades. El mismo mecanismo.",
+    "intro": "Cada caso es un compuesto elaborado a partir de expedientes de inquilinos que hemos visto. A partir de mayo de 2026 publicaremos datos de resultados de disputas reales cerradas, anonimizados y con consentimiento escrito.",
+    "seeAll": "Ver todos los casos",
+    "disclaimer": "Casos compuestos. Nombres ficticios, importes ilustrativos, referencias jurídicas exactas a 18 de abril de 2026."
+  },
+  "features": {
+    "eyebrow": "Lo que obtiene",
+    "heading": "De la foto a la fianza devuelta",
+    "onboarding": {
+      "title": "Conozca sus derechos antes de entrar a vivir",
+      "desc": "Diez datos jurídicos clave sobre su contrato de alquiler francés, en su idioma, desde el primer día."
+    },
+    "evidence": {
+      "title": "Pruebas que se sostienen en mediación",
+      "desc": "Fotos habitación por habitación, con fecha y hora y cadena de custodia verificable. Aceptadas por la comisión de conciliación francesa."
+    },
+    "rights": {
+      "title": "Sepa qué es deducible",
+      "desc": "La lista exacta de lo que su arrendador puede y no puede retener de su fianza según el derecho francés."
+    },
+    "scan": {
+      "title": "Dos minutos para tenerlo claro",
+      "desc": "La IA lee sus fotos y le indica, habitación por habitación, qué es desgaste normal y qué no lo es."
+    },
+    "dispute": {
+      "title": "Una carta que se defiende sola",
+      "desc": "Carta en francés, con el formato exigido por la CDC, explicada en su idioma. Usted firma, usted envía."
+    },
+    "followup": {
+      "title": "Seguimiento hasta el reembolso",
+      "desc": "A los catorce días le preguntamos si le devolvieron la fianza. Su respuesta ayuda al siguiente inquilino."
+    }
+  },
+  "closing": {
+    "heading": "Dos minutos para saber en qué situación se encuentra.",
+    "body": "Suba sus fotos. Revise la vista previa. Pague 15 € solo si decide lanzar el análisis completo.",
+    "cta": "Empezar ahora",
+    "subnote": "Pago seguro con Stripe. Derecho de desistimiento renunciado en el momento de la compra (art. L221-28 1° del Código de Consumo francés)."
+  },
+  "pricing": {
+    "heading": "Un precio sencillo, mostrado por adelantado",
+    "scan": {
+      "title": "Análisis de riesgos",
+      "price": "15 €",
+      "desc": "Informe de inspección con IA y evaluación de riesgo habitación por habitación.",
+      "cta": "Obtener mi informe"
+    },
+    "dispute": {
+      "title": "Carta de reclamación",
+      "price": "20 €",
+      "desc": "Carta formal de reclamación en francés o inglés.",
+      "cta": "Añadir la carta de reclamación",
+      "addon": "Complemento del análisis de riesgos"
+    }
+  },
+  "inspection": {
+    "new": "Nueva inspección",
+    "property": "Datos de la vivienda",
+    "capture": "Tomar fotos",
+    "review": "Revisión",
+    "report": "Informe",
+    "rooms": {
+      "kitchen": "Cocina",
+      "bathroom": "Baño",
+      "bedroom": "Dormitorio",
+      "living": "Salón",
+      "hallway": "Pasillo",
+      "balcony": "Balcón",
+      "other": "Otro"
+    },
+    "jurisdiction": {
+      "label": "¿Dónde se encuentra su vivienda?",
+      "fr": "Francia",
+      "uk": "Reino Unido"
+    }
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "signup": "Crear cuenta",
+    "email": "Dirección de correo electrónico",
+    "magicLink": "Le enviaremos un enlace mágico",
+    "checkEmail": "Revise su correo: le hemos enviado un enlace de acceso.",
+    "error": "Algo ha salido mal. Inténtelo de nuevo."
+  },
+  "common": {
+    "next": "Siguiente",
+    "back": "Atrás",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "loading": "Cargando...",
+    "error": "Se ha producido un error",
+    "retry": "Reintentar"
+  },
+  "app": {
+    "heading": "Próximamente en iOS y Android",
+    "subtext": "La aplicación Tenu está en camino. Utilice tenu.world en su navegador desde hoy — sin necesidad de descargar nada.",
+    "appStore": "App Store",
+    "playStore": "Google Play",
+    "comingSoon": "Próximamente"
+  }
+}

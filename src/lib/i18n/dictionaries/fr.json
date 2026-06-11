@@ -15,8 +15,8 @@
   "hero": {
     "eyebrow": "Caution locative — France",
     "title": "Votre propriétaire garde une partie de votre caution ?",
-    "subtitle": "Envoyez vos photos d'état des lieux. Notre IA les lit en deux minutes. Elle vous dit ce qui peut vous être légalement retenu, et ce qui ne peut pas l'être.",
-    "pricePromise": "À partir de 15 €. Vous ne payez que si vous lancez l'analyse.",
+    "subtitle": "Vous quittez votre logement. Votre caution se joue dans les deux semaines qui viennent — sur la force de vos photos. Notre IA les lit en deux minutes et vous dit ce qui peut vous être légalement retenu, et ce qui ne peut pas l'être.",
+    "pricePromise": "À partir de 15 €, prêt avant la remise des clés. Vous ne payez que si vous lancez l'analyse.",
     "cta": "Analyser mes photos",
     "ctaSecondary": "Voir un exemple"
   },
@@ -74,7 +74,7 @@
   },
   "closing": {
     "heading": "Deux minutes pour savoir où vous en êtes.",
-    "body": "Importez vos photos. Parcourez le rapport. Payez 15 € seulement si vous choisissez de lancer l'analyse complète.",
+    "body": "La conciliation gratuite prend 4 à 5 mois. Votre dossier de preuves est prêt ce soir — importez vos photos, parcourez le rapport, payez 15 € seulement si vous choisissez de lancer l'analyse complète.",
     "cta": "Commencer",
     "subnote": "Paiement sécurisé Stripe. Rétractation renoncée à l'achat (art. L221-28 1° Code de la consommation)."
   },

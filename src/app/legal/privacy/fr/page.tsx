@@ -98,8 +98,9 @@ export default function PrivacyFR() {
       </P>
 
       <H2>5. Où vos données sont hébergées</H2>
+      {/* amended 2026-06-11 per docs/17 — pending DPO review with V3 (#T133) */}
       <P>
-        Toutes les données sont hébergées au sein de l&apos;Union européenne ou du Royaume-Uni. Aucun transfert hors de cet espace n&apos;a lieu dans le cadre normal du service.
+        Vos données sont hébergées au sein de l&apos;Union européenne : la base de données et l&apos;authentification chez Supabase (Francfort, Allemagne), les photographies et les rapports PDF chez Cloudflare R2 (région UE). Lors de l&apos;analyse par intelligence artificielle, les photographies et les informations relatives à la location sont traitées par Anthropic (États-Unis), agissant en qualité de sous-traitant, dans le cadre d&apos;un engagement de conservation nulle des données (« Zero Data Retention » : aucun stockage à l&apos;issue du traitement, aucune utilisation à des fins d&apos;entraînement de modèles) et des clauses contractuelles types de la Commission européenne encadrant ce transfert. Ce traitement sera migré vers AWS Bedrock (Francfort, Allemagne) après le lancement du service.
       </P>
       <UL>
         <LI>Base de données et authentification : Supabase, région Europe (Francfort, Allemagne).</LI>
@@ -107,10 +108,10 @@ export default function PrivacyFR() {
         <LI>Plateforme d&apos;hébergement web : Vercel, région CDG (Paris).</LI>
         <LI>Envoi d&apos;emails transactionnels : Brevo (anciennement Sendinblue), France.</LI>
         <LI>Paiement : Stripe, traitement conforme à la norme PCI-DSS, entité européenne Stripe Technology Europe Ltd., Dublin.</LI>
-        <LI>Analyse IA : Anthropic via API, traitement dans les régions EU de l&apos;infrastructure Anthropic.</LI>
+        <LI>Analyse IA : Anthropic via API (États-Unis), sous engagement Zero Data Retention et clauses contractuelles types (voir ci-dessus).</LI>
       </UL>
       <Callout>
-        <Placeholder>[À VÉRIFIER PAR AVOCAT]</Placeholder> confirmer la région de traitement d&apos;Anthropic au moment de la signature du DPA. L&apos;entreprise revendique un traitement EU sans transfert, mais cela doit être audité.
+        <Placeholder>[À VÉRIFIER PAR AVOCAT]</Placeholder> confirmer, au moment de la signature du DPA Anthropic, l&apos;activation effective du Zero Data Retention sur le compte et l&apos;incorporation des clauses contractuelles types.
       </Callout>
 
       <H2>6. Sous-traitants</H2>

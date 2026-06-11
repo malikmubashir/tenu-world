@@ -12,6 +12,7 @@ import {
   type WaiverConsentPayload,
 } from "@/lib/legal/withdrawal-waiver";
 import { evaluateDisputeEligibility } from "@/lib/ai/dispute-eligibility";
+import { recordFunnelEvent } from "@/lib/analytics/funnel";
 
 /**
  * POST /api/checkout
@@ -154,6 +155,12 @@ export async function POST(request: Request) {
     successUrl,
     cancelUrl,
     waiverConsentId: consentRow.id,
+  });
+
+  // #T187 funnel — Stripe session exists, user is heading to payment.
+  recordFunnelEvent("checkout_started", {
+    userId: user.id,
+    locale: waiverConsent!.locale,
   });
 
   return NextResponse.json({

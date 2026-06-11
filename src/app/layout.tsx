@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import { Inter, Inter_Tight } from "next/font/google";
 import { getDirection } from "@/lib/i18n/config";
 import { parseLocaleFromCookie, parseLocaleFromHeader } from "@/lib/i18n/server";
@@ -235,6 +236,11 @@ export default async function RootLayout({
         {!IS_MOBILE_EXPORT && (
           <CookieBanner locale={locale === "en" ? "en" : "fr"} />
         )}
+        {/* Vercel Web Analytics (#T187) — cookieless, no cross-site
+            tracking, no persistent identifier: page views are hashed
+            per-day server-side. Web deploy only; the Capacitor static
+            export has no /_vercel/insights endpoint to talk to. */}
+        {!IS_MOBILE_EXPORT && <Analytics />}
       </body>
     </html>
   );

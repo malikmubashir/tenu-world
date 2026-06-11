@@ -273,11 +273,11 @@ Rules:
 - 14-day droit de rétractation (art. L221-18 Code de la consommation) waived via explicit checkbox at checkout (art. L221-28 1°).
 - UK disabled at launch. Re-enable after first FR cohort outcome data.
 - TVA: 20% FR standard rate, collected via Stripe Tax, declared by Global Apex NET, remitted via OSS / guichet unique. No TVA charged to non-FR EU B2C until OSS kicks in post-threshold.
-- App Store / Play Store: Reader App model. Payment happens on web, apps link out. No IAP.
+- App Store / Play Store: web purchase + DMA external-purchase-link regime on EU storefronts (corrected 2026-06-11 per docs/17 — "reader app" category is media-only and never applied to Tenu). Payment happens on web; in-app promotion design determines Apple fee exposure (0-12%); no IAP.
 
 Economics (Studio baseline, post-TVA, post-Stripe):
 Revenue net: €12.50 → Haiku ~€0.30 + Sonnet ~€0.60 (if dispute) + R2/PDF ~€0.10 → gross margin ~79% on scan-only, ~72% on scan+dispute.
-Breakeven: ~4 paying users/month against €47 fixed burn.
+Breakeven: ~8-9 paying users/month against ~€100/mo honest fixed burn (corrected 2026-06-11 per docs/17 fact-check I5 — €47 figure predated MEDICYS ~€25/mo, Apple €8/mo, Workspace €7/mo, phone €15-25/mo; plus €1.5-2.5k one-time legal setup).
 
 ---
 

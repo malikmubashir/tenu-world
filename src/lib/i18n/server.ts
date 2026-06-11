@@ -10,12 +10,11 @@ const dictionaries: Record<Locale, () => Promise<Dictionary>> = {
   ar: () => import("./dictionaries/ar.json").then((m) => m.default),
   zh: () => import("./dictionaries/zh.json").then((m) => m.default),
   ur: () => import("./dictionaries/ur.json").then((m) => m.default),
-  // P2 and P3 languages fall back to English until translated
-  hi: () => import("./dictionaries/en.json").then((m) => m.default),
-  ja: () => import("./dictionaries/en.json").then((m) => m.default),
-  es: () => import("./dictionaries/en.json").then((m) => m.default),
-  pt: () => import("./dictionaries/en.json").then((m) => m.default),
-  ko: () => import("./dictionaries/en.json").then((m) => m.default),
+  hi: () => import("./dictionaries/hi.json").then((m) => m.default),
+  ja: () => import("./dictionaries/ja.json").then((m) => m.default),
+  es: () => import("./dictionaries/es.json").then((m) => m.default),
+  pt: () => import("./dictionaries/pt.json").then((m) => m.default),
+  ko: () => import("./dictionaries/ko.json").then((m) => m.default),
 };
 
 export async function getDictionary(locale: Locale): Promise<Dictionary> {

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { isZoneTendue, extractPostalCode, getNoticePeriodMonths } from "@/lib/geo/zone-tendue";
+import { recordFunnelEvent } from "@/lib/analytics/funnel";
 
 /**
  * POST /api/inspection/create
@@ -192,6 +193,9 @@ export async function POST(request: Request) {
       // Non-fatal: inspection and rooms already created, tenants can be added later
     }
   }
+
+  // #T187 funnel — fire-and-forget, never blocks the response.
+  recordFunnelEvent("inspection_created", { userId: user.id });
 
   return NextResponse.json({
     inspectionId,

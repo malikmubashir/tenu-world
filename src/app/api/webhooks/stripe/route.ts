@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { verifyWebhookSignature } from "@/lib/payments/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { recordFunnelEvent } from "@/lib/analytics/funnel";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -91,6 +92,17 @@ export async function POST(request: Request) {
           { error: "payments_insert_failed", details: paymentInsertError.message },
           { status: 500 },
         );
+      }
+      // #T187 funnel — inside the !existingPayment branch so Stripe
+      // webhook replays never double-count. Fire-and-forget.
+      recordFunnelEvent("paid", { userId: metadata.userId ?? null });
+      if (
+        metadata.product === "dispute" ||
+        metadata.product === "report_and_dispute"
+      ) {
+        recordFunnelEvent("letter_purchased", {
+          userId: metadata.userId ?? null,
+        });
       }
     }
 
