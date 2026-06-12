@@ -12,9 +12,9 @@ export default function TermsEN() {
     <LegalPage
       meta={{
         title: "Terms of Service",
-        version: "v1.0",
-        lastUpdated: "2026-04-17",
-        statusLine: "v1.0 — counsel review in progress",
+        version: "v1.1",
+        lastUpdated: "2026-06-12",
+        statusLine: "v1.1 — DPO validated (AP3R Consulting, 12 June 2026)",
         localeLabel: "English",
         otherLocaleHref: "/legal/terms/fr",
         otherLocaleLabel: "Français",
@@ -133,7 +133,21 @@ export default function TermsEN() {
         <strong>Competent court.</strong> Failing amicable resolution and subject to the protective rules of the French Consumer Code, any dispute falls under the jurisdiction of the Commercial Court of Paris. UK consumers retain the right to bring proceedings before English and Welsh courts for matters arising in the UK.
       </P>
 
-      <H2>12. Contact</H2>
+      <H2>12. Personal data</H2>
+      <P>
+        Global Apex.Net undertakes to comply with Regulation (EU) 2016/679 (GDPR), French law no. 2018-493 of 20 June 2018, French law no. 78-17 of 6 January 1978 as amended, and all other applicable data-protection regulations, and to take every necessary precaution to preserve the security of the personal information entrusted to it.
+      </P>
+      <P>
+        Acting as data controller, Global Apex.Net processes personal data of natural persons for the management of its relationship with the Client, in particular to: manage the Client relationship, limit and secure access, prevent fraud through connection monitoring, respond to contact, information, assistance and illegal-content-removal requests, and handle rights requests, complaints and disputes. Depending on the purpose, the legal bases are consent, performance of the contract and the controller&apos;s legitimate interest.
+      </P>
+      <P>
+        Collected data is accessible to authorised Global Apex.Net staff bound by confidentiality, and to processors acting on its instructions under Article 28 GDPR agreements (available on request at <code>dpo@tenu.world</code>). Retention periods vary by purpose and are available on request at <code>dpo@tenu.world</code>. Full details of all processing operations are set out in the privacy policy published at <code>tenu.world/legal/privacy/en</code>.
+      </P>
+      <P>
+        The Client has the rights of access, rectification, erasure and portability, the right to withdraw consent, the rights to object to and restrict certain processing, and the right to set instructions for their data after death. These rights are exercised by writing to <code>dpo@tenu.world</code>. In the event of a dispute, the Client may lodge a complaint with the CNIL.
+      </P>
+
+      <H2>13. Contact</H2>
       <P>
         For any question about these terms, write to <code>support@tenu.world</code>. For any question about your personal data, see the privacy policy.
       </P>
@@ -152,6 +166,11 @@ export default function TermsEN() {
             <TD>v1.0-draft</TD>
             <TD>2026-04-17</TD>
             <TD>Initial version, 12 articles, template-not-advice clause, mandatory mediation step</TD>
+          </tr>
+          <tr>
+            <TD>v1.1</TD>
+            <TD>2026-06-12</TD>
+            <TD>DPO validation (AP3R Consulting): added Article 12 &quot;Personal data&quot;, contact renumbered to Article 13.</TD>
           </tr>
         </tbody>
       </Table>

@@ -404,3 +404,11 @@ Relance Renaud reçue 12/06 (V5 attendue depuis le 05/06). V5 construite depuis 
 - [x] MH: #T209 GO/NO-GO 10 Jul — ajouter critère "Bedrock live en prod" au checklist docs/16, sinon la politique publiée le 15/07 décrira un traitement inexistant (p:0, due 2026-07-10) — done 2026-06-12 : amendement daté dans docs/16 (critère D4 ajouté, park post-launch annulé, ligne code-freeze corrigée).
 - [ ] CC: #T210 Décommissionner projet Supabase London (eu-west-2, umvcjasalzcgtfwsjbfw) après smoke post-cutover — minimisation, deux bases actives = double surface (p:1, due 2026-06-20)
 - [ ] MH: #T211 Vérifier tableau cookies V5/site — lignes __Host-next-auth.csrf-token et NEXT_LOCALE introuvables dans src/ (probablement fictives) ; relever les cookies réels en devtools et aligner doc + /legal/cookies (p:1, due 2026-06-16)
+
+## 2026-06-12 (après-midi) — V6 finale reçue de Renaud : mission DPO terminée
+
+V6 : « Ok avec tous vos ajustements. » Modifs Renaud intégrées au site : phrase suppression du titre d'identité sitôt contrôle (tous droits), bullet paiement consolidé, double lien AWS au tableau (repris pour la bascule #T214), corrections grammaire. Annexe réduite à UN point orange : capture OTP (#T130). Site : privacy §7 FR/EN, terms art. 12 data FR/EN (Contact→13), pages /legal/mentions FR/EN créées (LCEN, sans téléphone), index « Pré-lancement » + v1.1 partout, journaux de versions. V6 archivée : IT Professional + docs/legal/ (+PDF) + README dossier légal. Typecheck + build 56/56 verts.
+
+- [x] CC: #T215 V6 stitching site — privacy §7 ID-deletion FR/EN, terms art.12 données FR/EN, /legal/mentions FR/EN créées, index v1.1 validée DPO, journaux versions, archivage V6 + README docs/legal (p:0, due 2026-06-12) — done 2026-06-12.
+- [ ] MH: #T216 Vérifier le rendu des nouvelles pages sur Vercel preview/prod après push : /legal/mentions/fr, /legal/terms/fr (art. 12), /legal/privacy/fr (§7, journal v1.1) (p:0, due 2026-06-13)
+- [ ] CC: #T217 À la bascule Bedrock (#T214) — privacy §5/§6 FR/EN : sous-traitant IA → AWS EMEA SARL (Luxembourg, région UE Francfort) avec les deux liens du tableau V6 (aws privacy + bedrock data-protection), retirer la ligne Anthropic, mettre à jour journal versions (p:0, due 2026-06-18)

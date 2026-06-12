@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Legal — Tenu.World",
-  description: "Draft legal documents of Tenu.World — privacy, terms, refund.",
+  description: "Legal documents of Tenu.World — legal notice, privacy, terms, refund.",
 };
 
 type Doc = {
@@ -16,6 +16,13 @@ type Doc = {
 };
 
 const docs: Doc[] = [
+  {
+    slug: "mentions",
+    titleFr: "Mentions légales",
+    titleEn: "Legal Notice",
+    descFr: "Éditeur, directeur de la publication, hébergeur.",
+    descEn: "Publisher, publication director, host.",
+  },
   {
     slug: "privacy",
     titleFr: "Politique de confidentialité",
@@ -45,16 +52,16 @@ export default function LegalIndex() {
       <div className="border-b t-hairline px-6 py-3 md:px-12">
         <p className="mx-auto max-w-3xl text-sm text-tenu-ink">
           <span className="me-2 border border-tenu-ink px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-tenu-ink">
-            Draft
+            Pré-lancement
           </span>
-          These documents are v1.0-draft pending counsel review. They are published for transparency and review, not yet binding.
+          Documents relus et validés par le DPO (AP3R Consulting) le 12 juin 2026. La désignation du médiateur de la consommation est en cours et sera publiée avant l&apos;ouverture commerciale.
         </p>
       </div>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-10 md:px-0 md:py-14">
         <h1 className="t-section-heading">Legal documents</h1>
         <p className="mt-4 text-sm text-tenu-ink-muted">
-          Version v1.0-draft &middot; dated 2026-04-17 &middot; published for legal review.
+          Version v1.1 &middot; updated 2026-06-12 &middot; DPO-validated (AP3R Consulting).
           Each document is available in French and English. The French version governs;
           the English version is provided for convenience.
         </p>

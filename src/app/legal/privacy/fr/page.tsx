@@ -12,9 +12,9 @@ export default function PrivacyFR() {
     <LegalPage
       meta={{
         title: "Politique de confidentialité",
-        version: "v1.0",
-        lastUpdated: "2026-04-17",
-        statusLine: "v1.0 — en cours de revue avocat",
+        version: "v1.1",
+        lastUpdated: "2026-06-12",
+        statusLine: "v1.1 — validée DPO (AP3R Consulting, 12 juin 2026)",
         localeLabel: "Français",
         otherLocaleHref: "/legal/privacy/en",
         otherLocaleLabel: "English",
@@ -181,7 +181,7 @@ export default function PrivacyFR() {
         <LI><strong>Droit de définir des directives post-mortem</strong> pour le sort de vos données après votre décès (article 85 loi Informatique et Libertés).</LI>
       </UL>
       <P>
-        Nous vous répondons dans un délai d&apos;un mois, éventuellement prolongé de deux mois en cas de complexité ou de multiplicité des demandes.
+        Nous vous répondons dans un délai d&apos;un mois, éventuellement prolongé de deux mois en cas de complexité ou de multiplicité des demandes. Avant de donner suite, nous vérifions l&apos;identité du demandeur, le cas échéant au moyen d&apos;un titre d&apos;identité signé. Sitôt l&apos;identité du demandeur contrôlée, le titre d&apos;identité est supprimé.
       </P>
       <P>
         Si nous ne vous répondons pas, ou si notre réponse ne vous satisfait pas, vous pouvez adresser une réclamation à la Commission Nationale de l&apos;Informatique et des Libertés (CNIL), 3 place de Fontenoy, TSA 80715, 75334 Paris Cedex 07, <code>cnil.fr</code>. Les utilisateurs britanniques peuvent saisir l&apos;Information Commissioner&apos;s Office (ICO), <code>ico.org.uk</code>.
@@ -232,6 +232,11 @@ export default function PrivacyFR() {
             <TD>v1.0-draft</TD>
             <TD>2026-04-17</TD>
             <TD>Version initiale, en attente de revue avocat</TD>
+          </tr>
+          <tr>
+            <TD>v1.1</TD>
+            <TD>2026-06-12</TD>
+            <TD>Validation DPO (AP3R Consulting) : retrait de la mention « Zero Data Retention », encadrement du transfert Anthropic par CCT et Data Privacy Framework, suppression du titre d&apos;identité sitôt le contrôle effectué, précisions sur les métadonnées de paiement.</TD>
           </tr>
         </tbody>
       </Table>

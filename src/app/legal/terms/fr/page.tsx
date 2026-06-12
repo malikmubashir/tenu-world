@@ -12,9 +12,9 @@ export default function TermsFR() {
     <LegalPage
       meta={{
         title: "Conditions générales d'utilisation",
-        version: "v1.0",
-        lastUpdated: "2026-04-17",
-        statusLine: "v1.0 — en cours de revue avocat",
+        version: "v1.1",
+        lastUpdated: "2026-06-12",
+        statusLine: "v1.1 — validée DPO (AP3R Consulting, 12 juin 2026)",
         localeLabel: "Français",
         otherLocaleHref: "/legal/terms/en",
         otherLocaleLabel: "English",
@@ -135,7 +135,21 @@ export default function TermsFR() {
         <strong>Tribunal compétent.</strong> À défaut de résolution amiable et sous réserve des règles protectrices du Code de la consommation, tout litige relève du tribunal de commerce de Paris.
       </P>
 
-      <H2>12. Contact</H2>
+      <H2>12. Traitement des données à caractère personnel</H2>
+      <P>
+        Global Apex.Net s&apos;engage à respecter les dispositions du Règlement européen (UE) n° 2016/679 du 27 avril 2016 (RGPD), de la loi n° 2018-493 du 20 juin 2018 relative à la protection des données personnelles, de la loi n° 78-17 du 6 janvier 1978 modifiée, et plus globalement de l&apos;ensemble de la réglementation applicable, et à prendre toute précaution nécessaire pour préserver la sécurité des informations nominatives confiées.
+      </P>
+      <P>
+        Global Apex.Net traite, en qualité de responsable du traitement et à des fins de gestion de ses relations avec le Client, des données personnelles de personnes physiques, notamment pour : gérer la relation avec ses Clients, limiter et sécuriser les accès, prévenir les fraudes par un suivi des connexions, répondre aux demandes de contact, d&apos;information, d&apos;assistance et de retrait de contenus illicites, et gérer les demandes d&apos;exercice de droits, les réclamations et les différends. Les bases juridiques de ces traitements sont, selon les finalités, le consentement, l&apos;exécution du contrat et l&apos;intérêt légitime du responsable de traitement.
+      </P>
+      <P>
+        Les données collectées sont destinées au personnel habilité de Global Apex.Net, tenu à une obligation de confidentialité, ainsi qu&apos;aux sous-traitants intervenant à sa demande et tenus aux mêmes obligations (contrats conformes à l&apos;article 28 du RGPD, disponibles sur demande à <code>dpo@tenu.world</code>). Les durées de conservation varient selon la finalité des traitements et sont disponibles sur demande à <code>dpo@tenu.world</code>. L&apos;ensemble des informations sur les traitements figure dans la politique de confidentialité publiée sur <code>tenu.world/legal/privacy/fr</code>.
+      </P>
+      <P>
+        Le Client dispose des droits d&apos;accès, de rectification, de suppression et de portabilité de ses données, du droit de retirer son consentement, d&apos;un droit d&apos;opposition et de limitation de certains traitements, ainsi que du droit de définir le sort de ses données après son décès. Ces droits s&apos;exercent en écrivant à <code>dpo@tenu.world</code>. En cas de litige, le Client dispose du droit d&apos;introduire une réclamation auprès de la CNIL.
+      </P>
+
+      <H2>13. Contact</H2>
       <P>
         Pour toute question relative aux présentes conditions, écrivez à <code>support@tenu.world</code>. Pour toute question relative à vos données personnelles, voir la politique de confidentialité.
       </P>
@@ -154,6 +168,11 @@ export default function TermsFR() {
             <TD>v1.0-draft</TD>
             <TD>2026-04-17</TD>
             <TD>Version initiale, 12 articles, lettre type non juridique, médiation obligatoire préalable</TD>
+          </tr>
+          <tr>
+            <TD>v1.1</TD>
+            <TD>2026-06-12</TD>
+            <TD>Validation DPO (AP3R Consulting) : ajout de l&apos;article 12 « Traitement des données à caractère personnel », renumérotation du contact en article 13.</TD>
           </tr>
         </tbody>
       </Table>

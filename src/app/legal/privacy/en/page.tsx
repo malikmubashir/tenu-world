@@ -12,9 +12,9 @@ export default function PrivacyEN() {
     <LegalPage
       meta={{
         title: "Privacy Policy",
-        version: "v1.0",
-        lastUpdated: "2026-04-17",
-        statusLine: "v1.0 — counsel review in progress",
+        version: "v1.1",
+        lastUpdated: "2026-06-12",
+        statusLine: "v1.1 — DPO validated (AP3R Consulting, 12 June 2026)",
         localeLabel: "English",
         otherLocaleHref: "/legal/privacy/fr",
         otherLocaleLabel: "Français",
@@ -181,7 +181,7 @@ export default function PrivacyEN() {
         <LI><strong>Right to lodge directives concerning your data after death</strong> (Article 85 French Data Protection Act; not applicable to UK users).</LI>
       </UL>
       <P>
-        We reply within one month, extended by up to two additional months where the request is complex or multiple.
+        We reply within one month, extended by up to two additional months where the request is complex or multiple. Before acting on a request, we verify the requester&apos;s identity, where necessary by means of a signed identity document. As soon as the requester&apos;s identity has been verified, the identity document is deleted.
       </P>
       <P>
         If we do not reply, or if our reply does not satisfy you, you may lodge a complaint with:
@@ -236,6 +236,11 @@ export default function PrivacyEN() {
             <TD>v1.0-draft</TD>
             <TD>2026-04-17</TD>
             <TD>Initial version, awaiting legal review</TD>
+          </tr>
+          <tr>
+            <TD>v1.1</TD>
+            <TD>2026-06-12</TD>
+            <TD>DPO validation (AP3R Consulting): Zero Data Retention claim removed, Anthropic transfer covered by SCCs and the Data Privacy Framework, identity documents deleted as soon as verification is complete, payment-metadata clarifications.</TD>
           </tr>
         </tbody>
       </Table>
