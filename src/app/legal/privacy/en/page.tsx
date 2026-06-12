@@ -1,6 +1,6 @@
 // Privacy Policy (v1.0-draft, 2026-04-17). Source: docs/legal-drafts/privacy-en.md
 import LegalPage from "@/components/legal/LegalPage";
-import { H2, P, UL, LI, Table, TH, TD, Callout, Placeholder } from "@/components/legal/Prose";
+import { H2, P, UL, LI, Table, TH, TD } from "@/components/legal/Prose";
 
 export const metadata = {
   title: "Privacy Policy — Tenu.World",
@@ -100,7 +100,7 @@ export default function PrivacyEN() {
       <H2>5. Where your data is hosted</H2>
       {/* amended 2026-06-11 per docs/17 — pending DPO review with V3 (#T133) */}
       <P>
-        Your data is hosted within the European Union: the database and authentication with Supabase (Frankfurt, Germany), photographs and PDF reports with Cloudflare R2 (EU region). During AI analysis, photographs and tenancy details are processed by Anthropic (United States), acting as a sub-processor, under a Zero Data Retention commitment (no storage once processing is complete, no use for model training) and the European Commission&apos;s standard contractual clauses governing this transfer. This processing will move to AWS Bedrock (Frankfurt, Germany) after the service launches.
+        Your data is hosted within the European Union: the database and authentication with Supabase (Frankfurt, Germany), photographs and PDF reports with Cloudflare R2 (EU region). During AI analysis, photographs and tenancy details are processed by Anthropic (United States), acting as a sub-processor. This transfer is governed by Anthropic&apos;s Data Processing Addendum, incorporating the European Commission&apos;s standard contractual clauses, and by Anthropic&apos;s certification under the EU-U.S. Data Privacy Framework. Submitted content is not used for model training and is retained only for a limited period for security and abuse-prevention purposes. Migration of this processing to AWS Bedrock (Frankfurt, Germany) is planned after the service launches; this policy will be updated at that time.
       </P>
       <UL>
         <LI>Database and authentication: Supabase, European region (Frankfurt, Germany).</LI>
@@ -108,11 +108,8 @@ export default function PrivacyEN() {
         <LI>Web hosting platform: Vercel, CDG region (Paris).</LI>
         <LI>Transactional email delivery: Brevo (formerly Sendinblue), France.</LI>
         <LI>Payment: Stripe, PCI-DSS compliant, European entity Stripe Technology Europe Ltd., Dublin.</LI>
-        <LI>AI analysis: Anthropic via API (United States), under Zero Data Retention and standard contractual clauses (see above).</LI>
+        <LI>AI analysis: Anthropic via API (United States), under standard contractual clauses and the Data Privacy Framework (see above).</LI>
       </UL>
-      <Callout>
-        <Placeholder>[TO VERIFY WITH COUNSEL]</Placeholder> when signing the Anthropic DPA, confirm Zero Data Retention is active on the account and that the standard contractual clauses are incorporated.
-      </Callout>
 
       <H2>6. Sub-processors</H2>
       <P>
@@ -149,7 +146,7 @@ export default function PrivacyEN() {
           <tr>
             <TD>Anthropic PBC</TD>
             <TD>AI analysis</TD>
-            <TD>San Francisco, USA (infra in EU)</TD>
+            <TD>San Francisco, USA (SCCs + Data Privacy Framework)</TD>
             <TD>DPA signed</TD>
           </tr>
           <tr>

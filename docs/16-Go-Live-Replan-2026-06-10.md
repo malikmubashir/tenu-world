@@ -85,8 +85,8 @@ Five working weeks. The constraint is MH bandwidth: ~30 open MH lines, and CC ca
 - Web: T-103 subset re-run, launch-day monitoring doc (docs/14) refreshed, legal pages final-versioned ("v1.0-final" once avocat letter lands).
 
 ### Week 5 — Mon 6 → Tue 14 Jul: freeze and gate
-- **Code freeze Wed 8 Jul** — no schema, auth, or pricing changes after this date. `feat/bedrock-migration` stays parked; it does not merge before launch under any argument.
-- **Decision point D4, Fri 10 Jul: GO/NO-GO.** Checklist: MEDICYS live in legal pages · RGPD V3 validated by Renaud · 6 DPAs archived · OAuth consent screen in production showing "Tenu"/support@ · dpo@ answering · e2e suite green · avocat letter (or documented D2 fallback) · Stripe live-mode sanity.
+- **Code freeze Wed 8 Jul** — no schema, auth, or pricing changes after this date. ~~`feat/bedrock-migration` stays parked; it does not merge before launch under any argument.~~ **AMENDED 2026-06-12 (MH decision, RGPD V5):** the V5 sent to the DPO describes Bedrock Frankfurt as the operative AI architecture at publication. `feat/bedrock-migration` MUST therefore merge and be live in prod BEFORE the 8 Jul freeze (#T189 re-scoped, due 6 Jul: AWS account, model access, Vercel secrets, eu-central-1 verified, console capture for the compliance file). The ZDR path (#T178 path b) is dead — ZDR is Enterprise-only.
+- **Decision point D4, Fri 10 Jul: GO/NO-GO.** Checklist: MEDICYS live in legal pages · RGPD V5 validated by Renaud · 6 DPAs archived (incl. AWS) · **Bedrock live in prod, region eu-central-1 verified — without it the published policy describes non-existent processing (Art. 13 RGPD), hard NO-GO** · OAuth consent screen in production showing "Tenu"/support@ · dpo@ answering · e2e suite green · avocat letter (or documented D2 fallback) · Stripe live-mode sanity.
 - Launch comms prep Mon 13–Tue 14. **Launch Wed 15 Jul.**
 
 ### Decision points — stated bluntly
@@ -133,7 +133,7 @@ Five working weeks. The constraint is MH bandwidth: ~30 open MH lines, and CC ca
 - [ ] MH: iOS App Review submission decision point — submit by 1 Jul or decouple binary from 15 Jul launch per docs/16 §D3 (p:0, due 2026-07-01)
 - [ ] CC: Refresh docs/14-Launch-Day-Monitoring.md for the 15 Jul public launch (p:1, due 2026-07-08)
 - [ ] MH: GO/NO-GO review against docs/16 §D4 checklist — any unchecked compliance item slips launch to 22 Jul (p:0, due 2026-07-10)
-- [ ] CC: Code freeze 8 Jul — no schema/auth/pricing changes after this date; feat/bedrock-migration stays parked until post-launch (p:0, due 2026-07-08)
+- [ ] CC: Code freeze 8 Jul — no schema/auth/pricing changes after this date; feat/bedrock-migration must be merged and live BEFORE freeze (amended 2026-06-12, see #T189) (p:0, due 2026-07-08)
 ```
 
 ---
